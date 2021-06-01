@@ -1,0 +1,46 @@
+## Lịch sử phiên bản
+- 1.0.0
+	- Cài đặt Express
+	- Cài đặt view engine Pug
+- 1.1.0
+	- Cài đặt Mongoose
+	- Cài đặt dotenv
+- 1.2.0
+	- Khởi tạo schema và model cho bảng nguoi_dung (người dùng)
+	- Khởi tạo schema và model cho bảng bang_diem (schema và model cho bảng điểm)
+	- Khởi tạo schema và model cho bảng tiet_hoc (tiết học)
+	- Khởi tạo schema và model cho bảng danh_gia (đánh giá)
+	- Khởi tạo schema và model cho bảng tieu_chi (tiêu chí)
+	- Khởi tạo schema và model cho bảng muc_tieu (mục tiêu)
+	- Khởi tạo schema và model cho bảng lop_hoc (lớp học)
+- 1.3.0
+	- Xây dựng API CRUD cho từng model
+- 1.3.1
+	- Viết API docs cho từng API, sử dụng Swagger bằng jsdoc (comment)
+	- Khởi tạo schema và model cho bảng thong_bao (thông báo)
+	- Xây dựng API CRUD cho model thong_bao
+- 1.3.2
+	- Cài đặt mongoose-seeder
+	- Viết seeder cho dữ liệu người dùng
+- 1.3.3
+	- Khởi tạo schema và model cho bảng buoi_hoc (buổi học)
+	- Xây dựng API CRUD cho model buoi_hoc
+	- Viết seeder cho dữ liệu đánh giá, tiêu chí và mục tiêu
+- 2.0.0
+	- Chuyển đổi hệ thống sang NestJS
+	- Cài đặt Mongoose cho NestJS
+	- Cài đặt Swagger cho NestJS
+	- Cài đặt dotenv cho NestJS
+- 2.1.0
+	- Cài đặt helmet và session cho NestJS
+	- Khởi tạo schema và model cho bảng nguoi_dung (người dùng)
+	- Viết API cho việc đăng nhập
+- 2.1.1
+	- Khởi tạo schema và model cho bảng danh_gia (đánh giá)
+	- Khởi tạo schema và model cho bảng tieu_chi (tiêu chí)
+	- Khởi tạo schema và model cho bảng muc_tieu (mục tiêu)
+- 2.2.0
+	- Viết API findOne (trả về 1 đối tượng theo id) cho model danh_gia, muc_tieu và tieu_chi
+	- Viết API lấy chi tiết đánh giá, tiêu chí và mục tiêu cho người dùng
+- 2.2.1
+	- Viết hoàn chỉnh các API CRUD còn lại của các model nguoi_dung, danh_gia, muc_tieu và tieu_chi
