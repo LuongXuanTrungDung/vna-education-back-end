@@ -6,8 +6,8 @@ export type MucTieuDocument = MucTieu & Document;
 
 @Schema({
     timestamps: {
-        createdAt: 'thoiGian_tao',
-        updatedAt: 'thoiGian_sua',
+        createdAt: 'thoiDiem_tao',
+        updatedAt: 'thoiDiem_sua',
     },
     versionKey: false,
 })

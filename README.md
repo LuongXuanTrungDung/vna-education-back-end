@@ -1,4 +1,6 @@
 ## VNA Education - Ứng dụng quản lý chất lượng giáo dục - Phía back-end
+Ứng dụng quản lý chất lượng giáo dục, mảng server-side.
+
 1. Khởi tạo hệ thống: `yarn` hoặc `npm install`
 2. Chạy code server: `yarn start` hoặc `npm run start`
 

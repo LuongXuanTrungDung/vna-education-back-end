@@ -1,26 +1,31 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 import { CreateThongBaoDto } from './dto/create-thong-bao.dto';
 import { UpdateThongBaoDto } from './dto/update-thong-bao.dto';
+import { ThongBaoDocument } from './thong-bao.entity';
 
 @Injectable()
 export class ThongBaoService {
-  create(dto: CreateThongBaoDto) {
-    return 'This action adds a new thongBao';
-  }
+	constructor(@InjectModel('thong_bao') private model: Model<ThongBaoDocument>) { }
 
-  findAll() {
-    return `This action returns all thongBao`;
-  }
+	async create(dto: CreateThongBaoDto) {
+		return await this.model.create(dto)
+	}
 
-  findOne(id: string) {
-    return `This action returns a #${id} thongBao`;
-  }
+	async findAll() {
+		return await this.model.find({})
+	}
 
-  update(id: string, updateThongBaoDto: UpdateThongBaoDto) {
-    return `This action updates a #${id} thongBao`;
-  }
+	async findOne(id: string) {
+		return await this.model.findOne({ maTB: id })
+	}
 
-  remove(id: string) {
-    return `This action removes a #${id} thongBao`;
-  }
+	async update(id: string, dto: UpdateThongBaoDto) {
+		return await this.model.findOneAndUpdate({ maTB: id }, dto)
+	}
+
+	async remove(id: string) {
+		return await this.model.findOneAndDelete({ maTB: id })
+	}
 }

@@ -1,9 +1,12 @@
 {
 	"name": "nest-typescript-starter",
 	"private": true,
-	"version": "1.0.0",
-	"description": "Nest TypeScript starter repository",
-	"license": "MIT",
+	"version": "2.2.1",
+	"description": "Ứng dụng quản lý chất lượng giáo dục",
+	"engines": {
+		"node": ">=10.0.0",
+		"npm": ">=6.0.0"
+	},
 	"scripts": {
 		"build": "nest build",
 		"start": "nest start",

@@ -44,3 +44,4 @@
 	- Viết API lấy chi tiết đánh giá, tiêu chí và mục tiêu cho người dùng
 - 2.2.1
 	- Viết hoàn chỉnh các API CRUD còn lại của các model nguoi_dung, danh_gia, muc_tieu và tieu_chi
+	- Viết API CRUD cho model thong_bao
