@@ -6,8 +6,8 @@ export type NguoiDungDocument = NguoiDung & Document;
 
 @Schema({
     timestamps: {
-        createdAt: 'thoiDiem_tao',
-        updatedAt: 'thoiDiem_sua',
+        createdAt: 'thoiDiemTao',
+        updatedAt: 'thoiDiemSua',
     },
     versionKey: false,
 })
@@ -97,6 +97,15 @@ export class NguoiDung {
     })
     @Prop({ required: true, enum: ['Nam', 'Nữ', 'Khác'] })
     gioiTinh: string;
+
+    @ApiProperty({
+        required: true,
+        type: 'string',
+        name: 'danToc',
+        description: 'Dân tộc của người dùng',
+    })
+    @Prop({ required: true })
+    danToc: string;
 
     @ApiPropertyOptional({
         type: 'string',

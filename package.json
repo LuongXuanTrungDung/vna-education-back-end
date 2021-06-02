@@ -4,8 +4,8 @@
 	"version": "2.2.1",
 	"description": "Ứng dụng quản lý chất lượng giáo dục",
 	"engines": {
-		"node": ">=10.0.0",
-		"npm": ">=6.0.0"
+		"node": "16.x",
+		"yarn": "1.x"
 	},
 	"scripts": {
 		"build": "nest build",
@@ -22,13 +22,13 @@
 		"@nestjs/mongoose": "^7.2.4",
 		"@nestjs/platform-express": "^7.6.17",
 		"@nestjs/swagger": "^4.8.0",
+		"bcrypt": "^5.0.1",
 		"class-transformer": "^0.4.0",
 		"class-validator": "^0.13.1",
 		"compression": "^1.7.4",
 		"express": "^4.17.1",
 		"helmet": "^4.6.0",
 		"mongoose": "^5.12.11",
-		"mongoose-seeder": "^1.2.1",
 		"nestjs-session": "^1.0.1",
 		"pug": "^3.0.2",
 		"reflect-metadata": "^0.1.13",
@@ -38,6 +38,7 @@
 	"devDependencies": {
 		"@nestjs/cli": "^7.6.0",
 		"@nestjs/schematics": "^7.3.1",
+		"@types/bcrypt": "^5.0.0",
 		"@types/express": "^4.17.12",
 		"@types/node": "^15.6.1",
 		"@typescript-eslint/eslint-plugin": "^4.25.0",

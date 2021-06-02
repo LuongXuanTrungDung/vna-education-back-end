@@ -5,12 +5,16 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ThongBaoSchema } from './thong-bao.entity';
 
 @Module({
-	imports: [MongooseModule.forFeature([{
-		name: 'thong_bao',
-		collection: 'thong_bao',
-		schema: ThongBaoSchema
-	}])],
-	controllers: [ThongBaoController],
-	providers: [ThongBaoService]
+    imports: [
+        MongooseModule.forFeature([
+            {
+                name: 'thong_bao',
+                collection: 'thong_bao',
+                schema: ThongBaoSchema,
+            },
+        ]),
+    ],
+    controllers: [ThongBaoController],
+    providers: [ThongBaoService],
 })
-export class ThongBaoModule { }
+export class ThongBaoModule {}

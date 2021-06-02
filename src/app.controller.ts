@@ -1,5 +1,13 @@
-import { Controller, Get, Param, Render } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import {
+    Body,
+    Controller,
+    Get,
+    Param,
+    Post,
+    Render,
+    Session,
+} from '@nestjs/common';
+import { ApiBody, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { AppService } from './app.service';
 
 @Controller()
@@ -19,7 +27,6 @@ export class AppController {
             'Dữ liệu từ form đăng nhập, bao gồm mã người dùng (username) và mật khẩu',
     })
     @ApiOkResponse({
-        type: NguoiDung,
         description: 'Có kết quả kiểm tra đăng nhập',
     })
     async login(

@@ -6,8 +6,8 @@ export type DanhGiaDocument = DanhGia & Document;
 
 @Schema({
     timestamps: {
-        createdAt: 'thoiDiem_tao',
-        updatedAt: 'thoiDiem_sua',
+        createdAt: 'thoiDiemTao',
+        updatedAt: 'thoiDiemSua',
     },
     versionKey: false,
 })
@@ -52,10 +52,12 @@ export class DanhGia {
 
     @ApiProperty({
         type: 'string',
+        required: true,
+        default: '',
         name: 'gopY',
         description: 'Ý kiến đánh giá khác',
     })
-    @Prop()
+    @Prop({ required: true, default: '' })
     gopY: string;
 
     @ApiProperty({
@@ -65,6 +67,17 @@ export class DanhGia {
     })
     @Prop()
     tieuChi: string[];
+
+    @ApiProperty({
+        type: 'number',
+        default: 0,
+        minimum: 0,
+        maximum: 5,
+        name: 'diemTrungBinh',
+        description: 'Điểm số trung bình của các tiêu chí đánh giá',
+    })
+    @Prop({ default: 0, min: 0, max: 5 })
+    diemTrungBinh: string[];
 }
 
 export const DanhGiaSchema = SchemaFactory.createForClass(DanhGia);

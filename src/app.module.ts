@@ -21,7 +21,7 @@ import { ThongBaoModule } from './thong-bao/thong-bao.module';
             },
         }),
         MongooseModule.forRoot(
-            `mongodb://${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_COLLECTION}`,
+            `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_CLUSTER}.dlidw.mongodb.net/${process.env.DB_COLLECTION}?retryWrites=true&w=majority`,
             {
                 useCreateIndex: true,
                 useNewUrlParser: true,
