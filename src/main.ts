@@ -26,10 +26,11 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
         .addTag('danh-gia', 'Các API CRUD cho model danh_gia')
         .addTag('tieu-chi', 'Các API CRUD cho model tieu_chi')
         .addTag('thong-bao', 'Các API CRUD cho model thong_bao')
+        .addTag('bang-diem', 'Các API CRUD cho model bang_diem')
         .addTag('chung', 'Các API chung')
         .build();
     const document = SwaggerModule.createDocument(app, config);
     SwaggerModule.setup('docs', app, document);
 
-    await app.listen(process.env.SERVER_PORT);
+    await app.listen(process.env.SERVER_PORT || 3000);
 })();

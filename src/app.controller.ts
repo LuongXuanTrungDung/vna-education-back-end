@@ -38,15 +38,14 @@ export class AppController {
             nguoiDung_email?: string;
         },
     ) {
-        const login = await this.service.checkLogin(dto.username, dto.password);
+        const login = await this.service.checkLogin(dto.username);
 
-        if (typeof login !== 'string') {
+        if (dto.password === login.matKhau) {
             session.nguoiDung_id = login.maND;
             session.nguoiDung_hoTen = login.hoTen;
             session.nguoiDung_email = login.emailND;
-        }
-
-        console.log(login);
+            return login
+        } else return 'Sai mật khẩu';
     }
 
     @Get('hien/:user')

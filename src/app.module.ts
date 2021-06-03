@@ -9,6 +9,7 @@ import { MucTieuModule } from './muc-tieu/muc-tieu.module';
 import { TieuChiModule } from './tieu-chi/tieu-chi.module';
 import { DanhGiaModule } from './danh-gia/danh-gia.module';
 import { ThongBaoModule } from './thong-bao/thong-bao.module';
+import { BangDiemModule } from './bang-diem/bang-diem.module';
 
 @Module({
     imports: [
@@ -33,6 +34,7 @@ import { ThongBaoModule } from './thong-bao/thong-bao.module';
         TieuChiModule,
         DanhGiaModule,
         ThongBaoModule,
+        BangDiemModule,
     ],
     controllers: [AppController],
     providers: [AppService],

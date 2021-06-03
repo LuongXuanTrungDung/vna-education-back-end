@@ -46,7 +46,7 @@ export class ThongBao {
         description: 'Tóm tắt nội dung thông báo',
     })
     @Prop({ required: true })
-    tomTat: boolean;
+    tomTat: string;
 
     @ApiProperty({
         required: true,
