@@ -43,7 +43,12 @@ export class AppService {
         return result;
     }
 
-    async checkLogin(username: string) {
-        return await this.ndSer.findOne(username);
+    async checkLogin(username: string, password: string) {
+        const user = await this.ndSer.findOne(username);
+        if (!user) return 'Không tìm thấy người dùng';
+        else {
+            if (password === user.matKhau) return user;
+            else return 'Sai mật khẩu';
+        }
     }
 }
