@@ -15,6 +15,10 @@ export class ThongBaoService {
         return await this.model.create(dto);
     }
 
+    async findByType(kieu: string) {
+        return await this.model.find({ loaiTB: kieu });
+    }
+
     async findAll() {
         return await this.model.find({});
     }

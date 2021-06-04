@@ -16,5 +16,6 @@ import { ThongBaoSchema } from './thong-bao.entity';
     ],
     controllers: [ThongBaoController],
     providers: [ThongBaoService],
+    exports: [ThongBaoService],
 })
 export class ThongBaoModule {}

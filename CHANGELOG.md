@@ -30,7 +30,7 @@
 	- Chuyển đổi hệ thống sang NestJS
 	- Cài đặt Mongoose cho NestJS
 	- Cài đặt Swagger cho NestJS
-	- Cài đặt dotenv cho NestJS
+	- Cài đặt dotenv cho NestJS (@nestjs/config)
 - 2.1.0
 	- Cài đặt helmet và session cho NestJS
 	- Khởi tạo schema và model cho bảng nguoi_dung (người dùng)
@@ -44,4 +44,12 @@
 	- Viết API lấy chi tiết đánh giá, tiêu chí và mục tiêu cho người dùng
 - 2.2.1
 	- Viết hoàn chỉnh các API CRUD còn lại của các model nguoi_dung, danh_gia, muc_tieu và tieu_chi
+	- Khởi tạo schema và model cho bảng thong_bao (thông báo)
 	- Viết API CRUD cho model thong_bao
+- 2.2.2
+	- Sửa lại về mặt hình thức các file *.entity.ts
+	- Khởi tạo schema và model cho bảng diem_danh (điểm danh)
+	- Viết API CRUD cho model diem_danh
+	- Sửa lại API đăng nhập để trả về lỗi kiểu string hoặc kết quả đăng nhập kiểu JSON
+- 2.3
+	- Thêm tính năng hiện thông báo theo 3 loại thông báo

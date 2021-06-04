@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { DanhGiaService } from './danh-gia/danh-gia.service';
 import { MucTieuService } from './muc-tieu/muc-tieu.service';
 import { NguoiDungService } from './nguoi-dung/nguoi-dung.service';
+import { ThongBaoService } from './thong-bao/thong-bao.service';
 import { TieuChiService } from './tieu-chi/tieu-chi.service';
 
 @Injectable()
@@ -11,6 +12,7 @@ export class AppService {
         private tcSer: TieuChiService,
         private mtSer: MucTieuService,
         private ndSer: NguoiDungService,
+        private tbSer: ThongBaoService,
     ) {}
 
     async traDanhGia_theoNguoiDung(userID: string) {
@@ -43,12 +45,23 @@ export class AppService {
         return result;
     }
 
-    async checkLogin(username: string, password: string) {
+    async kiemTra_dangNhap(username: string, password: string) {
         const user = await this.ndSer.findOne(username);
         if (!user) return 'Không tìm thấy người dùng';
         else {
             if (password === user.matKhau) return user;
             else return 'Sai mật khẩu';
         }
+    }
+
+    async traThongBao() {
+        const k1 = await this.tbSer.findByType('Thông báo chung');
+        const k2 = await this.tbSer.findByType('Thời khóa biểu');
+        const k3 = await this.tbSer.findByType('Học phí');
+        return {
+            chung: k1,
+            hocTap: k2,
+            hocPhi: k3,
+        };
     }
 }

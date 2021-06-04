@@ -1,0 +1,10 @@
+mixin list(title,news)
+	.col.mt-3
+		h4= title
+		.container
+			each n in news
+				.my-3
+					strong= n.tieuDe
+					p
+						small= n.nguoiDang
+					p= n.tomTat
