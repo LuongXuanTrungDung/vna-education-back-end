@@ -1,5 +1,4 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { ApiProperty } from '@nestjs/swagger';
 import { Document } from 'mongoose';
 
 export type ThongBaoDocument = ThongBao & Document;
@@ -12,59 +11,29 @@ export type ThongBaoDocument = ThongBao & Document;
     versionKey: false,
 })
 export class ThongBao {
-    @ApiProperty({
-        required: true,
-        type: 'string',
-        name: 'maTB',
-        description: 'Mã định danh thông báo, gồm danh mục thông báo',
-    })
     @Prop({ required: true, index: true, unique: true })
     maTB: string;
 
-    @ApiProperty({
+    @Prop({
         required: true,
-        type: 'string',
-        name: 'nguoiDang',
-        description: 'Người đăng thông báo',
+        default: 'Thông báo chung',
+        enum: ['Học phí', 'Thời khóa biểu', 'Thông báo chung', 'Sự kiện'],
     })
+    loaiTB: string;
+
     @Prop({ required: true })
     nguoiDang: string;
 
-    @ApiProperty({
-        required: true,
-        type: 'string',
-        name: 'tieuDe',
-        description: 'Tiêu đề thông báo',
-    })
     @Prop({ required: true })
     tieuDe: string;
 
-    @ApiProperty({
-        required: true,
-        type: 'string',
-        name: 'tomTat',
-        description: 'Tóm tắt nội dung thông báo',
-    })
     @Prop({ required: true })
     tomTat: string;
 
-    @ApiProperty({
-        required: true,
-        type: 'string',
-        name: 'gopY',
-        description: 'Nội dung chi tiết thông báo',
-    })
     @Prop({ required: true })
     noiDung: string;
 
-    @ApiProperty({
-        required: true,
-        default: false,
-        type: 'boolean',
-        name: 'tieuChi',
-        description: 'Trạng thái duyệt thông báo',
-    })
-    @Prop({ required: true, default: false })
+    @Prop({ required: true, default: true })
     daDuyet: string[];
 }
 
