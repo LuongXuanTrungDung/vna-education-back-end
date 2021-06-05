@@ -11,6 +11,10 @@ import { DanhGiaModule } from './danh-gia/danh-gia.module';
 import { ThongBaoModule } from './thong-bao/thong-bao.module';
 import { BangDiemModule } from './bang-diem/bang-diem.module';
 import { DiemDanhModule } from './diem-danh/diem-danh.module';
+import { TuanHocModule } from './tuan-hoc/tuan-hoc.module';
+import { NgayHocModule } from './ngay-hoc/ngay-hoc.module';
+import { TietHocModule } from './tiet-hoc/tiet-hoc.module';
+import { LopHocModule } from './lop-hoc/lop-hoc.module';
 
 @Module({
     imports: [
@@ -37,6 +41,10 @@ import { DiemDanhModule } from './diem-danh/diem-danh.module';
         ThongBaoModule,
         BangDiemModule,
         DiemDanhModule,
+        TuanHocModule,
+        NgayHocModule,
+        TietHocModule,
+        LopHocModule,
     ],
     controllers: [AppController],
     providers: [AppService],

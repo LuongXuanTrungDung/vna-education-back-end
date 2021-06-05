@@ -30,7 +30,7 @@ export class DanhGia {
     tieuChi: string[];
 
     @Prop({ default: 0, min: 0, max: 5 })
-    diemTrungBinh: string[];
+    diemTrungBinh: number;
 }
 
 export const DanhGiaSchema = SchemaFactory.createForClass(DanhGia);

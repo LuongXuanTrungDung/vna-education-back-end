@@ -34,7 +34,7 @@ export class ThongBao {
     noiDung: string;
 
     @Prop({ required: true, default: true })
-    daDuyet: string[];
+    daDuyet: boolean;
 }
 
 export const ThongBaoSchema = SchemaFactory.createForClass(ThongBao);
