@@ -16,7 +16,14 @@ export class ThongBaoService {
     }
 
     async findByType(kieu: string) {
-        return await this.model.find({ loaiTB: kieu });
+        const loai = await this.model.find({ loaiTB: kieu });
+        const result = [];
+        if (loai) {
+            for (let i = 0; i < loai.length; i++) {
+                result.push(await loai[i].populate('nguoiDang').execPopulate());
+            }
+        }
+        return result;
     }
 
     async findAll() {

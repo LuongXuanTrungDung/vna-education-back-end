@@ -4,6 +4,7 @@ import {
     Get,
     Param,
     Post,
+    Render,
     Res,
     Session,
 } from '@nestjs/common';
@@ -17,12 +18,60 @@ export class AppController {
     constructor(private service: AppService) {}
 
     @Get()
-    async index(@Res() res: Response) {
-        const tatCa = await this.service.traThongBao();
-        return res.render('index', {
-            tbc: tatCa.chung,
-            tkb: tatCa.hocTap,
-            hp: tatCa.hocPhi,
+    @Render('main')
+    async index() {
+        return '';
+    }
+
+    @Get('quan-tri')
+    @ApiOkResponse({
+        description: 'Hiện trang chủ dành cho quản trị',
+    })
+    async indexAdmin(@Res() res: Response) {
+        const news = await this.service.traThongBao();
+        res.render('quan-tri/index', {
+            tbc: news.chung,
+            ht: news.hocTap,
+            hp: news.hocPhi,
+        });
+    }
+
+    @Get('giao-vien')
+    @ApiOkResponse({
+        description: 'Hiện trang chủ dành cho giáo viên',
+    })
+    async indexTeacher(@Res() res: Response) {
+        const news = await this.service.traThongBao();
+        res.render('giao-vien/index', {
+            tbc: news.chung,
+            ht: news.hocTap,
+            hp: news.hocPhi,
+        });
+    }
+
+    @Get('phu-huynh')
+    @ApiOkResponse({
+        description: 'Hiện trang chủ dành cho phụ huynh',
+    })
+    async indexParent(@Res() res: Response) {
+        const news = await this.service.traThongBao();
+        res.render('phu-huynh/index', {
+            tbc: news.chung,
+            ht: news.hocTap,
+            hp: news.hocPhi,
+        });
+    }
+
+    @Get('hoc-sinh')
+    @ApiOkResponse({
+        description: 'Hiện trang chủ dành cho học sinh',
+    })
+    async indexStudent(@Res() res: Response) {
+        const news = await this.service.traThongBao();
+        res.render('hoc-sinh/index', {
+            tbc: news.chung,
+            ht: news.hocTap,
+            hp: news.hocPhi,
         });
     }
 
@@ -36,12 +85,8 @@ export class AppController {
     })
     async dangNhap(
         @Body() dto: { username: string; password: string },
-        @Session()
-        session: {
-            nguoiDung_id?: string;
-            nguoiDung_hoTen?: string;
-            nguoiDung_email?: string;
-        },
+        @Session() session: Record<string, any>,
+        @Res() res: Response,
     ) {
         const login = await this.service.kiemTra_dangNhap(
             dto.username,
@@ -49,19 +94,26 @@ export class AppController {
         );
 
         if (typeof login !== 'string') {
-            session.nguoiDung_id = login.maND;
-            session.nguoiDung_hoTen = login.hoTen;
-            session.nguoiDung_email = login.emailND;
+            session.maND = login.maND;
+            session.hoTen = login.hoTen;
+
+            const role = login.maND.substring(0, 2);
+            switch (role) {
+                case 'QT':
+                    res.redirect('quan-tri');
+                    break;
+                case 'PH':
+                    res.redirect('phu-huynh');
+                    break;
+                case 'GV':
+                    res.redirect('giao-vien');
+                    break;
+                case 'HS':
+                    res.redirect('hoc-sinh');
+                    break;
+                default:
+                    break;
+            }
         }
-
-        return login;
-    }
-
-    @Get('hien/:user')
-    @ApiOkResponse({
-        description: 'Hiện đánh giá dành cho người dùng',
-    })
-    async hienDanhGia_theoNguoiDung(@Param('user') user: string) {
-        return await this.service.traDanhGia_theoNguoiDung(user);
     }
 }

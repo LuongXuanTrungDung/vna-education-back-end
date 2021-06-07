@@ -13,8 +13,6 @@
 		"start:dev": "nest start --watch",
 		"start:debug": "nest start --debug --watch",
 		"start:prod": "node dist/src/main",
-		"prestart:prod": "rimraf dist && yarn build",
-		"postinstall": "yarn prestart:prod",
 		"lint": "prettier --write \"src/**/*.ts\" && eslint \"src/**/*.ts\" --fix"
 	},
 	"dependencies": {
@@ -31,7 +29,6 @@
 		"express": "^4.17.1",
 		"helmet": "^4.6.0",
 		"mongoose": "^5.12.11",
-		"nestjs-session": "^1.0.1",
 		"pug": "^3.0.2",
 		"reflect-metadata": "^0.1.13",
 		"rimraf": "^3.0.2",

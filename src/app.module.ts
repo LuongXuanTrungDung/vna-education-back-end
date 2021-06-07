@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { SessionModule } from 'nestjs-session';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { NguoiDungModule } from './nguoi-dung/nguoi-dung.module';
@@ -19,13 +18,6 @@ import { LopHocModule } from './lop-hoc/lop-hoc.module';
 @Module({
     imports: [
         ConfigModule.forRoot(),
-        SessionModule.forRoot({
-            session: {
-                secret: process.env.SESSION_SECRET,
-                resave: false,
-                saveUninitialized: false,
-            },
-        }),
         MongooseModule.forRoot(
             `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_CLUSTER}.dlidw.mongodb.net/${process.env.DB_COLLECTION}?retryWrites=true&w=majority`,
             {

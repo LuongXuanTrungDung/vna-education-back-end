@@ -9,17 +9,4 @@ html(lang="en")
 		script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js' integrity='sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4' crossorigin='anonymous')
 	body
 		include mixins.pug
-		section.container.my-4
-			.row
-				a(href="/hien/QT001" style="margin-bottom: 1rem")
-					h2 Hiện đánh giá dành cho quản trị viên QT001
-			.row
-				form(action="dang-nhap", method="post")
-					input(type="text", name="username" placeholder="Tên người dùng")
-					input(type="password", name="password" placeholder="Mật khẩu")
-					input(type="submit", value="Đăng nhập")
-		section.container.my-4
-			.row
-				+list('Thông báo chung',tbc)
-				+list('Thời khóa biểu',tkb)
-				+list('Học phí',hp)
+		block content

@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
 import * as helmet from 'helmet';
+import * as session from 'express-session';
 import * as compression from 'compression';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
@@ -13,6 +14,13 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
     app.use(compression());
     app.use(helmet());
+    app.use(
+        session({
+            secret: process.env.SESSION_SECRET,
+            resave: false,
+            saveUninitialized: false,
+        }),
+    );
 
     app.setBaseViewsDir(join(__dirname, '..', '..', 'views'));
     app.setViewEngine('pug');

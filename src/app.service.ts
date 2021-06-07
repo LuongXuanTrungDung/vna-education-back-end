@@ -8,41 +8,12 @@ import { TieuChiService } from './tieu-chi/tieu-chi.service';
 @Injectable()
 export class AppService {
     constructor(
-        private dgSer: DanhGiaService,
-        private tcSer: TieuChiService,
-        private mtSer: MucTieuService,
         private ndSer: NguoiDungService,
         private tbSer: ThongBaoService,
     ) {}
 
-    async traDanhGia_theoNguoiDung(userID: string) {
-        let result = [];
-        const ques = [];
-        let dets = [];
-        const reviews = await this.dgSer.theoNguoiDung(userID);
-
-        if (reviews) {
-            for (let i = 0; i < reviews.length; i++) {
-                const cates = reviews[i].tieuChi;
-
-                for (let j = 0; j < cates.length; j++) {
-                    const temp = await this.tcSer.findOne(cates[j]);
-                    if (temp) ques.push(temp);
-                    const tars = ques[j].mucTieu;
-
-                    for (let k = 0; k < tars.length; k++) {
-                        const mts = await this.mtSer.findOne(tars[k]);
-                        if (mts) dets.push(mts);
-                    }
-                    ques[j].mucTieu = dets;
-                    dets = [];
-                }
-                reviews[i].tieuChi = ques;
-            }
-
-            result = reviews;
-        }
-        return result;
+    async traKetQua(id: string) {
+        return await this.ndSer.layDanhGia_tieuChi_mucTieu(id);
     }
 
     async kiemTra_dangNhap(username: string, password: string) {
@@ -64,4 +35,26 @@ export class AppService {
             hocPhi: k3,
         };
     }
+
+    // async traNgay_trongTuan(tuan: string) {
+    //     const days = await this.nHSer.findbyWeek(tuan);
+    //     const result = [];
+    //     const thu = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
+
+    //     if (days) {
+    //         for (let i = 0; i < days.length; i++) {
+    //             const temp = days[i].ngayCuThe;
+    //             const dow = thu[temp.getDay()];
+    //             const month = temp.getUTCMonth() + 1;
+    //             const day = temp.getUTCDate();
+    //             const r = dow + '-' + String(day) + '/' + String(month);
+    //             result.push(r);
+    //         }
+    //     }
+    //     return result;
+    // }
+
+    // async traTietHoc(tiet: number) {
+    //     const;
+    // }
 }

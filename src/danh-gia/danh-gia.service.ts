@@ -11,15 +11,6 @@ export class DanhGiaService {
         @InjectModel('danh_gia') private model: Model<DanhGiaDocument>,
     ) {}
 
-    async theoNguoiDung(userID: string) {
-        return await this.model.find({ nguoiDG: userID });
-    }
-
-    async traTieuChi(id: string) {
-        const dg = await this.model.findOne({ maDG: id });
-        return dg.tieuChi;
-    }
-
     async create(dto: CreateDanhGiaDto) {
         return await this.model.create(dto);
     }

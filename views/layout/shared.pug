@@ -1,0 +1,12 @@
+extends common.pug
+block content
+	section.container
+		.row
+			aside.col-3
+				block utils
+			article.col
+				.container
+					.row
+						+list('Thông báo chung', tbc)
+						+list('Học tập', ht)
+						+list('Học phí', hp)

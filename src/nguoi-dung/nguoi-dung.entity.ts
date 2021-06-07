@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Schema as MongooseSchema } from 'mongoose';
+import { DanhGia } from '../danh-gia/danh-gia.entity';
 
 export type NguoiDungDocument = NguoiDung & Document;
 
@@ -14,12 +15,8 @@ export class NguoiDung {
     @Prop({ required: true, index: true, unique: true })
     maND: string;
 
-    @Prop({
-        required: true,
-        enum: ['Học sinh', 'Giáo viên', 'Phụ huynh', 'Quản trị viên'],
-        default: 'Học sinh',
-    })
-    vaiTro: string;
+    @Prop({ type: [{ type: MongooseSchema.Types.ObjectId, ref: 'danh_gia' }] })
+    danhGia: DanhGia[];
 
     @Prop({ required: true })
     hoTen: string;
@@ -57,8 +54,10 @@ export class NguoiDung {
     @Prop()
     ngayCap: Date;
 
-    @Prop()
-    conCai: string[];
+    @Prop({
+        type: [{ type: MongooseSchema.Types.ObjectId, ref: 'nguoi_dung' }],
+    })
+    conCai: NguoiDung[];
 }
 
 export const NguoiDungSchema = SchemaFactory.createForClass(NguoiDung);

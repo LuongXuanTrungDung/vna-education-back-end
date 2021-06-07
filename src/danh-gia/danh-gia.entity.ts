@@ -1,5 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Schema as MongooseSchema } from 'mongoose';
+import { NguoiDung } from '../nguoi-dung/nguoi-dung.entity';
+import { TietHoc } from '../tiet-hoc/tiet-hoc.entity';
+import { TieuChi } from '../tieu-chi/tieu-chi.entity';
 
 export type DanhGiaDocument = DanhGia & Document;
 
@@ -15,19 +18,39 @@ export class DanhGia {
     maDG: string;
 
     @Prop({ required: true })
-    nguoiDG: string;
+    tenDG: string;
 
-    @Prop({ required: true })
-    doiTuongDG: string;
+    @Prop({
+        required: true,
+        type: MongooseSchema.Types.ObjectId,
+        ref: 'nguoi_dung',
+    })
+    nguoiDG: NguoiDung;
+
+    @Prop({
+        type: [
+            {
+                type: MongooseSchema.Types.ObjectId,
+                ref: 'tiet_hoc',
+            },
+        ],
+    })
+    tietHoc: TietHoc;
 
     @Prop({ required: true, default: false })
     trangThai: boolean;
 
-    @Prop({ required: true, default: '' })
-    gopY: string;
+    @Prop() gopY: string;
 
-    @Prop()
-    tieuChi: string[];
+    @Prop({
+        type: [
+            {
+                type: MongooseSchema.Types.ObjectId,
+                ref: 'tieu_chi',
+            },
+        ],
+    })
+    tieuChi: TieuChi[];
 
     @Prop({ default: 0, min: 0, max: 5 })
     diemTrungBinh: number;
