@@ -1,5 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Schema as MongooseSchema } from 'mongoose';
+import { MonHoc } from '../mon-hoc/mon-hoc.entity';
+import { NguoiDung } from '../nguoi-dung/nguoi-dung.entity';
+import { TheoHK, TheoHKSchema } from './theoHK.schema';
 
 export type BangDiemDocument = BangDiem & Document;
 
@@ -14,32 +17,40 @@ export class BangDiem {
     @Prop({ required: true, index: true, unique: true })
     maBD: string;
 
-    @Prop({ required: true, enum: [] })
-    monHoc: string;
+    @Prop({
+        required: true,
+        type: MongooseSchema.Types.ObjectId,
+        ref: 'mon_hoc',
+    })
+    monHoc: MonHoc;
 
-    @Prop({ required: true })
-    giaoVien: string;
+    @Prop({
+        type: MongooseSchema.Types.ObjectId,
+        ref: 'nguoi_dung',
+        required: true,
+    })
+    giaoVien: NguoiDung;
 
-    @Prop({ required: true })
-    hocSinh: string;
+    @Prop({
+        type: MongooseSchema.Types.ObjectId,
+        ref: 'nguoi_dung',
+        required: true,
+    })
+    hocSinh: NguoiDung;
 
-    @Prop({ required: true, min: 0, max: 10, default: 0 })
-    kiemTra_mieng: number;
+    @Prop({ type: TheoHKSchema })
+    hocKy1: TheoHK;
 
-    @Prop({ required: true, min: 0, max: 10, default: 0 })
-    kiemTra_15phut: number;
+    @Prop({ type: TheoHKSchema })
+    hocKy2: TheoHK;
 
-    @Prop({ required: true, min: 0, max: 10, default: 0 })
-    kiemTra_1tiet: number;
+    @Prop({ min: 0, max: 10, default: 0 })
+    diemTB_caNam: number;
 
-    @Prop({ required: true, min: 0, max: 10, default: 0 })
-    thi_HK1: number;
+    @Prop() nhanXet: string;
 
-    @Prop({ required: true, min: 0, max: 10, default: 0 })
-    thi_HK2: number;
-
-    @Prop({ required: true, min: 0, max: 10, default: 0 })
-    diemTrungBinh: number;
+    @Prop({ enum: ['Xuất sắc', 'Giỏi', 'Khá', 'Trung bình', 'Yếu', 'Kém'] })
+    xepLoai: string;
 }
 
 export const BangDiemSchema = SchemaFactory.createForClass(BangDiem);

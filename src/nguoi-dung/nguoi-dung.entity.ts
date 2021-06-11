@@ -1,6 +1,9 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
 import { DanhGia } from '../danh-gia/danh-gia.entity';
+import { CCCD, CCCDSchema } from './cccd.schema';
+import { hoChieu, hoChieuSchema } from './hoChieu.schema';
+import { LaoDong, LaoDongSchema } from './laoDong.schema';
 
 export type NguoiDungDocument = NguoiDung & Document;
 
@@ -42,17 +45,17 @@ export class NguoiDung {
     @Prop({ required: true })
     danToc: string;
 
-    @Prop()
-    cccd: string;
+    @Prop({ required: true, default: 'Việt Nam' })
+    quocTich: string;
 
-    @Prop()
-    hoChieu: string;
+    @Prop({ type: CCCDSchema })
+    cccd: CCCD;
 
-    @Prop()
-    noiCap: string;
+    @Prop({ type: hoChieuSchema })
+    hoChieu: hoChieu;
 
-    @Prop()
-    ngayCap: Date;
+    @Prop({ type: LaoDongSchema })
+    laoDong: LaoDong;
 
     @Prop({
         type: [{ type: MongooseSchema.Types.ObjectId, ref: 'nguoi_dung' }],

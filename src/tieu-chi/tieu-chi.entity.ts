@@ -18,13 +18,13 @@ export class TieuChi {
     @Prop({ required: true })
     tenTC: string;
 
-    @Prop({ required: true })
-    chiTiet: string;
+    @Prop() chiTiet: string;
 
-    @Prop({ required: true, default: 1, min: 1 })
+    @Prop({ required: true, default: 1, min: 1, max: 10 })
     trongSo: number;
 
     @Prop({
+        required: true,
         type: [
             {
                 type: MongooseSchema.Types.ObjectId,
@@ -33,9 +33,6 @@ export class TieuChi {
         ],
     })
     mucTieu: MucTieu[];
-
-    @Prop({ required: true, default: 0, min: 0, max: 5 })
-    diemTrungBinh: number;
 }
 
 export const TieuChiSchema = SchemaFactory.createForClass(TieuChi);

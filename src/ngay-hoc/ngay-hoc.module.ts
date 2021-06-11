@@ -16,5 +16,6 @@ import { NgayHocSchema } from './ngay-hoc.entity';
     ],
     controllers: [NgayHocController],
     providers: [NgayHocService],
+	exports: [NgayHocService]
 })
 export class NgayHocModule {}

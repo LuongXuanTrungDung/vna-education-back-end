@@ -1,10 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
 import { DanhGia } from '../danh-gia/danh-gia.entity';
-import { HocKy } from '../hoc-ky/hoc-ky.entity';
-import { NgayHoc } from '../ngay-hoc/ngay-hoc.entity';
+import { TietHoc } from '../tiet-hoc/tiet-hoc.entity';
+import { NguoiDung } from '../nguoi-dung/nguoi-dung.entity';
 
-export type TuanHocDocument = TuanHoc & Document;
+export type MonHocDocument = MonHoc & Document;
 
 @Schema({
     timestamps: {
@@ -13,29 +13,38 @@ export type TuanHocDocument = TuanHoc & Document;
     },
     versionKey: false,
 })
-export class TuanHoc {
+export class MonHoc {
     @Prop({ required: true, index: true, unique: true })
-    maTuan: string;
+    maMH: string;
 
-    @Prop() ghiChu: string;
+    @Prop({ required: true }) tenMH: string;
 
-    @Prop({
-        required: true,
-        type: MongooseSchema.Types.ObjectId,
-        ref: 'hoc_ky',
-    })
-    hocKy: HocKy;
+    @Prop({ required: true, default: 0, min: 0 })
+    soTiet: number;
+
+    @Prop() moTa: string;
 
     @Prop({
         required: true,
         type: [
             {
                 type: MongooseSchema.Types.ObjectId,
-                ref: 'ngay_hoc',
+                ref: 'nguoi_dung',
             },
         ],
     })
-    ngayHoc: NgayHoc[];
+    giaoVien: NguoiDung[];
+
+    @Prop({
+        required: true,
+        type: [
+            {
+                type: MongooseSchema.Types.ObjectId,
+                ref: 'tiet_hoc',
+            },
+        ],
+    })
+    tietHoc: TietHoc[];
 
     @Prop({
         required: true,
@@ -49,4 +58,4 @@ export class TuanHoc {
     danhGia: DanhGia[];
 }
 
-export const TuanHocSchema = SchemaFactory.createForClass(TuanHoc);
+export const MonHocSchema = SchemaFactory.createForClass(MonHoc);

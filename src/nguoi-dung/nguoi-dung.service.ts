@@ -11,23 +11,6 @@ export class NguoiDungService {
         @InjectModel('nguoi_dung') private model: Model<NguoiDungDocument>,
     ) {}
 
-    async layDanhGia_tieuChi_mucTieu(id: string) {
-        const user = await this.findOne(id);
-        return await user
-            .populate({
-                path: 'danhGia',
-                populate: {
-                    path: 'tieuChi',
-                    model: 'tieu_chi',
-                    populate: {
-                        path: 'mucTieu',
-                        model: 'muc_tieu',
-                    },
-                },
-            })
-            .execPopulate();
-    }
-
     async create(dto: CreateNguoiDungDto) {
         return await this.model.create(dto);
     }
@@ -36,9 +19,13 @@ export class NguoiDungService {
         return await this.model.find({});
     }
 
-    async findOne(id: string) {
+    async findOne_byMaND(ma: string) {
         return await this.model.findOne({ maND: id });
     }
+
+	async findOne_byID(id: string) {
+		return await this.model.findById(id)
+	}
 
     async update(id: string, dto: UpdateNguoiDungDto) {
         return await this.model.findOneAndUpdate({ maND: id }, dto);

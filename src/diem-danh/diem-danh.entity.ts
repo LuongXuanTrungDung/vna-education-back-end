@@ -1,5 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Schema as MongooseSchema } from 'mongoose';
+import { TietHoc } from '../tiet-hoc/tiet-hoc.entity';
+import { LopHoc } from '../lop-hoc/lop-hoc.entity';
+import { NguoiDung } from '../nguoi-dung/nguoi-dung.entity';
 
 export type DiemDanhDocument = DiemDanh & Document;
 
@@ -14,20 +17,38 @@ export class DiemDanh {
     @Prop({ required: true, index: true, unique: true })
     maDD: string;
 
-    @Prop({ required: true })
-    giaoVien: string;
+    @Prop({
+        required: true,
+        type: MongooseSchema.Types.ObjectId,
+        ref: 'nguoi_dung',
+    })
+    giaoVien: NguoiDung;
 
-    @Prop({ required: true })
-    hocSinh: string;
+    @Prop({
+        required: true,
+        type: MongooseSchema.Types.ObjectId,
+        ref: 'nguoi_dung',
+    })
+    hocSinh: NguoiDung;
 
-    @Prop({ required: true })
-    tietHoc: string;
+    @Prop({
+        required: true,
+        type: MongooseSchema.Types.ObjectId,
+        ref: 'tiet_hoc',
+    })
+    tietHoc: TietHoc;
 
-    @Prop({ required: true })
-    lopHoc: string;
+    @Prop({
+        required: true,
+        type: MongooseSchema.Types.ObjectId,
+        ref: 'lop_hoc',
+    })
+    lopHoc: LopHoc;
 
     @Prop({ required: true, default: true })
-    coMat: boolean;
+    trangThai: boolean;
+
+    @Prop() ghiChu: string;
 }
 
 export const DiemDanhSchema = SchemaFactory.createForClass(DiemDanh);

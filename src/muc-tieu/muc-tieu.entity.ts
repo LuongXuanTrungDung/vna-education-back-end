@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import { LuaChon, LuaChonSchema } from './luaChon.schema';
 
 export type MucTieuDocument = MucTieu & Document;
 
@@ -17,11 +18,11 @@ export class MucTieu {
     @Prop({ required: true })
     noiDung: string;
 
-    @Prop({ required: true, min: 0, max: 5, default: 0 })
-    diemDG: number;
-
-    @Prop({ required: true, default: 1, min: 1 })
+    @Prop({ required: true, default: 1, min: 1, max: 10 })
     trongSo: number;
+
+    @Prop({ type: [{ type: LuaChonSchema }] })
+    luaChon: LuaChon;
 }
 
 export const MucTieuSchema = SchemaFactory.createForClass(MucTieu);

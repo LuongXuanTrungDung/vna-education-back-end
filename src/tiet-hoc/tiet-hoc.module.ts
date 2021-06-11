@@ -16,5 +16,6 @@ import { MongooseModule } from '@nestjs/mongoose';
     ],
     controllers: [TietHocController],
     providers: [TietHocService],
+	exports: [TietHocService]
 })
 export class TietHocModule {}

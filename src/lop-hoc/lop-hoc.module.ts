@@ -16,5 +16,6 @@ import { LopHocSchema } from './lop-hoc.entity';
     ],
     controllers: [LopHocController],
     providers: [LopHocService],
+	exports: [LopHocService]
 })
 export class LopHocModule {}

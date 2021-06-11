@@ -1,10 +1,9 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
 import { DanhGia } from '../danh-gia/danh-gia.entity';
-import { HocKy } from '../hoc-ky/hoc-ky.entity';
-import { NgayHoc } from '../ngay-hoc/ngay-hoc.entity';
+import { TuanHoc } from '../tuan-hoc/tuan-hoc.entity';
 
-export type TuanHocDocument = TuanHoc & Document;
+export type HocKyDocument = HocKy & Document;
 
 @Schema({
     timestamps: {
@@ -13,29 +12,22 @@ export type TuanHocDocument = TuanHoc & Document;
     },
     versionKey: false,
 })
-export class TuanHoc {
+export class HocKy {
     @Prop({ required: true, index: true, unique: true })
-    maTuan: string;
+    maHK: string;
 
     @Prop() ghiChu: string;
-
-    @Prop({
-        required: true,
-        type: MongooseSchema.Types.ObjectId,
-        ref: 'hoc_ky',
-    })
-    hocKy: HocKy;
 
     @Prop({
         required: true,
         type: [
             {
                 type: MongooseSchema.Types.ObjectId,
-                ref: 'ngay_hoc',
+                ref: 'tuan_hoc',
             },
         ],
     })
-    ngayHoc: NgayHoc[];
+    tuanHoc: TuanHoc[];
 
     @Prop({
         required: true,
@@ -49,4 +41,4 @@ export class TuanHoc {
     danhGia: DanhGia[];
 }
 
-export const TuanHocSchema = SchemaFactory.createForClass(TuanHoc);
+export const HocKySchema = SchemaFactory.createForClass(HocKy);

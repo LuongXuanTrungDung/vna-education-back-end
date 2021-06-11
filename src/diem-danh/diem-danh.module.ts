@@ -16,5 +16,6 @@ import { DiemDanhSchema } from './diem-danh.entity';
     ],
     controllers: [DiemDanhController],
     providers: [DiemDanhService],
+	exports: [DiemDanhService]
 })
 export class DiemDanhModule {}

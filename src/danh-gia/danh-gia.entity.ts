@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
+import { MonHoc } from '../mon-hoc/mon-hoc.entity';
 import { NguoiDung } from '../nguoi-dung/nguoi-dung.entity';
 import { TietHoc } from '../tiet-hoc/tiet-hoc.entity';
 import { TieuChi } from '../tieu-chi/tieu-chi.entity';
@@ -28,6 +29,13 @@ export class DanhGia {
     nguoiDG: NguoiDung;
 
     @Prop({
+        required: true,
+        type: MongooseSchema.Types.ObjectId,
+        ref: 'mon_hoc',
+    })
+    monHoc: MonHoc;
+
+    @Prop({
         type: [
             {
                 type: MongooseSchema.Types.ObjectId,
@@ -52,8 +60,8 @@ export class DanhGia {
     })
     tieuChi: TieuChi[];
 
-    @Prop({ default: 0, min: 0, max: 5 })
-    diemTrungBinh: number;
+    @Prop({ required: true, default: 0, min: 0, max: 5 })
+    diemDG: number;
 }
 
 export const DanhGiaSchema = SchemaFactory.createForClass(DanhGia);

@@ -1,5 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Schema as MongooseSchema } from 'mongoose';
+import { TietHoc } from '../tiet-hoc/tiet-hoc.entity';
+import { TuanHoc } from '../tuan-hoc/tuan-hoc.entity';
 
 export type NgayHocDocument = NgayHoc & Document;
 
@@ -14,11 +16,25 @@ export class NgayHoc {
     @Prop({ required: true, index: true, unique: true })
     maNgay: string;
 
-    @Prop({ required: true })
-    tuanHoc: string;
+    @Prop() ghiChu: string;
 
-    @Prop({ required: true })
-    ngayCuThe: Date;
+    @Prop({
+        required: true,
+        type: MongooseSchema.Types.ObjectId,
+        ref: 'tuan_hoc',
+    })
+    tuanHoc: TuanHoc;
+
+    @Prop({
+        required: true,
+        type: [
+            {
+                type: MongooseSchema.Types.ObjectId,
+                ref: 'tiet_hoc',
+            },
+        ],
+    })
+    tietHoc: TietHoc[];
 }
 
 export const NgayHocSchema = SchemaFactory.createForClass(NgayHoc);

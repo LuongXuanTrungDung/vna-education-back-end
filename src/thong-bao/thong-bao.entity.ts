@@ -17,13 +17,6 @@ export class ThongBao {
 
     @Prop({
         required: true,
-        default: 'Thông báo chung',
-        enum: ['Học phí', 'Thời khóa biểu', 'Thông báo chung', 'Sự kiện'],
-    })
-    loaiTB: string;
-
-    @Prop({
-        required: true,
         type: MongooseSchema.Types.ObjectId,
         ref: 'nguoi_dung',
     })
