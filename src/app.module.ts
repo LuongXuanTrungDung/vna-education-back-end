@@ -14,6 +14,8 @@ import { TuanHocModule } from './tuan-hoc/tuan-hoc.module';
 import { NgayHocModule } from './ngay-hoc/ngay-hoc.module';
 import { TietHocModule } from './tiet-hoc/tiet-hoc.module';
 import { LopHocModule } from './lop-hoc/lop-hoc.module';
+import { MonHocModule } from './mon-hoc/mon-hoc.module';
+import { HocKyModule } from './hoc-ky/hoc-ky.module';
 
 @Module({
     imports: [
@@ -37,6 +39,8 @@ import { LopHocModule } from './lop-hoc/lop-hoc.module';
         NgayHocModule,
         TietHocModule,
         LopHocModule,
+        MonHocModule,
+        HocKyModule,
     ],
     controllers: [AppController],
     providers: [AppService],

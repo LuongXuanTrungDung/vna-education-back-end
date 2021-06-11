@@ -53,3 +53,7 @@
 	- Sửa lại API đăng nhập để trả về lỗi kiểu string hoặc kết quả đăng nhập kiểu JSON
 - 2.3
 	- Thêm tính năng hiện thông báo theo 3 loại thông báo
+	- Phân trang theo mã người dùng
+- 2.3.1
+	- Điều chỉnh lại các model
+	- Tính nặng đăng nhập hoặc trả về _id hoặc báo lỗi (trang trống & dòng lỗi)

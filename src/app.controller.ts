@@ -85,7 +85,6 @@ export class AppController {
     })
     async dangNhap(
         @Body() dto: { username: string; password: string },
-        @Session() session: Record<string, any>,
         @Res() res: Response,
     ) {
         const login = await this.service.kiemTra_dangNhap(
@@ -93,11 +92,9 @@ export class AppController {
             dto.password,
         );
 
-        if (typeof login !== 'string') {
-            session.maND = login.maND;
-            session.hoTen = login.hoTen;
-
-            const role = login.maND.substring(0, 2);
+        if (login.id && login.ma) {
+		console.log(login.id);
+            const role = login.ma.substring(0, 2);
             switch (role) {
                 case 'QT':
                     res.redirect('quan-tri');
@@ -115,5 +112,6 @@ export class AppController {
                     break;
             }
         }
+        else return login.message
     }
 }
