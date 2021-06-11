@@ -16,6 +16,6 @@ import { MonHocSchema } from './mon-hoc.entity';
     ],
     controllers: [MonHocController],
     providers: [MonHocService],
-	exports: [MonHocService]
+    exports: [MonHocService],
 })
 export class MonHocModule {}

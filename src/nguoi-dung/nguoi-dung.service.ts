@@ -23,9 +23,9 @@ export class NguoiDungService {
         return await this.model.findOne({ maND: ma });
     }
 
-	async findOne_byID(id: string) {
-		return await this.model.findById(id)
-	}
+    async findOne_byID(id: string) {
+        return await this.model.findById(id);
+    }
 
     async update(id: string, dto: UpdateNguoiDungDto) {
         return await this.model.findOneAndUpdate({ maND: id }, dto);

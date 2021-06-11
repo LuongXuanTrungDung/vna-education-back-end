@@ -16,6 +16,6 @@ import { TuanHocSchema } from './tuan-hoc.entity';
     ],
     controllers: [TuanHocController],
     providers: [TuanHocService],
-	exports: [TuanHocService]
+    exports: [TuanHocService],
 })
 export class TuanHocModule {}

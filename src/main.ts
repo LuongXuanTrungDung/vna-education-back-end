@@ -28,12 +28,12 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
         .addTag('thong-bao', 'Các API CRUD cho model thong_bao')
         .addTag('bang-diem', 'Các API CRUD cho model bang_diem')
         .addTag('diem-danh', 'Các API CRUD cho model diem_danh')
-		.addTag('hoc-ky', 'Các API CRUD cho model hoc_ky')
-		.addTag('lop-hoc','Các API CRUD cho model lop_hoc')
-		.addTag('mon-hoc','Các API CRUD cho model mon_hoc')
-		.addTag('ngay-hoc','Các API CRUD cho model ngay_hoc')
-		.addTag('tiet-hoc', 'Các API CRUD cho model tiet_hoc')
-		.addTag('tuan-hoc','Các API cho model tuan_hoc')
+        .addTag('hoc-ky', 'Các API CRUD cho model hoc_ky')
+        .addTag('lop-hoc', 'Các API CRUD cho model lop_hoc')
+        .addTag('mon-hoc', 'Các API CRUD cho model mon_hoc')
+        .addTag('ngay-hoc', 'Các API CRUD cho model ngay_hoc')
+        .addTag('tiet-hoc', 'Các API CRUD cho model tiet_hoc')
+        .addTag('tuan-hoc', 'Các API cho model tuan_hoc')
         .addTag('chung', 'Các API chung')
         .build();
     const document = SwaggerModule.createDocument(app, config);

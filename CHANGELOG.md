@@ -56,7 +56,10 @@
 	- Phân trang theo mã người dùng
 - 2.3.1
 	- Điều chỉnh lại các model
-	- Tính năng đăng nhập hoặc trả về _id hoặc báo lỗi (trang trống & dòng lỗi)
+	- Tính năng đăng nhập, hoặc trả về _id hoặc báo lỗi (trang trống & dòng lỗi)
 - 2.3.2
 	- Sửa lỗi cú pháp trong khai báo service
 	- Tính năng đăng nhập, khi chuyển trang có kèm theo slug là mã người dùng
+- 2.3.3
+	- Tính năng đăng nhập, hoặc trả về _id hoặc báo lỗi (trang trống & dòng lỗi)
+	- Thêm hàm lấy người dùng theo _id

@@ -16,6 +16,6 @@ import { HocKySchema } from './hoc-ky.entity';
     ],
     controllers: [HocKyController],
     providers: [HocKyService],
-	exports: [HocKyService]
+    exports: [HocKyService],
 })
 export class HocKyModule {}
