@@ -1,8 +1,9 @@
 ## VNA Education - Ứng dụng quản lý chất lượng giáo dục - Phía back-end
 Ứng dụng quản lý chất lượng giáo dục, mảng server-side và CSDL.
 
-1. Khởi tạo hệ thống: `yarn` hoặc `npm install`
-2. Chạy code server: `yarn start` hoặc `npm run start`
+1. Xin .env từ LuongXuanTrungDung hay 1 trong các contributor khác
+2. Khởi tạo hệ thống: `yarn` hoặc `npm install`
+3. Chạy code server: `yarn start` hoặc `npm run start`
 
 Các lệnh chức năng khác của repo:
 - Định dạng: `yarn lint` hoặc `npm run lint`
