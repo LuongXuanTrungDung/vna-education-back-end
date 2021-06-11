@@ -20,7 +20,7 @@ export class NguoiDungService {
     }
 
     async findOne_byMaND(ma: string) {
-        return await this.model.findOne({ maND: id });
+        return await this.model.findOne({ maND: ma });
     }
 
 	async findOne_byID(id: string) {

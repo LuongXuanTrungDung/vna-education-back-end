@@ -13,7 +13,7 @@ import { UpdateTuanHocDto } from './dto/update-tuan-hoc.dto';
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 
 @Controller('tuan-hoc')
-@ApiTags('mon-hoc')
+@ApiTags('tuan-hoc')
 export class TuanHocController {
     constructor(private readonly service: TuanHocService) {}
 
