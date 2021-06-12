@@ -31,12 +31,7 @@ export class AppController {
     @ApiOkResponse({
         description: 'Có kết quả kiểm tra đăng nhập',
     })
-    async dangNhap(
-        @Body() dto: { username: string; password: string },
-        @Res() res: Response,
-    ) {
-        const login = await this.service.kiemTra_dangNhap(dto.username, dto.password);
-	console.log(login);
-	return login
+    async dangNhap(@Body() dto: { username: string; password: string }) {
+        return await this.service.kiemTra_dangNhap(dto.username, dto.password);
     }
 }
