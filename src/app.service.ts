@@ -31,10 +31,19 @@ export class AppService {
 
     async kiemTra_dangNhap(username: string, password: string) {
         const user = await this.ndSer.findOne_byMaND(username);
-        if (!user) return 'Không tìm thấy người dùng';
+        if (!user) return {
+			id: null,
+			resOK: false
+		};
         else {
-            if (password === user.matKhau) return user._id;
-            else return 'Sai mật khẩu';
+            if (password === user.matKhau) return {
+				id: user._id,
+				resOK: true
+			}
+            else return {
+				id: null,
+				resOK: false
+			};
         }
     }
 

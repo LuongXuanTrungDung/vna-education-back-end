@@ -12,7 +12,7 @@ import { ApiBody, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { AppService } from './app.service';
 
-@Controller()
+@Controller('api')
 @ApiTags('chung')
 export class AppController {
     constructor(private service: AppService) {}

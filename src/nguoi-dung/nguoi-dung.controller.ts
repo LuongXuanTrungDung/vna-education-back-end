@@ -29,10 +29,16 @@ export class NguoiDungController {
         return await this.service.findAll();
     }
 
-    @Get(':id')
-    @ApiOkResponse({ description: 'Trả về 1 đối tượng' })
-    async findOne(@Param('id') id: string) {
-        return await this.service.findOne_byMaND(id);
+    @Get('ma/:id')
+    @ApiOkResponse({ description: 'Trả về 1 đối tượng từ maND' })
+    async findOne_byMaND(@Param('id') ma: string) {
+        return await this.service.findOne_byMaND(ma);
+    }
+
+	@Get('id/:id')
+    @ApiOkResponse({ description: 'Trả về 1 đối tượng từ _id' })
+    async findOne_byID(@Param('id') id: string) {
+        return await this.service.findOne_byID(id);
     }
 
     @Patch(':id')
