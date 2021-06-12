@@ -35,7 +35,7 @@ export class NguoiDungController {
         return await this.service.findOne_byMaND(ma);
     }
 
-	@Get('id/:id')
+    @Get('id/:id')
     @ApiOkResponse({ description: 'Trả về 1 đối tượng từ _id' })
     async findOne_byID(@Param('id') id: string) {
         return await this.service.findOne_byID(id);

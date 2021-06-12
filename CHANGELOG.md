@@ -52,14 +52,18 @@
 	- Viết API CRUD cho model diem_danh
 	- Sửa lại API đăng nhập để trả về lỗi kiểu string hoặc kết quả đăng nhập kiểu JSON
 - 2.3
-	- Thêm tính năng hiện thông báo theo 3 loại thông báo
+	- Thêm API hiện thông báo theo 3 loại thông báo
 	- Phân trang theo mã người dùng
 - 2.3.1
 	- Điều chỉnh lại các model
-	- Tính năng đăng nhập, hoặc trả về _id hoặc báo lỗi (trang trống & dòng lỗi)
+	- API đăng nhập, hoặc trả về _id hoặc báo lỗi (trang trống & dòng lỗi)
 - 2.3.2
 	- Sửa lỗi cú pháp trong khai báo service
-	- Tính năng đăng nhập, khi chuyển trang có kèm theo slug là mã người dùng
+	- API đăng nhập, khi chuyển trang có kèm theo slug là mã người dùng
 - 2.3.3
-	- Tính năng đăng nhập, hoặc trả về _id hoặc báo lỗi (trang trống & dòng lỗi)
+	- API đăng nhập, hoặc trả về _id hoặc báo lỗi (trang trống & dòng lỗi)
 	- Thêm hàm lấy người dùng theo _id
+- 2.3.4
+	- Tất cả các route API đều có thêm /api, theo tiêu chuẩn chung
+	- API đăng nhập trả về 1 đối tượng là _id của người dùng đăng nhập (có thể mang giá trị null) và trạng thái đăng nhập (kiểu bool)
+	- API trả về đánh giá - tiêu chí - mục tiêu theo ngày và mã người dùng
