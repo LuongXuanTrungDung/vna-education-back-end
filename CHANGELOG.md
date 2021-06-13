@@ -67,3 +67,7 @@
 	- Tất cả các route API đều có thêm /api, theo tiêu chuẩn chung
 	- API đăng nhập trả về 1 đối tượng là _id của người dùng đăng nhập (có thể mang giá trị null) và trạng thái đăng nhập (kiểu bool)
 	- API trả về đánh giá - tiêu chí - mục tiêu theo ngày và mã người dùng
+- 2.3.5
+	- Thêm API trả về môn học và các giáo viên dạy môn đó
+	- Thêm API trả về lớp học, học sinh và GVCN của lớp đó
+	- Thêm API trả về bảng điểm theo maND của học sinh

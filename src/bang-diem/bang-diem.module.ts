@@ -16,5 +16,6 @@ import { BangDiemSchema } from './bang-diem.entity';
     ],
     controllers: [BangDiemController],
     providers: [BangDiemService],
+exports: [BangDiemService]
 })
 export class BangDiemModule {}

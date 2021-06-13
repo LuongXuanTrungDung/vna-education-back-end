@@ -55,12 +55,41 @@ export class AppController {
     })
     @ApiOkResponse({
         description:
-            'Hiện tất cả đánh giá, tiêu chí và mục tiêu trong ngày dành cho học sinh',
+            'Trả về tất cả đánh giá, tiêu chí và mục tiêu trong ngày dành cho học sinh',
     })
     async traDanhGia_theoNguoiDung_theoNgay(
         @Param('maND') user: string,
         @Query('ngay') ngay: string,
     ) {
         return await this.service.traDanhGia_theoNguoiDung_theoNgay(user, ngay);
+    }
+
+    @Get('danh-sach/mon-hoc')
+    @ApiOkResponse({
+        description: 'Trả về tất cả môn học và giáo viên dạy môn đó',
+    })
+    async traMonHoc_vaGiaoVien() {
+        return await this.service.traMonHoc_vaGiaoVien();
+    }
+
+    @Get('danh-sach/lop-hoc')
+    @ApiOkResponse({
+        description: 'Trả về tất cả lớp học, học sinh và GVCN của lớp đó',
+    })
+    async traLopHoc_HSvaGVCN() {
+        return await this.service.traLopHoc_HSvaGV();
+    }
+
+    @Get('bang-diem')
+    @ApiQuery({
+        type: 'string',
+        name: 'hocSinh',
+        description: 'Slug, là mã người dùng',
+    })
+    @ApiOkResponse({
+        description: 'Trả về tất cả bảng điểm của học sinh tương ứng',
+    })
+    async traBangDiem_theoHS(@Query('hocSinh') user: string) {
+        return await this.service.traBangDiem_theoHS(user);
     }
 }

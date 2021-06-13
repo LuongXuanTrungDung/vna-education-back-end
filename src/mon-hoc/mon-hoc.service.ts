@@ -1,26 +1,31 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 import { CreateMonHocDto } from './dto/create-mon-hoc.dto';
 import { UpdateMonHocDto } from './dto/update-mon-hoc.dto';
+import { MonHocDocument } from './mon-hoc.entity';
 
 @Injectable()
 export class MonHocService {
-    create(createMonHocDto: CreateMonHocDto) {
-        return 'This action adds a new monHoc';
+    constructor(@InjectModel('mon_hoc') private model: Model<MonHocDocument>) {}
+
+    async create(dto: CreateMonHocDto) {
+        return await this.model.create(dto);
     }
 
-    findAll() {
-        return `This action returns all monHoc`;
+    async findAll() {
+        return await this.model.find({});
     }
 
-    findOne(id: number) {
-        return `This action returns a #${id} monHoc`;
+    async findOne(id: string) {
+        return await this.model.findOne({ maMH: id });
     }
 
-    update(id: number, updateMonHocDto: UpdateMonHocDto) {
-        return `This action updates a #${id} monHoc`;
+    async update(id: string, dto: UpdateMonHocDto) {
+        return await this.model.findOneAndUpdate({ maMH: id }, dto);
     }
 
-    remove(id: number) {
-        return `This action removes a #${id} monHoc`;
+    async remove(id: string) {
+        return await this.model.findOneAndDelete({ maMH: id });
     }
 }

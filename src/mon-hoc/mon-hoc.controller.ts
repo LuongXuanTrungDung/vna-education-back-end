@@ -15,35 +15,35 @@ import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 @Controller('mon-hoc')
 @ApiTags('mon-hoc')
 export class MonHocController {
-    constructor(private readonly monHocService: MonHocService) {}
+    constructor(private readonly service: MonHocService) {}
 
     @Post()
     @ApiCreatedResponse({ description: 'Tạo thành công' })
-    create(@Body() createMonHocDto: CreateMonHocDto) {
-        return this.monHocService.create(createMonHocDto);
+    create(@Body() dto: CreateMonHocDto) {
+        return this.service.create(dto);
     }
 
     @Get()
     @ApiOkResponse({ description: 'Trả về tất cả' })
     findAll() {
-        return this.monHocService.findAll();
+        return this.service.findAll();
     }
 
     @Get(':id')
     @ApiOkResponse({ description: 'Trả về 1 đối tượng' })
     findOne(@Param('id') id: string) {
-        return this.monHocService.findOne(+id);
+        return this.service.findOne(id);
     }
 
     @Patch(':id')
     @ApiOkResponse({ description: 'Cập nhật thành công' })
-    update(@Param('id') id: string, @Body() updateMonHocDto: UpdateMonHocDto) {
-        return this.monHocService.update(+id, updateMonHocDto);
+    update(@Param('id') id: string, @Body() dto: UpdateMonHocDto) {
+        return this.service.update(id, dto);
     }
 
     @Delete(':id')
     @ApiOkResponse({ description: 'Xóa thành công' })
     remove(@Param('id') id: string) {
-        return this.monHocService.remove(+id);
+        return this.service.remove(id);
     }
 }
