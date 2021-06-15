@@ -128,9 +128,11 @@ export class AppService {
         }
     }
 
-	async traTietHoc_trongNgay(ngay: string) {
-		return await (await this.ngaySer.findOne(ngay)).populate('tietHoc').execPopulate()
-	}
+    async traTietHoc_trongNgay(ngay: string) {
+        return await (await this.ngaySer.findOne(ngay))
+            .populate('tietHoc')
+            .execPopulate();
+    }
 
     async traThongBao() {
         const k1 = await this.tbSer.findByType('Thông báo chung');

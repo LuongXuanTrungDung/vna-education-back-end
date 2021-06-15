@@ -19,6 +19,14 @@ export class NguoiDungService {
         return await this.model.find({});
     }
 
+    async findHS() {
+        return this.model.find({ maND: /HS/i });
+    }
+
+    async findGV() {
+        return this.model.find({ maND: /GV/i });
+    }
+
     async findOne_byMaND(ma: string) {
         return await this.model.findOne({ maND: ma });
     }

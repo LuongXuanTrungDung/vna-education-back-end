@@ -1,16 +1,25 @@
-form(action="api/dang-nhap", method="post")
+form(action="dang-nhap", method="post")
 	input(type="text", name="username" placeholder="Tên người dùng")
 	input(type="password", name="password" placeholder="Mật khẩu")
 	input(type="submit", value="Đăng nhập")
 p
-	a(href="api/danh-gia/HS001?ngay=2-12-2019")
+	a(href="danh-gia/HS001?ngay=2-12-2019")
 		h3 Hiện đánh giá cho HS001, môn Anh văn, ngày 2/12/2020
 p
-	a(href="api/danh-sach/mon-hoc")
+	a(href="danh-sach/mon-hoc")
 		h3 Danh sách môn học và giáo viên
 p
-	a(href="api/danh-sach/lop-hoc")
+	a(href="danh-sach/lop-hoc")
 		h3 Danh sách lớp học: học sinh và GVCN
 p
-	a(href="api/bang-diem?hocSinh=HS001")
+	a(href="bang-diem?hocSinh=HS001")
 		h3 Bảng điểm của học sinh HS001
+p
+	a(href="api/hieu-truong/danh-sach/giao-vien")
+		h3 Danh sách giáo viên cho hiệu trưởng
+p
+	a(href="api/hieu-truong/danh-sach/hoc-sinh")
+		h3 Danh sách học sinh cho hiệu trưởng
+p
+	a(href="api/hieu-truong/danh-gia")
+		h3 Danh sách đánh giá cho hiệu trưởng

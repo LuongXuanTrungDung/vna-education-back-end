@@ -35,6 +35,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
         .addTag('tiet-hoc', 'Các API CRUD cho model tiet_hoc')
         .addTag('tuan-hoc', 'Các API cho model tuan_hoc')
         .addTag('chung', 'Các API chung')
+        .addTag('hieu-truong', 'Các API cho người dùng là hiệu trưởng')
         .build();
     const document = SwaggerModule.createDocument(app, config);
     SwaggerModule.setup('docs', app, document);
