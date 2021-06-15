@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { Types } from 'mongoose';
-import { BangDiemService } from './bang-diem/bang-diem.service';
-import { DanhGiaService } from './danh-gia/danh-gia.service';
-import { LopHocService } from './lop-hoc/lop-hoc.service';
-import { MonHocService } from './mon-hoc/mon-hoc.service';
-import { MucTieuService } from './muc-tieu/muc-tieu.service';
-import { NgayHocService } from './ngay-hoc/ngay-hoc.service';
-import { NguoiDungService } from './nguoi-dung/nguoi-dung.service';
-import { ThongBaoService } from './thong-bao/thong-bao.service';
-import { TieuChiService } from './tieu-chi/tieu-chi.service';
+import { BangDiemService } from './models/bang-diem/bang-diem.service';
+import { DanhGiaService } from './models/danh-gia/danh-gia.service';
+import { LopHocService } from './models/lop-hoc/lop-hoc.service';
+import { MonHocService } from './models/mon-hoc/mon-hoc.service';
+import { MucTieuService } from './models/muc-tieu/muc-tieu.service';
+import { NgayHocService } from './models/ngay-hoc/ngay-hoc.service';
+import { NguoiDungService } from './models/nguoi-dung/nguoi-dung.service';
+import { ThongBaoService } from './models/thong-bao/thong-bao.service';
+import { TieuChiService } from './models/tieu-chi/tieu-chi.service';
 
 @Injectable()
 export class AppService {
@@ -127,6 +127,10 @@ export class AppService {
                 };
         }
     }
+
+	async traTietHoc_trongNgay(ngay: string) {
+		return await (await this.ngaySer.findOne(ngay)).populate('tietHoc').execPopulate()
+	}
 
     async traThongBao() {
         const k1 = await this.tbSer.findByType('Thông báo chung');

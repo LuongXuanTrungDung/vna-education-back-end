@@ -19,7 +19,7 @@ import {
 import { Response } from 'express';
 import { AppService } from './app.service';
 
-@Controller('api')
+@Controller()
 @ApiTags('chung')
 export class AppController {
     constructor(private service: AppService) {}
