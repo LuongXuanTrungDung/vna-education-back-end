@@ -71,3 +71,9 @@
 	- Thêm API trả về môn học và các giáo viên dạy môn đó
 	- Thêm API trả về lớp học, học sinh và GVCN của lớp đó
 	- Thêm API trả về bảng điểm theo maND của học sinh
+- 2.4
+	- Thay đổi cấu trúc thư mục, phân biệt các API CRUD của model với các API cho người dùng
+	- Thêm các module, controller và service cho 5 vai trò người dùng hệ thống
+	- Thêm API xem tất cả đánh giá, danh sách học sinh và danh sách giáo viên cho người dùng là hiệu trưởng
+	- Thêm các views tương ứng với 5 vai trò người dùng
+	- Các views được định dạng bằng thư viện TailwindCSS (thông qua CDN)

@@ -5,7 +5,7 @@ import { HieuTruongController } from './hieu-truong.controller';
 import { HieuTruongService } from './hieu-truong.service';
 
 @Module({
-	imports: [DanhGiaModule,NguoiDungModule],
+    imports: [DanhGiaModule, NguoiDungModule],
     controllers: [HieuTruongController],
     providers: [HieuTruongService],
 })

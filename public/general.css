@@ -1,0 +1,11 @@
+*, *:hover {
+	transition: 0.5s;
+}
+
+body {
+	margin: 0;
+}
+
+li {
+	list-style-type: none;
+}

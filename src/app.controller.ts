@@ -25,8 +25,38 @@ export class AppController {
     constructor(private service: AppService) {}
 
     @Get()
-    @Render('index')
+    @Render('chung')
     async index() {
+        return '';
+    }
+
+    @Get('hieu-truong')
+    @Render('hieu-truong')
+    async hieuTruong() {
+        return '';
+    }
+
+    @Get('quan-tri')
+    @Render('quan-tri')
+    async quanTri() {
+        return '';
+    }
+
+    @Get('hoc-sinh')
+    @Render('hoc-sinh')
+    async hocSinh() {
+        return '';
+    }
+
+    @Get('giao-vien')
+    @Render('giao-vien')
+    async giaoVien() {
+        return '';
+    }
+
+    @Get('phu-huynh')
+    @Render('phu-huynh')
+    async phuHuynh() {
         return '';
     }
 
