@@ -109,15 +109,16 @@ export class AppService {
 
     async kiemTra_dangNhap(username: string, password: string) {
         const user = await this.ndSer.findOne_byMaND(username);
+        const pass = await this.ndSer.onlyPassword(username);
         if (!user)
             return {
                 id: null,
                 resOK: false,
             };
         else {
-            if (password === user.matKhau)
+            if (password === pass)
                 return {
-                    id: user._id,
+                    id: user.id,
                     resOK: true,
                 };
             else
@@ -134,15 +135,22 @@ export class AppService {
             .execPopulate();
     }
 
-    async traThongBao() {
-        const k1 = await this.tbSer.findByType('Thông báo chung');
-        const k2 = await this.tbSer.findByType('Thời khóa biểu');
-        const k3 = await this.tbSer.findByType('Học phí');
-        return {
-            chung: k1,
-            hocTap: k2,
-            hocPhi: k3,
-        };
+    async traThongBao(kieu: string) {
+        let result = [];
+        switch (kieu) {
+            case 'hoc-tap':
+                result = await this.tbSer.findAll_byType('HT');
+                break;
+            case 'hoc-phi':
+                result = await this.tbSer.findAll_byType('HP');
+                break;
+            case 'hoat-dong':
+                result = await this.tbSer.findAll_byType('HĐ');
+                break;
+            default:
+                break;
+        }
+        return result;
     }
 
     // async traNgay_trongTuan(tuan: string) {

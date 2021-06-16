@@ -60,6 +60,19 @@ export class AppController {
         return '';
     }
 
+    @Get('api/thong-bao/:loai')
+    @ApiParam({
+        type: 'string',
+        name: 'loai',
+        description: 'Loại thông báo',
+    })
+    @ApiOkResponse({
+        description: 'Lấy được các thông báo từ CSDL',
+    })
+    async traThongBao(@Param('loai') loai: string) {
+        return await this.service.traThongBao(loai);
+    }
+
     @Post('dang-nhap')
     @ApiBody({
         description:

@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
 import { DanhGia } from '../danh-gia/danh-gia.entity';
+import { LopHoc } from '../lop-hoc/lop-hoc.entity';
 import { CCCD, CCCDSchema } from './cccd.schema';
 import { hoChieu, hoChieuSchema } from './hoChieu.schema';
 import { LaoDong, LaoDongSchema } from './laoDong.schema';
@@ -56,6 +57,18 @@ export class NguoiDung {
 
     @Prop({ type: LaoDongSchema })
     laoDong: LaoDong;
+
+    @Prop({
+        ref: 'lop_hoc',
+        type: MongooseSchema.Types.ObjectId,
+    })
+    lopHoc: LopHoc;
+
+    @Prop({
+        ref: 'lop_hoc',
+        type: MongooseSchema.Types.ObjectId,
+    })
+    chuNhiem: LopHoc;
 
     @Prop({
         type: [{ type: MongooseSchema.Types.ObjectId, ref: 'nguoi_dung' }],

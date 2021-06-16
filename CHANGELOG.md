@@ -77,3 +77,7 @@
 	- Thêm API xem tất cả đánh giá, danh sách học sinh và danh sách giáo viên cho người dùng là hiệu trưởng
 	- Thêm các views tương ứng với 5 vai trò người dùng
 	- Các views được định dạng bằng thư viện TailwindCSS (thông qua CDN)
+- 2.4.1
+	- Điều chỉnh lại các API liên quan đến người dùng để ko lộ mật khẩu hay trả về các thông tin ko cần thiết khác
+	- Thêm API trả về thông báo theo loại hình thông báo, có kèm họ tên đầy đủ của người đăng và ngày đăng
+	- Điều chỉnh lại model ngay_hoc, thong_bao và nguoi_dung

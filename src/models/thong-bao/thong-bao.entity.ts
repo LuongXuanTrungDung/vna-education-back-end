@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
+import { NgayHoc } from '../ngay-hoc/ngay-hoc.entity';
 import { NguoiDung } from '../nguoi-dung/nguoi-dung.entity';
 
 export type ThongBaoDocument = ThongBao & Document;
@@ -30,6 +31,13 @@ export class ThongBao {
 
     @Prop({ required: true })
     noiDung: string;
+
+    @Prop({
+        required: true,
+        ref: 'ngay_hoc',
+        type: MongooseSchema.Types.ObjectId,
+    })
+    ngayDang: NgayHoc;
 
     @Prop({ required: true, default: true })
     daDuyet: boolean;

@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
 import { DanhGia } from '../danh-gia/danh-gia.entity';
+import { ThongBao } from '../thong-bao/thong-bao.entity';
 import { TietHoc } from '../tiet-hoc/tiet-hoc.entity';
 import { TuanHoc } from '../tuan-hoc/tuan-hoc.entity';
 
@@ -36,6 +37,16 @@ export class NgayHoc {
         ],
     })
     tietHoc: TietHoc[];
+
+    @Prop({
+        type: [
+            {
+                type: MongooseSchema.Types.ObjectId,
+                ref: 'thong_bao',
+            },
+        ],
+    })
+    thongBao: ThongBao;
 
     @Prop({
         type: [

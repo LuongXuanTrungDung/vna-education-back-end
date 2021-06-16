@@ -15,19 +15,39 @@ export class ThongBaoService {
         return await this.model.create(dto);
     }
 
-    async findByType(kieu: string) {
-        const loai = await this.model.find({ loaiTB: kieu });
-        const result = [];
-        if (loai) {
-            for (let i = 0; i < loai.length; i++) {
-                result.push(await loai[i].populate('nguoiDang').execPopulate());
-            }
-        }
-        return result;
-    }
-
     async findAll() {
         return await this.model.find({});
+    }
+
+    async findAll_byType(kind: string) {
+        const reg = new RegExp(kind, 'i');
+        const news = await this.model
+            .find({ maTB: reg }, null, { sort: 'desc' })
+            .populate([
+                {
+                    path: 'nguoiDang',
+                    model: 'nguoi_dung',
+                },
+                {
+                    path: 'ngayDang',
+                    model: 'ngay_hoc',
+                },
+            ])
+            .exec();
+        const result = [];
+
+        for (let i = 0; i < news.length; i++) {
+            const temp = {
+                id: news[i]._id,
+                ma: news[i].maTB,
+                tieuDe: news[i].tieuDe,
+                tomTat: news[i].tomTat,
+                nguoiDang: news[i].nguoiDang.hoTen,
+                ngayDang: news[i].ngayDang.maNgay,
+            };
+            result.push(temp);
+        }
+        return result;
     }
 
     async findOne(id: string) {

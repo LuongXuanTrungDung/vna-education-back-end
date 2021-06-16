@@ -14,10 +14,34 @@ export class HieuTruongService {
     }
 
     async tatCa_HocSinh() {
-        return await this.ndSer.findHS();
+        const result = [];
+        const hs = await this.ndSer.findAll_byRole('HS');
+
+        for (let i = 0; i < hs.length; i++) {
+            const temp = {
+                id: hs[i]._id,
+                ma: hs[i].maND,
+                lop: hs[i].lopHoc,
+                hoTen: hs[i].hoTen,
+            };
+            result.push(temp);
+        }
+        return result;
     }
 
     async tatCa_GiaoVien() {
-        return await this.ndSer.findGV();
+        const result = [];
+        const gv = await this.ndSer.findAll_byRole('GV');
+
+        for (let i = 0; i < gv.length; i++) {
+            const temp = {
+                id: gv[i]._id,
+                ma: gv[i].maND,
+                chuNhiem: gv[i].chuNhiem,
+                hoTen: gv[i].hoTen,
+            };
+            result.push(temp);
+        }
+        return result;
     }
 }

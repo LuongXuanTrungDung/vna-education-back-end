@@ -14,7 +14,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
     app.use(compression());
     app.use(helmet());
 
-	app.useStaticAssets(join(__dirname,'..','..','public'))
+    app.useStaticAssets(join(__dirname, '..', '..', 'public'));
     app.setBaseViewsDir(join(__dirname, '..', '..', 'views'));
     app.setViewEngine('pug');
 
@@ -37,7 +37,10 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
         .addTag('tuan-hoc', 'Các API cho model tuan_hoc')
         .addTag('chung', 'Các API chung')
         .addTag('hieu-truong', 'Các API cho người dùng là hiệu trưởng')
-		.addTag('quan-tri', 'Các API cho người dùng là quản trị viên hoặc quản lý')
+        .addTag(
+            'quan-tri',
+            'Các API cho người dùng là quản trị viên hoặc quản lý',
+        )
         .addTag('hoc-sinh', 'Các API cho người dùng là học sinh')
         .addTag('phu-huynh', 'Các API cho người dùng là phụ huynh')
         .addTag('giao-vien', 'Các API cho người dùng là giáo viên')

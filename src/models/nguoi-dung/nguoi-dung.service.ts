@@ -19,20 +19,27 @@ export class NguoiDungService {
         return await this.model.find({});
     }
 
-    async findHS() {
-        return this.model.find({ maND: /HS/i });
-    }
-
-    async findGV() {
-        return this.model.find({ maND: /GV/i });
+    async findAll_byRole(role: string) {
+        const reg = new RegExp(role, 'i');
+        return await this.model.find({ maND: reg });
     }
 
     async findOne_byMaND(ma: string) {
-        return await this.model.findOne({ maND: ma });
+        const user = await this.model.findOne({ maND: ma });
+        const { matKhau, ...rest } = user;
+        rest.id = user._id;
+        return rest;
     }
 
     async findOne_byID(id: string) {
-        return await this.model.findById(id);
+        const user = await this.model.findById(id);
+        const { matKhau, ...rest } = user;
+        rest.id = user._id;
+        return rest;
+    }
+
+    async onlyPassword(ma: string) {
+        return (await this.model.findOne({ maND: ma })).matKhau;
     }
 
     async update(id: string, dto: UpdateNguoiDungDto) {
