@@ -25,16 +25,36 @@ export class NguoiDungService {
     }
 
     async findOne_byMaND(ma: string) {
-        const user = await this.model.findOne({ maND: ma });
-        const { matKhau, ...rest } = user;
-        rest.id = user._id;
-        return rest;
+        return await this.model.findOne({ maND: ma });
     }
 
     async findOne_byID(id: string) {
         const user = await this.model.findById(id);
-        const { matKhau, ...rest } = user;
-        rest.id = user._id;
+        const rest = {
+            id: user._id,
+            ma: user.maND,
+            hoTen: user.hoTen,
+            diaChi: user.diaChi,
+            ngaySinh: () => {
+                return (
+                    user.ngaySinh.getDate() +
+                    '-' +
+                    user.ngaySinh.getMonth() +
+                    '-' +
+                    user.ngaySinh.getFullYear()
+                );
+            },
+            gioiTinh: user.gioiTinh,
+            quocTich: user.quocTich,
+            danToc: user.danToc,
+            cccd: user.cccd,
+            hoChieu: user.hoChieu,
+            lop: user.lopHoc,
+            nhapHoc: user.ngayNhapHoc,
+            chuNhiem: user.chuNhiem,
+            chucVu: user.chucVu,
+            danhGia: user.danhGia,
+        };
         return rest;
     }
 

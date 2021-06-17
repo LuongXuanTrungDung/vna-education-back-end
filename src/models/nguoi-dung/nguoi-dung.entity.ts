@@ -56,13 +56,15 @@ export class NguoiDung {
     hoChieu: hoChieu;
 
     @Prop({ type: LaoDongSchema })
-    laoDong: LaoDong;
+    chucVu: LaoDong;
 
     @Prop({
         ref: 'lop_hoc',
         type: MongooseSchema.Types.ObjectId,
     })
     lopHoc: LopHoc;
+
+    @Prop() ngayNhapHoc: Date;
 
     @Prop({
         ref: 'lop_hoc',

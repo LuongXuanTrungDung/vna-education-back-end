@@ -14,6 +14,7 @@ import { TieuChiService } from './models/tieu-chi/tieu-chi.service';
 export class AppService {
     constructor(
         private ndSer: NguoiDungService,
+        private dgSer: DanhGiaService,
         private tbSer: ThongBaoService,
         private ngaySer: NgayHocService,
         private mhSer: MonHocService,
@@ -105,6 +106,36 @@ export class AppService {
                 result.push(days.danhGia[i]);
         }
         return result;
+    }
+
+    async traDanhGia_theoMaND(ma: string) {
+		const result = []
+        const user = await (
+            await this.ndSer.findOne_byMaND(ma)
+        )
+            .populate({
+                path: 'danhGia',
+                model: 'danh_gia',
+                populate: {
+                    path: 'tieuChi',
+                    model: 'tieu_chi',
+                    populate: {
+                        path: 'mucTieu',
+                        model: 'muc_tieu',
+                    },
+                },
+            })
+            .execPopulate();
+
+        for (let i = 0; i < user.danhGia.length; i++) {
+			result.push(user.danhGia[i])
+		}
+		return result
+    }
+
+    async traDanhGia_theoID(id: string) {
+        const user = await (await this.ndSer.findOne_byID(id)).ma;
+        return await this.traDanhGia_theoMaND(user);
     }
 
     async kiemTra_dangNhap(username: string, password: string) {

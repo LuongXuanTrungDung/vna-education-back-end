@@ -81,3 +81,6 @@
 	- Điều chỉnh lại các API liên quan đến người dùng để ko lộ mật khẩu hay trả về các thông tin ko cần thiết khác
 	- Thêm API trả về thông báo theo loại hình thông báo, có kèm họ tên đầy đủ của người đăng và ngày đăng
 	- Điều chỉnh lại model ngay_hoc, thong_bao và nguoi_dung
+- 2.4.2
+	- Thêm API trả về đánh giá theo mã người dùng và _id
+	- Điều chỉnh lại kết quả trả về của API tìm 1 người dùng theo _id hoặc maND
