@@ -23,9 +23,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
         .setDescription('Ứng dụng đánh giá chất lượng giáo dục')
         .setVersion('3')
         .addTag('nguoi-dung', 'Các API CRUD cho model nguoi_dung')
-        .addTag('muc-tieu', 'Các API CRUD cho model nguoi_dung')
         .addTag('danh-gia', 'Các API CRUD cho model danh_gia')
-        .addTag('tieu-chi', 'Các API CRUD cho model tieu_chi')
         .addTag('thong-bao', 'Các API CRUD cho model thong_bao')
         .addTag('bang-diem', 'Các API CRUD cho model bang_diem')
         .addTag('diem-danh', 'Các API CRUD cho model diem_danh')
@@ -48,5 +46,5 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
     const document = SwaggerModule.createDocument(app, config);
     SwaggerModule.setup('docs', app, document);
 
-    await app.listen(process.env.SERVER_PORT || 3000);
+    await app.listen(process.env.SERVER_PORT || 8000);
 })();

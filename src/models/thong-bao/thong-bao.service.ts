@@ -19,10 +19,9 @@ export class ThongBaoService {
         return await this.model.find({});
     }
 
-    async findAll_byType(kind: string) {
-        const reg = new RegExp(kind, 'i');
+    async getAll() {
         const news = await this.model
-            .find({ maTB: reg }, null, { sort: 'desc' })
+            .find({}, null, { sort: 'desc' })
             .populate([
                 {
                     path: 'nguoiDang',

@@ -30,32 +30,27 @@ export class NguoiDungService {
 
     async findOne_byID(id: string) {
         const user = await this.model.findById(id);
-        const rest = {
-            id: user._id,
-            ma: user.maND,
+        return {
+            id: id,
+            maND: user.maND,
             hoTen: user.hoTen,
+            emailND: user.emailND,
             diaChi: user.diaChi,
-            ngaySinh: () => {
-                return (
-                    user.ngaySinh.getDate() +
-                    '-' +
-                    user.ngaySinh.getMonth() +
-                    '-' +
-                    user.ngaySinh.getFullYear()
-                );
-            },
+            ngaySinh:
+                user.ngaySinh.getDate() +
+                '-' +
+                user.ngaySinh.getMonth() +
+                '-' +
+                user.ngaySinh.getFullYear(),
             gioiTinh: user.gioiTinh,
             quocTich: user.quocTich,
             danToc: user.danToc,
             cccd: user.cccd,
             hoChieu: user.hoChieu,
-            lop: user.lopHoc,
             nhapHoc: user.ngayNhapHoc,
             chuNhiem: user.chuNhiem,
             chucVu: user.chucVu,
-            danhGia: user.danhGia,
         };
-        return rest;
     }
 
     async onlyPassword(ma: string) {

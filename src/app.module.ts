@@ -4,8 +4,6 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { NguoiDungModule } from './models/nguoi-dung/nguoi-dung.module';
-import { MucTieuModule } from './models/muc-tieu/muc-tieu.module';
-import { TieuChiModule } from './models/tieu-chi/tieu-chi.module';
 import { DanhGiaModule } from './models/danh-gia/danh-gia.module';
 import { ThongBaoModule } from './models/thong-bao/thong-bao.module';
 import { BangDiemModule } from './models/bang-diem/bang-diem.module';
@@ -34,8 +32,6 @@ import { HieuTruongModule } from './users/hieu-truong/hieu-truong.module';
             },
         ),
         NguoiDungModule,
-        MucTieuModule,
-        TieuChiModule,
         DanhGiaModule,
         ThongBaoModule,
         BangDiemModule,

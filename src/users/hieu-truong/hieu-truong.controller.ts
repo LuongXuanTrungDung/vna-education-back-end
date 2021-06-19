@@ -2,7 +2,7 @@ import { Controller, Get } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { HieuTruongService } from './hieu-truong.service';
 
-@Controller('api/hieu-truong')
+@Controller('hieu-truong')
 @ApiTags('hieu-truong')
 export class HieuTruongController {
     constructor(private service: HieuTruongService) {}

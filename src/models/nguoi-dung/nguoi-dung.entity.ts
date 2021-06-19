@@ -2,8 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
 import { DanhGia } from '../danh-gia/danh-gia.entity';
 import { LopHoc } from '../lop-hoc/lop-hoc.entity';
-import { CCCD, CCCDSchema } from './cccd.schema';
-import { hoChieu, hoChieuSchema } from './hoChieu.schema';
+import { giayTo, giayToSchema } from './giayTo.schema';
 import { LaoDong, LaoDongSchema } from './laoDong.schema';
 
 export type NguoiDungDocument = NguoiDung & Document;
@@ -49,11 +48,11 @@ export class NguoiDung {
     @Prop({ required: true, default: 'Việt Nam' })
     quocTich: string;
 
-    @Prop({ type: CCCDSchema })
-    cccd: CCCD;
+    @Prop({ type: giayToSchema })
+    cccd: giayTo;
 
-    @Prop({ type: hoChieuSchema })
-    hoChieu: hoChieu;
+    @Prop({ type: giayToSchema })
+    hoChieu: giayTo;
 
     @Prop({ type: LaoDongSchema })
     chucVu: LaoDong;

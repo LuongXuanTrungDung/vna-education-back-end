@@ -1,8 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
-import { MucTieu } from '../muc-tieu/muc-tieu.entity';
-
-export type TieuChiDocument = TieuChi & Document;
+import { MucTieu, MucTieuSchema } from './mucTieu.schema';
 
 @Schema({
     timestamps: {
@@ -12,25 +10,20 @@ export type TieuChiDocument = TieuChi & Document;
     versionKey: false,
 })
 export class TieuChi {
-    @Prop({ required: true, index: true, unique: true })
-    maTC: string;
-
     @Prop({ required: true })
     tenTC: string;
 
-    @Prop() chiTiet: string;
+    @Prop() moTaTC: string;
 
     @Prop({ required: true, default: 1, min: 1, max: 10 })
     trongSo: number;
 
+    @Prop({ required: true, default: 0, min: 0, max: 5 })
+    diemTB: number;
+
     @Prop({
         required: true,
-        type: [
-            {
-                type: MongooseSchema.Types.ObjectId,
-                ref: 'muc_tieu',
-            },
-        ],
+        type: [MucTieuSchema],
     })
     mucTieu: MucTieu[];
 }

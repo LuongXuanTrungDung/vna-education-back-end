@@ -84,3 +84,11 @@
 - 2.4.2
 	- Thêm API trả về đánh giá theo mã người dùng và _id
 	- Điều chỉnh lại kết quả trả về của API tìm 1 người dùng theo _id hoặc maND
+- 2.5
+	- Xóa bỏ 2 bảng muc_tieu và tieu_chi. Thay vào đó là thuộc tính tieuChi và thuộc tính con mucTieu có kiểu dữ liệu là đối tượng trong model danh_gia
+	- API trả về tất cả thông báo, sắp xếp theo ngày tạo (thoiGianTao)
+	- API trả về đánh giá cho người dùng, theo _id của người dùng
+	- API trả về chi tiết của 1 đánh giá, theo _id của đánh giá
+	- Thống nhất sử dụng đối tượng giayTo là kiểu dữ liệu cho thuộc tính cccd và hoChieu của model nguoi_dung
+	- Loại bỏ các api/
+	- Loại bỏ các route chưa cần dùng đến khỏi controller chính

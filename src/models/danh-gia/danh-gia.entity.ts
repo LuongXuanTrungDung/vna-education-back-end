@@ -2,8 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
 import { MonHoc } from '../mon-hoc/mon-hoc.entity';
 import { NguoiDung } from '../nguoi-dung/nguoi-dung.entity';
-import { TietHoc } from '../tiet-hoc/tiet-hoc.entity';
-import { TieuChi } from '../tieu-chi/tieu-chi.entity';
+import { TieuChi, TieuChiSchema } from './tieuChi.schema';
 
 export type DanhGiaDocument = DanhGia & Document;
 
@@ -15,9 +14,6 @@ export type DanhGiaDocument = DanhGia & Document;
     versionKey: false,
 })
 export class DanhGia {
-    @Prop({ required: true, index: true, unique: true })
-    maDG: string;
-
     @Prop({ required: true })
     tenDG: string;
 
@@ -31,19 +27,16 @@ export class DanhGia {
     @Prop({
         required: true,
         type: MongooseSchema.Types.ObjectId,
+        ref: 'nguoi_dung',
+    })
+    doiTuongDG: NguoiDung;
+
+    @Prop({
+        required: true,
+        type: MongooseSchema.Types.ObjectId,
         ref: 'mon_hoc',
     })
     monHoc: MonHoc;
-
-    @Prop({
-        type: [
-            {
-                type: MongooseSchema.Types.ObjectId,
-                ref: 'tiet_hoc',
-            },
-        ],
-    })
-    tietHoc: TietHoc;
 
     @Prop({ required: true, default: false })
     trangThai: boolean;
@@ -51,12 +44,7 @@ export class DanhGia {
     @Prop() gopY: string;
 
     @Prop({
-        type: [
-            {
-                type: MongooseSchema.Types.ObjectId,
-                ref: 'tieu_chi',
-            },
-        ],
+        type: [TieuChiSchema],
     })
     tieuChi: TieuChi[];
 

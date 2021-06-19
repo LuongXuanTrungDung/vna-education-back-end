@@ -1,6 +1,12 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
-@Schema()
+@Schema({
+    timestamps: {
+        createdAt: 'thoiDiemTao',
+        updatedAt: 'thoiDiemSua',
+    },
+    versionKey: false,
+})
 export class LaoDong {
     @Prop({ required: true }) chucVu: string;
 

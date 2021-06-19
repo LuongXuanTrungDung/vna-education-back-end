@@ -20,14 +20,14 @@ export class DanhGiaService {
     }
 
     async findOne(id: string) {
-        return await this.model.findOne({ maDG: id });
+        return await this.model.findById(id);
     }
 
     async update(id: string, dto: UpdateDanhGiaDto) {
-        return await this.model.findOneAndUpdate({ maDG: id }, dto);
+        return await this.model.findByIdAndUpdate(id, dto);
     }
 
     async remove(id: string) {
-        return await this.model.findOneAndDelete({ maDG: id });
+        return await this.model.findByIdAndDelete(id);
     }
 }
