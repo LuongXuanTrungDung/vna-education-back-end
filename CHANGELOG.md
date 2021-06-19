@@ -90,5 +90,10 @@
 	- API trả về đánh giá cho người dùng, theo _id của người dùng
 	- API trả về chi tiết của 1 đánh giá, theo _id của đánh giá
 	- Thống nhất sử dụng đối tượng giayTo là kiểu dữ liệu cho thuộc tính cccd và hoChieu của model nguoi_dung
-	- Loại bỏ các api/
+	- Loại bỏ api/ khỏi 1 số route
 	- Loại bỏ các route chưa cần dùng đến khỏi controller chính
+- 2.5.1
+	- Điều chỉnh lại model thong_bao, thay maTB bằng danhMuc
+	- Chuyển 1 số API từ controller sang các controller tương ứng của model (danh_gia, thong_bao)
+	- Các API trả về 1 đối tượng của model danh_gia và thong_bao chỉ nhận tham số là _id
+	- Ứng dụng rimraf để xóa thư mục dist trước khi biên dịch lại các thay đổi trong src (dev)

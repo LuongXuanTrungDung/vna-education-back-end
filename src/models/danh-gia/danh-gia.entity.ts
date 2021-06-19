@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
 import { MonHoc } from '../mon-hoc/mon-hoc.entity';
+import { NgayHoc } from '../ngay-hoc/ngay-hoc.entity';
 import { NguoiDung } from '../nguoi-dung/nguoi-dung.entity';
 import { TieuChi, TieuChiSchema } from './tieuChi.schema';
 
@@ -30,6 +31,13 @@ export class DanhGia {
         ref: 'nguoi_dung',
     })
     doiTuongDG: NguoiDung;
+
+    @Prop({
+        required: true,
+        ref: 'ngay_hoc',
+        type: MongooseSchema.Types.ObjectId,
+    })
+    ngayDG: NgayHoc;
 
     @Prop({
         required: true,

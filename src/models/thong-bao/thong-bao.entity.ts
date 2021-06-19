@@ -13,9 +13,6 @@ export type ThongBaoDocument = ThongBao & Document;
     versionKey: false,
 })
 export class ThongBao {
-    @Prop({ required: true, index: true, unique: true })
-    maTB: string;
-
     @Prop({
         required: true,
         type: MongooseSchema.Types.ObjectId,
@@ -31,6 +28,13 @@ export class ThongBao {
 
     @Prop({ required: true })
     noiDung: string;
+
+    @Prop({
+        required: true,
+        default: 'Khác',
+        enum: ['Hoạt động', 'Học phí', 'Học tập', 'Khác'],
+    })
+    danhMuc: string;
 
     @Prop({
         required: true,

@@ -60,14 +60,6 @@ export class AppController {
         return '';
     }
 
-    @Get('bang-tin')
-    @ApiOkResponse({
-        description: 'Lấy được các thông báo từ CSDL',
-    })
-    async traThongBao() {
-        return await this.service.traThongBao();
-    }
-
     @Post('dang-nhap')
     @ApiBody({
         description:
@@ -78,31 +70,5 @@ export class AppController {
     })
     async dangNhap(@Body() dto: { username: string; password: string }) {
         return await this.service.kiemTra_dangNhap(dto.username, dto.password);
-    }
-
-    @Get('danh-gia')
-    @ApiQuery({
-        type: 'string',
-        name: 'user',
-        description: 'ID của người dùng',
-    })
-    @ApiOkResponse({
-        description: 'Trả về tất cả đánh giá dựa theo id của người dùng',
-    })
-    async traDanhGia_theoID(@Query('user') id: string) {
-        return await this.service.traDanhGia_theoID(id);
-    }
-
-	@Get('danh-gia')
-	@ApiQuery({
-        type: 'string',
-        name: 'id',
-        description: 'ID của đánh giá',
-    })
-    @ApiOkResponse({
-        description: 'Trả về chi đánh giá dựa theo id của nó, ngoại trừ nguoiDG và doiTuongDG',
-    })
-    async traDanhGia_chiTiet(@Query('id') id: string) {
-        return await this.service.chiTietDG(id)
     }
 }

@@ -10,7 +10,12 @@ import {
 import { ThongBaoService } from './thong-bao.service';
 import { CreateThongBaoDto } from './dto/create-thong-bao.dto';
 import { UpdateThongBaoDto } from './dto/update-thong-bao.dto';
-import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import {
+    ApiCreatedResponse,
+    ApiOkResponse,
+    ApiParam,
+    ApiTags,
+} from '@nestjs/swagger';
 
 @Controller('thong-bao')
 @ApiTags('thong-bao')
@@ -30,9 +35,14 @@ export class ThongBaoController {
     }
 
     @Get(':id')
+    @ApiParam({
+        name: 'id',
+        type: 'string',
+        description: '_id của thông báo',
+    })
     @ApiOkResponse({ description: 'Trả về 1 đối tượng' })
     async findOne(@Param('id') id: string) {
-        return this.service.findOne(id);
+        return await this.service.findOne(id);
     }
 
     @Patch(':id')

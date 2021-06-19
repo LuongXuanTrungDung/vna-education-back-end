@@ -7,7 +7,12 @@ import {
     Param,
     Delete,
 } from '@nestjs/common';
-import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import {
+    ApiCreatedResponse,
+    ApiOkResponse,
+    ApiParam,
+    ApiTags,
+} from '@nestjs/swagger';
 import { DanhGiaService } from './danh-gia.service';
 import { CreateDanhGiaDto } from './dto/create-danh-gia.dto';
 import { UpdateDanhGiaDto } from './dto/update-danh-gia.dto';
@@ -30,6 +35,11 @@ export class DanhGiaController {
     }
 
     @Get(':id')
+    @ApiParam({
+        name: 'id',
+        type: 'string',
+        description: '_id của đánh giá',
+    })
     @ApiOkResponse({ description: 'Trả về 1 đối tượng' })
     async findOne(@Param('id') id: string) {
         return await this.service.findOne(id);

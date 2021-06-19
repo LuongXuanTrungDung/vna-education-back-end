@@ -10,7 +10,12 @@ import {
 import { NguoiDungService } from './nguoi-dung.service';
 import { CreateNguoiDungDto } from './dto/create-nguoi-dung.dto';
 import { UpdateNguoiDungDto } from './dto/update-nguoi-dung.dto';
-import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import {
+    ApiCreatedResponse,
+    ApiOkResponse,
+    ApiParam,
+    ApiTags,
+} from '@nestjs/swagger';
 
 @Controller('nguoi-dung')
 @ApiTags('nguoi-dung')
@@ -29,13 +34,12 @@ export class NguoiDungController {
         return await this.service.findAll();
     }
 
-    @Get('ma/:id')
-    @ApiOkResponse({ description: 'Trả về 1 đối tượng từ maND' })
-    async findOne_byMaND(@Param('id') ma: string) {
-        return await this.service.findOne_byMaND(ma);
-    }
-
-    @Get('id/:id')
+    @Get(':id')
+    @ApiParam({
+        name: 'id',
+        type: 'string',
+        description: '_id của người dùng',
+    })
     @ApiOkResponse({ description: 'Trả về 1 đối tượng từ _id' })
     async findOne_byID(@Param('id') id: string) {
         return await this.service.findOne_byID(id);

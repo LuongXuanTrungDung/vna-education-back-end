@@ -43,12 +43,12 @@ export class NguoiDungService {
                 '-' +
                 user.ngaySinh.getFullYear(),
             gioiTinh: user.gioiTinh,
+			soDienThoai: user.soDienThoai,
             quocTich: user.quocTich,
             danToc: user.danToc,
             cccd: user.cccd,
             hoChieu: user.hoChieu,
             nhapHoc: user.ngayNhapHoc,
-            chuNhiem: user.chuNhiem,
             chucVu: user.chucVu,
         };
     }
