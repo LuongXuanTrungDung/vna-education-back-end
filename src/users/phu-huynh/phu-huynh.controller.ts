@@ -1,4 +1,10 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get, Render } from '@nestjs/common';
 
 @Controller('phu-huynh')
-export class PhuHuynhController {}
+export class PhuHuynhController {
+    @Get()
+    @Render('phu-huynh')
+    async phuHuynh() {
+        return '';
+    }
+}

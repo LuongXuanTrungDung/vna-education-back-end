@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Render } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { HieuTruongService } from './hieu-truong.service';
 
@@ -6,6 +6,12 @@ import { HieuTruongService } from './hieu-truong.service';
 @ApiTags('hieu-truong')
 export class HieuTruongController {
     constructor(private service: HieuTruongService) {}
+
+    @Get()
+    @Render('hieu-truong')
+    async hieuTruong() {
+        return '';
+    }
 
     @Get('danh-gia')
     @ApiOkResponse({ description: 'Trả về tất cả đánh giá trong CSDL' })
