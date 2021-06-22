@@ -67,7 +67,7 @@ export class ThongBaoService {
             tomTat: ns.tomTat,
             nguoiDang: ns.nguoiDang.hoTen,
             ngayDang: ns.ngayDang.maNgay,
-		noiDung: ns.noiDung
+            noiDung: ns.noiDung,
         };
     }
 

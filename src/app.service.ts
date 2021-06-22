@@ -154,8 +154,15 @@ export class AppService {
     }
 
     async traDanhGia_theoID(id: string) {
-        const user = await (await this.ndSer.findOne_byID(id)).maND;
-        return await this.traDanhGia_theoMaND(user);
+        const result = [];
+        const revs = await this.dgSer.findAll();
+        for (let i = 0; i < revs.length; i++) {
+            if (revs[i].nguoiDG === id) {
+                const { nguoiDG, ...rest } = revs[i];
+                result.push(rest);
+            }
+        }
+        return result;
     }
 
     async kiemTra_dangNhap(username: string, password: string) {
