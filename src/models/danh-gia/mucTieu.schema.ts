@@ -14,7 +14,7 @@ export class MucTieu {
     @Prop({ required: true, default: 1, min: 1, max: 10 })
     trongSo: number;
 
-    @Prop({ required: true, default: 0, min: 0, max: 5 })
+    @Prop({ required: true, default: 0, min: 0, max: 10 })
     diemSo: number;
 }
 

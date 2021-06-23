@@ -15,6 +15,30 @@ export class NguoiDungService {
         return await this.model.create(dto);
     }
 
+    async forSelect_giaoVien() {
+        const result = [];
+        const gv = await this.findAll_byRole('GV');
+        for (let i = 0; i < gv.length; i++) {
+            result.push({
+                id: gv[i]._id,
+                ten: gv[i].hoTen,
+            });
+        }
+        return result;
+    }
+
+    async forSelect_hocSinh() {
+        const result = [];
+        const hs = await this.findAll_byRole('HS');
+        for (let i = 0; i < hs.length; i++) {
+            result.push({
+                id: hs[i]._id,
+                ten: hs[i].hoTen,
+            });
+        }
+        return result;
+    }
+
     async findAll() {
         return await this.model.find({});
     }

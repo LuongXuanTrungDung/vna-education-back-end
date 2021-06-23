@@ -15,6 +15,18 @@ export class NgayHocService {
         return await this.model.create(dto);
     }
 
+    async forSelects_ngayHoc() {
+        const result = [];
+        const days = await this.findAll();
+        for (let i = 0; i < days.length; i++) {
+            result.push({
+                id: days[i]._id,
+                ngay: days[i].maNgay,
+            });
+        }
+        return result;
+    }
+
     async findAll() {
         return await this.model.find({});
     }

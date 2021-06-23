@@ -13,6 +13,18 @@ export class MonHocService {
         return await this.model.create(dto);
     }
 
+    async forSelects_monHoc() {
+        const result = [];
+        const mh = await this.findAll();
+        for (let i = 0; i < mh.length; i++) {
+            result.push({
+                id: mh[i]._id,
+                mon: mh[i].tenMH,
+            });
+        }
+        return result;
+    }
+
     async findAll() {
         return await this.model.find({});
     }

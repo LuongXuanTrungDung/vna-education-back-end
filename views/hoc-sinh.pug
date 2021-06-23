@@ -1,0 +1,20 @@
+extends layout.pug
+
+block main
+	section.my-4.flex
+		h1= dg.ten
+		small= dg.giaoVien + ' : ' + dg.ngayDang + ' : ' + dg.monHoc
+		.my-3
+			form(action="/hoc-sinh/danh-gia", method="post")
+				input(type="hidden", name="danhGia-id", value=dg.id)
+				each tc,index in dg.tieuChi
+					h2= tc.tenTC
+					p= tc.moTa
+					small= 'Trọng số: '+tc.trongSo
+					input(type="hidden", name="tcIndex", value=index)
+					each mt,index in tc.mucTieu
+						h4= mt.noiDung
+						small= 'Trọng số: '+tc.trongSo
+						input(type="hidden", name="mtIndex", value=index)
+						input(type="number", name="diemSo-" + index)
+				input(type="submit", value="Hoàn tất đánh giá")

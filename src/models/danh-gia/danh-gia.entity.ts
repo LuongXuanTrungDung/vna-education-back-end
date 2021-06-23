@@ -49,7 +49,7 @@ export class DanhGia {
     @Prop({ required: true, default: false })
     trangThai: boolean;
 
-    @Prop() gopY: string;
+    @Prop({default: '', required: true}) gopY: string;
 
     @Prop({
         type: [TieuChiSchema],
