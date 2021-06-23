@@ -4,7 +4,7 @@ import { QuanTriService } from './quan-tri.service';
 
 @Controller('quan-tri')
 export class QuanTriController {
-    constructor(private service: QuanTriService);
+    constructor(private service: QuanTriService) {}
 
     @Get()
     async quanTri(@Res() res: Response) {

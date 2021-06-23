@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { compare } from 'bcrypt';
 import { Types } from 'mongoose';
 import { BangDiemService } from './models/bang-diem/bang-diem.service';
 import { DanhGiaService } from './models/danh-gia/danh-gia.service';
@@ -174,7 +175,7 @@ export class AppService {
                 resOK: false,
             };
         else {
-            if (password === pass)
+            if (compare(password,pass))
                 return {
                     id: user.id,
                     resOK: true,

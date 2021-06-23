@@ -6,7 +6,7 @@ import { QuanTriController } from './quan-tri.controller';
 import { QuanTriService } from './quan-tri.service';
 
 @Module({
-    import: [NguoiDungModule, NgayHocModule, MonHocModule],
+    imports: [NguoiDungModule, NgayHocModule, MonHocModule],
     controllers: [QuanTriController],
     providers: [QuanTriService],
 })
