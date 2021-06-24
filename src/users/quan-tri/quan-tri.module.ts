@@ -1,4 +1,5 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { CheckAuthMiddleware } from '../../checkAuth.middleware';
 import { MonHocModule } from '../../models/mon-hoc/mon-hoc.module';
 import { NgayHocModule } from '../../models/ngay-hoc/ngay-hoc.module';
 import { NguoiDungModule } from '../../models/nguoi-dung/nguoi-dung.module';
@@ -10,4 +11,8 @@ import { QuanTriService } from './quan-tri.service';
     controllers: [QuanTriController],
     providers: [QuanTriService],
 })
-export class QuanTriModule {}
+export class QuanTriModule implements NestModule {
+    configure(consumer: MiddlewareConsumer) {
+        consumer.apply(CheckAuthMiddleware).forRoutes('quan-tri');
+    }
+}

@@ -97,3 +97,10 @@
 	- Chuyển 1 số API từ controller sang các controller tương ứng của model (danh_gia, thong_bao)
 	- Các API trả về 1 đối tượng của model danh_gia và thong_bao chỉ nhận tham số là _id
 	- Ứng dụng rimraf để xóa thư mục dist trước khi biên dịch lại các thay đổi trong src (dev)
+- 2.5.2
+	- Mã hóa mật khẩu trong CSDL, sử dụng bcrypt để kiểm tra mật khẩu đăng nhập.
+	- Điều chỉnh lại model danh_gia
+- 2.6
+	- Thêm model mau_danh_gia, chứa các mục tiêu và tiêu chí của đánh giá, nhưng ko chứa điểm đánh giá
+	- Điều chỉnh CSDL cho model mới
+	- Thêm middleware kiểm tra trạng thái đăng nhập (authorization) dựa trên headers, áp dụng cho các route quan-tri/*
