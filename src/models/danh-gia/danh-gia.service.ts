@@ -23,6 +23,7 @@ export class DanhGiaService {
                 { path: 'ngayDG', model: 'ngay_hoc' },
                 { path: 'doiTuongDG', model: 'nguoi_dung' },
                 { path: 'monHoc', model: 'mon_hoc' },
+                { path: 'mauDG', model: 'mau_danh_gia' },
             ])
             .exec();
         for (let i = 0; i < all.length; i++) {
@@ -32,7 +33,7 @@ export class DanhGiaService {
                 trangThai: all[i].trangThai,
                 diemDG: all[i].diemDG,
                 ngayDG: all[i].ngayDG.maNgay,
-                tieuChi: all[i].tieuChi,
+                tieuChi: all[i].mauDG.tieuChi,
                 monHoc: all[i].monHoc.tenMH,
                 nguoiDG: all[i].nguoiDG,
                 doiTuongDG: all[i].doiTuongDG.hoTen,
@@ -49,6 +50,7 @@ export class DanhGiaService {
                 { path: 'ngayDG', model: 'ngay_hoc' },
                 { path: 'doiTuongDG', model: 'nguoi_dung' },
                 { path: 'monHoc', model: 'mon_hoc' },
+                { path: 'mauDG', model: 'mau_danh_gia' },
             ])
             .execPopulate();
         return {
@@ -57,7 +59,7 @@ export class DanhGiaService {
             trangThai: rev.trangThai,
             diemDG: rev.diemDG,
             ngayDG: rev.ngayDG.maNgay,
-            tieuChi: rev.tieuChi,
+            tieuChi: rev.mauDG.tieuChi,
             monHoc: rev.monHoc.tenMH,
             doiTuongDG: rev.doiTuongDG.hoTen,
         };

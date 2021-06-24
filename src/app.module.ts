@@ -19,6 +19,7 @@ import { QuanTriModule } from './users/quan-tri/quan-tri.module';
 import { GiaoVienModule } from './users/giao-vien/giao-vien.module';
 import { PhuHuynhModule } from './users/phu-huynh/phu-huynh.module';
 import { HieuTruongModule } from './users/hieu-truong/hieu-truong.module';
+import { MauDanhGiaModule } from './models/mau-danh-gia/mau-danh-gia.module';
 
 @Module({
     imports: [
@@ -47,6 +48,7 @@ import { HieuTruongModule } from './users/hieu-truong/hieu-truong.module';
         GiaoVienModule,
         PhuHuynhModule,
         HieuTruongModule,
+        MauDanhGiaModule,
     ],
     controllers: [AppController],
     providers: [AppService],

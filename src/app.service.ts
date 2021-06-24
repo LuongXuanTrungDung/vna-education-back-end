@@ -175,7 +175,7 @@ export class AppService {
                 resOK: false,
             };
         else {
-            if (compare(password,pass))
+            if (compare(password, pass))
                 return {
                     id: user.id,
                     resOK: true,
