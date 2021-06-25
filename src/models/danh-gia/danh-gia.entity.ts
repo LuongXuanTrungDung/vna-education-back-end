@@ -4,7 +4,6 @@ import { MauDanhGia } from '../mau-danh-gia/mau-danh-gia.entity';
 import { MonHoc } from '../mon-hoc/mon-hoc.entity';
 import { NgayHoc } from '../ngay-hoc/ngay-hoc.entity';
 import { NguoiDung } from '../nguoi-dung/nguoi-dung.entity';
-import { TieuChi, TieuChiSchema } from './tieuChi.schema';
 
 export type DanhGiaDocument = DanhGia & Document;
 

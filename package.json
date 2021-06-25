@@ -1,6 +1,6 @@
 {
 	"name": "nest-typescript-starter",
-	"version": "2.6",
+	"version": "2.6.1",
 	"description": "Ứng dụng quản lý chất lượng giáo dục",
 	"engines": {
 		"node": "16.x",
@@ -10,7 +10,7 @@
 		"pre": "rimraf dist",
 		"build": "npm run pre && nest build",
 		"start": "npm run pre && nest start",
-		"start:dev": "npm run pre &s& nest start --watch",
+		"start:dev": "npm run pre && nest start --watch",
 		"start:debug": "npm run pre && nest start --debug --watch",
 		"start:prod": "node dist/src/main",
 		"lint": "prettier --write \"src/**/*.ts\" && eslint \"src/**/*.ts\" --fix"

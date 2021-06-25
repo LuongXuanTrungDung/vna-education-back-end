@@ -11,13 +11,13 @@ export class CheckAuthMiddleware implements NestMiddleware {
 
     use(req: Request, res: Response, next: NextFunction) {
         const token = req.header('Authorization');
-        if (!token || token == '') 
-			return res.status(401).send('Không tìm thấy người dùng');
-		
+        if (!token || token == '')
+            return res.status(401).send('Không tìm thấy người dùng');
+
         if (this.ndSer.findOne_byID(token)) {
             return res.status(200).send('Người dùng tồn tại');
         }
 
-next()
+        next();
     }
 }

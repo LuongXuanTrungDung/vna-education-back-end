@@ -1,5 +1,7 @@
-import { Body, Controller, Get, Patch, Res } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Res } from '@nestjs/common';
+import { ApiBody, ApiParam } from '@nestjs/swagger';
 import { Response } from 'express';
+import { HSDGDto } from '../../models/danh-gia/dto/HSDG.dto';
 import { HocSinhService } from './hoc-sinh.service';
 
 @Controller('hoc-sinh')
@@ -19,5 +21,18 @@ export class HocSinhController {
                 tieuChi: one.tieuChi,
             },
         });
+    }
+
+    @Post('danh-gia/:id')
+	@ApiParam({
+		name: 'id',
+		type: 'string',
+		description: ''
+	})
+    @ApiBody({
+        description: 'Các dữ liệu đã thay đổi khi học sinh làm đánh giá',
+    })
+    async danhGia(@Param('id') id: string, @Body() dto: HSDGDto) {
+        return await this.service.makeReview(id, dto);
     }
 }

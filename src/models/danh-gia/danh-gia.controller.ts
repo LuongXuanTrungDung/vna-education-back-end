@@ -8,6 +8,7 @@ import {
     Delete,
 } from '@nestjs/common';
 import {
+    ApiBody,
     ApiCreatedResponse,
     ApiOkResponse,
     ApiParam,
@@ -23,6 +24,9 @@ export class DanhGiaController {
     constructor(private readonly service: DanhGiaService) {}
 
     @Post()
+    @ApiBody({
+        description: 'DTO chứa dữ liệu để tạo 1 đánh giá mới',
+    })
     @ApiCreatedResponse({ description: 'Tạo thành công' })
     async create(@Body() dto: CreateDanhGiaDto) {
         return await this.service.create(dto);
@@ -46,12 +50,25 @@ export class DanhGiaController {
     }
 
     @Patch(':id')
+    @ApiParam({
+        name: 'id',
+        type: 'string',
+        description: '_id của đánh giá',
+    })
+    @ApiBody({
+        description: 'DTO chứa dữ liệu để cập nhật đánh giá',
+    })
     @ApiOkResponse({ description: 'Cập nhật thành công' })
     async update(@Param('id') id: string, @Body() dto: UpdateDanhGiaDto) {
         return await this.service.update(id, dto);
     }
 
     @Delete(':id')
+    @ApiParam({
+        name: 'id',
+        type: 'string',
+        description: '_id của đánh giá',
+    })
     @ApiOkResponse({ description: 'Xóa thành công' })
     async remove(@Param('id') id: string) {
         return await this.service.remove(id);

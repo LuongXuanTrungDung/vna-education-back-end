@@ -2,6 +2,13 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class HSDGDto {
     @ApiProperty({
+        name: 'trangThai',
+        type: 'boolean',
+        description: 'Trạng thái đánh giá',
+    })
+    trangThai: boolean;
+
+    @ApiProperty({
         name: 'gopY',
         type: 'string',
         description: 'Ghi chú thêm của người đánh giá',
