@@ -11,7 +11,7 @@ import { HieuTruongService } from './hieu-truong.service';
     providers: [HieuTruongService],
 })
 export class HieuTruongModule implements NestModule {
-	configure(consumer: MiddlewareConsumer) {
-		consumer.apply(CheckAuthMiddleware).forRoutes('hieu-truong')
-	}
+    configure(consumer: MiddlewareConsumer) {
+        consumer.apply(CheckAuthMiddleware).forRoutes('hieu-truong');
+    }
 }
