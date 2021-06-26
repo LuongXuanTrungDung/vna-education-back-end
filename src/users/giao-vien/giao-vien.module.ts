@@ -5,7 +5,7 @@ import { GiaoVienController } from './giao-vien.controller';
 import { GiaoVienService } from './giao-vien.service';
 
 @Module({
-	import: [NguoiDungModule],
+	imports: [NguoiDungModule],
     controllers: [GiaoVienController],
     providers: [GiaoVienService],
 })
