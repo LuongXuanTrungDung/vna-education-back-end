@@ -1,8 +1,10 @@
-import { Controller, Get, Render } from '@nestjs/common';
+import { Controller, Get, Render, UseGuards } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from '../../auth.guard';
 import { HieuTruongService } from './hieu-truong.service';
 
 @Controller('hieu-truong')
+@UseGuards(AuthGuard)
 @ApiTags('hieu-truong')
 export class HieuTruongController {
     constructor(private service: HieuTruongService) {}

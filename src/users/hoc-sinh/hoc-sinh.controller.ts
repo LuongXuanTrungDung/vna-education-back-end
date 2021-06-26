@@ -1,10 +1,22 @@
-import { Body, Controller, Get, Param, Patch, Post, Res } from '@nestjs/common';
-import { ApiBody, ApiParam } from '@nestjs/swagger';
+import {
+    Body,
+    Controller,
+    Get,
+    Param,
+    Patch,
+    Post,
+    Res,
+    UseGuards,
+} from '@nestjs/common';
+import { ApiBody, ApiParam, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
+import { AuthGuard } from '../../auth.guard';
 import { HSDGDto } from '../../models/danh-gia/dto/HSDG.dto';
 import { HocSinhService } from './hoc-sinh.service';
 
 @Controller('hoc-sinh')
+@UseGuards(AuthGuard)
+@ApiTags('hoc-sinh')
 export class HocSinhController {
     constructor(private service: HocSinhService) {}
 
