@@ -1,7 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
 import { DanhGia } from '../danh-gia/danh-gia.entity';
-import { DiemDanh } from '../diem-danh/diem-danh.entity';
 import { LopHoc } from '../lop-hoc/lop-hoc.entity';
 import { MonHoc } from '../mon-hoc/mon-hoc.entity';
 import { NgayHoc } from '../ngay-hoc/ngay-hoc.entity';
@@ -17,9 +16,6 @@ export type TietHocDocument = TietHoc & Document;
     versionKey: false,
 })
 export class TietHoc {
-    @Prop({ required: true, index: true, unique: true })
-    maTH: string;
-
     @Prop() moTa: string;
 
     @Prop({
@@ -49,17 +45,6 @@ export class TietHoc {
         type: MongooseSchema.Types.ObjectId,
     })
     lopHoc: LopHoc;
-
-    @Prop({
-        required: true,
-        type: [
-            {
-                ref: 'diem_danh',
-                type: MongooseSchema.Types.ObjectId,
-            },
-        ],
-    })
-    diemDanh: DiemDanh[];
 
     @Prop({
         required: true,

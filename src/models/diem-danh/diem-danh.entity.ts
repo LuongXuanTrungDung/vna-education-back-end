@@ -3,6 +3,7 @@ import { Document, Schema as MongooseSchema } from 'mongoose';
 import { TietHoc } from '../tiet-hoc/tiet-hoc.entity';
 import { LopHoc } from '../lop-hoc/lop-hoc.entity';
 import { NguoiDung } from '../nguoi-dung/nguoi-dung.entity';
+import { ChiTietDD, ChiTietDDSchema } from './chiTietDD.schema';
 
 export type DiemDanhDocument = DiemDanh & Document;
 
@@ -14,9 +15,6 @@ export type DiemDanhDocument = DiemDanh & Document;
     versionKey: false,
 })
 export class DiemDanh {
-    @Prop({ required: true, index: true, unique: true })
-    maDD: string;
-
     @Prop({
         required: true,
         type: MongooseSchema.Types.ObjectId,
@@ -26,10 +24,9 @@ export class DiemDanh {
 
     @Prop({
         required: true,
-        type: MongooseSchema.Types.ObjectId,
-        ref: 'nguoi_dung',
+        type: [ChiTietDDSchema],
     })
-    hocSinh: NguoiDung;
+    chiTiet: ChiTietDD[];
 
     @Prop({
         required: true,
@@ -44,9 +41,6 @@ export class DiemDanh {
         ref: 'lop_hoc',
     })
     lopHoc: LopHoc;
-
-    @Prop({ required: true, default: true })
-    trangThai: boolean;
 
     @Prop() ghiChu: string;
 }

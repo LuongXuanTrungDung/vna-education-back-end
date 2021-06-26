@@ -15,7 +15,7 @@ export type DanhGiaDocument = DanhGia & Document;
     versionKey: false,
 })
 export class DanhGia {
-    @Prop({ required: true })
+    @Prop({ required: true, unique: true, index: true })
     tenDG: string;
 
     @Prop({
@@ -40,7 +40,6 @@ export class DanhGia {
     ngayDG: NgayHoc;
 
     @Prop({
-        required: true,
         type: MongooseSchema.Types.ObjectId,
         ref: 'mon_hoc',
     })
@@ -62,6 +61,9 @@ export class DanhGia {
 
     @Prop({ required: true, default: 0, min: 0, max: 10 })
     diemDG: number;
+
+    @Prop({ required: true, default: false })
+    choGVCN: boolean;
 }
 
 export const DanhGiaSchema = SchemaFactory.createForClass(DanhGia);

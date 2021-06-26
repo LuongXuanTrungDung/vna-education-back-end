@@ -30,7 +30,7 @@ import { MauDanhGiaModule } from './models/mau-danh-gia/mau-danh-gia.module';
                 useCreateIndex: true,
                 useNewUrlParser: true,
                 useUnifiedTopology: true,
-				useFindAndModify: false
+                useFindAndModify: false,
             },
         ),
         NguoiDungModule,

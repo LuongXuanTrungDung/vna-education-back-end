@@ -1,8 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
-import { MonHoc } from '../mon-hoc/mon-hoc.entity';
 import { NguoiDung } from '../nguoi-dung/nguoi-dung.entity';
-import { TheoHK, TheoHKSchema } from './theoHK.schema';
+import { ChiTietBD, ChiTietBDSchema } from './chiTietBD.schema';
 
 export type BangDiemDocument = BangDiem & Document;
 
@@ -14,23 +13,6 @@ export type BangDiemDocument = BangDiem & Document;
     versionKey: false,
 })
 export class BangDiem {
-    @Prop({ required: true, index: true, unique: true })
-    maBD: string;
-
-    @Prop({
-        required: true,
-        type: MongooseSchema.Types.ObjectId,
-        ref: 'mon_hoc',
-    })
-    monHoc: MonHoc;
-
-    @Prop({
-        type: MongooseSchema.Types.ObjectId,
-        ref: 'nguoi_dung',
-        required: true,
-    })
-    giaoVien: NguoiDung;
-
     @Prop({
         type: MongooseSchema.Types.ObjectId,
         ref: 'nguoi_dung',
@@ -38,11 +20,8 @@ export class BangDiem {
     })
     hocSinh: NguoiDung;
 
-    @Prop({ type: TheoHKSchema })
-    hocKy1: TheoHK;
-
-    @Prop({ type: TheoHKSchema })
-    hocKy2: TheoHK;
+    @Prop({ required: true, type: [ChiTietBDSchema] })
+    chiTiet: ChiTietBD[];
 
     @Prop({ min: 0, max: 10, default: 0 })
     diemTB_caNam: number;

@@ -104,3 +104,10 @@
 	- Thêm model mau_danh_gia, chứa các mục tiêu và tiêu chí của đánh giá, nhưng ko chứa điểm đánh giá
 	- Điều chỉnh CSDL cho model mới
 	- Thêm middleware kiểm tra trạng thái đăng nhập (authorization) dựa trên headers, áp dụng cho các route quan-tri/*
+- 2.6.1
+	- Loại bỏ tất cả thuộc tính trongSo, tạm thời đơn giản hóa tính toán diemDG
+	- API xử lý form đánh giá của học sinh /hoc-sinh/danh-gia/{id}, với id là _id của model danh_gia
+	- DTO phục vụ việc xử lý form đánh giá của học sinh
+- 2.6.2
+	- Áp dụng middleware cho tất cả các route API của tất cả người dùng còn lại
+	- Chuẩn hóa lại các model: danh_gia, bang_diem, diem_danh, tiet_hoc, và mau_danh_gia

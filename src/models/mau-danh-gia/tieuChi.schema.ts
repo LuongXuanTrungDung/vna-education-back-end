@@ -14,8 +14,8 @@ export class TieuChi {
 
     @Prop() moTa: string;
 
-    @Prop({required: true,})
-    mucTieu: string[]
+    @Prop({ required: true })
+    mucTieu: string[];
 }
 
 export const TieuChiSchema = SchemaFactory.createForClass(TieuChi);

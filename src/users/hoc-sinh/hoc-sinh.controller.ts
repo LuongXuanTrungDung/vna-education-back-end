@@ -24,11 +24,11 @@ export class HocSinhController {
     }
 
     @Post('danh-gia/:id')
-	@ApiParam({
-		name: 'id',
-		type: 'string',
-		description: ''
-	})
+    @ApiParam({
+        name: 'id',
+        type: 'string',
+        description: '',
+    })
     @ApiBody({
         description: 'Các dữ liệu đã thay đổi khi học sinh làm đánh giá',
     })
