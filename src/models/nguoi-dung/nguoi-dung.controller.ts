@@ -6,6 +6,7 @@ import {
     Patch,
     Param,
     Delete,
+    UseGuards,
 } from '@nestjs/common';
 import { NguoiDungService } from './nguoi-dung.service';
 import { CreateNguoiDungDto } from './dto/create-nguoi-dung.dto';
@@ -16,8 +17,10 @@ import {
     ApiParam,
     ApiTags,
 } from '@nestjs/swagger';
+import { AuthGuard } from '../../auth.guard';
 
 @Controller('nguoi-dung')
+@UseGuards(AuthGuard)
 @ApiTags('nguoi-dung')
 export class NguoiDungController {
     constructor(private readonly service: NguoiDungService) {}

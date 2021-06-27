@@ -3,6 +3,7 @@ import { NgayHocService } from './ngay-hoc.service';
 import { NgayHocController } from './ngay-hoc.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { NgayHocSchema } from './ngay-hoc.entity';
+import { NguoiDungModule } from '../nguoi-dung/nguoi-dung.module';
 
 @Module({
     imports: [
@@ -13,6 +14,7 @@ import { NgayHocSchema } from './ngay-hoc.entity';
                 schema: NgayHocSchema,
             },
         ]),
+        NguoiDungModule,
     ],
     controllers: [NgayHocController],
     providers: [NgayHocService],

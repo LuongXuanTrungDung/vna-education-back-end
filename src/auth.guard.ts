@@ -1,20 +1,11 @@
-import {
-    Injectable,
-    CanActivate,
-    ExecutionContext,
-    Inject,
-	forwardRef,
-} from '@nestjs/common';
+import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Request } from 'express';
 import { Observable } from 'rxjs';
 import { NguoiDungService } from './models/nguoi-dung/nguoi-dung.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-    constructor(
-        @Inject(forwardRef(()=> NguoiDungService))
-        private ndSer: NguoiDungService,
-    ) {}
+    constructor(private readonly ndSer: NguoiDungService) {}
 
     canActivate(
         context: ExecutionContext,

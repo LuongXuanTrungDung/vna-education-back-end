@@ -3,6 +3,7 @@ import { TuanHocService } from './tuan-hoc.service';
 import { TuanHocController } from './tuan-hoc.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TuanHocSchema } from './tuan-hoc.entity';
+import { NguoiDungModule } from '../nguoi-dung/nguoi-dung.module';
 
 @Module({
     imports: [
@@ -13,6 +14,7 @@ import { TuanHocSchema } from './tuan-hoc.entity';
                 schema: TuanHocSchema,
             },
         ]),
+        NguoiDungModule,
     ],
     controllers: [TuanHocController],
     providers: [TuanHocService],

@@ -3,6 +3,7 @@ import { MauDanhGiaService } from './mau-danh-gia.service';
 import { MauDanhGiaController } from './mau-danh-gia.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MauDanhGiaSchema } from './mau-danh-gia.entity';
+import { NguoiDungModule } from '../nguoi-dung/nguoi-dung.module';
 
 @Module({
     imports: [
@@ -13,6 +14,7 @@ import { MauDanhGiaSchema } from './mau-danh-gia.entity';
                 schema: MauDanhGiaSchema,
             },
         ]),
+        NguoiDungModule,
     ],
     controllers: [MauDanhGiaController],
     providers: [MauDanhGiaService],

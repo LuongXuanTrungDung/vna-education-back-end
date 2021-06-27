@@ -3,6 +3,7 @@ import { DiemDanhService } from './diem-danh.service';
 import { DiemDanhController } from './diem-danh.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { DiemDanhSchema } from './diem-danh.entity';
+import { NguoiDungModule } from '../nguoi-dung/nguoi-dung.module';
 
 @Module({
     imports: [
@@ -13,6 +14,7 @@ import { DiemDanhSchema } from './diem-danh.entity';
                 schema: DiemDanhSchema,
             },
         ]),
+        NguoiDungModule,
     ],
     controllers: [DiemDanhController],
     providers: [DiemDanhService],

@@ -3,6 +3,7 @@ import { MonHocService } from './mon-hoc.service';
 import { MonHocController } from './mon-hoc.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MonHocSchema } from './mon-hoc.entity';
+import { NguoiDungModule } from '../nguoi-dung/nguoi-dung.module';
 
 @Module({
     imports: [
@@ -13,6 +14,7 @@ import { MonHocSchema } from './mon-hoc.entity';
                 schema: MonHocSchema,
             },
         ]),
+        NguoiDungModule,
     ],
     controllers: [MonHocController],
     providers: [MonHocService],

@@ -3,6 +3,7 @@ import { BangDiemService } from './bang-diem.service';
 import { BangDiemController } from './bang-diem.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { BangDiemSchema } from './bang-diem.entity';
+import { NguoiDungModule } from '../nguoi-dung/nguoi-dung.module';
 
 @Module({
     imports: [
@@ -13,6 +14,7 @@ import { BangDiemSchema } from './bang-diem.entity';
                 schema: BangDiemSchema,
             },
         ]),
+        NguoiDungModule,
     ],
     controllers: [BangDiemController],
     providers: [BangDiemService],

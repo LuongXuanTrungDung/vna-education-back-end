@@ -6,13 +6,16 @@ import {
     Patch,
     Param,
     Delete,
+    UseGuards,
 } from '@nestjs/common';
 import { LopHocService } from './lop-hoc.service';
 import { CreateLopHocDto } from './dto/create-lop-hoc.dto';
 import { UpdateLopHocDto } from './dto/update-lop-hoc.dto';
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from '../../auth.guard';
 
 @Controller('lop-hoc')
+@UseGuards(AuthGuard)
 @ApiTags('lop-hoc')
 export class LopHocController {
     constructor(private readonly service: LopHocService) {}

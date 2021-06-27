@@ -6,6 +6,7 @@ import {
     Patch,
     Param,
     Delete,
+    UseGuards,
 } from '@nestjs/common';
 import { MauDanhGiaService } from './mau-danh-gia.service';
 import { CreateMauDanhGiaDto } from './dto/create-mau-danh-gia.dto';
@@ -16,8 +17,10 @@ import {
     ApiParam,
     ApiTags,
 } from '@nestjs/swagger';
+import { AuthGuard } from '../../auth.guard';
 
 @Controller('mau-danh-gia')
+@UseGuards(AuthGuard)
 @ApiTags('mau-danh-gia')
 export class MauDanhGiaController {
     constructor(private readonly service: MauDanhGiaService) {}

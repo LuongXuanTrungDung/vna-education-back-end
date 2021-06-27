@@ -3,6 +3,7 @@ import { LopHocService } from './lop-hoc.service';
 import { LopHocController } from './lop-hoc.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { LopHocSchema } from './lop-hoc.entity';
+import { NguoiDungModule } from '../nguoi-dung/nguoi-dung.module';
 
 @Module({
     imports: [
@@ -13,6 +14,7 @@ import { LopHocSchema } from './lop-hoc.entity';
                 schema: LopHocSchema,
             },
         ]),
+        NguoiDungModule,
     ],
     controllers: [LopHocController],
     providers: [LopHocService],

@@ -6,6 +6,7 @@ import {
     Patch,
     Param,
     Delete,
+    UseGuards,
 } from '@nestjs/common';
 import { ThongBaoService } from './thong-bao.service';
 import { CreateThongBaoDto } from './dto/create-thong-bao.dto';
@@ -16,8 +17,10 @@ import {
     ApiParam,
     ApiTags,
 } from '@nestjs/swagger';
+import { AuthGuard } from '../../auth.guard';
 
 @Controller('thong-bao')
+@UseGuards(AuthGuard)
 @ApiTags('thong-bao')
 export class ThongBaoController {
     constructor(private readonly service: ThongBaoService) {}

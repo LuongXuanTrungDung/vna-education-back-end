@@ -6,13 +6,16 @@ import {
     Patch,
     Param,
     Delete,
+    UseGuards,
 } from '@nestjs/common';
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from '../../auth.guard';
 import { CreateNgayHocDto } from './dto/create-ngay-hoc.dto';
 import { UpdateNgayHocDto } from './dto/update-ngay-hoc.dto';
 import { NgayHocService } from './ngay-hoc.service';
 
 @Controller('ngay-hoc')
+@UseGuards(AuthGuard)
 @ApiTags('ngay-hoc')
 export class NgayHocController {
     constructor(private readonly service: NgayHocService) {}

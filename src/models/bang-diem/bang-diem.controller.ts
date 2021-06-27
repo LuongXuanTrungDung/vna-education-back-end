@@ -6,13 +6,16 @@ import {
     Patch,
     Param,
     Delete,
+    UseGuards,
 } from '@nestjs/common';
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from '../../auth.guard';
 import { BangDiemService } from './bang-diem.service';
 import { CreateBangDiemDto } from './dto/create-bang-diem.dto';
 import { UpdateBangDiemDto } from './dto/update-bang-diem.dto';
 
 @Controller('bang-diem')
+@UseGuards(AuthGuard)
 @ApiTags('bang-diem')
 export class BangDiemController {
     constructor(private readonly service: BangDiemService) {}

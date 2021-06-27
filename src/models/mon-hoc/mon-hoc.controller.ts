@@ -6,13 +6,16 @@ import {
     Patch,
     Param,
     Delete,
+    UseGuards,
 } from '@nestjs/common';
 import { MonHocService } from './mon-hoc.service';
 import { CreateMonHocDto } from './dto/create-mon-hoc.dto';
 import { UpdateMonHocDto } from './dto/update-mon-hoc.dto';
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from '../../auth.guard';
 
 @Controller('mon-hoc')
+@UseGuards(AuthGuard)
 @ApiTags('mon-hoc')
 export class MonHocController {
     constructor(private readonly service: MonHocService) {}

@@ -3,6 +3,7 @@ import { TietHocService } from './tiet-hoc.service';
 import { TietHocController } from './tiet-hoc.controller';
 import { TietHocSchema } from './tiet-hoc.entity';
 import { MongooseModule } from '@nestjs/mongoose';
+import { NguoiDungModule } from '../nguoi-dung/nguoi-dung.module';
 
 @Module({
     imports: [
@@ -13,6 +14,7 @@ import { MongooseModule } from '@nestjs/mongoose';
                 schema: TietHocSchema,
             },
         ]),
+        NguoiDungModule,
     ],
     controllers: [TietHocController],
     providers: [TietHocService],
