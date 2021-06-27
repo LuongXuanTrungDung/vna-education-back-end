@@ -154,18 +154,6 @@ export class AppService {
         return result;
     }
 
-    async traDanhGia_theoID(id: string) {
-        const result = [];
-        const revs = await this.dgSer.findAll();
-        for (let i = 0; i < revs.length; i++) {
-            if (revs[i].nguoiDG === id) {
-                const { nguoiDG, ...rest } = revs[i];
-                result.push(rest);
-            }
-        }
-        return result;
-    }
-
     async kiemTra_dangNhap(username: string, password: string) {
         const user = await this.ndSer.findOne_byMaND(username);
         const pass = await this.ndSer.onlyPassword(username);

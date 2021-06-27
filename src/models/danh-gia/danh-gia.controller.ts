@@ -6,19 +6,24 @@ import {
     Patch,
     Param,
     Delete,
+    Query,
+	UseGuards,
 } from '@nestjs/common';
 import {
     ApiBody,
     ApiCreatedResponse,
     ApiOkResponse,
     ApiParam,
+    ApiQuery,
     ApiTags,
 } from '@nestjs/swagger';
+import { AuthGuard } from '../../auth.guard';
 import { DanhGiaService } from './danh-gia.service';
 import { CreateDanhGiaDto } from './dto/create-danh-gia.dto';
 import { UpdateDanhGiaDto } from './dto/update-danh-gia.dto';
 
 @Controller('danh-gia')
+@UseGuards(AuthGuard)
 @ApiTags('danh-gia')
 export class DanhGiaController {
     constructor(private readonly service: DanhGiaService) {}
@@ -36,6 +41,19 @@ export class DanhGiaController {
     @ApiOkResponse({ description: 'Trả về tất cả' })
     async findAll() {
         return await this.service.findAll();
+    }
+
+    @Get('theo')
+    @ApiQuery({
+        name: 'user',
+        type: 'string',
+        description: '_id của người đánh giá',
+    })
+    @ApiOkResponse({
+        description: 'Trả về tất cả đánh giá theo _id của người dùng',
+    })
+    async findAll_byUser(@Query('user') user: string) {
+        return await this.service.findAll_byUser(user);
     }
 
     @Get(':id')

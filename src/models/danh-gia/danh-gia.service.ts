@@ -15,6 +15,18 @@ export class DanhGiaService {
         return await this.model.create(dto);
     }
 
+    async findAll_byUser(user: string) {
+        const result = [];
+        const revs = await this.findAll();
+        for (let i = 0; i < revs.length; i++) {
+            if (revs[i].nguoiDG === user) {
+                const { nguoiDG, ...rest } = revs[i];
+                result.push(rest);
+            }
+        }
+        return result;
+    }
+
     async findAll() {
         const result = [];
         const all = await this.model
@@ -34,9 +46,10 @@ export class DanhGiaService {
                 diemDG: all[i].diemDG,
                 ngayDG: all[i].ngayDG.maNgay,
                 tieuChi: all[i].mauDG.tieuChi,
-                monHoc: all[i].monHoc.tenMH,
                 nguoiDG: all[i].nguoiDG,
+                monHoc: all[i].monHoc.tenMH,
                 doiTuongDG: all[i].doiTuongDG.hoTen,
+                choGVCN: all[i].choGVCN,
             });
         }
         return result;
