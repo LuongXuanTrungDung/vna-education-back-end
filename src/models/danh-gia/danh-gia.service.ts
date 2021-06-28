@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { DanhGiaDocument } from './danh-gia.entity';
 import { CreateDanhGiaDto } from './dto/create-danh-gia.dto';
 import { UpdateDanhGiaDto } from './dto/update-danh-gia.dto';
@@ -19,7 +19,7 @@ export class DanhGiaService {
         const result = [];
         const revs = await this.findAll();
         for (let i = 0; i < revs.length; i++) {
-            if (revs[i].nguoiDG === user) {
+            if (revs[i].nguoiDG == user) {
                 const { nguoiDG, ...rest } = revs[i];
                 result.push(rest);
             }
