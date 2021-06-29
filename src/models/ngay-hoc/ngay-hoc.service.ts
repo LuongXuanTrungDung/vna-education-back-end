@@ -15,13 +15,13 @@ export class NgayHocService {
         return await this.model.create(dto);
     }
 
-    async forSelects_ngayHoc() {
+    async forSelect() {
         const result = [];
         const days = await this.findAll();
         for (let i = 0; i < days.length; i++) {
             result.push({
                 id: days[i]._id,
-                ngay: days[i].maNgay,
+                ten: days[i].maNgay,
             });
         }
         return result;

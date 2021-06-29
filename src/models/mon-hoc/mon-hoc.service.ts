@@ -13,13 +13,13 @@ export class MonHocService {
         return await this.model.create(dto);
     }
 
-    async forSelects_monHoc() {
+    async forSelect() {
         const result = [];
         const mh = await this.findAll();
         for (let i = 0; i < mh.length; i++) {
             result.push({
                 id: mh[i]._id,
-                mon: mh[i].tenMH,
+                ten: mh[i].tenMH,
             });
         }
         return result;

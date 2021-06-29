@@ -15,6 +15,18 @@ export class MauDanhGiaService {
         return await this.model.create(dto);
     }
 
+    async forSelect() {
+        const result = [];
+        const all = await this.findAll();
+        for (let i = 0; i < all.length; i++) {
+            result.push({
+                id: all[i]._id,
+                ten: all[i].tenMau,
+            });
+        }
+        return result;
+    }
+
     async findAll() {
         return await this.model.find({});
     }

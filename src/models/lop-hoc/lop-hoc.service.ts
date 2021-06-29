@@ -13,6 +13,18 @@ export class LopHocService {
         return await this.model.create(dto);
     }
 
+    async forSelect() {
+        const result = [];
+        const mh = await this.findAll();
+        for (let i = 0; i < mh.length; i++) {
+            result.push({
+                id: mh[i]._id,
+                ten: mh[i].maLH,
+            });
+        }
+        return result;
+    }
+
     async findAll() {
         return await this.model.find({});
     }
