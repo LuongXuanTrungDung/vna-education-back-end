@@ -73,19 +73,19 @@ export class NguoiDungService {
 				'-' +
 				user.ngaySinh.getFullYear(),
 			gioiTinh: user.gioiTinh,
-			soDienThoai: user.soDienThoai,
+			soDienThoai: (user.soDienThoai) ? user.soDienThoai : null,
 			quocTich: user.quocTich,
 			danToc: user.danToc,
-			cccd: user.cccd,
-			hoChieu: user.hoChieu,
-			ngayNhapHoc: user.ngayNhapHoc.getDate() +
+			cccd: (user.cccd) ? user.cccd : null,
+			hoChieu: (user.hoChieu) ? user.hoChieu : null,
+			ngayNhapHoc: (user.ngayNhapHoc) ? user.ngayNhapHoc.getDate() +
 				'-' +
 				user.ngayNhapHoc.getMonth() +
 				'-' +
-				user.ngayNhapHoc.getFullYear(),
+				user.ngayNhapHoc.getFullYear() : null,
 			lopHoc: (user.lopHoc) ? user.lopHoc.maLH : null,
 			chuNhiem: (user.chuNhiem) ? user.chuNhiem.maLH : null,
-			chucVu: user.chucVu,
+			chucVu: (user.chucVu) ? user.chucVu : null,
 		};
 	}
 
