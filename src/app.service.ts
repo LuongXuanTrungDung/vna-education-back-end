@@ -3,6 +3,7 @@ import { compare } from 'bcrypt';
 import { BangDiemService } from './models/bang-diem/bang-diem.service';
 import { DanhGiaService } from './models/danh-gia/danh-gia.service';
 import { LopHocService } from './models/lop-hoc/lop-hoc.service';
+import { MauDanhGiaService } from './models/mau-danh-gia/mau-danh-gia.service';
 import { MonHocService } from './models/mon-hoc/mon-hoc.service';
 import { NgayHocService } from './models/ngay-hoc/ngay-hoc.service';
 import { NguoiDungService } from './models/nguoi-dung/nguoi-dung.service';
@@ -11,13 +12,14 @@ import { ThongBaoService } from './models/thong-bao/thong-bao.service';
 @Injectable()
 export class AppService {
     constructor(
-        private ndSer: NguoiDungService,
-        private dgSer: DanhGiaService,
-        private tbSer: ThongBaoService,
-        private ngaySer: NgayHocService,
-        private mhSer: MonHocService,
-        private lhSer: LopHocService,
-        private bdSer: BangDiemService,
+        private readonly ndSer: NguoiDungService,
+        private readonly dgSer: DanhGiaService,
+        private readonly tbSer: ThongBaoService,
+        private readonly ngaySer: NgayHocService,
+        private readonly mhSer: MonHocService,
+        private readonly lhSer: LopHocService,
+        private readonly bdSer: BangDiemService,
+        private readonly mauSer: MauDanhGiaService,
     ) {}
 
     async traMonHoc_vaGiaoVien() {
@@ -74,94 +76,10 @@ export class AppService {
         return result;
     }
 
-    async traDanhGia_theoNguoiDung_theoNgay(ma: string, ngay: string) {
-        const result = [];
-        const days = await (
-            await this.ngaySer.findOne(ngay)
-        )
-            .populate({
-                path: 'danhGia',
-                model: 'danh_gia',
-                populate: [
-                    {
-                        path: 'nguoiDG',
-                        model: 'nguoi_dung',
-                    },
-                    {
-                        path: 'doiTuongDG',
-                        model: 'nguoi_dung',
-                    },
-                    {
-                        path: 'monHoc',
-                        model: 'mon_hoc',
-                    },
-                ],
-            })
-            .execPopulate();
-
-        for (let i = 0; i < days.danhGia.length; i++) {
-            if (days.danhGia[i].nguoiDG.maND === ma) {
-                const temp = {
-                    ten: days.danhGia[i].tenDG,
-                    gv: days.danhGia[i].doiTuongDG.hoTen,
-                    mon: days.danhGia[i].monHoc.tenMH,
-                    trangThai: days.danhGia[i].trangThai,
-                };
-                result.push(temp);
-            }
-        }
-        return result;
-    }
-
-    async traDanhGia_theoMaND(ma: string) {
-        const result = [];
-        const revs = await (await this.ndSer.findOne_byMaND(ma)).danhGia;
-        const user = await (
-            await this.ndSer.findOne_byMaND(ma)
-        )
-            .populate({
-                path: 'danhGia',
-                model: 'danh_gia',
-                populate: [
-                    {
-                        path: 'monHoc',
-                        model: 'mon_hoc',
-                    },
-                    {
-                        path: 'doiTuongDG',
-                        model: 'nguoi_dung',
-                    },
-                    {
-                        path: 'ngayDG',
-                        model: 'ngay_hoc',
-                    },
-                ],
-            })
-            .execPopulate();
-
-        for (let i = 0; i < user.danhGia.length; i++) {
-            const temp = {
-                id: revs[i],
-                ten: user.danhGia[i].tenDG,
-                gv: user.danhGia[i].doiTuongDG.hoTen,
-                mon: user.danhGia[i].monHoc.tenMH,
-                trangThai: user.danhGia[i].trangThai,
-                ngayDG: user.danhGia[i].ngayDG.maNgay,
-            };
-            result.push(temp);
-        }
-        return result;
-    }
-
     async kiemTra_dangNhap(username: string, password: string) {
         const user = await this.ndSer.findOne_byMaND(username);
         const pass = await this.ndSer.onlyPassword(username);
-        if (!user)
-            return {
-                id: null,
-                resOK: false,
-            };
-        else {
+        if (user && pass) {
             if (await compare(password, pass))
                 return {
                     id: user.id,
@@ -172,7 +90,22 @@ export class AppService {
                     id: null,
                     resOK: false,
                 };
+        } else {
+            return {
+                id: null,
+                resOK: false,
+            };
         }
+    }
+
+    async layGiaTri_choSelects() {
+        return {
+            hocSinh: await this.ndSer.forSelect_hocSinh(),
+            giaoVien: await this.ndSer.forSelect_giaoVien(),
+            mauDG: await this.mauSer.forSelect(),
+            ngayHoc: await this.ngaySer.forSelect(),
+            monHoc: await this.mhSer.forSelect(),
+        };
     }
 
     async traTietHoc_trongNgay(ngay: string) {
