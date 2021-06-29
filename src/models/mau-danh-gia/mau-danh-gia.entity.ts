@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
 import { TieuChi, TieuChiSchema } from './tieuChi.schema';
+import { MonHoc } from '../mon-hoc/mon-hoc.entity';
 
 export type MauDanhGiaDocument = MauDanhGia & Document;
 
@@ -16,6 +17,12 @@ export class MauDanhGia {
     tenMau: string;
 
     @Prop() ghiChu: string;
+
+    @Prop({
+        type: MongooseSchema.Types.ObjectId,
+        ref: 'mon_hoc',
+    })
+    monHoc: MonHoc;
 
     @Prop({
         required: true,

@@ -1,30 +1,44 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, PartialType } from '@nestjs/swagger';
+import { UpdateDanhGiaDto } from './update-danh-gia.dto';
 
 export class HSDGDto {
     @ApiProperty({
+        required: true,
+        default: true,
         name: 'trangThai',
-        type: 'boolean',
+        type: Boolean,
         description: 'Trạng thái đánh giá',
     })
     trangThai: boolean;
 
     @ApiProperty({
+        required: true,
+        default: '',
+        example: 'abcd',
         name: 'gopY',
-        type: 'string',
+        type: String,
         description: 'Ghi chú thêm của người đánh giá',
     })
     gopY: string;
 
     @ApiProperty({
+        required: true,
+        default: [],
         name: 'diemForm',
+        description: 'Điểm số đánh giá',
         type: 'array',
-        description: 'Điểm đánh giá cho từng tiêu chí và mục tiêu',
+        example: '[{2,[3.5,4]}]',
     })
     diemForm: any[];
 
     @ApiProperty({
+        required: true,
+        default: 0,
+        minimum: 0,
+        maximum: 10,
         name: 'diemDG',
-        type: 'number',
+        type: Number,
+        example: 6.7,
         description: 'Điểm trung bình của đánh giá',
     })
     diemDG: number;

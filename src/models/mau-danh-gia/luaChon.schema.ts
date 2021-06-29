@@ -1,6 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
-import { MucTieu, MucTieuSchema } from './mucTieu.schema';
 
 @Schema({
     timestamps: {
@@ -9,14 +8,12 @@ import { MucTieu, MucTieuSchema } from './mucTieu.schema';
     },
     versionKey: false,
 })
-export class TieuChi {
+export class LuaChon {
     @Prop({ required: true })
-    tenTC: string;
+    noiDung: string;
 
-    @Prop() moTa: string;
-
-    @Prop({ required: true, type: [MucTieuSchema] })
-    mucTieu: MucTieu[];
+    @Prop({ required: true, min: 0, max: 10 })
+    diemSo: number;
 }
 
-export const TieuChiSchema = SchemaFactory.createForClass(TieuChi);
+export const LuaChonSchema = SchemaFactory.createForClass(LuaChon);

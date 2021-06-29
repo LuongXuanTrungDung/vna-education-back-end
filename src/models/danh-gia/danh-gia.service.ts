@@ -33,9 +33,15 @@ export class DanhGiaService {
             .find({})
             .populate([
                 { path: 'ngayDG', model: 'ngay_hoc' },
-                { path: 'doiTuongDG', model: 'nguoi_dung' },
-                { path: 'monHoc', model: 'mon_hoc' },
-                { path: 'mauDG', model: 'mau_danh_gia' },
+                {
+                    path: 'doiTuongDG',
+                    model: 'nguoi_dung',
+                },
+                {
+                    path: 'mauDG',
+                    model: 'mau_danh_gia',
+                    populate: { path: 'monHoc', model: 'mon_hoc' },
+                },
             ])
             .exec();
         for (let i = 0; i < all.length; i++) {
@@ -47,7 +53,7 @@ export class DanhGiaService {
                 ngayDG: all[i].ngayDG.maNgay,
                 tieuChi: all[i].mauDG.tieuChi,
                 nguoiDG: all[i].nguoiDG,
-                monHoc: all[i].monHoc.tenMH,
+                monHoc: all[i].mauDG.monHoc.tenMH,
                 doiTuongDG: all[i].doiTuongDG.hoTen,
                 choGVCN: all[i].choGVCN,
             });
@@ -61,9 +67,15 @@ export class DanhGiaService {
         )
             .populate([
                 { path: 'ngayDG', model: 'ngay_hoc' },
-                { path: 'doiTuongDG', model: 'nguoi_dung' },
-                { path: 'monHoc', model: 'mon_hoc' },
-                { path: 'mauDG', model: 'mau_danh_gia' },
+                {
+                    path: 'doiTuongDG',
+                    model: 'nguoi_dung',
+                },
+                {
+                    path: 'mauDG',
+                    model: 'mau_danh_gia',
+                    populate: { path: 'monHoc', model: 'mon_hoc' },
+                },
             ])
             .execPopulate();
         return {
@@ -73,7 +85,7 @@ export class DanhGiaService {
             diemDG: rev.diemDG,
             ngayDG: rev.ngayDG.maNgay,
             tieuChi: rev.mauDG.tieuChi,
-            monHoc: rev.monHoc.tenMH,
+            monHoc: rev.mauDG.monHoc.tenMH,
             doiTuongDG: rev.doiTuongDG.hoTen,
         };
     }
