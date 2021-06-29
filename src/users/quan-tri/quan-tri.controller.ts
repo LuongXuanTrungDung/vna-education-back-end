@@ -1,4 +1,4 @@
-import { Controller, Get, Res, UseGuards } from '@nestjs/common';
+import { Controller, Get, Render, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { AuthGuard } from '../../auth.guard';
@@ -11,13 +11,8 @@ export class QuanTriController {
     constructor(private service: QuanTriService) {}
 
     @Get()
-    async quanTri(@Res() res: Response) {
-        const sels = await this.service.forSelects();
-        res.render('quan-tri', {
-            ngayHoc: sels.ngayHoc,
-            giaoVien: sels.giaoVien,
-            hocSinh: sels.hocSinh,
-            monHoc: sels.monHoc,
-        });
+    @Render('quan-tri')
+    async quanTri() {
+        return '';
     }
 }

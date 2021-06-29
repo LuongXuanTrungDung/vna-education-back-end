@@ -10,13 +10,4 @@ export class QuanTriService {
         private ngaySer: NgayHocService,
         private mhSer: MonHocService,
     ) {}
-
-    async forSelects() {
-        return {
-            giaoVien: await this.ndSer.forSelect_giaoVien(),
-            hocSinh: await this.ndSer.forSelect_hocSinh(),
-            monHoc: await this.mhSer.forSelects_monHoc(),
-            ngayHoc: await this.ngaySer.forSelects_ngayHoc(),
-        };
-    }
 }
