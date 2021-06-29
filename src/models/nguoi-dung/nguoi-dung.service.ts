@@ -73,6 +73,9 @@ export class NguoiDungService {
             cccd: user.cccd,
             hoChieu: user.hoChieu,
             nhapHoc: user.ngayNhapHoc,
+			lopHoc: user.lopHoc,
+			chuNhiem: user.chuNhiem,
+			ngayNhapHoc: user.ngayNhapHoc,
             chucVu: user.chucVu,
         };
     }
