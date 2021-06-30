@@ -15,14 +15,12 @@ export class LopHoc {
     @Prop({ required: true, index: true, unique: true })
     maLH: string;
 
-    @Prop() ghiChu: string;
-
     @Prop({
         required: true,
         type: MongooseSchema.Types.ObjectId,
         ref: 'nguoi_dung',
     })
-    giaoVien: NguoiDung;
+    chuNhiem: NguoiDung;
 
     @Prop({
         required: true,
