@@ -12,21 +12,12 @@ export class CreateMauDanhGiaDto {
     tenMau: string;
 
     @ApiPropertyOptional({
-    	name: 'ghiChu',
-    	type: String,
-    	example: 'abcd',
-    	description: 'Ghi chú về mẫu đánh giá của người tạo'
-    })
-    ghiChu: string
-
-    @ApiProperty({
-        required: true,
-        name: 'monHoc',
+        name: 'ghiChu',
         type: String,
-        example: '60bxxxxxxxxxxxxx',
-        description: 'Mẫu đánh giá đặc thù dành cho môn học',
+        example: 'abcd',
+        description: 'Ghi chú về mẫu đánh giá của người tạo',
     })
-    monHoc: MonHoc;
+    ghiChu: string;
 
     @ApiProperty({
         required: true,

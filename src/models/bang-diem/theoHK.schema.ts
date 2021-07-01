@@ -17,6 +17,12 @@ export class TheoHK {
     @Prop({ min: 0, max: 10, default: 0 })
     diemTB: number;
 
+    @Prop({ enum: ['Xuất sắc', 'Giỏi', 'Khá', 'Trung bình', 'Yếu', 'Kém'] })
+    hocLuc: string;
+
+    @Prop({ enum: ['Tốt', 'Khá', 'Trung bình', 'Yếu', 'Kém'] })
+    hanhKiem: string;
+
     @Prop() nhanXet: string;
 }
 export const TheoHKSchema = SchemaFactory.createForClass(TheoHK);

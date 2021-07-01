@@ -19,12 +19,6 @@ export class MauDanhGia {
     @Prop() ghiChu: string;
 
     @Prop({
-        type: MongooseSchema.Types.ObjectId,
-        ref: 'mon_hoc',
-    })
-    monHoc: MonHoc;
-
-    @Prop({
         required: true,
         type: [TieuChiSchema],
     })

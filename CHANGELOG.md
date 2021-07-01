@@ -111,3 +111,7 @@
 - 2.6.2
 	- Áp dụng middleware cho tất cả các route API của tất cả người dùng còn lại
 	- Chuẩn hóa lại các model: danh_gia, bang_diem, diem_danh, tiet_hoc, và mau_danh_gia
+- 2.6.3
+	- Sửa lại API trả về các đánh giá theo _id của người đánh giá
+	- Thêm các yếu tố phục vụ việc khởi tạo API docs thông qua Swagger cho model: mau_danh_gia, danh_gia và lop_hoc
+	- Sửa lại model danh_gia, DTO, các service và các controller có liên quan

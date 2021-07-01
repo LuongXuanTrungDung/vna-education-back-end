@@ -15,13 +15,12 @@ export class DanhGiaService {
         return await this.model.create(dto);
     }
 
-    async findAll_byUser(user: string) {
+    async findAll_byUser(classe: string) {
         const result = [];
         const revs = await this.findAll();
         for (let i = 0; i < revs.length; i++) {
-            if (revs[i].nguoiDG == user) {
-                const { nguoiDG, ...rest } = revs[i];
-                result.push(rest);
+            if (revs[i].chiTiet.lopHoc == classe) {
+				result.push(revs[i])
             }
         }
         return result;
@@ -29,18 +28,23 @@ export class DanhGiaService {
 
     async findAll() {
         const result = [];
-        const all = await this.model
+        const all = await (
+            await this.model
+        )
             .find({})
             .populate([
-                { path: 'ngayDG', model: 'ngay_hoc' },
                 {
-                    path: 'doiTuongDG',
+                    path: 'giaoVien',
                     model: 'nguoi_dung',
                 },
+                { path: 'monHoc', model: 'mon_hoc' },
                 {
                     path: 'mauDG',
                     model: 'mau_danh_gia',
-                    populate: { path: 'monHoc', model: 'mon_hoc' },
+                },
+                {
+                    path: 'lopHoc',
+                    model: 'lop_hoc',
                 },
             ])
             .exec();
@@ -48,14 +52,16 @@ export class DanhGiaService {
             result.push({
                 id: all[i]._id,
                 tenDG: all[i].tenDG,
-                trangThai: all[i].trangThai,
-                diemDG: all[i].diemDG,
-                ngayDG: all[i].ngayDG.maNgay,
+                ngayDG: all[i].ngayDG,
                 tieuChi: all[i].mauDG.tieuChi,
-                nguoiDG: all[i].nguoiDG,
-                monHoc: all[i].mauDG.monHoc.tenMH,
-                doiTuongDG: all[i].doiTuongDG.hoTen,
+                monHoc: all[i].monHoc.tenMH,
+                giaoVien: all[i].giaoVien.hoTen,
                 choGVCN: all[i].choGVCN,
+                chiTiet: {
+                    lopHoc: all[i].lopHoc.maLH,
+                    siSo: all[i].lopHoc.hocSinh.length,
+                    diemForm: all[i].chiTiet,
+                },
             });
         }
         return result;
@@ -66,27 +72,35 @@ export class DanhGiaService {
             await this.model.findById(id)
         )
             .populate([
-                { path: 'ngayDG', model: 'ngay_hoc' },
                 {
-                    path: 'doiTuongDG',
+                    path: 'giaoVien',
                     model: 'nguoi_dung',
                 },
+                { path: 'monHoc', model: 'mon_hoc' },
+
                 {
                     path: 'mauDG',
                     model: 'mau_danh_gia',
-                    populate: { path: 'monHoc', model: 'mon_hoc' },
                 },
+                {
+                    path: 'lopHoc',
+                    model: 'lop_hoc',
+                }
             ])
             .execPopulate();
         return {
             id: rev._id,
             tenDG: rev.tenDG,
-            trangThai: rev.trangThai,
-            diemDG: rev.diemDG,
-            ngayDG: rev.ngayDG.maNgay,
+            ngayDG: rev.ngayDG,
             tieuChi: rev.mauDG.tieuChi,
-            monHoc: rev.mauDG.monHoc.tenMH,
-            doiTuongDG: rev.doiTuongDG.hoTen,
+            monHoc: rev.monHoc.tenMH,
+            giaoVien: rev.giaoVien.hoTen,
+            choGVCN: rev.choGVCN,
+            chiTiet: {
+                lopHoc: rev.lopHoc.maLH,
+                siSo: rev.lopHoc.hocSinh.length,
+                diemForm: rev.chiTiet,
+            },
         };
     }
 

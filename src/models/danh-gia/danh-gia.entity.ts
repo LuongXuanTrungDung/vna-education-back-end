@@ -1,8 +1,11 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
+import { LopHoc } from '../lop-hoc/lop-hoc.entity';
 import { MauDanhGia } from '../mau-danh-gia/mau-danh-gia.entity';
+import { MonHoc } from '../mon-hoc/mon-hoc.entity';
 import { NgayHoc } from '../ngay-hoc/ngay-hoc.entity';
 import { NguoiDung } from '../nguoi-dung/nguoi-dung.entity';
+import { ChiTietDG, ChiTietDGSchema } from './chiTietDG.schema';
 
 export type DanhGiaDocument = DanhGia & Document;
 
@@ -20,28 +23,31 @@ export class DanhGia {
     @Prop({
         required: true,
         type: MongooseSchema.Types.ObjectId,
-        ref: 'nguoi_dung',
+        ref: 'lop_hoc',
     })
-    nguoiDG: NguoiDung;
+    lopHoc: LopHoc;
+
+    @Prop({ required: true, type: [ChiTietDGSchema] })
+    chiTiet: ChiTietDG[];
+
+    @Prop({
+        type: MongooseSchema.Types.ObjectId,
+        ref: 'mon_hoc',
+    })
+    monHoc: MonHoc;
 
     @Prop({
         required: true,
         type: MongooseSchema.Types.ObjectId,
         ref: 'nguoi_dung',
     })
-    doiTuongDG: NguoiDung;
+    giaoVien: NguoiDung;
 
     @Prop({
         required: true,
-        ref: 'ngay_hoc',
-        type: MongooseSchema.Types.ObjectId,
+        default: Date.now(),
     })
-    ngayDG: NgayHoc;
-
-    @Prop({ required: true, default: false })
-    trangThai: boolean;
-
-    @Prop({ default: '', required: true }) gopY: string;
+    ngayDG: Date;
 
     @Prop({
         required: true,
@@ -49,11 +55,6 @@ export class DanhGia {
         ref: 'mau_danh_gia',
     })
     mauDG: MauDanhGia;
-
-    @Prop({ default: [], required: true }) diemForm: any[];
-
-    @Prop({ required: true, default: 0, min: 0, max: 10 })
-    diemDG: number;
 
     @Prop({ required: true, default: false })
     choGVCN: boolean;

@@ -5,9 +5,7 @@ import { NguoiDungService } from './models/nguoi-dung/nguoi-dung.service';
 export class AuthGuard implements CanActivate {
     constructor(private readonly ndSer: NguoiDungService) {}
 
-   async canActivate(
-        context: ExecutionContext,
-    ) {
+    async canActivate(context: ExecutionContext) {
         const token = context
             .switchToHttp()
             .getRequest()

@@ -5,6 +5,7 @@ import {
     Param,
     Patch,
     Post,
+    Render,
     Res,
     UseGuards,
 } from '@nestjs/common';
@@ -21,18 +22,9 @@ export class HocSinhController {
     constructor(private service: HocSinhService) {}
 
     @Get()
-    async hocSinh(@Res() res: Response) {
-        const one = await this.service.getOne_danhGia();
-        res.render('hoc-sinh', {
-            dg: {
-                id: one.id,
-                ten: one.tenDG,
-                giaoVien: one.doiTuongDG,
-                ngayDG: one.ngayDG,
-                monHoc: one.monHoc,
-                tieuChi: one.tieuChi,
-            },
-        });
+    @Render('hoc-sinh')
+    async hocSinh() {
+        return '';
     }
 
     @Post('danh-gia/:id')
@@ -42,6 +34,7 @@ export class HocSinhController {
         description: '',
     })
     @ApiBody({
+        type: HSDGDto,
         description: 'Các dữ liệu đã thay đổi khi học sinh làm đánh giá',
     })
     async danhGia(@Param('id') id: string, @Body() dto: HSDGDto) {

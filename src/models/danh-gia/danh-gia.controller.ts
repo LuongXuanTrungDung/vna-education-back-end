@@ -20,6 +20,7 @@ import {
     getSchemaPath,
 } from '@nestjs/swagger';
 import { AuthGuard } from '../../auth.guard';
+import { NguoiDungService } from '../nguoi-dung/nguoi-dung.service';
 import { DanhGia, DanhGiaSchema } from './danh-gia.entity';
 import { DanhGiaService } from './danh-gia.service';
 import { CreateDanhGiaDto } from './dto/create-danh-gia.dto';
@@ -30,7 +31,7 @@ import { UpdateDanhGiaDto } from './dto/update-danh-gia.dto';
 @ApiTags('danh-gia')
 @ApiExtraModels(CreateDanhGiaDto, UpdateDanhGiaDto)
 export class DanhGiaController {
-    constructor(private readonly service: DanhGiaService) {}
+    constructor(private readonly dgSer: DanhGiaService, private ndSer: NguoiDungService) {}
 
     @Post()
     @ApiBody({
@@ -39,7 +40,7 @@ export class DanhGiaController {
     })
     @ApiCreatedResponse({ description: 'Tạo thành công' })
     async create(@Body() dto: CreateDanhGiaDto) {
-        return await this.service.create(dto);
+        return await this.dgSer.create(dto);
     }
 
     @Get()
@@ -48,7 +49,7 @@ export class DanhGiaController {
         isArray: true,
     })
     async findAll() {
-        return await this.service.findAll();
+        return await this.dgSer.findAll();
     }
 
     @Get('theo')
@@ -62,7 +63,8 @@ export class DanhGiaController {
         isArray: true,
     })
     async findAll_byUser(@Query('user') user: string) {
-        return await this.service.findAll_byUser(user);
+		const classe = (await this.ndSer.findOne_byID(user)).lopHoc
+        return await this.dgSer.findAll_byUser(classe);
     }
 
     @Get(':id')
@@ -73,7 +75,7 @@ export class DanhGiaController {
     })
     @ApiOkResponse({ description: 'Trả về 1 đối tượng', isArray: false })
     async findOne(@Param('id') id: string) {
-        return await this.service.findOne(id);
+        return await this.dgSer.findOne(id);
     }
 
     @Patch(':id')
@@ -89,7 +91,7 @@ export class DanhGiaController {
     })
     @ApiOkResponse({ description: 'Cập nhật thành công', isArray: false })
     async update(@Param('id') id: string, @Body() dto: UpdateDanhGiaDto) {
-        return await this.service.update(id, dto);
+        return await this.dgSer.update(id, dto);
     }
 
     @Delete(':id')
@@ -100,6 +102,6 @@ export class DanhGiaController {
     })
     @ApiOkResponse({ description: 'Xóa thành công', isArray: false })
     async remove(@Param('id') id: string) {
-        return await this.service.remove(id);
+        return await this.dgSer.remove(id);
     }
 }
