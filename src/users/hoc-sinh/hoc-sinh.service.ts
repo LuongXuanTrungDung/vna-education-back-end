@@ -11,8 +11,6 @@ export class HocSinhService {
 	}
 
 	async makeReview(id: string, dto: HSDGDto) {
-		const ct = { chiTiet: [] }
-		ct.chiTiet.push(dto)
-		return await this.dgSer.update(id, ct)
+		return await this.dgSer.update_fromHS(id,dto)
 	}
 }

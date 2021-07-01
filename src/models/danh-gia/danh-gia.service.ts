@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { DanhGiaDocument } from './danh-gia.entity';
 import { CreateDanhGiaDto } from './dto/create-danh-gia.dto';
+import { HSDGDto } from './dto/HSDG.dto';
 import { UpdateDanhGiaDto } from './dto/update-danh-gia.dto';
 
 @Injectable()
@@ -106,6 +107,10 @@ export class DanhGiaService {
 
 	async update(id: string, dto: UpdateDanhGiaDto) {
 		return await this.model.findByIdAndUpdate(id, dto);
+	}
+
+	async update_fromHS(id: string, dto: HSDGDto) {
+		return await this.model.findByIdAndUpdate(id, {$push: {chiTiet: dto}})
 	}
 
 	async remove(id: string) {

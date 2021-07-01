@@ -70,12 +70,4 @@ export class CreateDanhGiaDto {
         description: 'Mẫu đánh giá',
     })
     mauDG: MauDanhGia;
-
-    @ApiProperty({
-        required: true,
-        name: 'chiTiet',
-        type: ChiTietDGSchema,
-        description: 'Chi tiết của đánh giá',
-    })
-    chiTiet: ChiTietDG[];
 }
