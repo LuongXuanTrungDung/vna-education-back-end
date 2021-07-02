@@ -53,13 +53,13 @@ export class NguoiDungService {
     }
 
     async findOne_byID(id: string) {
-        const user = await (
+        const nd =
             await this.model.findById(id, null, null, (err, doc) => {
                 if (err) return null;
                 else return doc;
             })
-        )
-            .populate([
+        if (nd) {
+			const user = await nd.populate([
                 {
                     path: 'lopHoc',
                     model: 'lop_hoc',
@@ -70,35 +70,36 @@ export class NguoiDungService {
                 },
             ])
             .execPopulate();
-        return {
-            id: id,
-            maND: user.maND,
-            hoTen: user.hoTen,
-            emailND: user.emailND,
-            diaChi: user.diaChi,
-            ngaySinh:
-                user.ngaySinh.getDate() +
-                '-' +
-                user.ngaySinh.getMonth() +
-                '-' +
-                user.ngaySinh.getFullYear(),
-            gioiTinh: user.gioiTinh,
-            soDienThoai: user.soDienThoai ? user.soDienThoai : null,
-            quocTich: user.quocTich,
-            danToc: user.danToc,
-            cccd: user.cccd ? user.cccd : null,
-            hoChieu: user.hoChieu ? user.hoChieu : null,
-            ngayNhapHoc: user.ngayNhapHoc
-                ? user.ngayNhapHoc.getDate() +
-                  '-' +
-                  user.ngayNhapHoc.getMonth() +
-                  '-' +
-                  user.ngayNhapHoc.getFullYear()
-                : null,
-            lopHoc: user.lopHoc ? user.lopHoc.maLH : null,
-            chuNhiem: user.chuNhiem ? user.chuNhiem.maLH : null,
-            chucVu: user.chucVu ? user.chucVu : null,
-        };
+			return {
+				id: id,
+				maND: user.maND,
+				hoTen: user.hoTen,
+				emailND: user.emailND,
+				diaChi: user.diaChi,
+				ngaySinh:
+					user.ngaySinh.getDate() +
+					'-' +
+					user.ngaySinh.getMonth() +
+					'-' +
+					user.ngaySinh.getFullYear(),
+				gioiTinh: user.gioiTinh,
+				soDienThoai: user.soDienThoai ? user.soDienThoai : null,
+				quocTich: user.quocTich,
+				danToc: user.danToc,
+				cccd: user.cccd ? user.cccd : null,
+				hoChieu: user.hoChieu ? user.hoChieu : null,
+				ngayNhapHoc: user.ngayNhapHoc
+					? user.ngayNhapHoc.getDate() +
+					  '-' +
+					  user.ngayNhapHoc.getMonth() +
+					  '-' +
+					  user.ngayNhapHoc.getFullYear()
+					: null,
+				lopHoc: user.lopHoc ? user.lopHoc.maLH : null,
+				chuNhiem: user.chuNhiem ? user.chuNhiem.maLH : null,
+				chucVu: user.chucVu ? user.chucVu : null,
+			};
+		} else return null
     }
 
     async onlyPassword(ma: string) {
