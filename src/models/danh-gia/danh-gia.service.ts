@@ -53,7 +53,7 @@ export class DanhGiaService {
 			result.push({
 				id: all[i]._id,
 				tenDG: all[i].tenDG,
-				ngayDG: all[i].ngayDG.getDate() + '-' + all[i].ngayDG.getMonth() + '-' + all[i].ngayDG.getFullYear(),
+				ngayDG: all[i].ngayDG,
 				tieuChi: all[i].mauDG.tieuChi,
 				monHoc: all[i].monHoc.tenMH,
 				giaoVien: all[i].giaoVien.hoTen,
@@ -92,7 +92,7 @@ export class DanhGiaService {
 		return {
 			id: rev._id,
 			tenDG: rev.tenDG,
-			ngayDG: rev.ngayDG.getDate() + '-' + rev.ngayDG.getMonth() + '-' + rev.ngayDG.getFullYear(),
+			ngayDG: rev.ngayDG,
 			tieuChi: rev.mauDG.tieuChi,
 			monHoc: rev.monHoc.tenMH,
 			giaoVien: rev.giaoVien.hoTen,

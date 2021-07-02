@@ -1,5 +1,4 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Schema } from 'mongoose';
 import { LopHoc } from '../../lop-hoc/lop-hoc.entity';
 import { MauDanhGia } from '../../mau-danh-gia/mau-danh-gia.entity';
 import { MonHoc } from '../../mon-hoc/mon-hoc.entity';
@@ -47,12 +46,11 @@ export class CreateDanhGiaDto {
     @ApiProperty({
         required: true,
         name: 'ngayDG',
-        default: Date.now(),
-        type: Date,
+        type: String,
         example: '21-12-2012',
         description: 'Ngày thực hiện đánh giá',
     })
-    ngayDG: Date;
+    ngayDG: string;
 
     @ApiProperty({
         required: true,

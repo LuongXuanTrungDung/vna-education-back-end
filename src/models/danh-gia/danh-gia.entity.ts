@@ -45,9 +45,8 @@ export class DanhGia {
 
     @Prop({
         required: true,
-        default: Date.now(),
     })
-    ngayDG: Date;
+    ngayDG: string
 
     @Prop({
         required: true,
