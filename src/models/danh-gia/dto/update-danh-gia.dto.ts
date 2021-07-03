@@ -6,7 +6,7 @@ export class UpdateDanhGiaDto extends PartialType(CreateDanhGiaDto) {
 	@ApiProperty({
         required: true,
         name: 'chiTiet',
-        type: [ChiTietDGSchema],
+        type: 'array',
         description: 'Chi tiết của đánh giá',
     })
     chiTiet: ChiTietDG[];

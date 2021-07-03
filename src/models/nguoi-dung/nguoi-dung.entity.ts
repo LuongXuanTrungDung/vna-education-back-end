@@ -2,7 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
 import { DanhGia } from '../danh-gia/danh-gia.entity';
 import { LopHoc } from '../lop-hoc/lop-hoc.entity';
-import { giayTo, giayToSchema } from './giayTo.schema';
+import { GiayTo, GiayToSchema } from './giayTo.schema';
 import { LaoDong, LaoDongSchema } from './laoDong.schema';
 
 export type NguoiDungDocument = NguoiDung & Document;
@@ -17,9 +17,6 @@ export type NguoiDungDocument = NguoiDung & Document;
 export class NguoiDung {
     @Prop({ required: true, index: true, unique: true })
     maND: string;
-
-    @Prop({ type: [{ type: MongooseSchema.Types.ObjectId, ref: 'danh_gia' }] })
-    danhGia: DanhGia[];
 
     @Prop({ required: true })
     hoTen: string;
@@ -48,11 +45,11 @@ export class NguoiDung {
     @Prop({ required: true, default: 'Việt Nam' })
     quocTich: string;
 
-    @Prop({ type: giayToSchema })
-    cccd: giayTo;
+    @Prop({ type: GiayToSchema })
+    cccd: GiayTo;
 
-    @Prop({ type: giayToSchema })
-    hoChieu: giayTo;
+    @Prop({ type: GiayToSchema })
+    hoChieu: GiayTo;
 
     @Prop({ type: LaoDongSchema })
     chucVu: LaoDong;

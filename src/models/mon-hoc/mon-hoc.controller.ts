@@ -11,7 +11,7 @@ import {
 import { MonHocService } from './mon-hoc.service';
 import { CreateMonHocDto } from './dto/create-mon-hoc.dto';
 import { UpdateMonHocDto } from './dto/update-mon-hoc.dto';
-import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiCreatedResponse, ApiOkResponse, ApiParam, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '../../auth.guard';
 
 @Controller('mon-hoc')
@@ -20,7 +20,7 @@ import { AuthGuard } from '../../auth.guard';
 export class MonHocController {
     constructor(private readonly service: MonHocService) {}
 
-    @Post()
+    @Post() @ApiBody({type: CreateMonHocDto})
     @ApiCreatedResponse({ description: 'Tạo thành công' })
     create(@Body() dto: CreateMonHocDto) {
         return this.service.create(dto);
@@ -33,18 +33,34 @@ export class MonHocController {
     }
 
     @Get(':id')
+	@ApiParam({
+		type: String,
+		name: 'id',
+		description: '_id của môn học'
+	})
     @ApiOkResponse({ description: 'Trả về 1 đối tượng' })
     findOne(@Param('id') id: string) {
         return this.service.findOne(id);
     }
 
     @Patch(':id')
+	@ApiParam({
+		type: String,
+		name: 'id',
+		description: '_id của môn học'
+	})
+	@ApiBody({type: UpdateMonHocDto})
     @ApiOkResponse({ description: 'Cập nhật thành công' })
     update(@Param('id') id: string, @Body() dto: UpdateMonHocDto) {
         return this.service.update(id, dto);
     }
 
     @Delete(':id')
+	@ApiParam({
+		type: String,
+		name: 'id',
+		description: '_id của môn học'
+	})
     @ApiOkResponse({ description: 'Xóa thành công' })
     remove(@Param('id') id: string) {
         return this.service.remove(id);

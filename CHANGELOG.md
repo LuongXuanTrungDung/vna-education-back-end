@@ -114,4 +114,5 @@
 - 2.6.3
 	- Sửa lại API trả về các đánh giá theo _id của người đánh giá
 	- Thêm các yếu tố phục vụ việc khởi tạo API docs thông qua Swagger cho model: mau_danh_gia, danh_gia và lop_hoc
+	- Thêm các yếu tố phục vụ việc khởi tạo API docs: nguoi_dung, mon_hoc và thong_bao
 	- Sửa lại model danh_gia, DTO, các service và các controller có liên quan

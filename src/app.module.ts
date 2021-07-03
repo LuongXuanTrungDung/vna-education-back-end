@@ -6,7 +6,7 @@ import { AppService } from './app.service';
 import { NguoiDungModule } from './models/nguoi-dung/nguoi-dung.module';
 import { DanhGiaModule } from './models/danh-gia/danh-gia.module';
 import { ThongBaoModule } from './models/thong-bao/thong-bao.module';
-import { BangDiemModule } from './models/bang-diem/bang-diem.module';
+ import { BangDiemModule } from './models/bang-diem/bang-diem.module';
 import { DiemDanhModule } from './models/diem-danh/diem-danh.module';
 import { TuanHocModule } from './models/tuan-hoc/tuan-hoc.module';
 import { NgayHocModule } from './models/ngay-hoc/ngay-hoc.module';
@@ -36,7 +36,7 @@ import { MauDanhGiaModule } from './models/mau-danh-gia/mau-danh-gia.module';
         NguoiDungModule,
         DanhGiaModule,
         ThongBaoModule,
-        BangDiemModule,
+         BangDiemModule,
         DiemDanhModule,
         TuanHocModule,
         NgayHocModule,

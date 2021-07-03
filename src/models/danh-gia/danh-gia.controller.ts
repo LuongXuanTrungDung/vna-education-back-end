@@ -55,7 +55,7 @@ export class DanhGiaController {
     @Get('theo')
     @ApiQuery({
         name: 'user',
-        type: 'string',
+        type: String,
         description: '_id của người đánh giá',
     })
     @ApiOkResponse({
@@ -70,7 +70,7 @@ export class DanhGiaController {
     @Get(':id')
     @ApiParam({
         name: 'id',
-        type: 'string',
+        type: String,
         description: '_id của đánh giá',
     })
     @ApiOkResponse({ description: 'Trả về 1 đối tượng', isArray: false })
@@ -81,7 +81,7 @@ export class DanhGiaController {
     @Patch(':id')
     @ApiParam({
         name: 'id',
-        type: 'string',
+        type: String,
         description: '_id của đánh giá',
     })
     @ApiBody({
@@ -97,7 +97,7 @@ export class DanhGiaController {
     @Delete(':id')
     @ApiParam({
         name: 'id',
-        type: 'string',
+        type: String,
         description: '_id của đánh giá',
     })
     @ApiOkResponse({ description: 'Xóa thành công', isArray: false })

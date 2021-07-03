@@ -21,7 +21,7 @@ export class CreateDanhGiaDto {
         name: 'lopDG',
         type: String,
         example: '60bxxxxxxxxxxxxx',
-        description: 'Học sinh hay phụ huynh thực hiện đánh giá',
+        description: 'Lớp học có các thành viên tham giá đánh giá',
     })
     lopHoc: LopHoc;
 
@@ -36,7 +36,7 @@ export class CreateDanhGiaDto {
 
     @ApiProperty({
         required: true,
-        name: 'doiTuongDG',
+        name: 'giaoVien',
         type: String,
         example: '60bxxxxxxxxxxxxx',
         description: 'Giáo viên được đánh giá',

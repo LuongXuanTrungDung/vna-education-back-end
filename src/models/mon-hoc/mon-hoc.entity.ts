@@ -14,9 +14,6 @@ export type MonHocDocument = MonHoc & Document;
     versionKey: false,
 })
 export class MonHoc {
-    @Prop({ required: true, index: true, unique: true })
-    maMH: string;
-
     @Prop({ required: true }) tenMH: string;
 
     @Prop({ required: true, default: 0, min: 0 })
@@ -34,28 +31,6 @@ export class MonHoc {
         ],
     })
     giaoVien: NguoiDung[];
-
-    @Prop({
-        required: true,
-        type: [
-            {
-                type: MongooseSchema.Types.ObjectId,
-                ref: 'tiet_hoc',
-            },
-        ],
-    })
-    tietHoc: TietHoc[];
-
-    @Prop({
-        required: true,
-        type: [
-            {
-                type: MongooseSchema.Types.ObjectId,
-                ref: 'danh_gia',
-            },
-        ],
-    })
-    danhGia: DanhGia[];
 }
 
 export const MonHocSchema = SchemaFactory.createForClass(MonHoc);

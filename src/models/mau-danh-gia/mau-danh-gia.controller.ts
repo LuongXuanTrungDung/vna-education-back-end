@@ -12,6 +12,7 @@ import { MauDanhGiaService } from './mau-danh-gia.service';
 import { CreateMauDanhGiaDto } from './dto/create-mau-danh-gia.dto';
 import { UpdateMauDanhGiaDto } from './dto/update-mau-danh-gia.dto';
 import {
+	ApiBody,
     ApiCreatedResponse,
     ApiOkResponse,
     ApiParam,
@@ -26,6 +27,7 @@ export class MauDanhGiaController {
     constructor(private readonly service: MauDanhGiaService) {}
 
     @Post()
+	@ApiBody({type: CreateMauDanhGiaDto})
     @ApiCreatedResponse({ description: 'Tạo thành công' })
     async create(@Body() dto: CreateMauDanhGiaDto) {
         return await this.service.create(dto);
@@ -40,7 +42,7 @@ export class MauDanhGiaController {
     @Get(':id')
     @ApiParam({
         name: 'id',
-        type: 'string',
+        type: String,
         description: '_id của mẫu đánh giá',
     })
     @ApiOkResponse({ description: 'Trả về 1 đối tượng' })
@@ -51,9 +53,9 @@ export class MauDanhGiaController {
     @Patch(':id')
     @ApiParam({
         name: 'id',
-        type: 'string',
+        type: String,
         description: '_id của mẫu đánh giá',
-    })
+    }) @ApiBody({type: UpdateMauDanhGiaDto})
     @ApiOkResponse({ description: 'Cập nhật thành công' })
     async update(@Param('id') id: string, @Body() dto: UpdateMauDanhGiaDto) {
         return await this.service.update(id, dto);
@@ -62,7 +64,7 @@ export class MauDanhGiaController {
     @Delete(':id')
     @ApiParam({
         name: 'id',
-        type: 'string',
+        type: String,
         description: '_id của mẫu đánh giá',
     })
     @ApiOkResponse({ description: 'Xóa thành công' })

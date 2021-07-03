@@ -30,14 +30,14 @@ export class MonHocService {
     }
 
     async findOne(id: string) {
-        return await this.model.findOne({ maMH: id });
+        return await this.model.findById(id)
     }
 
     async update(id: string, dto: UpdateMonHocDto) {
-        return await this.model.findOneAndUpdate({ maMH: id }, dto);
+        return await this.model.findByIdAndUpdate(id,dto)
     }
 
     async remove(id: string) {
-        return await this.model.findOneAndDelete({ maMH: id });
+        return await this.model.findByIdAndDelete(id)
     }
 }

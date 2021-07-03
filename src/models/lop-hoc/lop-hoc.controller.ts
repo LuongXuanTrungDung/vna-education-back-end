@@ -37,13 +37,13 @@ export class LopHocController {
     @ApiOkResponse({
         description: 'Trả về tất cả',
         isArray: true,
-        type: 'array',
     })
     async findAll() {
         return await this.service.findAll();
     }
 
     @Get(':id')
+	@ApiParam({ name: 'id', type: String, description: 'Mã lớp học' })
     @ApiOkResponse({ description: 'Trả về 1 đối tượng' })
     async findOne(@Param('id') id: string) {
         return await this.service.findOne(id);
