@@ -29,43 +29,20 @@ export class DanhGiaService {
 
 	async findAll() {
 		const result = [];
-		const all = await (
-			await this.model
-		)
-			.find({})
-			.populate([
-				{
-					path: 'giaoVien',
-					model: 'nguoi_dung',
-				},
-				{ path: 'monHoc', model: 'mon_hoc' },
-				{
-					path: 'mauDG',
-					model: 'mau_danh_gia',
-				},
-				{
-					path: 'lopHoc',
-					model: 'lop_hoc',
-				},
-			])
-			.exec();
+		const all = await this.model.find({})
 		for (let i = 0; i < all.length; i++) {
-			result.push({
-				id: all[i]._id,
-				tenDG: all[i].tenDG,
-				ngayDG: all[i].ngayDG,
-				tieuChi: all[i].mauDG.tieuChi,
-				monHoc: all[i].monHoc.tenMH,
-				giaoVien: all[i].giaoVien.hoTen,
-				choGVCN: all[i].choGVCN,
-				chiTiet: {
-					lopHoc: all[i].lopHoc.maLH,
-					siSo: all[i].lopHoc.hocSinh.length,
-					diemForm: all[i].chiTiet,
-				},
-			});
+			result.push(await this.findOne(all[i]._id));
 		}
 		return result;
+	}
+
+	async findAll_byDate(date: string) {
+		const result = [];
+		const all = await this.model.find({ngayDG: date})
+		for (let i = 0; i < all.length; i++) {
+			result.push(await this.findOne(all[i]._id))
+		}
+		return result
 	}
 
 	async findOne(id: string) {

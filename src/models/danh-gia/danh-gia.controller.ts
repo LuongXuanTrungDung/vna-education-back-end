@@ -58,13 +58,24 @@ export class DanhGiaController {
         type: String,
         description: '_id của người đánh giá',
     })
+	@ApiQuery({
+        name: 'ngay',
+        type: String,
+        description: 'Ngày đánh giá',
+    })
     @ApiOkResponse({
         description: 'Trả về tất cả đánh giá theo _id của người dùng',
         isArray: true,
     })
-    async findAll_byUser(@Query('user') user: string) {
-		const classe = (await this.ndSer.findOne_byID(user)).lopHoc
-        return await this.dgSer.findAll_byUser(classe);
+    async findAll_byUser(@Query('user') user?: string, @Query('ngay') ngay?: string) {
+		if (user && user != '') {
+			const classe = (await this.ndSer.findOne_byID(user)).lopHoc
+        	return await this.dgSer.findAll_byUser(classe);
+		}
+
+		if (ngay && ngay != '') return await this.dgSer.findAll_byDate(ngay)
+
+		return null
     }
 
     @Get(':id')
