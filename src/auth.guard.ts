@@ -11,7 +11,8 @@ export class AuthGuard implements CanActivate {
             .switchToHttp()
             .getRequest()
             .header('Authorization');
-        if (!token || token == '' || !Types.ObjectId.isValid(token)) return false;
+        if (!token || token == '' || !Types.ObjectId.isValid(token))
+            return false;
         if (await this.ndSer.findOne_byID(token)) return true;
         else return false;
     }

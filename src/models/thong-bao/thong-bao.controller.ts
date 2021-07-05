@@ -12,7 +12,7 @@ import { ThongBaoService } from './thong-bao.service';
 import { CreateThongBaoDto } from './dto/create-thong-bao.dto';
 import { UpdateThongBaoDto } from './dto/update-thong-bao.dto';
 import {
-	ApiBody,
+    ApiBody,
     ApiCreatedResponse,
     ApiOkResponse,
     ApiParam,
@@ -27,7 +27,7 @@ export class ThongBaoController {
     constructor(private readonly service: ThongBaoService) {}
 
     @Post()
-	@ApiBody({type: CreateThongBaoDto})
+    @ApiBody({ type: CreateThongBaoDto })
     @ApiCreatedResponse({ description: 'Tạo thành công' })
     async create(@Body() dto: CreateThongBaoDto) {
         return await this.service.create(dto);
@@ -51,18 +51,19 @@ export class ThongBaoController {
     }
 
     @Patch(':id')
-	@ApiParam({
+    @ApiParam({
         name: 'id',
         type: String,
         description: '_id của thông báo',
-    }) @ApiBody({type: UpdateThongBaoDto})
+    })
+    @ApiBody({ type: UpdateThongBaoDto })
     @ApiOkResponse({ description: 'Cập nhật thành công' })
     async update(@Param('id') id: string, @Body() dto: UpdateThongBaoDto) {
         return await this.service.update(id, dto);
     }
 
     @Delete(':id')
-	@ApiParam({
+    @ApiParam({
         name: 'id',
         type: String,
         description: '_id của thông báo',

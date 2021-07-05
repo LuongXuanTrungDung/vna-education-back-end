@@ -46,7 +46,7 @@ export class DanhGia {
     @Prop({
         required: true,
     })
-    ngayDG: string
+    ngayDG: string;
 
     @Prop({
         required: true,

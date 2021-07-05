@@ -19,6 +19,7 @@ import {
     ApiTags,
     getSchemaPath,
 } from '@nestjs/swagger';
+import { Types } from 'mongoose';
 import { AuthGuard } from '../../auth.guard';
 import { NguoiDungService } from '../nguoi-dung/nguoi-dung.service';
 import { DanhGia, DanhGiaSchema } from './danh-gia.entity';
@@ -31,7 +32,10 @@ import { UpdateDanhGiaDto } from './dto/update-danh-gia.dto';
 @ApiTags('danh-gia')
 @ApiExtraModels(CreateDanhGiaDto, UpdateDanhGiaDto)
 export class DanhGiaController {
-    constructor(private readonly dgSer: DanhGiaService, private ndSer: NguoiDungService) {}
+    constructor(
+        private readonly dgSer: DanhGiaService,
+        private ndSer: NguoiDungService,
+    ) {}
 
     @Post()
     @ApiBody({
@@ -58,7 +62,7 @@ export class DanhGiaController {
         type: String,
         description: '_id của người đánh giá',
     })
-	@ApiQuery({
+    @ApiQuery({
         name: 'ngay',
         type: String,
         description: 'Ngày đánh giá',
@@ -67,15 +71,18 @@ export class DanhGiaController {
         description: 'Trả về tất cả đánh giá theo _id của người dùng',
         isArray: true,
     })
-    async findAll_byUser(@Query('user') user?: string, @Query('ngay') ngay?: string) {
-		if (user && user != '') {
-			const classe = (await this.ndSer.findOne_byID(user)).lopHoc
-        	return await this.dgSer.findAll_byUser(classe);
-		}
+    async findAll_byUser(
+        @Query('user') user?: string,
+        @Query('ngay') ngay?: string,
+    ) {
+        if (user && user != '') {
+            const classe = (await this.ndSer.findOne_byID(user)).lopHoc;
+            return await this.dgSer.findAll_byUser(classe);
+        }
 
-		if (ngay && ngay != '') return await this.dgSer.findAll_byDate(ngay)
+        if (ngay && ngay != '') return await this.dgSer.findAll_byDate(ngay);
 
-		return null
+        return null;
     }
 
     @Get(':id')

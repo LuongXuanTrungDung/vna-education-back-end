@@ -12,7 +12,7 @@ import { NguoiDungService } from './nguoi-dung.service';
 import { CreateNguoiDungDto } from './dto/create-nguoi-dung.dto';
 import { UpdateNguoiDungDto } from './dto/update-nguoi-dung.dto';
 import {
-	ApiBody,
+    ApiBody,
     ApiCreatedResponse,
     ApiOkResponse,
     ApiParam,
@@ -27,7 +27,7 @@ export class NguoiDungController {
     constructor(private readonly service: NguoiDungService) {}
 
     @Post()
-	@ApiBody({type: CreateNguoiDungDto})
+    @ApiBody({ type: CreateNguoiDungDto })
     @ApiCreatedResponse({ description: 'Tạo thành công' })
     async create(@Body() dto: CreateNguoiDungDto) {
         return await this.service.create(dto);
@@ -51,21 +51,21 @@ export class NguoiDungController {
     }
 
     @Patch(':id')
-	@ApiParam({
+    @ApiParam({
         name: 'id',
         type: String,
         description: '_id của người dùng',
     })
-	@ApiBody({
-		type: UpdateNguoiDungDto
-	})
+    @ApiBody({
+        type: UpdateNguoiDungDto,
+    })
     @ApiOkResponse({ description: 'Cập nhật thành công' })
     async update(@Param('id') id: string, @Body() dto: UpdateNguoiDungDto) {
         return await this.service.update(id, dto);
     }
 
     @Delete(':id')
-	@ApiParam({
+    @ApiParam({
         name: 'id',
         type: String,
         description: '_id của người dùng',

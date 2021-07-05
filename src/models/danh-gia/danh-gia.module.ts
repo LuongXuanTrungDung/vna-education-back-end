@@ -4,6 +4,9 @@ import { DanhGiaController } from './danh-gia.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { DanhGiaSchema } from './danh-gia.entity';
 import { NguoiDungModule } from '../nguoi-dung/nguoi-dung.module';
+import { LopHocModule } from '../lop-hoc/lop-hoc.module';
+import { MonHocModule } from '../mon-hoc/mon-hoc.module';
+import { MauDanhGiaModule } from '../mau-danh-gia/mau-danh-gia.module';
 
 @Module({
     imports: [
@@ -11,6 +14,9 @@ import { NguoiDungModule } from '../nguoi-dung/nguoi-dung.module';
             { name: 'danh_gia', collection: 'danh_gia', schema: DanhGiaSchema },
         ]),
         NguoiDungModule,
+        LopHocModule,
+        MonHocModule,
+        MauDanhGiaModule,
     ],
     controllers: [DanhGiaController],
     providers: [DanhGiaService],

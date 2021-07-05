@@ -116,3 +116,7 @@
 	- Thêm các yếu tố phục vụ việc khởi tạo API docs thông qua Swagger cho model: mau_danh_gia, danh_gia và lop_hoc
 	- Thêm các yếu tố phục vụ việc khởi tạo API docs: nguoi_dung, mon_hoc và thong_bao
 	- Sửa lại model danh_gia, DTO, các service và các controller có liên quan
+- 2.6.4
+	- Thêm API trả về các đánh giá theo ngayDG
+	- Điều chỉnh lại API thêm dữ liệu của model danh_gia
+	- Điều chỉnh lại API cập nhật dữ liệu của model danh_gia

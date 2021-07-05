@@ -4,7 +4,6 @@ import { MauDanhGia } from '../../mau-danh-gia/mau-danh-gia.entity';
 import { MonHoc } from '../../mon-hoc/mon-hoc.entity';
 import { NgayHoc } from '../../ngay-hoc/ngay-hoc.entity';
 import { NguoiDung } from '../../nguoi-dung/nguoi-dung.entity';
-import { ChiTietDG, ChiTietDGSchema } from '../chiTietDG.schema';
 
 export class CreateDanhGiaDto {
     @ApiProperty({
@@ -23,7 +22,7 @@ export class CreateDanhGiaDto {
         example: '60bxxxxxxxxxxxxx',
         description: 'Lớp học có các thành viên tham giá đánh giá',
     })
-    lopHoc: LopHoc;
+    lopHoc: string;
 
     @ApiProperty({
         required: true,
@@ -32,7 +31,7 @@ export class CreateDanhGiaDto {
         example: '60bxxxxxxxxxxxxx',
         description: 'Mẫu đánh giá đặc thù dành cho môn học',
     })
-    monHoc: MonHoc;
+    monHoc: string;
 
     @ApiProperty({
         required: true,
@@ -41,7 +40,7 @@ export class CreateDanhGiaDto {
         example: '60bxxxxxxxxxxxxx',
         description: 'Giáo viên được đánh giá',
     })
-    giaoVien: NguoiDung;
+    giaoVien: string;
 
     @ApiProperty({
         required: true,
@@ -67,5 +66,5 @@ export class CreateDanhGiaDto {
         example: '60bxxxxxxxxxxxxx',
         description: 'Mẫu đánh giá',
     })
-    mauDG: MauDanhGia;
+    mauDG: string;
 }

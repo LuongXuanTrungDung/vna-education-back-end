@@ -9,7 +9,7 @@ export class HSDGDto {
         description: '_id của người thực hiện đánh giá',
         example: '60bxxxxxxxxxxxxx',
     })
-    nguoiDG: NguoiDung
+    nguoiDG: NguoiDung;
 
     @ApiProperty({
         required: true,
