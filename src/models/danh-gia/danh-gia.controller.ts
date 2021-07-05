@@ -71,7 +71,7 @@ export class DanhGiaController {
         description: 'Trả về tất cả đánh giá theo _id của người dùng',
         isArray: true,
     })
-    async findAll_byUser(
+    async findAll_According(
         @Query('user') user?: string,
         @Query('ngay') ngay?: string,
     ) {

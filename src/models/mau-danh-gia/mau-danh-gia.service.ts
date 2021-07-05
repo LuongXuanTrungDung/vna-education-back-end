@@ -36,7 +36,13 @@ export class MauDanhGiaService {
     }
 
     async update(id: string, dto: UpdateMauDanhGiaDto) {
-        return await this.model.findByIdAndUpdate(id, dto);
+        return await this.model.findByIdAndUpdate(id, {
+			$set: {
+				tenMau: dto.tenMau,
+				ghiChu: dto.ghiChu,
+				tieuChi: dto.tieuChi
+			},
+		},{new: true});
     }
 
     async remove(id: string) {

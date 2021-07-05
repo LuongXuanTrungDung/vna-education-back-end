@@ -120,3 +120,8 @@
 	- Thêm API trả về các đánh giá theo ngayDG
 	- Điều chỉnh lại API thêm dữ liệu của model danh_gia
 	- Điều chỉnh lại API cập nhật dữ liệu của model danh_gia
+- 2.6.5
+	- Điều chỉnh lại API thêm & sửa dữ liệu của model nguoi_dung
+	- Điều chỉnh lại API thêm & sửa model mau_danh_gia
+	- Điều chỉnh lại API thêm & sửa model thong_bao
+	- Điều chỉnh lại model nguoi_dung, mau_danh_gia & thong_bao. Các kiểu dữ liệu __Date__ được thay bằng kiểu __string__.
