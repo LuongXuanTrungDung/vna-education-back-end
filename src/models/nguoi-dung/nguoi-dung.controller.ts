@@ -7,6 +7,7 @@ import {
     Param,
     Delete,
     UseGuards,
+    Query,
 } from '@nestjs/common';
 import { NguoiDungService } from './nguoi-dung.service';
 import { CreateNguoiDungDto } from './dto/create-nguoi-dung.dto';
@@ -16,6 +17,7 @@ import {
     ApiCreatedResponse,
     ApiOkResponse,
     ApiParam,
+    ApiQuery,
     ApiTags,
 } from '@nestjs/swagger';
 import { AuthGuard } from '../../auth.guard';
@@ -31,6 +33,19 @@ export class NguoiDungController {
     @ApiCreatedResponse({ description: 'Tạo thành công' })
     async create(@Body() dto: CreateNguoiDungDto) {
         return await this.service.create(dto);
+    }
+
+    @Get('theo')
+    @ApiQuery({
+        name: 'role',
+        type: String,
+        description: 'Vai trò của người dùng, 2 chữ cái đầu của maND',
+    })
+    @ApiOkResponse({ description: 'Trả về tất cả' })
+    async findAll_according(@Query('role') role: string) {
+        if (role && role != '') return this.service.findAll_byRole(role);
+
+        return await this.service.findAll();
     }
 
     @Get()

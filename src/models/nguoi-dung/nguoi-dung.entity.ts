@@ -31,7 +31,7 @@ export class NguoiDung {
     soDienThoai: string;
 
     @Prop({ required: true })
-    ngaySinh: Date;
+    ngaySinh: string;
 
     @Prop({ required: true })
     diaChi: string;
@@ -60,7 +60,7 @@ export class NguoiDung {
     })
     lopHoc: LopHoc;
 
-    @Prop() ngayNhapHoc: Date;
+    @Prop() ngayNhapHoc: string;
 
     @Prop({
         ref: 'lop_hoc',

@@ -49,12 +49,12 @@ export class CreateNguoiDungDto {
 
     @ApiProperty({
         name: 'ngaySinh',
-        type: Date,
+        type: String,
         example: '20-4-1996',
         required: true,
         description: 'Ngày sinh của người dùng',
     })
-    ngaySinh: Date;
+    ngaySinh: string;
 
     @ApiProperty({
         name: 'soDienThoai',
@@ -95,48 +95,78 @@ export class CreateNguoiDungDto {
 
     @ApiProperty({
         name: 'cccd',
-        type: 'object',
-        description: 'Chi tiết về CCCD của người dùng',
+        type: String,
+        description: 'Chi tiết (mã số) về CCCD của người dùng',
     })
-    cccd: GiayTo;
+    cccd: string;
+
+    // @ApiProperty({
+    //     name: 'hoChieu',
+    //     type: 'object',
+    //     description: 'Chi tiết về hộ chiếu của người dùng',
+    // })
+    // hoChieu: string
 
     @ApiProperty({
-        name: 'hoChieu',
-        type: 'object',
-        description: 'Chi tiết về hộ chiếu của người dùng',
+        name: 'ngayCap',
+        type: String,
+        description: 'Ngày cấp CCCD/hoChieu của người dùng',
     })
-    hoChieu: GiayTo;
+    ngayCap: string;
+
+    @ApiProperty({
+        name: 'noiCap',
+        type: String,
+        description: 'Nơi cấp CCCD/hộ chiếu của người dùng',
+    })
+    noiCap: string;
 
     @ApiProperty({
         name: 'chucVu',
-        type: 'object',
+        type: String,
         description: 'Chi tiết về chức vụ của người dùng',
     })
-    chucVu: LaoDong;
+    chucVu: string;
 
     @ApiProperty({
-        name: 'lopHoc',
+        name: 'nhomChucVu',
         type: String,
-        example: '60bxxxxxxxxxxxxx',
-        description: 'Lớp học của học sinh',
+        enum: ['Ban giám hiệu', 'Chuyên gia', 'Giáo viên', 'Nhân viên'],
+        description: 'Nhóm chức vụ của người dùng',
     })
-    lopHoc: LopHoc;
+    nhomChucVu: string;
+
+    @ApiProperty({
+        name: 'tDCM',
+        type: String,
+        enum: ['Đại học', 'Cao đẳng', 'Trung cấp'],
+        description: 'Trình độ chuyên môn của người dùng',
+    })
+    tDCM: string;
+
+    // @ApiProperty({
+    //     name: 'lopHoc',
+    //     type: String,
+    //     example: '60bxxxxxxxxxxxxx',
+    //     description: 'Lớp học của học sinh',
+    // })
+    // lopHoc: string
 
     @ApiProperty({
         name: 'ngayNhapHoc',
-        type: Date,
+        type: String,
         example: '21-12-2012',
         description: 'Ngày nhập học của học sinh',
     })
-    ngayNhapHoc: Date;
+    ngayNhapHoc: string;
 
-    @ApiProperty({
-        name: 'chuNhiem',
-        type: String,
-        example: '60bxxxxxxxxxxxxx',
-        description: 'Lớp học mà giáo viên được giao chủ nhiệm',
-    })
-    chuNhiem: LopHoc;
+    // @ApiProperty({
+    //     name: 'chuNhiem',
+    //     type: String,
+    //     example: '60bxxxxxxxxxxxxx',
+    //     description: 'Lớp học mà giáo viên được giao chủ nhiệm',
+    // })
+    // chuNhiem: string
 
     // @ApiProperty({
     // 	name: 'conCai',

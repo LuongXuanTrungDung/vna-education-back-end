@@ -18,7 +18,5 @@ export class LaoDong {
 
     @Prop({ required: true, enum: ['Đại học', 'Cao đẳng', 'Trung cấp'] })
     trinhDo: string;
-
-    @Prop({ required: true }) hopDong: string;
 }
 export const LaoDongSchema = SchemaFactory.createForClass(LaoDong);

@@ -4,6 +4,8 @@ import { hash } from 'bcrypt';
 import { Model } from 'mongoose';
 import { CreateNguoiDungDto } from './dto/create-nguoi-dung.dto';
 import { UpdateNguoiDungDto } from './dto/update-nguoi-dung.dto';
+import { GiayTo } from './giayTo.schema';
+import { LaoDong } from './laoDong.schema';
 import { NguoiDungDocument } from './nguoi-dung.entity';
 
 @Injectable()
@@ -13,7 +15,39 @@ export class NguoiDungService {
     ) {}
 
     async create(dto: CreateNguoiDungDto) {
-        return await this.model.create(dto);
+        const {
+            cccd,
+            ngayCap,
+            noiCap,
+            tDCM,
+            chucVu,
+            nhomChucVu,
+            matKhau,
+            ...rest
+        } = dto;
+        let gt, ld;
+        if (dto.cccd && dto.ngayCap && dto.noiCap) {
+            gt = {
+                maSo: dto.cccd,
+                ngayCap: dto.ngayCap,
+                noiCap: dto.noiCap,
+            };
+        }
+
+        if (dto.chucVu && dto.nhomChucVu && dto.tDCM) {
+            ld = {
+                chucVu: dto.chucVu,
+                nhomChucVu: dto.nhomChucVu,
+                trinhDo: dto.tDCM,
+            };
+        }
+
+        return await this.model.create({
+            ...rest,
+            matKhau: hash(dto.matKhau, 12),
+            cccd: gt,
+            chucVu: ld,
+        });
     }
 
     async forSelect_giaoVien() {
@@ -45,8 +79,16 @@ export class NguoiDungService {
     }
 
     async findAll_byRole(role: string) {
-        const reg = new RegExp(role, 'i');
-        return await this.model.find({ maND: reg });
+        if (
+            role == 'HS' ||
+            role == 'PH' ||
+            role == 'GV' ||
+            role == 'QT' ||
+            role == 'HT'
+        ) {
+            const reg = new RegExp(role, 'i');
+            return await this.model.find({ maND: reg });
+        } else return null;
     }
 
     async findOne_byMaND(ma: string) {
@@ -77,25 +119,14 @@ export class NguoiDungService {
                 hoTen: user.hoTen,
                 emailND: user.emailND,
                 diaChi: user.diaChi,
-                ngaySinh:
-                    user.ngaySinh.getDate() +
-                    '-' +
-                    user.ngaySinh.getMonth() +
-                    '-' +
-                    user.ngaySinh.getFullYear(),
+                ngaySinh: user.ngaySinh,
                 gioiTinh: user.gioiTinh,
                 soDienThoai: user.soDienThoai ? user.soDienThoai : null,
                 quocTich: user.quocTich,
                 danToc: user.danToc,
                 cccd: user.cccd ? user.cccd : null,
                 hoChieu: user.hoChieu ? user.hoChieu : null,
-                ngayNhapHoc: user.ngayNhapHoc
-                    ? user.ngayNhapHoc.getDate() +
-                      '-' +
-                      user.ngayNhapHoc.getMonth() +
-                      '-' +
-                      user.ngayNhapHoc.getFullYear()
-                    : null,
+                ngayNhapHoc: user.ngayNhapHoc ? user.ngayNhapHoc : null,
                 lopHoc: user.lopHoc ? user.lopHoc.maLH : null,
                 chuNhiem: user.chuNhiem ? user.chuNhiem.maLH : null,
                 chucVu: user.chucVu ? user.chucVu : null,
@@ -122,10 +153,57 @@ export class NguoiDungService {
     }
 
     async update(id: string, dto: UpdateNguoiDungDto) {
-        return await this.model.findOneAndUpdate({ maND: id }, dto);
+        const {
+            cccd,
+            ngayCap,
+            noiCap,
+            tDCM,
+            chucVu,
+            nhomChucVu,
+            matKhau,
+            ...rest
+        } = dto;
+        let gt, ld;
+        if (dto.cccd && dto.ngayCap && dto.noiCap) {
+            gt = {
+                maSo: dto.cccd,
+                ngayCap: dto.ngayCap,
+                noiCap: dto.noiCap,
+            };
+        }
+
+        if (dto.chucVu && dto.nhomChucVu && dto.tDCM) {
+            ld = {
+                chucVu: dto.chucVu,
+                nhomChucVu: dto.nhomChucVu,
+                trinhDo: dto.tDCM,
+            };
+        }
+
+        return await this.model.findByIdAndUpdate(
+            id,
+            {
+                $set: {
+                    maND: dto.maND,
+                    hoTen: dto.hoTen,
+                    matKhau: await hash(dto.matKhau, 12),
+                    emailND: dto.emailND,
+                    soDienThoai: dto.soDienThoai,
+                    quocTich: dto.quocTich,
+                    danToc: dto.danToc,
+                    diaChi: dto.diaChi,
+                    gioiTinh: dto.gioiTinh,
+                    ngaySinh: dto.ngaySinh,
+                    ngayNhapHoc: dto.ngayNhapHoc,
+                    cccd: gt,
+                    chucVu: ld,
+                },
+            },
+            { new: true },
+        );
     }
 
     async remove(id: string) {
-        return await this.model.findOneAndDelete({ maND: id });
+        return await this.model.findByIdAndDelete(id);
     }
 }
