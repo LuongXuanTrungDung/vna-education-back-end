@@ -36,12 +36,8 @@ export class ThongBao {
     })
     danhMuc: string;
 
-    @Prop({
-        required: true,
-        ref: 'ngay_hoc',
-        type: MongooseSchema.Types.ObjectId,
-    })
-    ngayDang: NgayHoc;
+    @Prop({required: true,})
+    ngayDang: string
 
     @Prop({ required: true, default: true })
     daDuyet: boolean;
