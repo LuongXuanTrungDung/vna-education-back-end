@@ -60,22 +60,6 @@ export class AppService {
         return result;
     }
 
-    async traBangDiem_theoHS(hs: string) {
-        const result = [];
-        const scores = await this.bdSer.findAll();
-
-        for (let i = 0; i < scores.length; i++) {
-            const d = await scores[i]
-                .populate({
-                    path: 'hocSinh',
-                    model: 'nguoi_dung',
-                })
-                .execPopulate();
-            if (d.hocSinh.maND === hs) result.push(d);
-        }
-        return result;
-    }
-
     async kiemTra_dangNhap(username: string, password: string) {
         const user = await this.ndSer.findOne_byMaND(username);
         const pass = await this.ndSer.onlyPassword(username);
