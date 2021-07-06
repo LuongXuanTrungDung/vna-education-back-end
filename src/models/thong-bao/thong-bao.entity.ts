@@ -36,8 +36,8 @@ export class ThongBao {
     })
     danhMuc: string;
 
-    @Prop({required: true,})
-    ngayDang: string
+    @Prop({ required: true })
+    ngayDang: string;
 
     @Prop({ required: true, default: true })
     daDuyet: boolean;

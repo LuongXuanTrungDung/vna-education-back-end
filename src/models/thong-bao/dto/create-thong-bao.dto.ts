@@ -10,7 +10,7 @@ export class CreateThongBaoDto {
         example: '60bxxxxxxxxxxxxx',
         description: 'Người đăng thông báo',
     })
-    nguoiDang: string
+    nguoiDang: string;
 
     @ApiProperty({
         required: true,
@@ -53,10 +53,10 @@ export class CreateThongBaoDto {
         required: true,
         name: 'ngayDang',
         type: String,
-		example: "6-7-2021",
+        example: '6-7-2021',
         description: 'Ngày đăng thông báo',
     })
-    ngayDang: string
+    ngayDang: string;
 
     @ApiProperty({
         required: true,
