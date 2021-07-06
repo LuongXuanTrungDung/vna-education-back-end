@@ -14,6 +14,7 @@ import { UpdateMonHocDto } from './dto/update-mon-hoc.dto';
 import {
     ApiBody,
     ApiCreatedResponse,
+    ApiForbiddenResponse,
     ApiOkResponse,
     ApiParam,
     ApiTags,
@@ -29,14 +30,20 @@ export class MonHocController {
     @Post()
     @ApiBody({ type: CreateMonHocDto })
     @ApiCreatedResponse({ description: 'Tạo thành công' })
-    create(@Body() dto: CreateMonHocDto) {
-        return this.service.create(dto);
+    @ApiForbiddenResponse({
+        description: 'Ngăn cản truy cập do chưa đăng nhập vào hệ thống',
+    })
+    async create(@Body() dto: CreateMonHocDto) {
+        return await this.service.create(dto);
     }
 
     @Get()
     @ApiOkResponse({ description: 'Trả về tất cả' })
-    findAll() {
-        return this.service.findAll();
+    @ApiForbiddenResponse({
+        description: 'Ngăn cản truy cập do chưa đăng nhập vào hệ thống',
+    })
+    async findAll() {
+        return await this.service.findAll();
     }
 
     @Get(':id')
@@ -46,8 +53,11 @@ export class MonHocController {
         description: '_id của môn học',
     })
     @ApiOkResponse({ description: 'Trả về 1 đối tượng' })
-    findOne(@Param('id') id: string) {
-        return this.service.findOne(id);
+    @ApiForbiddenResponse({
+        description: 'Ngăn cản truy cập do chưa đăng nhập vào hệ thống',
+    })
+    async findOne(@Param('id') id: string) {
+        return await this.service.findOne(id);
     }
 
     @Patch(':id')
@@ -58,8 +68,11 @@ export class MonHocController {
     })
     @ApiBody({ type: UpdateMonHocDto })
     @ApiOkResponse({ description: 'Cập nhật thành công' })
-    update(@Param('id') id: string, @Body() dto: UpdateMonHocDto) {
-        return this.service.update(id, dto);
+    @ApiForbiddenResponse({
+        description: 'Ngăn cản truy cập do chưa đăng nhập vào hệ thống',
+    })
+    async update(@Param('id') id: string, @Body() dto: UpdateMonHocDto) {
+        return await this.service.update(id, dto);
     }
 
     @Delete(':id')
@@ -69,7 +82,10 @@ export class MonHocController {
         description: '_id của môn học',
     })
     @ApiOkResponse({ description: 'Xóa thành công' })
-    remove(@Param('id') id: string) {
-        return this.service.remove(id);
+    @ApiForbiddenResponse({
+        description: 'Ngăn cản truy cập do chưa đăng nhập vào hệ thống',
+    })
+    async remove(@Param('id') id: string) {
+        return await this.service.remove(id);
     }
 }

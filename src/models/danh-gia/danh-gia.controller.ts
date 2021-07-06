@@ -13,6 +13,7 @@ import {
     ApiBody,
     ApiCreatedResponse,
     ApiExtraModels,
+    ApiForbiddenResponse,
     ApiOkResponse,
     ApiParam,
     ApiQuery,
@@ -43,6 +44,9 @@ export class DanhGiaController {
         description: 'DTO chứa dữ liệu để tạo 1 đánh giá mới',
     })
     @ApiCreatedResponse({ description: 'Tạo thành công' })
+    @ApiForbiddenResponse({
+        description: 'Ngăn cản truy cập do chưa đăng nhập vào hệ thống',
+    })
     async create(@Body() dto: CreateDanhGiaDto) {
         return await this.dgSer.create(dto);
     }
@@ -51,6 +55,9 @@ export class DanhGiaController {
     @ApiOkResponse({
         description: 'Trả về tất cả',
         isArray: true,
+    })
+    @ApiForbiddenResponse({
+        description: 'Ngăn cản truy cập do chưa đăng nhập vào hệ thống',
     })
     async findAll() {
         return await this.dgSer.findAll();
@@ -70,6 +77,9 @@ export class DanhGiaController {
     @ApiOkResponse({
         description: 'Trả về tất cả đánh giá theo _id của người dùng',
         isArray: true,
+    })
+    @ApiForbiddenResponse({
+        description: 'Ngăn cản truy cập do chưa đăng nhập vào hệ thống',
     })
     async findAll_According(
         @Query('user') user?: string,
@@ -91,6 +101,9 @@ export class DanhGiaController {
         type: String,
         description: '_id của đánh giá',
     })
+    @ApiForbiddenResponse({
+        description: 'Ngăn cản truy cập do chưa đăng nhập vào hệ thống',
+    })
     @ApiOkResponse({ description: 'Trả về 1 đối tượng', isArray: false })
     async findOne(@Param('id') id: string) {
         return await this.dgSer.findOne(id);
@@ -107,6 +120,9 @@ export class DanhGiaController {
         isArray: false,
         type: UpdateDanhGiaDto,
     })
+    @ApiForbiddenResponse({
+        description: 'Ngăn cản truy cập do chưa đăng nhập vào hệ thống',
+    })
     @ApiOkResponse({ description: 'Cập nhật thành công', isArray: false })
     async update(@Param('id') id: string, @Body() dto: UpdateDanhGiaDto) {
         return await this.dgSer.update(id, dto);
@@ -117,6 +133,9 @@ export class DanhGiaController {
         name: 'id',
         type: String,
         description: '_id của đánh giá',
+    })
+    @ApiForbiddenResponse({
+        description: 'Ngăn cản truy cập do chưa đăng nhập vào hệ thống',
     })
     @ApiOkResponse({ description: 'Xóa thành công', isArray: false })
     async remove(@Param('id') id: string) {
