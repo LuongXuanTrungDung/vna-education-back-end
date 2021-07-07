@@ -89,6 +89,8 @@ export class DanhGiaService {
             monHoc: rev.monHoc.tenMH,
             giaoVien: rev.giaoVien.hoTen,
             choGVCN: rev.choGVCN,
+			mauDG: rev.mauDG.tenMau,
+			lopHoc: rev.lopHoc.maLH,
             chiTiet: {
                 lopHoc: rev.lopHoc.maLH,
                 siSo: rev.lopHoc.hocSinh.length,
