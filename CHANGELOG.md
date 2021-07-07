@@ -125,3 +125,8 @@
 	- Điều chỉnh lại API thêm & sửa model mau_danh_gia
 	- Điều chỉnh lại API thêm & sửa model thong_bao
 	- Điều chỉnh lại model nguoi_dung, mau_danh_gia & thong_bao. Các kiểu dữ liệu __Date__ được thay bằng kiểu __string__.
+2.6.6
+	- Thêm API trả giáo viên theo môn học
+	- Các điều chỉnh nhỏ phục vụ API docs
+	- Sửa lại các API sửa của model nguoi_dung, thong_bao, mau_danh_gia và danh_gia
+	- Xóa các views PUG dùng để test API, thay vào đó sử dụng Postman
