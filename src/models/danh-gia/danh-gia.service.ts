@@ -101,17 +101,17 @@ export class DanhGiaService {
 
 	async update(id: string, dto: UpdateDanhGiaDto) {
 		await this.getOne(id).then(async (doc) => {
-			doc.tenDG = dto.tenDG
-			doc.choGVCN = dto.choGVCN
-			doc.chiTiet = dto.chiTiet
-			doc.ngayDG = dto.ngayDG
-			doc.monHoc = (await this.mhSer.findOne(dto.monHoc))._id
-			doc.mauDG = (await this.mdgSer.findOne(dto.mauDG))._id
-			doc.lopHoc = (await this.lhSer.findOne(dto.lopHoc))._id
-			doc.giaoVien = (await this.ndSer.getOne(dto.giaoVien))._id
-			await doc.save()
-		})
-		return 'Cập nhật thành công'
+			if (dto.tenDG) doc.tenDG = dto.tenDG;
+			if (dto.choGVCN) doc.choGVCN = dto.choGVCN;
+			if (dto.chiTiet) doc.chiTiet = dto.chiTiet;
+			if (dto.ngayDG) doc.ngayDG = dto.ngayDG;
+			if (dto.monHoc) doc.monHoc = (await this.mhSer.findOne(dto.monHoc))._id;
+			if (dto.mauDG) doc.mauDG = (await this.mdgSer.findOne(dto.mauDG))._id;
+			if (dto.lopHoc) doc.lopHoc = (await this.lhSer.findOne(dto.lopHoc))._id;
+			if (dto.giaoVien) doc.giaoVien = (await this.ndSer.getOne(dto.giaoVien))._id;
+			await doc.save();
+		});
+		return 'Cập nhật thành công';
 	}
 
 	async update_fromHS(id: string, dto: HSDGDto) {

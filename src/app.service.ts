@@ -88,7 +88,7 @@ export class AppService {
             giaoVien: await this.ndSer.forSelect_giaoVien(),
             mauDG: await this.mauSer.forSelect(),
             monHoc: await this.mhSer.forSelect(),
-			lopHoc: await this.lhSer.forSelect()
+            lopHoc: await this.lhSer.forSelect(),
         };
     }
 

@@ -32,14 +32,13 @@ export class ThongBao {
     @Prop({
         required: true,
         default: 'Khác',
-        enum: ['Hoạt động', 'Học phí', 'Học tập', 'Khác'],
     })
     danhMuc: string;
 
     @Prop({ required: true })
     ngayDang: string;
 
-    @Prop({ required: true, default: true })
+    @Prop({ default: true })
     daDuyet: boolean;
 }
 

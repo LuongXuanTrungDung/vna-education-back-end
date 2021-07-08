@@ -43,7 +43,6 @@ export class CreateThongBaoDto {
         required: true,
         default: 'Khác',
         name: 'danhMuc',
-        enum: ['Hoạt động', 'Học phí', 'Học tập', 'Khác'],
         type: String,
         description: 'Danh mục của thông báo',
     })
@@ -59,7 +58,6 @@ export class CreateThongBaoDto {
     ngayDang: string;
 
     @ApiProperty({
-        required: true,
         default: true,
         name: 'daDuyet',
         type: Boolean,
