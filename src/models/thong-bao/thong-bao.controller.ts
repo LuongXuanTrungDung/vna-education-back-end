@@ -7,6 +7,7 @@ import {
     Param,
     Delete,
     UseGuards,
+    Query,
 } from '@nestjs/common';
 import { ThongBaoService } from './thong-bao.service';
 import { CreateThongBaoDto } from './dto/create-thong-bao.dto';
@@ -16,6 +17,7 @@ import {
     ApiCreatedResponse,
     ApiOkResponse,
     ApiParam,
+    ApiQuery,
     ApiTags,
 } from '@nestjs/swagger';
 import { AuthGuard } from '../../auth.guard';
@@ -37,6 +39,32 @@ export class ThongBaoController {
     @ApiOkResponse({ description: 'Trả về tất cả' })
     async findAll() {
         return await this.service.findAll();
+    }
+
+    @Get('theo')
+    @ApiQuery({
+        name: 'muc',
+        type: String,
+        description: 'Danh mục cần tìm',
+    })
+    @ApiOkResponse({ description: 'Trả về tất cả, có chọn lọc' })
+    async findBy(@Query('muc') muc: string) {
+        if (muc && muc != '') {
+            switch (muc) {
+                case 'hoat-dong':
+                    return await this.service.findAll_byCatalog('Hoạt động');
+                    break;
+                case 'hoc-tap':
+                    return await this.service.findAll_byCatalog('Học tập');
+                    break;
+                case 'hoc-phi':
+                    return await this.service.findAll_byCatalog('Học phí');
+                    break;
+                default:
+                    return await this.service.findAll_byCatalog('Khác');
+                    break;
+            }
+        }
     }
 
     @Get(':id')
