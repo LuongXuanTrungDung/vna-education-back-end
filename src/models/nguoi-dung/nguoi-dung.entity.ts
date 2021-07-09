@@ -8,70 +8,73 @@ import { LaoDong, LaoDongSchema } from './laoDong.schema';
 export type NguoiDungDocument = NguoiDung & Document;
 
 @Schema({
-    timestamps: {
-        createdAt: 'thoiDiemTao',
-        updatedAt: 'thoiDiemSua',
-    },
-    versionKey: false,
+	timestamps: {
+		createdAt: 'thoiDiemTao',
+		updatedAt: 'thoiDiemSua',
+	},
+	versionKey: false,
 })
 export class NguoiDung {
-    @Prop({ required: true, index: true, unique: true })
-    maND: string;
+	@Prop({ required: true, index: true, unique: true })
+	maND: string;
 
-    @Prop({ required: true })
-    hoTen: string;
+	@Prop({ required: true })
+	hoTen: string;
 
-    @Prop()
-    emailND: string;
+	@Prop()
+	emailND: string;
 
-    @Prop({ required: true })
-    matKhau: string;
+	@Prop({ required: true })
+	matKhau: string;
 
-    @Prop()
-    soDienThoai: string;
+	@Prop()
+	soDienThoai: string;
 
-    @Prop({ required: true })
-    ngaySinh: string;
+	@Prop({ required: true })
+	ngaySinh: string;
 
-    @Prop({ required: true })
-    diaChi: string;
+	@Prop({ required: true })
+	diaChi: string;
 
-    @Prop({ required: true, enum: ['Nam', 'Nữ', 'Khác'] })
-    gioiTinh: string;
+	@Prop({ required: true, enum: ['Nam', 'Nữ', 'Khác'] })
+	gioiTinh: string;
 
-    @Prop({ required: true })
-    danToc: string;
+	@Prop({ required: true })
+	danToc: string;
 
-    @Prop({ required: true, default: 'Việt Nam' })
-    quocTich: string;
+	@Prop({ required: true, default: 'Việt Nam' })
+	quocTich: string;
 
-    @Prop({ type: GiayToSchema })
-    cccd: GiayTo;
+	@Prop({ type: GiayToSchema })
+	cccd: GiayTo;
 
-    @Prop({ type: GiayToSchema })
-    hoChieu: GiayTo;
+	@Prop({ type: GiayToSchema })
+	hoChieu: GiayTo;
 
-    @Prop({ type: LaoDongSchema })
-    chucVu: LaoDong;
+	@Prop({ type: LaoDongSchema })
+	chucVu: LaoDong;
 
-    @Prop({
-        ref: 'lop_hoc',
-        type: MongooseSchema.Types.ObjectId,
-    })
-    lopHoc: LopHoc;
+	@Prop({
+		ref: 'lop_hoc',
+		type: MongooseSchema.Types.ObjectId,
+	})
+	lopHoc: LopHoc;
 
-    @Prop() ngayNhapHoc: string;
+	@Prop() ngayNhapHoc: string;
 
-    @Prop({
-        ref: 'lop_hoc',
-        type: MongooseSchema.Types.ObjectId,
-    })
-    chuNhiem: LopHoc;
+	@Prop({
+		ref: 'lop_hoc',
+		type: MongooseSchema.Types.ObjectId,
+	})
+	chuNhiem: LopHoc;
 
-    @Prop({
-        type: [{ type: MongooseSchema.Types.ObjectId, ref: 'nguoi_dung' }],
-    })
-    conCai: NguoiDung[];
+	@Prop({ default: true })
+	dangHoatDong: boolean
+
+	@Prop({
+		type: [{ type: MongooseSchema.Types.ObjectId, ref: 'nguoi_dung' }],
+	})
+	conCai: NguoiDung[];
 }
 
 export const NguoiDungSchema = SchemaFactory.createForClass(NguoiDung);

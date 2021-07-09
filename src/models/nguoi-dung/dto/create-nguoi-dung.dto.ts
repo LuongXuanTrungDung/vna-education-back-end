@@ -158,6 +158,13 @@ export class CreateNguoiDungDto {
     })
     ngayNhapHoc: string;
 
+	@ApiProperty({
+        name: 'dangHoatDong',
+        type: Boolean,
+        description: 'Trạng thái hoạt động của học sinh/giáo viên',
+    })
+    dangHoatDong: boolean
+
     // @ApiProperty({
     //     name: 'chuNhiem',
     //     type: String,

@@ -10,7 +10,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 export class LaoDong {
     @Prop({ required: true }) chucVu: string;
 
-    @Prop({required: true}) hopDong: string
+    @Prop({ required: true }) hopDong: string;
 
     @Prop({ required: true }) trinhDo: string;
 }
