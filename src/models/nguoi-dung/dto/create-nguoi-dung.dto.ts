@@ -129,17 +129,15 @@ export class CreateNguoiDungDto {
     chucVu: string;
 
     @ApiProperty({
-        name: 'nhomChucVu',
+        name: 'hopDong',
         type: String,
-        enum: ['Ban giám hiệu', 'Chuyên gia', 'Giáo viên', 'Nhân viên'],
-        description: 'Nhóm chức vụ của người dùng',
+        description: 'Hình thức hợp đồng lao động của người dùng',
     })
-    nhomChucVu: string;
+    hopDong: string;
 
     @ApiProperty({
         name: 'tDCM',
         type: String,
-        enum: ['Đại học', 'Cao đẳng', 'Trung cấp'],
         description: 'Trình độ chuyên môn của người dùng',
     })
     tDCM: string;

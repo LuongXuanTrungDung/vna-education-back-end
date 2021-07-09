@@ -21,7 +21,7 @@ export class NguoiDungService {
             noiCap,
             tDCM,
             chucVu,
-            nhomChucVu,
+			hopDong,
             matKhau,
             ...rest
         } = dto;
@@ -34,10 +34,10 @@ export class NguoiDungService {
             };
         }
 
-        if (dto.chucVu && dto.nhomChucVu && dto.tDCM) {
+        if (dto.chucVu && dto.hopDong && dto.tDCM) {
             ld = {
                 chucVu: dto.chucVu,
-                nhomChucVu: dto.nhomChucVu,
+                hopDong: dto.hopDong,
                 trinhDo: dto.tDCM,
             };
         }
@@ -159,7 +159,7 @@ export class NguoiDungService {
             noiCap,
             tDCM,
             chucVu,
-            nhomChucVu,
+            hopDong,
             matKhau,
             ...rest
         } = dto;
@@ -172,10 +172,10 @@ export class NguoiDungService {
             };
         }
 
-        if (dto.chucVu && dto.nhomChucVu && dto.tDCM) {
+        if (dto.chucVu && dto.hopDong && dto.tDCM) {
             ld = {
                 chucVu: dto.chucVu,
-                nhomChucVu: dto.nhomChucVu,
+                hopDong: dto.hopDong,
                 trinhDo: dto.tDCM,
             };
         }
