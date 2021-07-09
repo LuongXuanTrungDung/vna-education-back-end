@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { DanhGiaService } from './danh-gia.service';
 import { DanhGiaController } from './danh-gia.controller';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -16,7 +16,8 @@ import { MauDanhGiaModule } from '../mau-danh-gia/mau-danh-gia.module';
         NguoiDungModule,
         LopHocModule,
         MonHocModule,
-        MauDanhGiaModule,
+        // MauDanhGiaModule,
+		forwardRef(()=>MauDanhGiaModule)
     ],
     controllers: [DanhGiaController],
     providers: [DanhGiaService],
