@@ -1,12 +1,11 @@
 import { Module } from '@nestjs/common';
-import { MonHocModule } from '../../models/mon-hoc/mon-hoc.module';
-import { NgayHocModule } from '../../models/ngay-hoc/ngay-hoc.module';
+import { DanhGiaModule } from '../../models/danh-gia/danh-gia.module';
 import { NguoiDungModule } from '../../models/nguoi-dung/nguoi-dung.module';
 import { QuanTriController } from './quan-tri.controller';
 import { QuanTriService } from './quan-tri.service';
 
 @Module({
-    imports: [NguoiDungModule, NgayHocModule, MonHocModule],
+    imports: [NguoiDungModule, DanhGiaModule],
     controllers: [QuanTriController],
     providers: [QuanTriService],
 })

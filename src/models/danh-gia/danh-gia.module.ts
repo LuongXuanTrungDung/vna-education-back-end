@@ -17,7 +17,7 @@ import { MauDanhGiaModule } from '../mau-danh-gia/mau-danh-gia.module';
         LopHocModule,
         MonHocModule,
         // MauDanhGiaModule,
-		forwardRef(()=>MauDanhGiaModule)
+        forwardRef(() => MauDanhGiaModule),
     ],
     controllers: [DanhGiaController],
     providers: [DanhGiaService],

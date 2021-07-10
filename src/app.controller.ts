@@ -1,24 +1,11 @@
-import {
-    Body,
-    Controller,
-    Get,
-    Param,
-    Post,
-    Render,
-    Query,
-    Res,
-    UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import {
     ApiBody,
     ApiCreatedResponse,
     ApiForbiddenResponse,
     ApiOkResponse,
-    ApiParam,
-    ApiQuery,
     ApiTags,
 } from '@nestjs/swagger';
-import { Response } from 'express';
 import { AppService } from './app.service';
 import { AuthGuard } from './auth.guard';
 import { DangNhapDTO, KetQua_DangNhap } from './helpers/dangNhap.dto';

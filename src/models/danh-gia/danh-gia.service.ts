@@ -128,6 +128,10 @@ export class DanhGiaService {
         return await this.model.findById(id);
     }
 
+    async getAll() {
+        return await this.model.find({});
+    }
+
     async remove(id: string) {
         return await this.model.findByIdAndDelete(id);
     }

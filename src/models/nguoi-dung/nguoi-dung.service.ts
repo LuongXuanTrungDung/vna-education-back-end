@@ -192,7 +192,7 @@ export class NguoiDungService {
             if (dto.gioiTinh) doc.gioiTinh = dto.gioiTinh;
             if (dto.ngaySinh) doc.ngaySinh = dto.ngaySinh;
             if (dto.ngayNhapHoc) doc.ngayNhapHoc = dto.ngayNhapHoc;
-			if (dto.dangHoatDong) doc.dangHoatDong = dto.dangHoatDong
+            if (dto.dangHoatDong) doc.dangHoatDong = dto.dangHoatDong;
             if (gt) doc.cccd = gt;
             if (ld) doc.chucVu = ld;
             await doc.save();
