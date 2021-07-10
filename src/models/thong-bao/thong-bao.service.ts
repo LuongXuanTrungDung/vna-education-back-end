@@ -102,6 +102,6 @@ export class ThongBaoService {
     }
 
     async remove(id: string) {
-        return await this.model.findById(id);
+        return await this.model.findByIdAndDelete(id)
     }
 }
