@@ -105,14 +105,19 @@ export class DanhGiaService {
             if (dto.choGVCN) doc.choGVCN = dto.choGVCN;
             if (dto.chiTiet) doc.chiTiet = dto.chiTiet;
             if (dto.ngayDG) doc.ngayDG = dto.ngayDG;
-            if (dto.monHoc)
+
+            if (dto.monHoc && await this.mhSer.findOne(dto.monHoc))
                 doc.monHoc = (await this.mhSer.findOne(dto.monHoc))._id;
-            if (dto.mauDG)
+
+            if (dto.mauDG && await this.mdgSer.findOne(dto.mauDG))
                 doc.mauDG = (await this.mdgSer.findOne(dto.mauDG))._id;
-            if (dto.lopHoc)
+
+            if (dto.lopHoc && await this.lhSer.findOne(dto.lopHoc))
                 doc.lopHoc = (await this.lhSer.findOne(dto.lopHoc))._id;
-            if (dto.giaoVien)
+
+            if (dto.giaoVien && await this.ndSer.getOne(dto.giaoVien))
                 doc.giaoVien = (await this.ndSer.getOne(dto.giaoVien))._id;
+
             await doc.save();
         });
         return 'Cập nhật thành công';
