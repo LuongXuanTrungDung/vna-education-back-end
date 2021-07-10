@@ -1,13 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { MonHocService } from '../../models/mon-hoc/mon-hoc.service';
-import { NgayHocService } from '../../models/ngay-hoc/ngay-hoc.service';
-import { NguoiDungService } from '../../models/nguoi-dung/nguoi-dung.service';
+import { DanhGiaService } from '../../models/danh-gia/danh-gia.service';
 
 @Injectable()
 export class QuanTriService {
-    constructor(
-        private ndSer: NguoiDungService,
-        private ngaySer: NgayHocService,
-        private mhSer: MonHocService,
-    ) {}
+    constructor(private readonly dgSer: DanhGiaService) {}
+
+    async tatCa_danhGia() {
+        return await this.dgSer.getAll();
+    }
 }

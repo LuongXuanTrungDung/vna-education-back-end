@@ -1,6 +1,5 @@
-import { Controller, Get, Render, UseGuards } from '@nestjs/common';
+import { Controller, Get, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { Response } from 'express';
 import { AuthGuard } from '../../auth.guard';
 import { QuanTriService } from './quan-tri.service';
 
@@ -10,9 +9,8 @@ import { QuanTriService } from './quan-tri.service';
 export class QuanTriController {
     constructor(private service: QuanTriService) {}
 
-    @Get()
-    @Render('quan-tri')
-    async quanTri() {
-        return '';
+    @Get('danh-gia')
+    async tatCa_danhGia() {
+        return await this.service.tatCa_danhGia();
     }
 }
