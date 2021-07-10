@@ -30,9 +30,6 @@ export class BangDiem {
 
     @Prop({ enum: ['Xuất sắc', 'Giỏi', 'Khá', 'Trung bình', 'Yếu', 'Kém'] })
     xepLoai: string;
-
-    @Prop({ enum: ['Tốt', 'Khá', 'Trung bình', 'Yếu', 'Kém'] })
-    hanhKiem: string;
 }
 
 export const BangDiemSchema = SchemaFactory.createForClass(BangDiem);

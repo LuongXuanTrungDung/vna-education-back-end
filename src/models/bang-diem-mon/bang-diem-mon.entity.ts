@@ -4,8 +4,16 @@ import { MonHoc } from '../mon-hoc/mon-hoc.entity';
 import { NguoiDung } from '../nguoi-dung/nguoi-dung.entity';
 import { TheoHK, TheoHKSchema } from './theoHK.schema';
 
-@Schema()
-export class ChiTietBD {
+export type BangDiemMonDocument = BangDiemMon & Document;
+
+@Schema({
+    timestamps: {
+        createdAt: 'thoiDiemTao',
+        updatedAt: 'thoiDiemSua',
+    },
+    versionKey: false,
+})
+export class BangDiemMon {
     @Prop({
         required: true,
         type: MongooseSchema.Types.ObjectId,
@@ -31,4 +39,5 @@ export class ChiTietBD {
 
     @Prop() nhanXet: string;
 }
-export const ChiTietBDSchema = SchemaFactory.createForClass(ChiTietBD);
+
+export const BangDiemMonSchema = SchemaFactory.createForClass(BangDiemMon);

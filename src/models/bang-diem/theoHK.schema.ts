@@ -15,7 +15,7 @@ export class TheoHK {
     thiHK: number;
 
     @Prop({ min: 0, max: 10, default: 0 })
-    diemTB: number;
+    diemTong: number;
 
     @Prop({ enum: ['Xuất sắc', 'Giỏi', 'Khá', 'Trung bình', 'Yếu', 'Kém'] })
     hocLuc: string;

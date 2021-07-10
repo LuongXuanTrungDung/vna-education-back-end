@@ -23,6 +23,16 @@ export class BangDiemService {
         return await this.model.findOne({ maBD: id });
     }
 
+    // async findAll_byUser(hs: string) {
+    //     const bd = await this.findAll();
+    //     const result = [];
+
+    //     for (let i = 0; i < bd.length; i++) {
+    //         if (bd[i].hocSinh == hs) result.push(bd[i]);
+    //     }
+    //     return result;
+    // }
+
     async update(id: string, dto: UpdateBangDiemDto) {
         return await this.model.findOneAndUpdate({ maBD: id }, dto);
     }

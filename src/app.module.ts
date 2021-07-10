@@ -20,6 +20,8 @@ import { GiaoVienModule } from './users/giao-vien/giao-vien.module';
 import { PhuHuynhModule } from './users/phu-huynh/phu-huynh.module';
 import { HieuTruongModule } from './users/hieu-truong/hieu-truong.module';
 import { MauDanhGiaModule } from './models/mau-danh-gia/mau-danh-gia.module';
+import { BangDiemTongModule } from './models/bang-diem-tong/bang-diem-tong.module';
+import { BangDiemMonModule } from './models/bang-diem-mon/bang-diem-mon.module';
 
 @Module({
     imports: [
@@ -50,6 +52,8 @@ import { MauDanhGiaModule } from './models/mau-danh-gia/mau-danh-gia.module';
         PhuHuynhModule,
         HieuTruongModule,
         MauDanhGiaModule,
+        BangDiemTongModule,
+        BangDiemMonModule,
     ],
     controllers: [AppController],
     providers: [AppService],
