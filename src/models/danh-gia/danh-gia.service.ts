@@ -106,21 +106,21 @@ export class DanhGiaService {
             if (dto.chiTiet) doc.chiTiet = dto.chiTiet;
             if (dto.ngayDG) doc.ngayDG = dto.ngayDG;
 
-            if (dto.monHoc && await this.mhSer.findOne(dto.monHoc))
+            if (dto.monHoc)
                 doc.monHoc = (await this.mhSer.findOne(dto.monHoc))._id;
 
-            if (dto.mauDG && await this.mdgSer.findOne(dto.mauDG))
+            if (dto.mauDG)
                 doc.mauDG = (await this.mdgSer.findOne(dto.mauDG))._id;
 
-            if (dto.lopHoc && await this.lhSer.findOne(dto.lopHoc))
+            if (dto.lopHoc)
                 doc.lopHoc = (await this.lhSer.findOne(dto.lopHoc))._id;
 
-            if (dto.giaoVien && await this.ndSer.getOne(dto.giaoVien))
+            if (dto.giaoVien)
                 doc.giaoVien = (await this.ndSer.getOne(dto.giaoVien))._id;
 
             await doc.save();
         });
-        return 'Cập nhật thành công';
+        return await this.findOne(id);
     }
 
     async update_fromHS(id: string, dto: HSDGDto) {
@@ -134,7 +134,15 @@ export class DanhGiaService {
     }
 
     async getAll() {
-        return await this.model.find({});
+        const revs = await this.model.find();
+        const result = [];
+
+        for (let i = 0; i < revs.length; i++) {
+            const one = await this.findOne(revs[i]._id);
+            const { chiTiet, tieuChi, ...rest } = one;
+            result.push(one);
+        }
+        return result;
     }
 
     async remove(id: string) {

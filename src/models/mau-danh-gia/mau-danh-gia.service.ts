@@ -35,13 +35,12 @@ export class MauDanhGiaService {
     }
 
     async findOne(id: string) {
-		return await this.model.findById(id, null, null, (err, doc) => {
-			if (err) {
-				console.log(err);
-				return null
-			}
-			else return doc
-		});
+        return await this.model.findById(id, null, null, (err, doc) => {
+            if (err) {
+                console.log(err);
+                return null;
+            } else return doc;
+        });
     }
 
     async update(id: string, dto: UpdateMauDanhGiaDto) {
@@ -51,7 +50,7 @@ export class MauDanhGiaService {
             if (dto.tieuChi) doc.tieuChi = dto.tieuChi;
             await doc.save();
         });
-        return 'Cập nhật thành công';
+        return await this.findOne(id);
     }
 
     async remove(id: string) {
