@@ -140,11 +140,11 @@ export class DanhGiaService {
         for (let i = 0; i < revs.length; i++) {
             const one = await this.findOne(revs[i]._id);
             const { chiTiet, tieuChi, ...rest } = one;
-            result.push(one);
+            result.push(rest);
         }
         return result;
     }
-
+s
     async remove(id: string) {
         return await this.model.findByIdAndDelete(id);
     }
