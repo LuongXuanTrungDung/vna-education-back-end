@@ -6,12 +6,15 @@ import {
     Patch,
     Param,
     Delete,
+    UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '../../auth.guard';
 import { BangDiemTongService } from './bang-diem-tong.service';
 import { CreateBangDiemTongDto } from './dto/create-bang-diem-tong.dto';
 import { UpdateBangDiemTongDto } from './dto/update-bang-diem-tong.dto';
 
 @Controller('bang-diem-tong')
+@UseGuards(AuthGuard)
 export class BangDiemTongController {
     constructor(private readonly service: BangDiemTongService) {}
 
