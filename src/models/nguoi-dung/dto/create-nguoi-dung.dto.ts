@@ -178,5 +178,5 @@ export class CreateNguoiDungDto {
     // 	type: 'array',
     // 	description: 'Con cái của phụ huynh'
     // })
-    // conCai: NguoiDung[];
+    // conCai: string[];
 }

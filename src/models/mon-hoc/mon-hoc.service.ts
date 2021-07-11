@@ -30,13 +30,12 @@ export class MonHocService {
     }
 
     async findOne(id: string) {
-		return await this.model.findById(id, null, null, (err, doc) => {
-			if (err) {
-				console.log(err);
-				return null
-			}
-			else return doc
-		});
+        return await this.model.findById(id, null, null, (err, doc) => {
+            if (err) {
+                console.log(err);
+                return null;
+            } else return doc;
+        });
     }
 
     async update(id: string, dto: UpdateMonHocDto) {

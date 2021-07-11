@@ -135,3 +135,6 @@
 	- Sửa API xóa mau_danh_gia: kiểm tra có tồn tại đánh giá đang dùng mẫu trước khi cho xóa
 	- Thêm API trả thông báo theo danh mục
 	- Thêm API trả đánh giá dành cho quản trị viên
+- 2.7
+	- Sửa API xóa model thong_bao do lỗi đánh máy
+	- Tách model bang_diem thành bang_diem_mon và bang_diem_tong, cùng các API CRUD tương ứng

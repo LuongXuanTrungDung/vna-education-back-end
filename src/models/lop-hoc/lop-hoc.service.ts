@@ -7,43 +7,42 @@ import { LopHocDocument } from './lop-hoc.entity';
 
 @Injectable()
 export class LopHocService {
-	constructor(@InjectModel('lop_hoc') private model: Model<LopHocDocument>) { }
+    constructor(@InjectModel('lop_hoc') private model: Model<LopHocDocument>) {}
 
-	async create(dto: CreateLopHocDto) {
-		return await this.model.create(dto);
-	}
+    async create(dto: CreateLopHocDto) {
+        return await this.model.create(dto);
+    }
 
-	async forSelect() {
-		const result = [];
-		const mh = await this.findAll();
-		for (let i = 0; i < mh.length; i++) {
-			result.push({
-				id: mh[i]._id,
-				ten: mh[i].maLH,
-			});
-		}
-		return result;
-	}
+    async forSelect() {
+        const result = [];
+        const mh = await this.findAll();
+        for (let i = 0; i < mh.length; i++) {
+            result.push({
+                id: mh[i]._id,
+                ten: mh[i].maLH,
+            });
+        }
+        return result;
+    }
 
-	async findAll() {
-		return await this.model.find({});
-	}
+    async findAll() {
+        return await this.model.find({});
+    }
 
-	async findOne(id: string) {
-		return await this.model.findById(id, null, null, (err, doc) => {
-			if (err) {
-				console.log(err);
-				return null
-			}
-			else return doc
-		});
-	}
+    async findOne(id: string) {
+        return await this.model.findById(id, null, null, (err, doc) => {
+            if (err) {
+                console.log(err);
+                return null;
+            } else return doc;
+        });
+    }
 
-	async update(id: string, dto: UpdateLopHocDto) {
-		return await this.model.findOneAndUpdate({ maLH: id }, dto);
-	}
+    async update(id: string, dto: UpdateLopHocDto) {
+        return await this.model.findOneAndUpdate({ maLH: id }, dto);
+    }
 
-	async remove(id: string) {
-		return await this.model.findOneAndDelete({ maLH: id });
-	}
+    async remove(id: string) {
+        return await this.model.findOneAndDelete({ maLH: id });
+    }
 }
