@@ -38,7 +38,7 @@ import { BangDiemMonModule } from './models/bang-diem-mon/bang-diem-mon.module';
         NguoiDungModule,
         DanhGiaModule,
         ThongBaoModule,
-        // BangDiemModule,
+        BangDiemModule,
         DiemDanhModule,
         TuanHocModule,
         NgayHocModule,
