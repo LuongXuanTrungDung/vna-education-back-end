@@ -146,7 +146,8 @@ export class NguoiDungService {
             if (user.ngayNhapHoc)
                 result = { ...result, ngayNhapHoc: user.ngayNhapHoc };
             if (user.chucVu) result = { ...result, chucVu: user.chucVu };
-            if (user.conCai && user.conCai.length >0) result = { ...result, conCai: user.conCai };
+            if (user.conCai && user.conCai.length > 0)
+                result = { ...result, conCai: user.conCai };
 
             return result;
         } else return null;
