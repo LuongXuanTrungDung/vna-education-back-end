@@ -20,7 +20,7 @@ export class LopHoc {
         type: MongooseSchema.Types.ObjectId,
         ref: 'nguoi_dung',
     })
-    chuNhiem: NguoiDung;
+    GVCN: NguoiDung;
 
     @Prop({
         required: true,

@@ -18,7 +18,7 @@ export class CreateLopHocDto {
         example: '60bxxxxxxxxxxxxx',
         description: 'Giáo viên chủ nhiệm của lớp',
     })
-    chuNhiem: NguoiDung;
+    GVCN: string;
 
     @ApiProperty({
         name: 'hocSinh',
@@ -29,5 +29,5 @@ export class CreateLopHocDto {
         minItems: 1,
         uniqueItems: true,
     })
-    hocSinh: NguoiDung[];
+    hocSinh: string[];
 }
