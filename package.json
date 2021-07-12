@@ -1,6 +1,6 @@
 {
 	"name": "nest-typescript-starter",
-	"version": "2.7",
+	"version": "2.7.0",
 	"description": "Ứng dụng quản lý chất lượng giáo dục",
 	"engines": {
 		"node": "16.x",
