@@ -96,6 +96,7 @@ export class NguoiDungService {
     }
 
     async findOne_byID(id: string) {
+        let result;
         const nd = await this.model.findById(id, null, null, (err, doc) => {
             if (err) return null;
             else return doc;
@@ -113,24 +114,41 @@ export class NguoiDungService {
                     },
                 ])
                 .execPopulate();
-            return {
+            const org = {
                 id: id,
                 maND: user.maND,
                 hoTen: user.hoTen,
                 emailND: user.emailND,
                 diaChi: user.diaChi,
                 ngaySinh: user.ngaySinh,
+                noiSinh: user.noiSinh,
                 gioiTinh: user.gioiTinh,
                 soDienThoai: user.soDienThoai ? user.soDienThoai : null,
+                dangHoatDong: user.dangHoatDong,
                 quocTich: user.quocTich,
                 danToc: user.danToc,
-                cccd: user.cccd ? user.cccd : null,
-                hoChieu: user.hoChieu ? user.hoChieu : null,
-                ngayNhapHoc: user.ngayNhapHoc ? user.ngayNhapHoc : null,
-                lopHoc: user.lopHoc ? user.lopHoc.maLH : null,
-                chuNhiem: user.chuNhiem ? user.chuNhiem.maLH : null,
-                chucVu: user.chucVu ? user.chucVu : null,
+                // cccd: user.cccd ? user.cccd : null,
+                // hoChieu: user.hoChieu ? user.hoChieu : null,
+                // ngayNhapHoc: user.ngayNhapHoc ? user.ngayNhapHoc : null,
+                // lopHoc: user.lopHoc ? user.lopHoc.maLH : null,
+                // chuNhiem: user.chuNhiem ? user.chuNhiem.maLH : null,
+                // chucVu: user.chucVu ? user.chucVu : null,
+                // phuHuynh: user.phuHuynh ? user.phuHuynh: null
             };
+
+            if (user.cccd) result = { ...org, cccd: user.cccd };
+            else result = org;
+            if (user.hoChieu) result = { ...org, hoChieu: user.hoChieu };
+            else result = org;
+
+            if (user.lopHoc) result = { ...result, lopHoc: user.lopHoc };
+            if (user.chuNhiem) result = { ...result, chuNhiem: user.chuNhiem };
+            if (user.ngayNhapHoc)
+                result = { ...result, ngayNhapHoc: user.ngayNhapHoc };
+            if (user.chucVu) result = { ...result, chucVu: user.chucVu };
+            if (user.conCai && user.conCai.length >0) result = { ...result, conCai: user.conCai };
+
+            return result;
         } else return null;
     }
 
@@ -198,6 +216,13 @@ export class NguoiDungService {
             if (dto.ngaySinh) doc.ngaySinh = dto.ngaySinh;
             if (dto.ngayNhapHoc) doc.ngayNhapHoc = dto.ngayNhapHoc;
             if (dto.dangHoatDong) doc.dangHoatDong = dto.dangHoatDong;
+            if (dto.conCai && dto.conCai.length > 0) {
+                const temp = [];
+                for (let i = 0; i < dto.conCai.length; i++) {
+                    temp.push((await this.getOne(dto.conCai[i]))._id);
+                }
+                doc.conCai = temp;
+            }
             if (gt) doc.cccd = gt;
             if (ld) doc.chucVu = ld;
             await doc.save();

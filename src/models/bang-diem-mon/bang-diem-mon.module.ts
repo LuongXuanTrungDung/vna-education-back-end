@@ -18,5 +18,6 @@ import { NguoiDungModule } from '../nguoi-dung/nguoi-dung.module';
     ],
     controllers: [BangDiemMonController],
     providers: [BangDiemMonService],
+    exports: [BangDiemMonService],
 })
 export class BangDiemMonModule {}

@@ -34,6 +34,9 @@ export class NguoiDung {
     ngaySinh: string;
 
     @Prop({ required: true })
+    noiSinh: string;
+
+    @Prop({ required: true })
     diaChi: string;
 
     @Prop({ required: true, enum: ['Nam', 'Nữ', 'Khác'] })

@@ -21,7 +21,6 @@ import { HieuTruongModule } from './users/hieu-truong/hieu-truong.module';
 import { MauDanhGiaModule } from './models/mau-danh-gia/mau-danh-gia.module';
 import { BangDiemTongModule } from './models/bang-diem-tong/bang-diem-tong.module';
 import { BangDiemMonModule } from './models/bang-diem-mon/bang-diem-mon.module';
-import { BangDiemModule } from './models/bang-diem/bang-diem.module';
 
 @Module({
     imports: [
@@ -38,7 +37,6 @@ import { BangDiemModule } from './models/bang-diem/bang-diem.module';
         NguoiDungModule,
         DanhGiaModule,
         ThongBaoModule,
-        BangDiemModule,
         DiemDanhModule,
         TuanHocModule,
         NgayHocModule,

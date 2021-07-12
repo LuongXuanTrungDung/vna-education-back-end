@@ -57,6 +57,15 @@ export class CreateNguoiDungDto {
     ngaySinh: string;
 
     @ApiProperty({
+        name: 'noiSinh',
+        type: String,
+        example: 'Chắt Kdau',
+        required: true,
+        description: 'Nơi sinh của người dùng',
+    })
+    noiSinh: string;
+
+    @ApiProperty({
         name: 'soDienThoai',
         type: String,
         example: '13/6/4/13F/2D/5A/6C Cây Mai, P.17, TP. Thủ Đức, TP. HCM',
@@ -173,10 +182,10 @@ export class CreateNguoiDungDto {
     // })
     // chuNhiem: string
 
-    // @ApiProperty({
-    // 	name: 'conCai',
-    // 	type: 'array',
-    // 	description: 'Con cái của phụ huynh'
-    // })
-    // conCai: string[];
+    @ApiProperty({
+        name: 'conCai',
+        type: 'array',
+        description: 'Con cái của phụ huynh',
+    })
+    conCai: string[];
 }

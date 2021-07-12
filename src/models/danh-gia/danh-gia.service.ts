@@ -144,7 +144,7 @@ export class DanhGiaService {
         }
         return result;
     }
-s
+
     async remove(id: string) {
         return await this.model.findByIdAndDelete(id);
     }
