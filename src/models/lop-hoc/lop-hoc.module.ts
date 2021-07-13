@@ -6,18 +6,18 @@ import { LopHocSchema } from './lop-hoc.entity';
 import { NguoiDungModule } from '../nguoi-dung/nguoi-dung.module';
 
 @Module({
-    imports: [
-        MongooseModule.forFeature([
-            {
-                name: 'lop_hoc',
-                collection: 'lop_hoc',
-                schema: LopHocSchema,
-            },
-        ]),
-        forwardRef(() => NguoiDungModule),
-    ],
-    controllers: [LopHocController],
-    providers: [LopHocService],
-    exports: [LopHocService],
+	imports: [
+		MongooseModule.forFeature([
+			{
+				name: 'lop_hoc',
+				collection: 'lop_hoc',
+				schema: LopHocSchema,
+			},
+		]),
+		forwardRef(() => NguoiDungModule),
+	],
+	controllers: [LopHocController],
+	providers: [LopHocService],
+	exports: [LopHocService],
 })
-export class LopHocModule {}
+export class LopHocModule { }

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { NguoiDungService } from '../nguoi-dung/nguoi-dung.service';
@@ -10,6 +10,7 @@ import { LopHocDocument } from './lop-hoc.entity';
 export class LopHocService {
     constructor(
         @InjectModel('lop_hoc') private model: Model<LopHocDocument>,
+		@Inject(forwardRef(() => NguoiDungService))
         private readonly ndSer: NguoiDungService,
     ) {}
 
