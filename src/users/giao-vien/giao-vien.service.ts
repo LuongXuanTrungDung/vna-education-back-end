@@ -15,7 +15,7 @@ export class GiaoVienService {
             .execPopulate();
         const result = [];
 
-        for (let i = 0; i < sub.giaoVien.length; i++) {
+        for (let i = 0; i < sub2.giaoVien.length; i++) {
             result.push({
                 _id: sub1.giaoVien[i],
                 hoTen: sub2.giaoVien[i].hoTen,

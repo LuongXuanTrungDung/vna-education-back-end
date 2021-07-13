@@ -93,7 +93,7 @@ export class DanhGiaService {
             ngayDG: rev.ngayDG,
             tieuChi: rev.mauDG.tieuChi,
             monHoc: rev.monHoc.tenMH,
-            giaoVien: rev.giaoVien.hoTen,
+            // giaoVien: rev.giaoVien.hoTen,
             choGVCN: rev.choGVCN,
             mauDG: rev.mauDG.tenMau,
             lopHoc: rev.lopHoc.maLH,

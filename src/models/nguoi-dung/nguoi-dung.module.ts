@@ -14,7 +14,7 @@ import { LopHocModule } from '../lop-hoc/lop-hoc.module';
                 schema: NguoiDungSchema,
             },
         ]),
-        forwardRef(()=>LopHocModule),
+        forwardRef(() => LopHocModule),
     ],
     controllers: [NguoiDungController],
     providers: [NguoiDungService],
