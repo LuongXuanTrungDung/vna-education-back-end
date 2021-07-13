@@ -1,13 +1,12 @@
 import { Module } from '@nestjs/common';
-// import { BangDiemModule } from '../../models/bang-diem/bang-diem.module';
 import { DanhGiaModule } from '../../models/danh-gia/danh-gia.module';
-import { DiemDanhModule } from '../../models/diem-danh/diem-danh.module';
+import { LopHocModule } from '../../models/lop-hoc/lop-hoc.module';
 import { NguoiDungModule } from '../../models/nguoi-dung/nguoi-dung.module';
 import { HocSinhController } from './hoc-sinh.controller';
 import { HocSinhService } from './hoc-sinh.service';
 
 @Module({
-    imports: [DiemDanhModule, DanhGiaModule, NguoiDungModule],
+    imports: [DanhGiaModule, NguoiDungModule, LopHocModule],
     controllers: [HocSinhController],
     providers: [HocSinhService],
 })

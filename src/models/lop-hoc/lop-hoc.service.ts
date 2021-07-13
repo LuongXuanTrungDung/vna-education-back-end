@@ -51,17 +51,23 @@ export class LopHocService {
         });
     }
 
+    async addHS(hs: string, lop: string) {
+        return await this.model.findByIdAndUpdate(lop, {
+            $push: { hocSinh: await this.ndSer.objectify(hs) },
+        });
+    }
+
     async update(id: string, dto: UpdateLopHocDto) {
         await this.findOne(id).then(async (doc) => {
             if (dto.hocSinh && dto.hocSinh.length > 0) {
                 const temp = [];
                 for (let i = 0; i < dto.hocSinh.length; i++) {
-                    temp.push((await this.ndSer.getOne(dto.hocSinh[i]))._id);
+                    temp.push(await this.ndSer.objectify(dto.hocSinh[i]));
                 }
                 doc.hocSinh = temp;
             }
 
-            if (dto.GVCN) doc.GVCN = (await this.ndSer.getOne(dto.GVCN))._id;
+            if (dto.GVCN) doc.GVCN = await this.ndSer.objectify(dto.GVCN);
             if (dto.maLH) doc.maLH = dto.maLH;
             await doc.save();
         });

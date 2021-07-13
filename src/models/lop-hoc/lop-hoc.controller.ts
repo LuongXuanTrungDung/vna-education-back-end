@@ -7,6 +7,7 @@ import {
     Param,
     Delete,
     UseGuards,
+    Query,
 } from '@nestjs/common';
 import { LopHocService } from './lop-hoc.service';
 import { CreateLopHocDto } from './dto/create-lop-hoc.dto';
