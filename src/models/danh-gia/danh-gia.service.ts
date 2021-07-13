@@ -22,11 +22,17 @@ export class DanhGiaService {
 
     async create(dto: CreateDanhGiaDto) {
         const { mauDG, monHoc, lopHoc, giaoVien, ...rest } = dto;
+        const temp = [];
+
+        for (let i = 0; i < dto.giaoVien.length; i++) {
+            temp.push(Types.ObjectId(dto.giaoVien[i]));
+        }
+
         return await this.model.create({
             ...rest,
             mauDG: Types.ObjectId(dto.mauDG),
             monHoc: Types.ObjectId(dto.monHoc),
-            giaoVien: Types.ObjectId(dto.giaoVien),
+            giaoVien: temp,
             lopHoc: Types.ObjectId(dto.lopHoc),
         });
     }
@@ -115,8 +121,13 @@ export class DanhGiaService {
             if (dto.lopHoc)
                 doc.lopHoc = (await this.lhSer.findOne(dto.lopHoc))._id;
 
-            if (dto.giaoVien)
-                doc.giaoVien = (await this.ndSer.getOne(dto.giaoVien))._id;
+            if (dto.giaoVien && dto.giaoVien.length > 0) {
+                const temp = [];
+                for (let i = 0; i < dto.giaoVien.length; i++) {
+                    temp.push((await this.ndSer.getOne(dto.giaoVien[i]))._id);
+                }
+                doc.giaoVien = temp;
+            }
 
             await doc.save();
         });

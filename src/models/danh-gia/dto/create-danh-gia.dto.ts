@@ -1,9 +1,4 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { LopHoc } from '../../lop-hoc/lop-hoc.entity';
-import { MauDanhGia } from '../../mau-danh-gia/mau-danh-gia.entity';
-import { MonHoc } from '../../mon-hoc/mon-hoc.entity';
-import { NgayHoc } from '../../ngay-hoc/ngay-hoc.entity';
-import { NguoiDung } from '../../nguoi-dung/nguoi-dung.entity';
 
 export class CreateDanhGiaDto {
     @ApiProperty({
@@ -36,11 +31,11 @@ export class CreateDanhGiaDto {
     @ApiProperty({
         required: true,
         name: 'giaoVien',
-        type: String,
-        example: '60bxxxxxxxxxxxxx',
+        type: 'array',
+        example: '[60bxxxxxxxxxxxxx. 60bxxxxxxxxxxxxxxxy]',
         description: 'Giáo viên được đánh giá',
     })
-    giaoVien: string;
+    giaoVien: string[];
 
     @ApiProperty({
         required: true,

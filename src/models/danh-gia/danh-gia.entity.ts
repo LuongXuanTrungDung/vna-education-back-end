@@ -3,7 +3,6 @@ import { Document, Schema as MongooseSchema } from 'mongoose';
 import { LopHoc } from '../lop-hoc/lop-hoc.entity';
 import { MauDanhGia } from '../mau-danh-gia/mau-danh-gia.entity';
 import { MonHoc } from '../mon-hoc/mon-hoc.entity';
-import { NgayHoc } from '../ngay-hoc/ngay-hoc.entity';
 import { NguoiDung } from '../nguoi-dung/nguoi-dung.entity';
 import { ChiTietDG, ChiTietDGSchema } from './chiTietDG.schema';
 
@@ -38,10 +37,14 @@ export class DanhGia {
 
     @Prop({
         required: true,
-        type: MongooseSchema.Types.ObjectId,
-        ref: 'nguoi_dung',
+        type: [
+            {
+                type: MongooseSchema.Types.ObjectId,
+                ref: 'nguoi_dung',
+            },
+        ],
     })
-    giaoVien: NguoiDung;
+    giaoVien: NguoiDung[];
 
     @Prop({
         required: true,

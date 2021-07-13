@@ -18,12 +18,9 @@ import {
     ApiParam,
     ApiQuery,
     ApiTags,
-    getSchemaPath,
 } from '@nestjs/swagger';
-import { Types } from 'mongoose';
 import { AuthGuard } from '../../auth.guard';
 import { NguoiDungService } from '../nguoi-dung/nguoi-dung.service';
-import { DanhGia, DanhGiaSchema } from './danh-gia.entity';
 import { DanhGiaService } from './danh-gia.service';
 import { CreateDanhGiaDto } from './dto/create-danh-gia.dto';
 import { UpdateDanhGiaDto } from './dto/update-danh-gia.dto';
