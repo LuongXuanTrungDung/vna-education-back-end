@@ -67,6 +67,7 @@ export class DanhGiaService {
     }
 
     async findOne(id: string) {
+        const gvs = [];
         const rev = await (
             await this.model.findById(id)
         )
@@ -87,13 +88,18 @@ export class DanhGiaService {
                 },
             ])
             .execPopulate();
+
+        for (let i = 0; i < rev.giaoVien.length; i++) {
+            gvs.push(rev.giaoVien[i].hoTen);
+        }
+
         return {
             id: rev._id,
             tenDG: rev.tenDG,
             ngayDG: rev.ngayDG,
             tieuChi: rev.mauDG.tieuChi,
             monHoc: rev.monHoc.tenMH,
-            // giaoVien: rev.giaoVien.hoTen,
+            giaoVien: gvs,
             choGVCN: rev.choGVCN,
             mauDG: rev.mauDG.tenMau,
             lopHoc: rev.lopHoc.maLH,

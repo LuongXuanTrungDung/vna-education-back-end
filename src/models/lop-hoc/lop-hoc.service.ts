@@ -10,7 +10,7 @@ import { LopHocDocument } from './lop-hoc.entity';
 export class LopHocService {
     constructor(
         @InjectModel('lop_hoc') private model: Model<LopHocDocument>,
-		@Inject(forwardRef(() => NguoiDungService))
+        @Inject(forwardRef(() => NguoiDungService))
         private readonly ndSer: NguoiDungService,
     ) {}
 
