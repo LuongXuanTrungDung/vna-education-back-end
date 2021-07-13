@@ -21,7 +21,29 @@ export class BangDiemTongService {
     }
 
     async findOne(id: string) {
-        return await this.model.findById(id);
+        const bd = await (
+            await this.model.findById(id)
+        )
+            .populate([
+                {
+                    path: 'GVCN',
+                    model: 'nguoi_dung',
+                },
+                {
+                    path: 'hocSinh',
+                    model: 'nguoi_dung',
+                },
+            ])
+            .execPopulate();
+        return {
+            hocSinh: bd.hocSinh.hoTen,
+            GVCN: bd.GVCN.hoTen,
+            hocKy1: bd.hocKy1,
+            hocKy2: bd.hocKy2,
+            TBcacMon: bd.diemTB_cacMon,
+            xepLoai: bd.xepLoai,
+            nhanXet: bd.nhanXet,
+        };
     }
 
     async update(id: string, dto: UpdateBangDiemTongDto) {

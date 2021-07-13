@@ -151,13 +151,13 @@ export class CreateNguoiDungDto {
     })
     tDCM: string;
 
-    // @ApiProperty({
-    //     name: 'lopHoc',
-    //     type: String,
-    //     example: '60bxxxxxxxxxxxxx',
-    //     description: 'Lớp học của học sinh',
-    // })
-    // lopHoc: string
+    @ApiProperty({
+        name: 'lopHoc',
+        type: String,
+        example: '60bxxxxxxxxxxxxx',
+        description: 'Lớp học của học sinh',
+    })
+    lopHoc: string;
 
     @ApiProperty({
         name: 'ngayNhapHoc',
@@ -174,13 +174,13 @@ export class CreateNguoiDungDto {
     })
     dangHoatDong: boolean;
 
-    // @ApiProperty({
-    //     name: 'chuNhiem',
-    //     type: String,
-    //     example: '60bxxxxxxxxxxxxx',
-    //     description: 'Lớp học mà giáo viên được giao chủ nhiệm',
-    // })
-    // chuNhiem: string
+    @ApiProperty({
+        name: 'chuNhiem',
+        type: String,
+        example: '60bxxxxxxxxxxxxx',
+        description: 'Lớp học mà giáo viên được giao chủ nhiệm',
+    })
+    chuNhiem: string;
 
     @ApiProperty({
         name: 'conCai',

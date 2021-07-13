@@ -100,7 +100,7 @@
 - 2.5.2
 	- Mã hóa mật khẩu trong CSDL, sử dụng bcrypt để kiểm tra mật khẩu đăng nhập.
 	- Điều chỉnh lại model danh_gia
-- 2.6
+- 2.6.0
 	- Thêm model mau_danh_gia, chứa các mục tiêu và tiêu chí của đánh giá, nhưng ko chứa điểm đánh giá
 	- Điều chỉnh CSDL cho model mới
 	- Thêm middleware kiểm tra trạng thái đăng nhập (authorization) dựa trên headers, áp dụng cho các route quan-tri/*
