@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { NguoiDungService } from './nguoi-dung.service';
 import { NguoiDungController } from './nguoi-dung.controller';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -14,7 +14,7 @@ import { LopHocModule } from '../lop-hoc/lop-hoc.module';
                 schema: NguoiDungSchema,
             },
         ]),
-        LopHocModule,
+        forwardRef(()=>LopHocModule),
     ],
     controllers: [NguoiDungController],
     providers: [NguoiDungService],
