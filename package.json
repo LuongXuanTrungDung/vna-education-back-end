@@ -6,6 +6,7 @@
 		"node": "16.x",
 		"yarn": "1.x"
 	},
+	"license": "MIT",
 	"scripts": {
 		"build": "rimraf dist && nest build",
 		"start": "rimraf diste && nest start",

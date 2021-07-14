@@ -143,3 +143,4 @@
 	- Sửa API và model bang_diem_mon và bang_diem_tong
 	- Sửa API và model danh_gia?
 	- Thêm API thêm học sinh vào lớp học
+	- Các hàm ứng dụng: kiểm tra tồn tại trong CSDL, gán kiểu dữ liệu theo mảng, đối tượng hóa theo input
