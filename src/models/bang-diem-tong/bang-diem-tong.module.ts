@@ -4,6 +4,7 @@ import { BangDiemTongController } from './bang-diem-tong.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { BangDiemTongSchema } from './bang-diem-tong.entity';
 import { NguoiDungModule } from '../nguoi-dung/nguoi-dung.module';
+import { BangDiemMonModule } from '../bang-diem-mon/bang-diem-mon.module';
 
 @Module({
     imports: [
@@ -15,6 +16,7 @@ import { NguoiDungModule } from '../nguoi-dung/nguoi-dung.module';
             },
         ]),
         NguoiDungModule,
+        BangDiemMonModule,
     ],
     controllers: [BangDiemTongController],
     providers: [BangDiemTongService],

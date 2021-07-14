@@ -27,6 +27,14 @@ export class BangDiemMonService {
         return await this.model.findByIdAndUpdate(id, dto);
     }
 
+    async bulkObjectify(rec: string[]) {
+        const result = [];
+        for (let i = 0; i < rec.length; i++) {
+            result.push((await this.findOne(rec[i]))._id);
+        }
+        return result;
+    }
+
     async remove(id: string) {
         return await this.model.findByIdAndDelete(id);
     }

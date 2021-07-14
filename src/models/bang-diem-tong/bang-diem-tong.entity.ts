@@ -41,16 +41,15 @@ export class BangDiemTong {
                 ref: 'bang_diem_mon',
             },
         ],
+        default: [],
     })
     bangDiemMon: BangDiemMon[];
 
-    @Prop({ min: 0, max: 10, default: 0 })
-    diemTB_cacMon: number;
+    @Prop({ min: 0, max: 10, default: 0 }) diemTB: number;
 
-    @Prop() nhanXet: string;
+    @Prop(default: '') nhanXet: string;
 
-    @Prop({ enum: ['Xuất sắc', 'Giỏi', 'Khá', 'Trung bình', 'Yếu', 'Kém'] })
-    xepLoai: string;
+    @Prop(default: '') xepLoai: string;
 }
 
 export const BangDiemTongSchema = SchemaFactory.createForClass(BangDiemTong);
