@@ -100,6 +100,18 @@ export class BangDiemMonService {
         return await this.findOne(id);
     }
 
+    async findAll_byHS(hs: string) {
+        const all = await this.model.find({ hocSinh: await this.ndSer.objectify(hs) });
+        const result = [];
+
+        for (let i = 0; i < all.length; i++) {
+            const one = await this.findOne(all[i]._id);
+            const { hocSinh, ...rest } = one;
+            result.push(rest);
+        }
+        return result;
+    }
+
     async bulkObjectify(rec: string[]) {
         const result = [];
         for (let i = 0; i < rec.length; i++) {

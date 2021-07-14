@@ -1,16 +1,15 @@
 import {
     Body,
     Controller,
+    Get,
     Param,
     Patch,
     Post,
     UseGuards,
 } from '@nestjs/common';
 import { ApiBody, ApiParam, ApiTags } from '@nestjs/swagger';
-import { Response } from 'express';
 import { AuthGuard } from '../../auth.guard';
 import { HSDGDto } from '../../models/danh-gia/dto/HSDG.dto';
-import { CreateNguoiDungDto } from '../../models/nguoi-dung/dto/create-nguoi-dung.dto';
 import { HocSinhService } from './hoc-sinh.service';
 
 @Controller('hoc-sinh')
@@ -21,7 +20,12 @@ export class HocSinhController {
 
     @Patch(':hs/vao-lop/:lop')
     async vaoLop(@Param('hs') hs: string, @Param('lop') lop: string) {
-        return await this.service.vaoLop(hs, lop);
+        return await this.service.enroll(hs, lop);
+    }
+
+    @Get(':hs/diem-so')
+    async xemDiem(@Param('hs') hs: string) {
+        return await this.service.seeReport(hs);
     }
 
     @Post('danh-gia/:id')
