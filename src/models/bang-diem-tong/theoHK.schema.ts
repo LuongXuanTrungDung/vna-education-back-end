@@ -2,10 +2,10 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 @Schema()
 export class TheoHK {
-    @Prop(default: '')
+    @Prop({ default: '' })
     hocLuc: string;
 
-    @Prop(default: '')
+    @Prop({ default: '' })
     hanhKiem: string;
 }
 export const TheoHKSchema = SchemaFactory.createForClass(TheoHK);

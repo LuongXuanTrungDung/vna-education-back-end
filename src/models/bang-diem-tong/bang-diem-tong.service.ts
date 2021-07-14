@@ -18,12 +18,21 @@ export class BangDiemTongService {
     ) {}
 
     async create(dto: CreateBangDiemTongDto) {
-        const { hocSinh, GVCN, bangDiemMon, ...rest } = dto;
         return await this.model.create({
-            ...rest,
-            hocSinh: Types.ObjectId(hocSinh),
-            GVCN: Types.ObjectId(GVCN),
-            bangDiemMon: bulkObjectID(bangDiemMon),
+            nhanXet: dto.nhanXet,
+            diemTB: dto.diemTB,
+            xepLoai: dto.xepLoai,
+            hocKy1: {
+                hanhKiem: dto.hanhKiem_hk1,
+                hocLuc: dto.hocLuc_hk1,
+            },
+            hocKy2: {
+                hocLuc: dto.hocLuc_hk2,
+                hanhKiem: dto.hanhKiem_hk2,
+            },
+            hocSinh: Types.ObjectId(dto.hocSinh),
+            GVCN: Types.ObjectId(dto.GVCN),
+            bangDiemMon: bulkObjectID(dto.bangDiemMon),
         });
     }
 
@@ -32,7 +41,18 @@ export class BangDiemTongService {
     }
 
     async findOne(id: string) {
-        const bd = await this.model.findById(id);
+        const bd = await (
+            await this.model.findById(id)
+        )
+            .populate([
+                {
+                    path: 'hocSinh',
+                    model: 'nguoi_dung',
+                },
+                { path: 'GVCN', model: 'nguoi_dung' },
+            ])
+            .execPopulate();
+
         return {
             hocSinh: bd.hocSinh.hoTen,
             GVCN: bd.GVCN.hoTen,
@@ -62,7 +82,9 @@ export class BangDiemTongService {
                 doc.hocSinh = await this.ndSer.objectify(dto.hocSinh);
             if (dto.GVCN) doc.GVCN = await this.ndSer.objectify(dto.GVCN);
             if (dto.bangDiemMon)
-                doc.bangDiemMon = await this.bdMSer.bulkObjectify(dto.bangDiemMon);
+                doc.bangDiemMon = await this.bdMSer.bulkObjectify(
+                    dto.bangDiemMon,
+                );
 
             await doc.save();
         });

@@ -26,18 +26,25 @@ export class BangDiemMon {
         ref: 'nguoi_dung',
         required: true,
     })
+    hocSinh: NguoiDung;
+
+    @Prop({
+        type: MongooseSchema.Types.ObjectId,
+        ref: 'nguoi_dung',
+        required: true,
+    })
     giaoVien: NguoiDung;
 
-    @Prop({ type: TheoHKSchema })
+    @Prop({ type: TheoHKSchema, default: {} })
     hocKy1: TheoHK;
 
-    @Prop({ type: TheoHKSchema })
+    @Prop({ type: TheoHKSchema, default: {} })
     hocKy2: TheoHK;
 
     @Prop({ min: 0, max: 10, default: 0 })
     diemTB: number;
 
-    @Prop() nhanXet: string;
+    @Prop({ default: '' }) nhanXet: string;
 }
 
 export const BangDiemMonSchema = SchemaFactory.createForClass(BangDiemMon);

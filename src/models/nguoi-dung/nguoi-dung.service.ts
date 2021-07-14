@@ -238,6 +238,10 @@ export class NguoiDungService {
         return 'Cập nhật thành công';
     }
 
+    async check(user: string) {
+        return (await this.getOne(user)) ? true : false;
+    }
+
     async objectify(user: string) {
         return (await this.getOne(user))._id;
     }

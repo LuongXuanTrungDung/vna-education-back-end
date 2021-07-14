@@ -42,6 +42,10 @@ export class MonHocService {
         return await this.model.findByIdAndUpdate(id, dto);
     }
 
+    async objectify(mon: string) {
+        return (await this.model.findById(mon))._id;
+    }
+
     async remove(id: string) {
         return await this.model.findByIdAndDelete(id);
     }

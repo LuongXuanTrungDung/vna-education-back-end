@@ -2,17 +2,21 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 @Schema()
 export class TheoHK {
-    @Prop({})
+    @Prop({ default: [] })
     kiemTra_mieng: number[];
 
-    @Prop({})
+    @Prop({ default: [] })
     kiemTra_15phut: number[];
 
-    @Prop({})
+    @Prop({ default: [] })
     kiemTra_1tiet: number[];
 
-    @Prop()
-    thiHK: number[];
+    @Prop({
+        min: 0,
+        default: 0,
+        max: 10,
+    })
+    thiHK: number;
 
     @Prop({
         min: 0,

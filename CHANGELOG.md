@@ -139,3 +139,7 @@
 	- Sửa API xóa model thong_bao do lỗi đánh máy
 	- Tách model bang_diem thành bang_diem_mon và bang_diem_tong, cùng các API CRUD tương ứng
 	- Sửa model nguoi_dung và các API tương ứng
+- 2.7.1
+	- Sửa API và model bang_diem_mon và bang_diem_tong
+	- Sửa API và model danh_gia?
+	- Thêm API thêm học sinh vào lớp học

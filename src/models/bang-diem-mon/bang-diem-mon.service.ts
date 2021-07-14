@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
+import { MonHocService } from '../mon-hoc/mon-hoc.service';
+import { NguoiDungService } from '../nguoi-dung/nguoi-dung.service';
 import { BangDiemMon } from './bang-diem-mon.entity';
 import { CreateBangDiemMonDto } from './dto/create-bang-diem-mon.dto';
 import { UpdateBangDiemMonDto } from './dto/update-bang-diem-mon.dto';
@@ -9,10 +11,32 @@ import { UpdateBangDiemMonDto } from './dto/update-bang-diem-mon.dto';
 export class BangDiemMonService {
     constructor(
         @InjectModel('bang_diem_mon') private model: Model<BangDiemMon>,
+        private readonly ndSer: NguoiDungService,
+        private readonly mhSer: MonHocService,
     ) {}
 
     async create(dto: CreateBangDiemMonDto) {
-        return await this.model.create(dto);
+        return await this.model.create({
+            nhanXet: dto.nhanXet,
+            diemTB: dto.diemTB,
+            hocKy1: {
+                kiemTra_mieng: dto.ktMieng_HK1,
+                kiemTra_15phut: dto.kt15phut_HK1,
+                kiemTra_1tiet: dto.kt1tiet_HK1,
+                thiHK: dto.thiHK1,
+                diemTong: dto.tbHK1,
+            },
+            hocKy2: {
+                kiemTra_mieng: dto.ktMieng_HK2,
+                kiemTra_15phut: dto.kt15phut_HK2,
+                kiemTra_1tiet: dto.kt1tiet_HK2,
+                thiHK: dto.thiHK2,
+                diemTong: dto.tbHK2,
+            },
+            hocSinh: Types.ObjectId(dto.hocSinh),
+            giaoVien: Types.ObjectId(dto.giaoVien),
+            monHoc: Types.ObjectId(dto.monHoc),
+        });
     }
 
     async findAll() {
@@ -20,17 +44,66 @@ export class BangDiemMonService {
     }
 
     async findOne(id: string) {
+        const bd = await (
+            await this.model.findById(id)
+        )
+            .populate([
+                {
+                    path: 'hocSinh',
+                    model: 'nguoi_dung',
+                },
+                { path: 'giaoVien', model: 'nguoi_dung' },
+                { path: 'monHoc', model: 'mon_hoc' },
+            ])
+            .execPopulate();
+
+        return {
+            hocSinh: bd.hocSinh.hoTen,
+            giaoVien: bd.giaoVien.hoTen,
+            monHoc: bd.monHoc.tenMH,
+            hocKy1: bd.hocKy1,
+            hocKy2: bd.hocKy2,
+            diemTB: bd.diemTB,
+            nhanXet: bd.nhanXet,
+        };
+    }
+
+    async getOne(id: string) {
         return await this.model.findById(id);
     }
 
     async update(id: string, dto: UpdateBangDiemMonDto) {
-        return await this.model.findByIdAndUpdate(id, dto);
+        await this.getOne(id).then(async (doc) => {
+            if (dto.nhanXet) doc.nhanXet = dto.nhanXet;
+            if (dto.diemTB) doc.diemTB = dto.diemTB;
+
+            if (dto.ktMieng_HK1) doc.hocKy1.kiemTra_mieng = dto.ktMieng_HK1;
+            if (dto.kt15phut_HK1) doc.hocKy1.kiemTra_15phut = dto.kt15phut_HK1;
+            if (dto.ktMieng_HK1) doc.hocKy1.kiemTra_1tiet = dto.ktMieng_HK1;
+            if (dto.thiHK1) doc.hocKy1.thiHK = dto.thiHK1;
+            if (dto.tbHK1) doc.hocKy1.diemTong = dto.tbHK1;
+
+            if (dto.ktMieng_HK2) doc.hocKy1.kiemTra_mieng = dto.ktMieng_HK2;
+            if (dto.kt15phut_HK2) doc.hocKy1.kiemTra_15phut = dto.kt15phut_HK2;
+            if (dto.ktMieng_HK2) doc.hocKy1.kiemTra_1tiet = dto.ktMieng_HK2;
+            if (dto.thiHK2) doc.hocKy1.thiHK = dto.thiHK2;
+            if (dto.tbHK2) doc.hocKy1.diemTong = dto.tbHK2;
+
+            if (dto.hocSinh && (await this.ndSer.check(dto.hocSinh)))
+                doc.hocSinh = await this.ndSer.objectify(dto.hocSinh);
+            if (dto.giaoVien && (await this.ndSer.check(dto.giaoVien)))
+                doc.giaoVien = await this.ndSer.objectify(dto.giaoVien);
+            if (dto.monHoc) doc.monHoc = await this.mhSer.objectify(dto.monHoc);
+
+            await doc.save();
+        });
+        return await this.findOne(id);
     }
 
     async bulkObjectify(rec: string[]) {
         const result = [];
         for (let i = 0; i < rec.length; i++) {
-            result.push((await this.findOne(rec[i]))._id);
+            result.push((await this.getOne(rec[i]))._id);
         }
         return result;
     }

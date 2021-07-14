@@ -28,10 +28,10 @@ export class BangDiemTong {
     })
     GVCN: NguoiDung;
 
-    @Prop({ type: TheoHKSchema })
+    @Prop({ type: TheoHKSchema, default: {} })
     hocKy1: TheoHK;
 
-    @Prop({ type: TheoHKSchema })
+    @Prop({ type: TheoHKSchema, default: {} })
     hocKy2: TheoHK;
 
     @Prop({
@@ -47,9 +47,9 @@ export class BangDiemTong {
 
     @Prop({ min: 0, max: 10, default: 0 }) diemTB: number;
 
-    @Prop(default: '') nhanXet: string;
+    @Prop({ default: '' }) nhanXet: string;
 
-    @Prop(default: '') xepLoai: string;
+    @Prop({ default: '' }) xepLoai: string;
 }
 
 export const BangDiemTongSchema = SchemaFactory.createForClass(BangDiemTong);
