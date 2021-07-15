@@ -151,7 +151,7 @@ export class CreateNguoiDungDto {
     @ApiProperty({
         name: 'lopHoc',
         type: String,
-        example: '60bxxxxxxxxxxxxx',
+        example: '10A4',
         description: 'Lớp học của học sinh',
     })
     lopHoc: string;

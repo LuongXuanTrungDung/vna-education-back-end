@@ -75,6 +75,10 @@ export class LopHocService {
         return await this.findOne(id);
     }
 
+    async objectify_fromName(lop: string) {
+		return (await this.model.findOne({maLH: lop}))._id
+	}
+
     async remove(id: string) {
         return await this.model.findOneAndDelete({ maLH: id });
     }
