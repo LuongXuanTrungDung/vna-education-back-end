@@ -21,6 +21,6 @@ export class HocSinhService {
     }
 
     async seeReport(hs: string) {
-        return await this.bdtSer.findAll_byHS(hs);
+        return await this.bdtSer.findOne_byHS(hs);
     }
 }
