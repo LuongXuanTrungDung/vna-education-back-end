@@ -40,16 +40,11 @@ export class BangDiemTongService {
         return await this.model.find({});
     }
 
-    async findAll_byHS(hs: string) {
+    async findOne_byHS(hs: string) {
         const m = await this.bdMSer.findAll_byHS(hs);
-        const t = await this.model.find({ hocSinh: await this.ndSer.objectify(hs) });
-        const result = [];
-
-        for (let i = 0; i < t.length; i++) {
-            const temp = await this.findOne(t[i]._id);
-            result.push({ bangDiemMon: m, ...temp });
-        }
-        return result;
+        const t1 = await this.model.findOne({hocSinh: await this.ndSer.objectify(hs)})
+		const t2 = await this.findOne(t1._id)
+        return { ...t2, bangDiemMon: m };
     }
 
     async findOne(id: string) {

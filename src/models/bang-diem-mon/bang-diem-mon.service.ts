@@ -101,7 +101,9 @@ export class BangDiemMonService {
     }
 
     async findAll_byHS(hs: string) {
-        const all = await this.model.find({ hocSinh: await this.ndSer.objectify(hs) });
+        const all = await this.model.find({
+            hocSinh: await this.ndSer.objectify(hs),
+        });
         const result = [];
 
         for (let i = 0; i < all.length; i++) {
