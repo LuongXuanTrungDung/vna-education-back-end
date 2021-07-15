@@ -34,6 +34,9 @@ export class BangDiemTong {
     @Prop({ type: TheoHKSchema, default: {} })
     hocKy2: TheoHK;
 
+    @Prop({ type: TheoHKSchema, default: {} })
+    caNam: TheoHK;
+
     @Prop({
         type: [
             {
@@ -44,8 +47,6 @@ export class BangDiemTong {
         default: [],
     })
     bangDiemMon: BangDiemMon[];
-
-    @Prop({ min: 0, max: 10, default: 0 }) diemTB: number;
 
     @Prop({ default: '' }) nhanXet: string;
 

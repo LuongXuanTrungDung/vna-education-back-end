@@ -20,15 +20,21 @@ export class BangDiemTongService {
     async create(dto: CreateBangDiemTongDto) {
         return await this.model.create({
             nhanXet: dto.nhanXet,
-            diemTB: dto.diemTB,
             xepLoai: dto.xepLoai,
             hocKy1: {
                 hanhKiem: dto.hanhKiem_hk1,
                 hocLuc: dto.hocLuc_hk1,
+                diemTB: dto.diemTB_hk1,
             },
             hocKy2: {
                 hocLuc: dto.hocLuc_hk2,
                 hanhKiem: dto.hanhKiem_hk2,
+                diemTB: dto.diemTB_hk2,
+            },
+            caNam: {
+                hocLuc: dto.hocLuc_caNam,
+                hanhKiem: dto.hanhKiem_caNam,
+                diemTB: dto.diemTB_caNam,
             },
             hocSinh: Types.ObjectId(dto.hocSinh),
             GVCN: Types.ObjectId(dto.GVCN),
@@ -42,8 +48,10 @@ export class BangDiemTongService {
 
     async findOne_byHS(hs: string) {
         const m = await this.bdMSer.findAll_byHS(hs);
-        const t1 = await this.model.findOne({hocSinh: await this.ndSer.objectify(hs)})
-		const t2 = await this.findOne(t1._id)
+        const t1 = await this.model.findOne({
+            hocSinh: await this.ndSer.objectify(hs),
+        });
+        const t2 = await this.findOne(t1._id);
         return { ...t2, bangDiemMon: m };
     }
 
@@ -55,6 +63,10 @@ export class BangDiemTongService {
                 {
                     path: 'hocSinh',
                     model: 'nguoi_dung',
+                    populate: {
+                        path: 'lopHoc',
+                        model: 'lop_hoc',
+                    },
                 },
                 { path: 'GVCN', model: 'nguoi_dung' },
             ])
@@ -62,10 +74,11 @@ export class BangDiemTongService {
 
         return {
             hocSinh: bd.hocSinh.hoTen,
+            lopHoc: bd.hocSinh.lopHoc.maLH,
             GVCN: bd.GVCN.hoTen,
             hocKy1: bd.hocKy1,
             hocKy2: bd.hocKy2,
-            TBcacMon: bd.diemTB,
+            caNam: bd.caNam,
             xepLoai: bd.xepLoai,
             nhanXet: bd.nhanXet,
         };
@@ -78,12 +91,19 @@ export class BangDiemTongService {
     async update(id: string, dto: UpdateBangDiemTongDto) {
         await this.getOne(id).then(async (doc) => {
             if (dto.nhanXet) doc.nhanXet = dto.nhanXet;
-            if (dto.diemTB) doc.diemTB = dto.diemTB;
             if (dto.xepLoai) doc.xepLoai = dto.xepLoai;
+
             if (dto.hanhKiem_hk1) doc.hocKy1.hanhKiem = dto.hanhKiem_hk1;
             if (dto.hocLuc_hk1) doc.hocKy1.hocLuc = dto.hocLuc_hk1;
+            if (dto.diemTB_hk1) doc.hocKy1.diemTB = dto.diemTB_hk1;
+
             if (dto.hanhKiem_hk2) doc.hocKy2.hanhKiem = dto.hanhKiem_hk2;
             if (dto.hocLuc_hk2) doc.hocKy2.hocLuc = dto.hocLuc_hk2;
+            if (dto.diemTB_hk2) doc.hocKy2.diemTB = dto.diemTB_hk2;
+
+            if (dto.hanhKiem_caNam) doc.caNam.hanhKiem = dto.hanhKiem_caNam;
+            if (dto.hocLuc_caNam) doc.caNam.hocLuc = dto.hocLuc_caNam;
+            if (dto.diemTB_caNam) doc.caNam.diemTB = dto.diemTB_caNam;
 
             if (dto.hocSinh)
                 doc.hocSinh = await this.ndSer.objectify(dto.hocSinh);
