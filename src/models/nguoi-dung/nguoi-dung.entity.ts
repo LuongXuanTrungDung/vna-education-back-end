@@ -18,28 +18,28 @@ export class NguoiDung {
     @Prop({ required: true, index: true, unique: true })
     maND: string;
 
-    @Prop({ required: true })
+    @Prop({ required: true})
     hoTen: string;
 
-    @Prop()
+    @Prop({ default: ''})
     emailND: string;
 
     @Prop({ required: true })
     matKhau: string;
 
-    @Prop()
+    @Prop({ default: ''})
     soDienThoai: string;
 
     @Prop({ required: true })
     ngaySinh: string;
 
-    @Prop({ required: true })
+    @Prop({ required: true})
     noiSinh: string;
 
     @Prop({ required: true })
     diaChi: string;
 
-    @Prop({ required: true, enum: ['Nam', 'Nữ', 'Khác'] })
+    @Prop({ required: true})
     gioiTinh: string;
 
     @Prop({ required: true })
@@ -48,13 +48,13 @@ export class NguoiDung {
     @Prop({ required: true, default: 'Việt Nam' })
     quocTich: string;
 
-    @Prop({ type: GiayToSchema })
+    @Prop({ type: GiayToSchema, default: {} })
     cccd: GiayTo;
 
-    @Prop({ type: GiayToSchema })
+    @Prop({ type: GiayToSchema, default: {} })
     hoChieu: GiayTo;
 
-    @Prop({ type: LaoDongSchema })
+    @Prop({ type: LaoDongSchema, default: {} })
     chucVu: LaoDong;
 
     @Prop({
@@ -63,7 +63,7 @@ export class NguoiDung {
     })
     lopHoc: LopHoc;
 
-    @Prop() ngayNhapHoc: string;
+    @Prop({default: ''}) ngayNhapHoc: string;
 
     @Prop({
         ref: 'lop_hoc',

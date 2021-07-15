@@ -56,48 +56,15 @@ export class NguoiDungService {
             }
         }
 
-        switch (dto.maND.substring(0, 2)) {
-            case 'HS': {
-                return await this.model.create({
-                    ...rest,
-                    matKhau: await hash(dto.matKhau, 12),
-                    lopHoc: await this.lhSer.objectify_fromName(dto.lopHoc),
-                    cccd: gt,
-                });
-                break;
-            }
-
-            case 'GV': {
-                return await this.model.create({
-                    ...rest,
-                    matKhau: await hash(dto.matKhau, 12),
-                    chuNhiem: await this.lhSer.objectify_fromName(dto.lopHoc),
-                    cccd: gt,
-                    chucVu: ld,
-                });
-                break;
-            }
-
-            case 'PH': {
-                return await this.model.create({
-                    ...rest,
-                    matKhau: await hash(dto.matKhau, 12),
-                    cccd: gt,
-                    conCai: temp,
-                });
-                break;
-            }
-
-            default: {
-                return await this.model.create({
-                    ...rest,
-                    matKhau: await hash(dto.matKhau, 12),
-                    cccd: gt,
-                    chucVu: ld,
-                });
-                break;
-            }
-        }
+		return await this.model.create({
+			...rest,
+			matKhau: await hash(dto.matKhau, 12),
+			lopHoc: await this.lhSer.objectify_fromName(dto.lopHoc),
+			chuNhiem: await this.lhSer.objectify_fromName(dto.chuNhiem),
+			cccd: gt,
+			chucVu: ld,
+			conCai: temp
+		});
     }
 
     async forSelect_giaoVien() {
