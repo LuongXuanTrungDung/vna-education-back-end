@@ -1,6 +1,6 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { hash } from 'bcrypt';
+import { genSalt, hash } from 'bcrypt';
 import { Model, Types } from 'mongoose';
 import { LopHocService } from '../lop-hoc/lop-hoc.service';
 import { CreateNguoiDungDto } from './dto/create-nguoi-dung.dto';
@@ -31,6 +31,7 @@ export class NguoiDungService {
             conCai,
             ...rest
         } = dto;
+		const salt = await genSalt(10)
         let gt, ld;
         const temp = [];
 
@@ -58,7 +59,7 @@ export class NguoiDungService {
 
 		return await this.model.create({
 			...rest,
-			matKhau: await hash(dto.matKhau, 12),
+			matKhau: await hash(dto.matKhau, salt),
 			lopHoc: await this.lhSer.objectify_fromName(dto.lopHoc),
 			chuNhiem: await this.lhSer.objectify_fromName(dto.chuNhiem),
 			cccd: gt,
@@ -191,6 +192,8 @@ export class NguoiDungService {
             ...rest
         } = dto;
         let gt, ld;
+		const salt = await genSalt(10)
+
         if (dto.cccd && dto.ngayCap && dto.noiCap) {
             gt = {
                 maSo: dto.cccd,
@@ -210,7 +213,7 @@ export class NguoiDungService {
         await this.getOne(id).then(async (doc) => {
             if (dto.maND) doc.maND = dto.maND;
             if (dto.hoTen) doc.hoTen = dto.hoTen;
-            if (dto.matKhau) doc.matKhau = await hash(dto.matKhau, 12);
+            if (dto.matKhau) doc.matKhau = await hash(dto.matKhau, salt);
             if (dto.emailND) doc.emailND = dto.emailND;
             if (dto.soDienThoai) doc.soDienThoai = dto.soDienThoai;
             if (dto.quocTich) doc.quocTich = dto.quocTich;
