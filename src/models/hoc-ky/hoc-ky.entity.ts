@@ -14,31 +14,11 @@ export type HocKyDocument = HocKy & Document;
 })
 export class HocKy {
     @Prop({ required: true, index: true, unique: true })
-    maHK: string;
+    tenHK: string;
 
-    @Prop() ghiChu: string;
+    @Prop({ default: Date.now() }) ngayBatDau: string;
 
-    @Prop({
-        required: true,
-        type: [
-            {
-                type: MongooseSchema.Types.ObjectId,
-                ref: 'tuan_hoc',
-            },
-        ],
-    })
-    tuanHoc: TuanHoc[];
-
-    @Prop({
-        required: true,
-        type: [
-            {
-                type: MongooseSchema.Types.ObjectId,
-                ref: 'danh_gia',
-            },
-        ],
-    })
-    danhGia: DanhGia[];
+    @Prop({ default: Date.now() }) ngayKetThuc: string;
 }
 
 export const HocKySchema = SchemaFactory.createForClass(HocKy);

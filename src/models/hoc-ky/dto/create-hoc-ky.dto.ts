@@ -1,1 +1,5 @@
-export class CreateHocKyDto {}
+export class CreateHocKyDto {
+    tenHK: string;
+    ngayBatDau: string;
+    ngayKetThuc: string;
+}

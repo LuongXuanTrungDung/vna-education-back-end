@@ -75,18 +75,18 @@ export class NguoiDungService {
         const salt = await genSalt(10);
         let gt;
 
-        if (dto.cccd && dto.ngayCap && dto.noiCap) {
+        if (cccd && ngayCap && noiCap) {
             gt = {
-                maSo: dto.cccd,
-                ngayCap: dto.ngayCap,
-                noiCap: dto.noiCap,
+                maSo: cccd,
+                ngayCap: ngayCap,
+                noiCap: noiCap,
             };
         } else gt = {};
 
         return await this.model.create({
             ...rest,
-            matKhau: await hash(dto.matKhau, salt),
-            lopHoc: await this.lhSer.objectify_fromName(dto.lopHoc),
+            matKhau: await hash(matKhau, salt),
+            lopHoc: await this.lhSer.objectify_fromName(lopHoc),
             cccd: gt,
         });
     }
@@ -261,7 +261,7 @@ export class NguoiDungService {
 
         await this.getOne(id).then(async (doc) => {
             for (const key in rest) {
-                if (Object.prototype.hasOwnProperty.call(rest, key)) {
+                if (Object.prototype.hasOwnProperty.call(dto, key)) {
                     doc[key] = rest[key];
                 }
             }

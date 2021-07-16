@@ -4,6 +4,7 @@ import { TuanHocController } from './tuan-hoc.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TuanHocSchema } from './tuan-hoc.entity';
 import { NguoiDungModule } from '../nguoi-dung/nguoi-dung.module';
+import { HocKyModule } from '../hoc-ky/hoc-ky.module';
 
 @Module({
     imports: [
@@ -15,6 +16,7 @@ import { NguoiDungModule } from '../nguoi-dung/nguoi-dung.module';
             },
         ]),
         NguoiDungModule,
+        HocKyModule,
     ],
     controllers: [TuanHocController],
     providers: [TuanHocService],

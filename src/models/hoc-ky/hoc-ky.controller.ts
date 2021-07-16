@@ -18,35 +18,35 @@ import { AuthGuard } from '../../auth.guard';
 @UseGuards(AuthGuard)
 @ApiTags('hoc-ky')
 export class HocKyController {
-    constructor(private readonly hocKyService: HocKyService) {}
+    constructor(private readonly service: HocKyService) {}
 
     @Post()
     @ApiCreatedResponse({ description: 'Tạo thành công' })
-    create(@Body() createHocKyDto: CreateHocKyDto) {
-        return this.hocKyService.create(createHocKyDto);
+    async create(@Body() dto: CreateHocKyDto) {
+        return await this.service.create(dto);
     }
 
     @Get()
     @ApiOkResponse({ description: 'Trả về tất cả' })
-    findAll() {
-        return this.hocKyService.findAll();
+    async findAll() {
+        return await this.service.findAll();
     }
 
     @Get(':id')
     @ApiOkResponse({ description: 'Trả về 1 đối tượng' })
-    findOne(@Param('id') id: string) {
-        return this.hocKyService.findOne(+id);
+    async findOne(@Param('id') id: string) {
+        return await this.service.findOne(id);
     }
 
     @Patch(':id')
     @ApiOkResponse({ description: 'Cập nhật thành công' })
-    update(@Param('id') id: string, @Body() updateHocKyDto: UpdateHocKyDto) {
-        return this.hocKyService.update(+id, updateHocKyDto);
+    async update(@Param('id') id: string, @Body() dto: UpdateHocKyDto) {
+        return await this.service.update(id, dto);
     }
 
     @Delete(':id')
     @ApiOkResponse({ description: 'Xóa thành công' })
-    remove(@Param('id') id: string) {
-        return this.hocKyService.remove(+id);
+    async remove(@Param('id') id: string) {
+        return await this.service.remove(id);
     }
 }

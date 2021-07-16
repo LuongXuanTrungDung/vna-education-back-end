@@ -1,26 +1,48 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 import { CreateHocKyDto } from './dto/create-hoc-ky.dto';
 import { UpdateHocKyDto } from './dto/update-hoc-ky.dto';
+import { HocKyDocument } from './hoc-ky.entity';
 
 @Injectable()
 export class HocKyService {
-    create(createHocKyDto: CreateHocKyDto) {
-        return 'This action adds a new hocKy';
+    constructor(@InjectModel('hoc_ky') private model: Model<HocKyDocument>) {}
+    async create(dto: CreateHocKyDto) {
+        return await this.model.create(dto);
     }
 
-    findAll() {
-        return `This action returns all hocKy`;
+    async findAll() {
+        return this.model.find({});
     }
 
-    findOne(id: number) {
-        return `This action returns a #${id} hocKy`;
+    async findOne(id: string) {
+        const hk = await this.model.findById(id);
+        return {
+            id: hk._id,
+            tenHK: hk.tenHK,
+            ngayBatDau: hk.ngayBatDau,
+            ngayKetThuc: hk.ngayKetThuc,
+        };
     }
 
-    update(id: number, updateHocKyDto: UpdateHocKyDto) {
-        return `This action updates a #${id} hocKy`;
+    async update(id: string, dto: UpdateHocKyDto) {
+        await this.model.findById(id).then(async (doc) => {
+            for (const key in dto) {
+                if (Object.prototype.hasOwnProperty.call(dto, key)) {
+                    doc[key] = dto[key];
+                }
+            }
+            await doc.save();
+        });
+        return await this.findOne(id);
     }
 
-    remove(id: number) {
-        return `This action removes a #${id} hocKy`;
+    async objectify(hk: string) {
+        return (await this.model.findById(hk))._id;
+    }
+
+    async remove(id: string) {
+        return await this.model.findByIdAndDelete(id);
     }
 }
