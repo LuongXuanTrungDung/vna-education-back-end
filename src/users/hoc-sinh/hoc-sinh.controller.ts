@@ -10,6 +10,7 @@ import {
 import { ApiBody, ApiParam, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '../../auth.guard';
 import { HSDGDto } from '../../models/danh-gia/dto/HSDG.dto';
+import { HocSinhDTO } from '../../models/nguoi-dung/dto/hoc-sinh.dto';
 import { HocSinhService } from './hoc-sinh.service';
 
 @Controller('hoc-sinh')
@@ -17,6 +18,21 @@ import { HocSinhService } from './hoc-sinh.service';
 @ApiTags('hoc-sinh')
 export class HocSinhController {
     constructor(private service: HocSinhService) {}
+
+    @Get()
+    async xemHS() {
+        return await this.service.list();
+    }
+
+    @Post()
+    async themHS(@Body() hs: HocSinhDTO) {
+        return await this.service.create(hs);
+    }
+
+    @Patch(':hs')
+    async suaHS(@Param('hs') hs: string, @Body() dto: HocSinhDTO) {
+        return await this.service.update(hs, dto);
+    }
 
     @Patch(':hs/vao-lop/:lop')
     async vaoLop(@Param('hs') hs: string, @Param('lop') lop: string) {

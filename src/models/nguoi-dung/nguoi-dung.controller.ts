@@ -21,6 +21,7 @@ import {
     ApiTags,
 } from '@nestjs/swagger';
 import { AuthGuard } from '../../auth.guard';
+import { RoleType } from '../../helpers/utilities';
 
 @Controller('nguoi-dung')
 @UseGuards(AuthGuard)
@@ -43,7 +44,8 @@ export class NguoiDungController {
     })
     @ApiOkResponse({ description: 'Trả về tất cả' })
     async findAll_according(@Query('role') role: string) {
-        if (role && role != '') return this.service.findAll_byRole(role);
+        if (role && role != '')
+            return this.service.findAll_byRole(<RoleType>role);
 
         return await this.service.findAll();
     }

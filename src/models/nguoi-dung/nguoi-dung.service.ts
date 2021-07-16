@@ -2,8 +2,10 @@ import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { genSalt, hash } from 'bcrypt';
 import { Model, Types } from 'mongoose';
+import { RoleType } from '../../helpers/utilities';
 import { LopHocService } from '../lop-hoc/lop-hoc.service';
 import { CreateNguoiDungDto } from './dto/create-nguoi-dung.dto';
+import { HocSinhDTO } from './dto/hoc-sinh.dto';
 import { UpdateNguoiDungDto } from './dto/update-nguoi-dung.dto';
 import { GiayTo } from './giayTo.schema';
 import { LaoDong } from './laoDong.schema';
@@ -31,7 +33,7 @@ export class NguoiDungService {
             conCai,
             ...rest
         } = dto;
-		const salt = await genSalt(10)
+        const salt = await genSalt(10);
         let gt, ld;
         const temp = [];
 
@@ -57,15 +59,36 @@ export class NguoiDungService {
             }
         }
 
-		return await this.model.create({
-			...rest,
-			matKhau: await hash(dto.matKhau, salt),
-			lopHoc: await this.lhSer.objectify_fromName(dto.lopHoc),
-			chuNhiem: await this.lhSer.objectify_fromName(dto.chuNhiem),
-			cccd: gt,
-			chucVu: ld,
-			conCai: temp
-		});
+        return await this.model.create({
+            ...rest,
+            matKhau: await hash(dto.matKhau, salt),
+            lopHoc: await this.lhSer.objectify_fromName(dto.lopHoc),
+            chuNhiem: await this.lhSer.objectify_fromName(dto.chuNhiem),
+            cccd: gt,
+            chucVu: ld,
+            conCai: temp,
+        });
+    }
+
+    async createHS(dto: HocSinhDTO) {
+        const { cccd, ngayCap, noiCap, matKhau, lopHoc, ...rest } = dto;
+        const salt = await genSalt(10);
+        let gt;
+
+        if (dto.cccd && dto.ngayCap && dto.noiCap) {
+            gt = {
+                maSo: dto.cccd,
+                ngayCap: dto.ngayCap,
+                noiCap: dto.noiCap,
+            };
+        } else gt = {};
+
+        return await this.model.create({
+            ...rest,
+            matKhau: await hash(dto.matKhau, salt),
+            lopHoc: await this.lhSer.objectify_fromName(dto.lopHoc),
+            cccd: gt,
+        });
     }
 
     async forSelect_giaoVien() {
@@ -96,17 +119,9 @@ export class NguoiDungService {
         return await this.model.find({});
     }
 
-    async findAll_byRole(role: string) {
-        if (
-            role == 'HS' ||
-            role == 'PH' ||
-            role == 'GV' ||
-            role == 'QT' ||
-            role == 'HT'
-        ) {
-            const reg = new RegExp(role, 'i');
-            return await this.model.find({ maND: reg });
-        } else return null;
+    async findAll_byRole(role: RoleType) {
+        const reg = new RegExp(role, 'i');
+        return await this.model.find({ maND: reg });
     }
 
     async findOne_byMaND(ma: string) {
@@ -181,18 +196,8 @@ export class NguoiDungService {
     }
 
     async update(id: string, dto: UpdateNguoiDungDto) {
-        const {
-            cccd,
-            ngayCap,
-            noiCap,
-            tDCM,
-            chucVu,
-            hopDong,
-            matKhau,
-            ...rest
-        } = dto;
         let gt, ld;
-		const salt = await genSalt(10)
+        const salt = await genSalt(10);
 
         if (dto.cccd && dto.ngayCap && dto.noiCap) {
             gt = {
@@ -200,7 +205,7 @@ export class NguoiDungService {
                 ngayCap: dto.ngayCap,
                 noiCap: dto.noiCap,
             };
-        }
+        } else gt = null;
 
         if (dto.chucVu && dto.hopDong && dto.tDCM) {
             ld = {
@@ -208,7 +213,7 @@ export class NguoiDungService {
                 hopDong: dto.hopDong,
                 trinhDo: dto.tDCM,
             };
-        }
+        } else ld = null;
 
         await this.getOne(id).then(async (doc) => {
             if (dto.maND) doc.maND = dto.maND;
@@ -238,7 +243,50 @@ export class NguoiDungService {
             if (ld) doc.chucVu = ld;
             await doc.save();
         });
-        return 'Cập nhật thành công';
+        return await this.findOne_byID(id);
+    }
+
+    async updateHS(id: string, dto: HocSinhDTO) {
+        const { cccd, ngayCap, noiCap, matKhau, lopHoc, ...rest } = dto;
+        let gt;
+        const salt = await genSalt(10);
+
+        if (cccd && ngayCap && noiCap) {
+            gt = {
+                maSo: cccd,
+                ngayCap: ngayCap,
+                noiCap: noiCap,
+            };
+        } else gt = null;
+
+        await this.getOne(id).then(async (doc) => {
+            for (const key in rest) {
+                if (Object.prototype.hasOwnProperty.call(rest, key)) {
+                    doc[key] = rest[key];
+                }
+            }
+
+            // if (dto.maND) doc.maND = dto.maND;
+            // if (dto.hoTen) doc.hoTen = dto.hoTen;
+            // if (dto.matKhau) doc.matKhau = await hash(dto.matKhau, salt);
+            // if (dto.emailND) doc.emailND = dto.emailND;
+            // if (dto.soDienThoai) doc.soDienThoai = dto.soDienThoai;
+            // if (dto.quocTich) doc.quocTich = dto.quocTich;
+            // if (dto.danToc) doc.danToc = dto.danToc;
+            // if (dto.diaChi) doc.diaChi = dto.diaChi;
+            // if (dto.gioiTinh) doc.gioiTinh = dto.gioiTinh;
+            // if (dto.ngaySinh) doc.ngaySinh = dto.ngaySinh;
+            // if (dto.ngayNhapHoc) doc.ngayNhapHoc = dto.ngayNhapHoc;
+            // if (dto.dangHoatDong) doc.dangHoatDong = dto.dangHoatDong;
+
+            if (dto.lopHoc)
+                doc.lopHoc = (await this.lhSer.findOne(dto.lopHoc))._id;
+
+            if (gt) doc.cccd = gt;
+
+            await doc.save();
+        });
+        return this.findOne_byID(id);
     }
 
     async check(user: string) {

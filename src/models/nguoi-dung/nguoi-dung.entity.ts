@@ -18,28 +18,28 @@ export class NguoiDung {
     @Prop({ required: true, index: true, unique: true })
     maND: string;
 
-    @Prop({ required: true})
+    @Prop({ required: true })
     hoTen: string;
 
-    @Prop({ default: ''})
+    @Prop({ default: '' })
     emailND: string;
 
     @Prop({ required: true })
     matKhau: string;
 
-    @Prop({ default: ''})
+    @Prop({ default: '' })
     soDienThoai: string;
 
     @Prop({ required: true })
     ngaySinh: string;
 
-    @Prop({ required: true})
+    @Prop({ required: true })
     noiSinh: string;
 
     @Prop({ required: true })
     diaChi: string;
 
-    @Prop({ required: true})
+    @Prop({ required: true })
     gioiTinh: string;
 
     @Prop({ required: true })
@@ -63,7 +63,7 @@ export class NguoiDung {
     })
     lopHoc: LopHoc;
 
-    @Prop({default: ''}) ngayNhapHoc: string;
+    @Prop({ default: '' }) ngayNhapHoc: string;
 
     @Prop({
         ref: 'lop_hoc',
