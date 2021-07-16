@@ -68,9 +68,8 @@ export class DanhGiaService {
 
     async findOne(id: string) {
         const gvs = [];
-        const rev = await (
-            await this.model.findById(id)
-        )
+        const org = await this.model.findById(id);
+        const rev = await org
             .populate([
                 {
                     path: 'giaoVien',
@@ -90,7 +89,10 @@ export class DanhGiaService {
             .execPopulate();
 
         for (let i = 0; i < rev.giaoVien.length; i++) {
-            gvs.push(rev.giaoVien[i].hoTen);
+            gvs.push({
+                id: org.giaoVien[i],
+                hoTen: rev.giaoVien[i].hoTen,
+            });
         }
 
         return {
@@ -98,11 +100,20 @@ export class DanhGiaService {
             tenDG: rev.tenDG,
             ngayDG: rev.ngayDG,
             tieuChi: rev.mauDG.tieuChi,
-            monHoc: rev.monHoc.tenMH,
+            monHoc: {
+                id: org.monHoc,
+                tenMH: rev.monHoc.tenMH,
+            },
             giaoVien: gvs,
             choGVCN: rev.choGVCN,
-            mauDG: rev.mauDG.tenMau,
-            lopHoc: rev.lopHoc.maLH,
+            mauDG: {
+                id: org.mauDG,
+                tenMau: rev.mauDG.tenMau,
+            },
+            lopHoc: {
+                id: org.lopHoc,
+                maLH: rev.lopHoc.maLH,
+            },
             chiTiet: {
                 lopHoc: rev.lopHoc.maLH,
                 siSo: rev.lopHoc.hocSinh.length,
