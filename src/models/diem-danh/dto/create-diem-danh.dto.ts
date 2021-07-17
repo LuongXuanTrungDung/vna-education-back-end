@@ -1,1 +1,5 @@
-export class CreateDiemDanhDto {}
+export class CreateDiemDanhDto {
+    hocSinh: string;
+    ghiChu: string;
+    trangThai: boolean;
+}
