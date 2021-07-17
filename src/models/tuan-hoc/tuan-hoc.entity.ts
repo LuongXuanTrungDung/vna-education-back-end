@@ -1,7 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Schema as MongooseSchema } from 'mongoose';
-import { DanhGia } from '../danh-gia/danh-gia.entity';
-import { HocKy } from '../hoc-ky/hoc-ky.entity';
+import { Document } from 'mongoose';
 
 export type TuanHocDocument = TuanHoc & Document;
 
@@ -21,12 +19,7 @@ export class TuanHoc {
 
     @Prop({ default: Date.now() }) ngayKetThuc: string;
 
-    @Prop({
-        required: true,
-        type: MongooseSchema.Types.ObjectId,
-        ref: 'hoc_ky',
-    })
-    hocKy: HocKy;
+    @Prop({ required: true }) hocKy: number;
 }
 
 export const TuanHocSchema = SchemaFactory.createForClass(TuanHoc);

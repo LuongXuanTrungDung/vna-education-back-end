@@ -1,6 +1,4 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { NgayHoc } from '../../ngay-hoc/ngay-hoc.entity';
-import { NguoiDung } from '../../nguoi-dung/nguoi-dung.entity';
 
 export class CreateThongBaoDto {
     @ApiProperty({

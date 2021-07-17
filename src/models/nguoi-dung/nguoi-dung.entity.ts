@@ -1,6 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
-import { DanhGia } from '../danh-gia/danh-gia.entity';
 import { LopHoc } from '../lop-hoc/lop-hoc.entity';
 import { GiayTo, GiayToSchema } from './giayTo.schema';
 import { LaoDong, LaoDongSchema } from './laoDong.schema';

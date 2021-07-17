@@ -10,7 +10,6 @@ import {
 import { ApiBody, ApiParam, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '../../auth.guard';
 import { HSDGDto } from '../../models/danh-gia/dto/HSDG.dto';
-import { HocSinhDTO } from '../../models/nguoi-dung/dto/hoc-sinh.dto';
 import { HocSinhService } from './hoc-sinh.service';
 
 @Controller('hoc-sinh')

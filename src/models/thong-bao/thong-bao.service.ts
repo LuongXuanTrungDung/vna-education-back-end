@@ -17,7 +17,7 @@ export class ThongBaoService {
         const { nguoiDang, ...rest } = dto;
         return await this.model.create({
             ...rest,
-            nguoiDang: Types.ObjectId(dto.nguoiDang),
+            nguoiDang: Types.ObjectId(nguoiDang),
         });
     }
 

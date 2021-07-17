@@ -3,5 +3,5 @@ export class CreateTuanHocDto {
     tenTuan: string;
     ngayBatDau: string;
     ngayKetThuc: string;
-    hocKy: string;
+    hocKy: number;
 }

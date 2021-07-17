@@ -5,10 +5,7 @@ import { Model, Types } from 'mongoose';
 import { RoleType } from '../../helpers/utilities';
 import { LopHocService } from '../lop-hoc/lop-hoc.service';
 import { CreateNguoiDungDto } from './dto/create-nguoi-dung.dto';
-import { HocSinhDTO } from './dto/hoc-sinh.dto';
 import { UpdateNguoiDungDto } from './dto/update-nguoi-dung.dto';
-import { GiayTo } from './giayTo.schema';
-import { LaoDong } from './laoDong.schema';
 import { NguoiDungDocument } from './nguoi-dung.entity';
 
 @Injectable()
@@ -36,7 +33,7 @@ export class NguoiDungService {
         const salt = await genSalt(10);
         let result = {
             ...rest,
-            matKhau: await hash(dto.matKhau, salt),
+            matKhau: await hash(matKhau, salt),
         };
         const temp = [];
 
@@ -116,7 +113,6 @@ export class NguoiDungService {
     }
 
     async findOne_byID(id: string) {
-        let result;
         const nd = await this.model.findById(id, null, null, (err, doc) => {
             if (err) return null;
             else return doc;

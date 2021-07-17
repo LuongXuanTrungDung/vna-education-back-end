@@ -3,7 +3,6 @@ import { BangDiemTongService } from '../../models/bang-diem-tong/bang-diem-tong.
 import { DanhGiaService } from '../../models/danh-gia/danh-gia.service';
 import { HSDGDto } from '../../models/danh-gia/dto/HSDG.dto';
 import { LopHocService } from '../../models/lop-hoc/lop-hoc.service';
-import { HocSinhDTO } from '../../models/nguoi-dung/dto/hoc-sinh.dto';
 
 @Injectable()
 export class HocSinhService {

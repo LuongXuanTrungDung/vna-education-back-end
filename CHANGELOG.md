@@ -144,3 +144,8 @@
 	- Sửa API và model danh_gia?
 	- Thêm API thêm học sinh vào lớp học
 	- Các hàm ứng dụng: kiểm tra tồn tại trong CSDL, gán kiểu dữ liệu theo mảng, đối tượng hóa theo input
+- 2.7.2
+	- Thêm API trả bảng điểm theo học sinh
+	- Điều chỉnh lại API xử lý việc tạo người dùng cho tương thích với số lượng dữ liệu lớn từ Excel
+	- Điều chỉnh API và model tuan_hoc, diem_danh và tiet_hoc
+	- Điều chỉnh cơ bản cho API danh_gia

@@ -57,6 +57,22 @@ export class LopHocService {
         });
     }
 
+    async onlyHS(lop: string) {
+        const result = [];
+        const lh = await this.model.findById(lop);
+        const p = await lh
+            .populate({ path: 'hocSinh', model: 'nguoi_dung' })
+            .execPopulate();
+
+        for (let i = 0; i < lh.hocSinh.length; i++) {
+            result.push({
+                idHS: lh.hocSinh[i],
+                tenHS: p.hocSinh[i].hoTen,
+            });
+        }
+        return result;
+    }
+
     async update(id: string, dto: UpdateLopHocDto) {
         await this.findOne(id).then(async (doc) => {
             if (dto.hocSinh && dto.hocSinh.length > 0) {
@@ -76,20 +92,34 @@ export class LopHocService {
     }
 
     async objectify_fromName(lop: string) {
-        const one = await this.model.findOne({maLH: lop}, null,null, async (err,doc) =>{
-			if (err) {console.log(err); return null}
-			else return doc
-		})
-		return (one) ? one._id : null
+        const one = await this.model.findOne(
+            { maLH: lop },
+            null,
+            null,
+            async (err, doc) => {
+                if (err) {
+                    console.log(err);
+                    return null;
+                } else return doc;
+            },
+        );
+        return one ? one._id : null;
     }
 
     async objectify_fromID(lop: string) {
-        const one = await this.model.findById(lop, null,null, async (err,doc) =>{
-			if (err) {console.log(err); return null}
-			else return doc
-		})
-		return (one) ? one._id : null
-	}
+        const one = await this.model.findById(
+            lop,
+            null,
+            null,
+            async (err, doc) => {
+                if (err) {
+                    console.log(err);
+                    return null;
+                } else return doc;
+            },
+        );
+        return one ? one._id : null;
+    }
 
     async remove(id: string) {
         return await this.model.findOneAndDelete({ maLH: id });
