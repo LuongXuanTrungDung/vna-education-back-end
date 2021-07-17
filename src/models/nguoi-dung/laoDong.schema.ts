@@ -8,10 +8,8 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
     versionKey: false,
 })
 export class LaoDong {
-    @Prop({ required: true }) chucVu: string;
-
-    @Prop({ required: true }) hopDong: string;
-
-    @Prop({ required: true }) trinhDo: string;
+    @Prop() chucVu: string;
+    @Prop() hopDong: string;
+    @Prop() trinhDo: string;
 }
 export const LaoDongSchema = SchemaFactory.createForClass(LaoDong);

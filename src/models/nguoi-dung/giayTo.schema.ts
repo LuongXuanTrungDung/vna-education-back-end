@@ -8,8 +8,8 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
     versionKey: false,
 })
 export class GiayTo {
-    @Prop({ required: true }) maSo: string;
-    @Prop({ required: true }) ngayCap: string;
-    @Prop({ required: true }) noiCap: string;
+    @Prop() maSo: string;
+    @Prop() ngayCap: string;
+    @Prop() noiCap: string;
 }
 export const GiayToSchema = SchemaFactory.createForClass(GiayTo);
