@@ -34,61 +34,48 @@ export class NguoiDungService {
             ...rest
         } = dto;
         const salt = await genSalt(10);
-        let gt, ld;
-        const temp = [];
-
-        if (dto.cccd && dto.ngayCap && dto.noiCap) {
-            gt = {
-                maSo: dto.cccd,
-                ngayCap: dto.ngayCap,
-                noiCap: dto.noiCap,
-            };
-        }
-
-        if (dto.chucVu && dto.hopDong && dto.tDCM) {
-            ld = {
-                chucVu: dto.chucVu,
-                hopDong: dto.hopDong,
-                trinhDo: dto.tDCM,
-            };
-        }
-
-        if (dto.conCai) {
-            for (let i = 0; i < dto.conCai.length; i++) {
-                temp.push(Types.ObjectId(dto.conCai[i]));
-            }
-        }
-
-        return await this.model.create({
+        let result = {
             ...rest,
             matKhau: await hash(dto.matKhau, salt),
-            lopHoc: await this.lhSer.objectify_fromName(dto.lopHoc),
-            chuNhiem: await this.lhSer.objectify_fromName(dto.chuNhiem),
-            cccd: gt,
-            chucVu: ld,
-            conCai: temp,
-        });
-    }
+        };
+        const temp = [];
 
-    async createHS(dto: HocSinhDTO) {
-        const { cccd, ngayCap, noiCap, matKhau, lopHoc, ...rest } = dto;
-        const salt = await genSalt(10);
-        let gt;
+        if (lopHoc)
+            result = Object.assign(result, {
+                lopHoc: await this.lhSer.objectify_fromName(lopHoc),
+            });
 
-        if (cccd && ngayCap && noiCap) {
-            gt = {
-                maSo: cccd,
-                ngayCap: ngayCap,
-                noiCap: noiCap,
-            };
-        } else gt = {};
+        if (chuNhiem)
+            result = Object.assign(result, {
+                chuNhiem: await this.lhSer.objectify_fromName(chuNhiem),
+            });
 
-        return await this.model.create({
-            ...rest,
-            matKhau: await hash(matKhau, salt),
-            lopHoc: await this.lhSer.objectify_fromName(lopHoc),
-            cccd: gt,
-        });
+        if (cccd && ngayCap && noiCap)
+            result = Object.assign(result, {
+                cccd: {
+                    maSo: cccd,
+                    ngayCap: ngayCap,
+                    noiCap: noiCap,
+                },
+            });
+
+        if (chucVu && hopDong && tDCM)
+            result = Object.assign(result, {
+                chucVu: {
+                    chucVu: chucVu,
+                    hopDong: hopDong,
+                    trinhDo: tDCM,
+                },
+            });
+
+        if (conCai) {
+            for (let i = 0; i < conCai.length; i++) {
+                temp.push(Types.ObjectId(conCai[i]));
+            }
+            result = Object.assign(result, { conCai: temp });
+        }
+
+        return await this.model.create(result);
     }
 
     async forSelect_giaoVien() {
@@ -244,49 +231,6 @@ export class NguoiDungService {
             await doc.save();
         });
         return await this.findOne_byID(id);
-    }
-
-    async updateHS(id: string, dto: HocSinhDTO) {
-        const { cccd, ngayCap, noiCap, matKhau, lopHoc, ...rest } = dto;
-        let gt;
-        const salt = await genSalt(10);
-
-        if (cccd && ngayCap && noiCap) {
-            gt = {
-                maSo: cccd,
-                ngayCap: ngayCap,
-                noiCap: noiCap,
-            };
-        } else gt = null;
-
-        await this.getOne(id).then(async (doc) => {
-            for (const key in rest) {
-                if (Object.prototype.hasOwnProperty.call(dto, key)) {
-                    doc[key] = rest[key];
-                }
-            }
-
-            // if (dto.maND) doc.maND = dto.maND;
-            // if (dto.hoTen) doc.hoTen = dto.hoTen;
-            // if (dto.matKhau) doc.matKhau = await hash(dto.matKhau, salt);
-            // if (dto.emailND) doc.emailND = dto.emailND;
-            // if (dto.soDienThoai) doc.soDienThoai = dto.soDienThoai;
-            // if (dto.quocTich) doc.quocTich = dto.quocTich;
-            // if (dto.danToc) doc.danToc = dto.danToc;
-            // if (dto.diaChi) doc.diaChi = dto.diaChi;
-            // if (dto.gioiTinh) doc.gioiTinh = dto.gioiTinh;
-            // if (dto.ngaySinh) doc.ngaySinh = dto.ngaySinh;
-            // if (dto.ngayNhapHoc) doc.ngayNhapHoc = dto.ngayNhapHoc;
-            // if (dto.dangHoatDong) doc.dangHoatDong = dto.dangHoatDong;
-
-            if (dto.lopHoc)
-                doc.lopHoc = (await this.lhSer.findOne(dto.lopHoc))._id;
-
-            if (gt) doc.cccd = gt;
-
-            await doc.save();
-        });
-        return this.findOne_byID(id);
     }
 
     async check(user: string) {

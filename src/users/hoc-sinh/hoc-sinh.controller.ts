@@ -19,21 +19,6 @@ import { HocSinhService } from './hoc-sinh.service';
 export class HocSinhController {
     constructor(private service: HocSinhService) {}
 
-    @Get()
-    async xemHS() {
-        return await this.service.list();
-    }
-
-    @Post()
-    async themHS(@Body() hs: HocSinhDTO) {
-        return await this.service.create(hs);
-    }
-
-    @Patch(':hs')
-    async suaHS(@Param('hs') hs: string, @Body() dto: HocSinhDTO) {
-        return await this.service.update(hs, dto);
-    }
-
     @Patch(':hs/vao-lop/:lop')
     async vaoLop(@Param('hs') hs: string, @Param('lop') lop: string) {
         return await this.service.enroll(hs, lop);
