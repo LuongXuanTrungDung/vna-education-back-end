@@ -4,6 +4,10 @@ import { TietHocController } from './tiet-hoc.controller';
 import { TietHocSchema } from './tiet-hoc.entity';
 import { MongooseModule } from '@nestjs/mongoose';
 import { NguoiDungModule } from '../nguoi-dung/nguoi-dung.module';
+import { LopHocModule } from '../lop-hoc/lop-hoc.module';
+import { MonHocModule } from '../mon-hoc/mon-hoc.module';
+import { TuanHocModule } from '../tuan-hoc/tuan-hoc.module';
+import { DiemDanhModule } from '../diem-danh/diem-danh.module';
 
 @Module({
     imports: [
@@ -15,6 +19,10 @@ import { NguoiDungModule } from '../nguoi-dung/nguoi-dung.module';
             },
         ]),
         NguoiDungModule,
+        LopHocModule,
+        MonHocModule,
+        TuanHocModule,
+        DiemDanhModule,
     ],
     controllers: [TietHocController],
     providers: [TietHocService],
