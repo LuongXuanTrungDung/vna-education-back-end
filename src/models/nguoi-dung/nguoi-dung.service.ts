@@ -72,9 +72,9 @@ export class NguoiDungService {
             result = Object.assign(result, { conCai: temp });
         }
 
-        return await this.model.create(result).then(async (doc)=>{
-			return {...doc, _id: doc._id}
-		});
+        return await this.model.create(result).then(async (doc) => {
+            return { ...doc, _id: doc._id };
+        });
     }
 
     async forSelect_giaoVien() {

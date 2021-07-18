@@ -53,21 +53,34 @@ export class LopHocService {
 
     async addHS(hs: string, lop: string) {
         return await this.model.findByIdAndUpdate(lop, {
-            $push: { hocSinh: await this.ndSer.objectify(hs) },
+            $push: { hocSinh: hs },
         });
     }
 
     async onlyHS(lop: string) {
         const result = [];
-        const lh = await this.model.findById(lop);
-        const p = await lh
+        const p = await (await this.model.findById(lop))
             .populate({ path: 'hocSinh', model: 'nguoi_dung' })
             .execPopulate();
 
-        for (let i = 0; i < lh.hocSinh.length; i++) {
+        for (let i = 0; i < p.hocSinh.length; i++) {
             result.push({
-                idHS: lh.hocSinh[i],
-                tenHS: p.hocSinh[i].hoTen,
+                mdND: p.hocSinh[i].maND,
+                hoTen: p.hocSinh[i].hoTen,
+                emailND: p.hocSinh[i].emailND,
+                diaChi: p.hocSinh[i].diaChi,
+                danToc: p.hocSinh[i].danToc,
+                dangHoatDong: p.hocSinh[i].dangHoatDong,
+                soDienThoai: p.hocSinh[i].soDienThoai,
+                noiSinh: p.hocSinh[i].noiSinh,
+                ngaySinh: p.hocSinh[i].ngaySinh,
+                ngayNhapHoc: p.hocSinh[i].ngayNhapHoc,
+                lopHoc: p.maLH,
+                cccd: p.hocSinh[i].cccd ? p.hocSinh[i].cccd.maSo : null,
+                noiCap: p.hocSinh[i].cccd ? p.hocSinh[i].cccd.noiCap : null,
+                ngayCap: p.hocSinh[i].cccd ? p.hocSinh[i].cccd.ngayCap : null,
+                quocTich: p.hocSinh[i].quocTich,
+                gioiTinh: p.hocSinh[i].gioiTinh,
             });
         }
         return result;

@@ -28,6 +28,11 @@ export class HocSinhController {
         return await this.service.seeReport(hs);
     }
 
+    @Get('lop/:lop')
+    async danhSach_hocSinh(@Param('lop') lop: string) {
+        return await this.service.ofClass(lop);
+    }
+
     @Post('danh-gia/:id')
     @ApiParam({
         name: 'id',

@@ -20,6 +20,10 @@ export class HocSinhService {
         return await this.dgSer.update_fromHS(id, dto);
     }
 
+    async ofClass(lop: string) {
+        return await this.lhSer.onlyHS(lop);
+    }
+
     async seeReport(hs: string) {
         return await this.bdtSer.findOne_byHS(hs);
     }
