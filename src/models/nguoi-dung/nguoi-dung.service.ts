@@ -145,12 +145,28 @@ export class NguoiDungService {
                 dangHoatDong: user.dangHoatDong,
                 quocTich: user.quocTich,
                 danToc: user.danToc,
-                cccd: user.cccd ? user.cccd : null,
-                hoChieu: user.hoChieu ? user.hoChieu : null,
+                cccd: user.cccd
+                    ? {
+                          maSo: user.cccd.maSo,
+                          ngayCap: user.cccd.ngayCap,
+                          noiCap: user.cccd.noiCap,
+                      }
+                    : null,
+                hoChieu: user.hoChieu
+                    ? {
+                          maSo: user.hoChieu.maSo,
+                          ngayCap: user.hoChieu.ngayCap,
+                          noiCap: user.hoChieu.noiCap,
+                      }
+                    : null,
                 ngayNhapHoc: user.ngayNhapHoc ? user.ngayNhapHoc : null,
                 lopHoc: user.lopHoc ? user.lopHoc.maLH : null,
                 chuNhiem: user.chuNhiem ? user.chuNhiem.maLH : null,
-                chucVu: user.chucVu ? user.chucVu : null,
+                chucVu: user.chucVu ? {
+					chucVu: user.chucVu.chucVu,
+					hopDong: user.chucVu.hopDong,
+					trinhDo: user.chucVu.trinhDo
+				} : null,
                 conCai:
                     user.conCai && user.conCai.length > 0 ? user.conCai : null,
             };

@@ -65,22 +65,33 @@ export class LopHocService {
 
         for (let i = 0; i < p.hocSinh.length; i++) {
             result.push({
-                mdND: p.hocSinh[i].maND,
+                maND: p.hocSinh[i].maND,
                 hoTen: p.hocSinh[i].hoTen,
                 emailND: p.hocSinh[i].emailND,
                 diaChi: p.hocSinh[i].diaChi,
-                danToc: p.hocSinh[i].danToc,
-                dangHoatDong: p.hocSinh[i].dangHoatDong,
-                soDienThoai: p.hocSinh[i].soDienThoai,
-                noiSinh: p.hocSinh[i].noiSinh,
                 ngaySinh: p.hocSinh[i].ngaySinh,
-                ngayNhapHoc: p.hocSinh[i].ngayNhapHoc,
-                lopHoc: p.maLH,
-                cccd: p.hocSinh[i].cccd ? p.hocSinh[i].cccd.maSo : null,
-                noiCap: p.hocSinh[i].cccd ? p.hocSinh[i].cccd.noiCap : null,
-                ngayCap: p.hocSinh[i].cccd ? p.hocSinh[i].cccd.ngayCap : null,
-                quocTich: p.hocSinh[i].quocTich,
+                noiSinh: p.hocSinh[i].noiSinh,
                 gioiTinh: p.hocSinh[i].gioiTinh,
+                soDienThoai: p.hocSinh[i].soDienThoai ? p.hocSinh[i].soDienThoai : null,
+                dangHoatDong: p.hocSinh[i].dangHoatDong,
+                quocTich: p.hocSinh[i].quocTich,
+                danToc: p.hocSinh[i].danToc,
+                cccd: p.hocSinh[i].cccd
+                    ? {
+                          maSo: p.hocSinh[i].cccd.maSo,
+                          ngayCap: p.hocSinh[i].cccd.ngayCap,
+                          noiCap: p.hocSinh[i].cccd.noiCap,
+                      }
+                    : null,
+                hoChieu: p.hocSinh[i].hoChieu
+                    ? {
+                          maSo: p.hocSinh[i].hoChieu.maSo,
+                          ngayCap: p.hocSinh[i].hoChieu.ngayCap,
+                          noiCap: p.hocSinh[i].hoChieu.noiCap,
+                      }
+                    : null,
+                ngayNhapHoc: p.hocSinh[i].ngayNhapHoc ? p.hocSinh[i].ngayNhapHoc : null,
+                lopHoc: p.maLH
             });
         }
         return result;

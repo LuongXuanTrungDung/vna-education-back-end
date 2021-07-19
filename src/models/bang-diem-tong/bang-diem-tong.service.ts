@@ -4,7 +4,7 @@ import { Model, Types } from 'mongoose';
 import { bulkObjectID } from '../../helpers/utilities';
 import { BangDiemMonService } from '../bang-diem-mon/bang-diem-mon.service';
 import { NguoiDungService } from '../nguoi-dung/nguoi-dung.service';
-import { BangDiemTong, BangDiemTongDocument } from './bang-diem-tong.entity';
+import { BangDiemTongDocument } from './bang-diem-tong.entity';
 import { CreateBangDiemTongDto } from './dto/create-bang-diem-tong.dto';
 import { UpdateBangDiemTongDto } from './dto/update-bang-diem-tong.dto';
 
