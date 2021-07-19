@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { HocKyService } from '../hoc-ky/hoc-ky.service';
 import { CreateTuanHocDto } from './dto/create-tuan-hoc.dto';
 import { UpdateTuanHocDto } from './dto/update-tuan-hoc.dto';
 import { TuanHocDocument } from './tuan-hoc.entity';
@@ -10,7 +9,6 @@ import { TuanHocDocument } from './tuan-hoc.entity';
 export class TuanHocService {
     constructor(
         @InjectModel('tuan_hoc') private model: Model<TuanHocDocument>,
-        private readonly hkSer: HocKyService,
     ) {}
 
     async create(dto: CreateTuanHocDto) {
@@ -48,6 +46,14 @@ export class TuanHocService {
 
     async objectify(tuan: string) {
         return (await this.model.findById(tuan))._id;
+    }
+
+    async bulkObjectify(tuan: string[]) {
+        const result = [];
+        for (let i = 0; i < tuan.length; i++) {
+            result.push(await this.objectify(tuan[i]));
+        }
+        return result;
     }
 
     async remove(id: string) {

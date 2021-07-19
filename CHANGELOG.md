@@ -149,3 +149,7 @@
 	- Điều chỉnh lại API xử lý việc tạo người dùng cho tương thích với số lượng dữ liệu lớn từ Excel
 	- Điều chỉnh API và model tuan_hoc, diem_danh và tiet_hoc
 	- Điều chỉnh cơ bản cho API danh_gia
+- 2.8.0
+	- Xóa model và API ngay_hoc và hoc_ky. Thêm model và API CRUD nam_hoc
+	- Thêm API trả thông tin học sinh theo lớp học
+	- Thêm API trả tuần học theo năm học, sắp xếp theo tuần mới nhất

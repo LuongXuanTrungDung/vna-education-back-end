@@ -4,7 +4,6 @@ import { DanhGiaService } from './models/danh-gia/danh-gia.service';
 import { LopHocService } from './models/lop-hoc/lop-hoc.service';
 import { MauDanhGiaService } from './models/mau-danh-gia/mau-danh-gia.service';
 import { MonHocService } from './models/mon-hoc/mon-hoc.service';
-import { NgayHocService } from './models/ngay-hoc/ngay-hoc.service';
 import { NguoiDungService } from './models/nguoi-dung/nguoi-dung.service';
 import { ThongBaoService } from './models/thong-bao/thong-bao.service';
 
@@ -14,7 +13,6 @@ export class AppService {
         private readonly ndSer: NguoiDungService,
         private readonly dgSer: DanhGiaService,
         private readonly tbSer: ThongBaoService,
-        private readonly ngaySer: NgayHocService,
         private readonly mhSer: MonHocService,
         private readonly lhSer: LopHocService,
         private readonly mauSer: MauDanhGiaService,
