@@ -24,7 +24,18 @@ export class NamHocService {
     }
 
     async findAll() {
-        return await this.model.find();
+        const all = await this.model.find();
+        const result = [];
+
+        for (let i = 0; i < all.length; i++) {
+            const { tuanHoc, ...rest } = await this.findOne(all[i]._id);
+            const w = await this.onlyWeeks(all[i]._id);
+            result.push({
+                ...rest,
+                tuanHoc: w,
+            });
+        }
+        return result;
     }
 
     async findOne(nam: string) {
