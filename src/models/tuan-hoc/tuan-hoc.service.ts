@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { bulkObjectID } from '../../helpers/utilities';
 import { CreateTuanHocDto } from './dto/create-tuan-hoc.dto';
 import { UpdateTuanHocDto } from './dto/update-tuan-hoc.dto';
 import { TuanHocDocument } from './tuan-hoc.entity';
@@ -12,7 +13,11 @@ export class TuanHocService {
     ) {}
 
     async create(dto: CreateTuanHocDto) {
-        return await this.model.create(dto);
+        const { buoiHoc, ...rest } = dto;
+        return await this.model.create({
+            ...rest,
+            buoiHoc: bulkObjectID(buoiHoc),
+        });
     }
 
     async findAll() {
@@ -20,7 +25,54 @@ export class TuanHocService {
     }
 
     async findOne(id: string) {
-        const tuan = await this.model.findById(id);
+        const tuan = await (
+            await this.model.findById(id)
+        )
+            .populate({
+                path: 'buoiHoc',
+                model: 'buoi_hoc',
+                populate: {
+                    path: 'tietHoc',
+                    model: 'tiet_hoc',
+                    populate: [
+                        { path: 'monHoc', model: 'mon_hoc' },
+                        { path: 'giaoVien', model: 'nguoi_dung' },
+                        { path: 'lopHoc', model: 'lop_hoc' },
+                    ],
+                },
+            })
+            .execPopulate();
+        const t2 = await (
+            await this.model.findById(id)
+        )
+            .populate({
+                path: 'buoiHoc',
+                model: 'buoi_hoc',
+            })
+            .execPopulate();
+        const t1 = await this.model.findById(id);
+
+        const b = [];
+
+        for (let i = 0; i < tuan.buoiHoc.length; i++) {
+            const t = [];
+            for (let j = 0; j < tuan.buoiHoc[i].tietHoc.length; j++) {
+                t.push({
+                    id: t2.buoiHoc[i].tietHoc[j],
+                    monHoc: tuan.buoiHoc[i].tietHoc[j].monHoc.tenMH,
+                    lopHoc: tuan.buoiHoc[i].tietHoc[j].lopHoc.maLH,
+                    giaoVien: tuan.buoiHoc[i].tietHoc[j].giaoVien.hoTen,
+                    ghiChu: tuan.buoiHoc[i].tietHoc[j].ghiChu,
+                });
+            }
+
+            b.push({
+                id: t1.buoiHoc[i],
+                thu: tuan.buoiHoc[i].thu,
+                ngayHoc: tuan.buoiHoc[i].ngayHoc,
+                tietHoc: t,
+            });
+        }
 
         return {
             id: tuan._id,
@@ -29,19 +81,22 @@ export class TuanHocService {
             ngayBatDau: tuan.ngayBatDau,
             ngayKetThuc: tuan.ngayKetThuc,
             hocKy: tuan.hocKy,
+            buoiHoc: b,
         };
     }
 
     async update(id: string, dto: UpdateTuanHocDto) {
-        await this.model.findById(id).then(async (doc) => {
-            for (const key in dto) {
-                if (Object.prototype.hasOwnProperty.call(dto, key)) {
-                    doc[key] = dto[key];
-                }
-            }
-            await doc.save();
-        });
-        return await this.findOne(id);
+        const { buoiHoc, ...rest } = dto;
+        return await this.model.findByIdAndUpdate(
+            id,
+            {
+                $set: {
+                    ...rest,
+                },
+                $push: { buoiHoc: { $each: buoiHoc } },
+            },
+            { new: true },
+        );
     }
 
     async objectify(tuan: string) {

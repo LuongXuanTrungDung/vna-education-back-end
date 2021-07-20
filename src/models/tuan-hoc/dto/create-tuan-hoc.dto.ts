@@ -4,4 +4,5 @@ export class CreateTuanHocDto {
     ngayBatDau: string;
     ngayKetThuc: string;
     hocKy: number;
+    buoiHoc: string[];
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
 import {
     ApiBody,
     ApiCreatedResponse,
@@ -41,5 +41,11 @@ export class AppController {
     @UseGuards(AuthGuard)
     async laySelects() {
         return await this.service.layGiaTri_choSelects();
+    }
+
+    @Get('lich-hoc')
+    @UseGuards(AuthGuard)
+    async layLichHoc(@Query('tuan') tuan: string, @Query('lop') lop: string) {
+        return await this.service.taoLichHoc(tuan, lop);
     }
 }

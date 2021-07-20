@@ -20,6 +20,7 @@ import { MauDanhGiaModule } from './models/mau-danh-gia/mau-danh-gia.module';
 import { BangDiemTongModule } from './models/bang-diem-tong/bang-diem-tong.module';
 import { BangDiemMonModule } from './models/bang-diem-mon/bang-diem-mon.module';
 import { NamHocModule } from './models/nam-hoc/nam-hoc.module';
+import { BuoiHocModule } from './models/buoi-hoc/buoi-hoc.module';
 
 @Module({
     imports: [
@@ -50,6 +51,7 @@ import { NamHocModule } from './models/nam-hoc/nam-hoc.module';
         BangDiemTongModule,
         BangDiemMonModule,
         NamHocModule,
+        BuoiHocModule,
     ],
     controllers: [AppController],
     providers: [AppService],
