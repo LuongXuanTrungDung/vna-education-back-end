@@ -1,5 +1,4 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { NguoiDung } from '../../nguoi-dung/nguoi-dung.entity';
 
 export class CreateLopHocDto {
     @ApiProperty({

@@ -72,7 +72,9 @@ export class LopHocService {
                 ngaySinh: p.hocSinh[i].ngaySinh,
                 noiSinh: p.hocSinh[i].noiSinh,
                 gioiTinh: p.hocSinh[i].gioiTinh,
-                soDienThoai: p.hocSinh[i].soDienThoai ? p.hocSinh[i].soDienThoai : null,
+                soDienThoai: p.hocSinh[i].soDienThoai
+                    ? p.hocSinh[i].soDienThoai
+                    : null,
                 dangHoatDong: p.hocSinh[i].dangHoatDong,
                 quocTich: p.hocSinh[i].quocTich,
                 danToc: p.hocSinh[i].danToc,
@@ -90,8 +92,10 @@ export class LopHocService {
                           noiCap: p.hocSinh[i].hoChieu.noiCap,
                       }
                     : null,
-                ngayNhapHoc: p.hocSinh[i].ngayNhapHoc ? p.hocSinh[i].ngayNhapHoc : null,
-                lopHoc: p.maLH
+                ngayNhapHoc: p.hocSinh[i].ngayNhapHoc
+                    ? p.hocSinh[i].ngayNhapHoc
+                    : null,
+                lopHoc: p.maLH,
             });
         }
         return result;

@@ -8,4 +8,4 @@ export function bulkObjectID(target: string[]) {
     return result;
 }
 
-export type RoleType = 'HS' | 'PH' | 'GV' | 'QT' | 'HT';
+export type RoleType = 'HS' | 'PH' | 'GV' | 'QT' | 'HT' | 'QT-HT';

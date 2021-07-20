@@ -37,10 +37,10 @@ export class TietHocService {
         return await this.model.find({});
     }
 
-    async findOne(id: string) {
+    async findOne(tiet: string) {
         const dd = [];
         const cl = await (
-            await this.model.findById(id)
+            await this.model.findById(tiet)
         )
             .populate([
                 { path: 'giaoVien', model: 'nguoi_dung' },
@@ -67,6 +67,7 @@ export class TietHocService {
         }
 
         return {
+            id: tiet,
             ghiChu: cl.ghiChu,
             ngayHoc: cl.ngayHoc,
             giaoVien: cl.giaoVien.hoTen,
@@ -101,6 +102,18 @@ export class TietHocService {
             await doc.save();
         });
         return await this.findOne(id);
+    }
+
+    async objectify(tiet: string) {
+        return (await this.model.findById(tiet))._id;
+    }
+
+    async bulkObjectify(tiet: string[]) {
+        const result = [];
+        for (let i = 0; i < tiet.length; i++) {
+            result.push(await this.findOne(tiet[i]));
+        }
+        return result;
     }
 
     async remove(id: string) {

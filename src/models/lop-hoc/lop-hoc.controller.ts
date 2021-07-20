@@ -7,7 +7,6 @@ import {
     Param,
     Delete,
     UseGuards,
-    Query,
 } from '@nestjs/common';
 import { LopHocService } from './lop-hoc.service';
 import { CreateLopHocDto } from './dto/create-lop-hoc.dto';
@@ -19,10 +18,8 @@ import {
     ApiOkResponse,
     ApiParam,
     ApiTags,
-    getSchemaPath,
 } from '@nestjs/swagger';
 import { AuthGuard } from '../../auth.guard';
-import { LopHocSchema } from './lop-hoc.entity';
 
 @Controller('lop-hoc')
 @UseGuards(AuthGuard)

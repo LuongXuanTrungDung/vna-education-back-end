@@ -106,7 +106,8 @@ export class NguoiDungService {
     }
 
     async findAll_byRole(role: RoleType) {
-        const reg = new RegExp(role, 'i');
+        const reg =
+            role === 'QT-HT' ? new RegExp('QT|HT', 'i') : new RegExp(role, 'i');
         return await this.model.find({ maND: reg });
     }
 
@@ -162,11 +163,13 @@ export class NguoiDungService {
                 ngayNhapHoc: user.ngayNhapHoc ? user.ngayNhapHoc : null,
                 lopHoc: user.lopHoc ? user.lopHoc.maLH : null,
                 chuNhiem: user.chuNhiem ? user.chuNhiem.maLH : null,
-                chucVu: user.chucVu ? {
-					chucVu: user.chucVu.chucVu,
-					hopDong: user.chucVu.hopDong,
-					trinhDo: user.chucVu.trinhDo
-				} : null,
+                chucVu: user.chucVu
+                    ? {
+                          chucVu: user.chucVu.chucVu,
+                          hopDong: user.chucVu.hopDong,
+                          trinhDo: user.chucVu.trinhDo,
+                      }
+                    : null,
                 conCai:
                     user.conCai && user.conCai.length > 0 ? user.conCai : null,
             };
