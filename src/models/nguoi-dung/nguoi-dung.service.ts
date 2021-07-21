@@ -5,6 +5,7 @@ import { Model, Types } from 'mongoose';
 import { RoleType } from '../../helpers/utilities';
 import { LopHocService } from '../lop-hoc/lop-hoc.service';
 import { CreateNguoiDungDto } from './dto/create-nguoi-dung.dto';
+import { ImportNguoiDungDto } from './dto/import-nguoi-dung.dto';
 import { UpdateNguoiDungDto } from './dto/update-nguoi-dung.dto';
 import { NguoiDungDocument } from './nguoi-dung.entity';
 
@@ -72,9 +73,63 @@ export class NguoiDungService {
             result = Object.assign(result, { conCai: temp });
         }
 
-        return await this.model.create(result).then(async (doc) => {
-            return { ...doc, _id: doc._id };
-        });
+        return await this.model.create(result);
+    }
+
+    async bulkCreate(dto: ImportNguoiDungDto) {
+        const salt = await genSalt(10);
+        const toImport = [];
+
+        for (let i = 0; i < dto.maND.length; i++) {
+            let result = {
+                maND: dto.maND[i],
+                hoTen: dto.hoTen[i],
+                dangHoatDong: dto.dangHoatDong[i],
+                emailND: dto.emailND[i],
+                soDienThoai: dto.soDienThoai[i],
+                noiSinh: dto.noiSinh[i],
+                ngaySinh: dto.ngaySinh[i],
+                danToc: dto.danToc[i],
+                quocTich: dto.quocTich[i],
+                diaChi: dto.diaChi[i],
+                gioiTinh: dto.gioiTinh[i],
+                matKhau: await hash(dto.matKhau[i], salt),
+            };
+
+            if (dto.lopHoc[i])
+                result = Object.assign(result, {
+                    lopHoc: await this.lhSer.objectify_fromName(dto.lopHoc[i]),
+                });
+
+            if (dto.chuNhiem[i])
+                result = Object.assign(result, {
+                    chuNhiem: await this.lhSer.objectify_fromName(
+                        dto.chuNhiem[i],
+                    ),
+                });
+
+            if (dto.cccd[i] && dto.ngayCap[i] && dto.noiCap[i])
+                result = Object.assign(result, {
+                    cccd: {
+                        maSo: dto.cccd[i],
+                        ngayCap: dto.ngayCap[i],
+                        noiCap: dto.noiCap[i],
+                    },
+                });
+
+            if (dto.chucVu[i] && dto.hopDong[i] && dto.tDCM[i])
+                result = Object.assign(result, {
+                    chucVu: {
+                        chucVu: dto.chucVu[i],
+                        hopDong: dto.hopDong[i],
+                        trinhDo: dto.tDCM[i],
+                    },
+                });
+
+            toImport.push(result);
+        }
+
+        return await this.model.insertMany(toImport);
     }
 
     async forSelect_giaoVien() {
@@ -116,64 +171,67 @@ export class NguoiDungService {
     }
 
     async findOne_byID(id: string) {
-        const nd = await this.model.findById(id, null, null, (err, doc) => {
-            if (err) return null;
-            else return doc;
-        });
-        if (nd) {
-            const user = await nd
-                .populate([
-                    {
-                        path: 'lopHoc',
-                        model: 'lop_hoc',
+        const nd = await this.model.findById(id);
+        const user = await nd
+            .populate([
+                {
+                    path: 'lopHoc',
+                    model: 'lop_hoc',
+                    populate: {
+                        path: 'GVCN',
+                        model: 'nguoi_dung',
                     },
-                    {
-                        path: 'chuNhiem',
-                        model: 'lop_hoc',
-                    },
-                ])
-                .execPopulate();
-            return {
-                id: id,
-                maND: user.maND,
-                hoTen: user.hoTen,
-                emailND: user.emailND,
-                diaChi: user.diaChi,
-                ngaySinh: user.ngaySinh,
-                noiSinh: user.noiSinh,
-                gioiTinh: user.gioiTinh,
-                soDienThoai: user.soDienThoai ? user.soDienThoai : null,
-                dangHoatDong: user.dangHoatDong,
-                quocTich: user.quocTich,
-                danToc: user.danToc,
-                cccd: user.cccd
-                    ? {
-                          maSo: user.cccd.maSo,
-                          ngayCap: user.cccd.ngayCap,
-                          noiCap: user.cccd.noiCap,
-                      }
-                    : null,
-                hoChieu: user.hoChieu
-                    ? {
-                          maSo: user.hoChieu.maSo,
-                          ngayCap: user.hoChieu.ngayCap,
-                          noiCap: user.hoChieu.noiCap,
-                      }
-                    : null,
+                },
+                {
+                    path: 'chuNhiem',
+                    model: 'lop_hoc',
+                },
+            ])
+            .execPopulate();
+
+        return {
+            id: id,
+            maND: user.maND,
+            hoTen: user.hoTen,
+            emailND: user.emailND,
+            diaChi: user.diaChi,
+            ngaySinh: user.ngaySinh,
+            noiSinh: user.noiSinh,
+            gioiTinh: user.gioiTinh,
+            soDienThoai: user.soDienThoai ? user.soDienThoai : null,
+            dangHoatDong: user.dangHoatDong,
+            quocTich: user.quocTich,
+            danToc: user.danToc,
+            cccd: user.cccd
+                ? {
+                      maSo: user.cccd.maSo,
+                      ngayCap: user.cccd.ngayCap,
+                      noiCap: user.cccd.noiCap,
+                  }
+                : null,
+            hoChieu: user.hoChieu
+                ? {
+                      maSo: user.hoChieu.maSo,
+                      ngayCap: user.hoChieu.ngayCap,
+                      noiCap: user.hoChieu.noiCap,
+                  }
+                : null,
+            hocTap: {
+                id: user.lopHoc ? nd.lopHoc : null,
                 ngayNhapHoc: user.ngayNhapHoc ? user.ngayNhapHoc : null,
+                GVCN: user.lopHoc ? user.lopHoc.GVCN.hoTen : null,
                 lopHoc: user.lopHoc ? user.lopHoc.maLH : null,
-                chuNhiem: user.chuNhiem ? user.chuNhiem.maLH : null,
-                chucVu: user.chucVu
-                    ? {
-                          chucVu: user.chucVu.chucVu,
-                          hopDong: user.chucVu.hopDong,
-                          trinhDo: user.chucVu.trinhDo,
-                      }
-                    : null,
-                conCai:
-                    user.conCai && user.conCai.length > 0 ? user.conCai : null,
-            };
-        } else return null;
+            },
+            chuNhiem: user.chuNhiem ? user.chuNhiem.maLH : null,
+            chucVu: user.chucVu
+                ? {
+                      chucVu: user.chucVu.chucVu,
+                      hopDong: user.chucVu.hopDong,
+                      trinhDo: user.chucVu.trinhDo,
+                  }
+                : null,
+            conCai: user.conCai && user.conCai.length > 0 ? user.conCai : null,
+        };
     }
 
     async onlyPassword(ma: string) {

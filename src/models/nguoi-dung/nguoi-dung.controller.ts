@@ -22,6 +22,7 @@ import {
 } from '@nestjs/swagger';
 import { AuthGuard } from '../../auth.guard';
 import { RoleType } from '../../helpers/utilities';
+import { ImportNguoiDungDto } from './dto/import-nguoi-dung.dto';
 
 @Controller('nguoi-dung')
 @UseGuards(AuthGuard)
@@ -34,6 +35,11 @@ export class NguoiDungController {
     @ApiCreatedResponse({ description: 'Tạo thành công' })
     async create(@Body() dto: CreateNguoiDungDto) {
         return await this.service.create(dto);
+    }
+
+    @Post('nhap')
+    async bulkCreate(@Body() dto: ImportNguoiDungDto) {
+        return await this.service.bulkCreate(dto);
     }
 
     @Get('theo')
