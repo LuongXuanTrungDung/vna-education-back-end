@@ -6,7 +6,6 @@ import {
     Patch,
     Param,
     Delete,
-    Query,
     UseGuards,
 } from '@nestjs/common';
 import {
@@ -16,7 +15,6 @@ import {
     ApiForbiddenResponse,
     ApiOkResponse,
     ApiParam,
-    ApiQuery,
     ApiTags,
 } from '@nestjs/swagger';
 import { AuthGuard } from '../../auth.guard';
@@ -58,38 +56,6 @@ export class DanhGiaController {
     })
     async findAll() {
         return await this.dgSer.findAll();
-    }
-
-    @Get('theo')
-    @ApiQuery({
-        name: 'user',
-        type: String,
-        description: '_id của người đánh giá',
-    })
-    @ApiQuery({
-        name: 'ngay',
-        type: String,
-        description: 'Ngày đánh giá',
-    })
-    @ApiOkResponse({
-        description: 'Trả về tất cả đánh giá theo _id của người dùng',
-        isArray: true,
-    })
-    @ApiForbiddenResponse({
-        description: 'Ngăn cản truy cập do chưa đăng nhập vào hệ thống',
-    })
-    async findAll_According(
-        @Query('user') user?: string,
-        @Query('ngay') ngay?: string,
-    ) {
-        if (user && user != '') {
-            const classe = (await this.ndSer.findOne_byID(user)).lopHoc;
-            return await this.dgSer.findAll_byUser(classe);
-        }
-
-        if (ngay && ngay != '') return await this.dgSer.findAll_byDate(ngay);
-
-        return null;
     }
 
     @Get(':id')

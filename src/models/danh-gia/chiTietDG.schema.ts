@@ -1,7 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
-import { Document, Schema as MongooseSchema } from 'mongoose';
-import { LopHoc } from '../lop-hoc/lop-hoc.entity';
+import { Schema as MongooseSchema } from 'mongoose';
 import { NguoiDung } from '../nguoi-dung/nguoi-dung.entity';
 
 @Schema({

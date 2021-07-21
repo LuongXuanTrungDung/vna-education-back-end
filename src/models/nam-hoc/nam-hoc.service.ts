@@ -62,6 +62,7 @@ export class NamHocService {
     }
 
     async onlyWeeks(nam: string) {
+        const org = await this.model.findById(nam);
         const one = await (
             await this.model.findById(nam)
         )
@@ -74,6 +75,7 @@ export class NamHocService {
 
         for (let i = 0; i < one.tuanHoc.length; i++) {
             tuan.push({
+                id: org.tuanHoc[i],
                 tenTuan: one.tuanHoc[i].tenTuan,
                 soTuan: one.tuanHoc[i].soTuan,
                 ngayBatDau: one.tuanHoc[i].ngayBatDau,
@@ -87,7 +89,7 @@ export class NamHocService {
 
     async findLatest() {
         const all = await this.findAll();
-        return all[all.length-1];
+        return all[all.length - 1];
     }
 
     async update(id: string, dto: NamHocDto) {

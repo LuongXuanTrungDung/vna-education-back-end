@@ -1,7 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { TieuChi, TieuChiSchema } from './tieuChi.schema';
-import { MonHoc } from '../mon-hoc/mon-hoc.entity';
 
 export type MauDanhGiaDocument = MauDanhGia & Document;
 

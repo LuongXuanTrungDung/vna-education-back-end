@@ -1,4 +1,4 @@
-import { Controller, Get, Query, Render, UseGuards } from '@nestjs/common';
+import { Controller, Get, Query, UseGuards } from '@nestjs/common';
 import {
     ApiForbiddenResponse,
     ApiOkResponse,

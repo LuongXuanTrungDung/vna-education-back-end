@@ -24,16 +24,16 @@ export class DanhGiaService {
         const { mauDG, monHoc, lopHoc, giaoVien, ...rest } = dto;
         const temp = [];
 
-        for (let i = 0; i < dto.giaoVien.length; i++) {
-            temp.push(Types.ObjectId(dto.giaoVien[i]));
+        for (let i = 0; i < giaoVien.length; i++) {
+            temp.push(Types.ObjectId(giaoVien[i]));
         }
 
         return await this.model.create({
             ...rest,
-            mauDG: Types.ObjectId(dto.mauDG),
-            monHoc: Types.ObjectId(dto.monHoc),
+            mauDG: Types.ObjectId(mauDG),
+            monHoc: Types.ObjectId(monHoc),
             giaoVien: temp,
-            lopHoc: Types.ObjectId(dto.lopHoc),
+            lopHoc: Types.ObjectId(lopHoc),
         });
     }
 
