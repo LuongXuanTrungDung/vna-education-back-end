@@ -9,9 +9,8 @@ import {
     UseGuards,
 } from '@nestjs/common';
 import { NamHocService } from './nam-hoc.service';
-import { CreateNamHocDto } from './dto/create-nam-hoc.dto';
-import { UpdateNamHocDto } from './dto/update-nam-hoc.dto';
 import { AuthGuard } from '../../auth.guard';
+import { NamHocDto } from './nam-hoc.dto';
 
 @Controller('nam-hoc')
 @UseGuards(AuthGuard)
@@ -19,7 +18,7 @@ export class NamHocController {
     constructor(private readonly service: NamHocService) {}
 
     @Post()
-    async create(@Body() dto: CreateNamHocDto) {
+    async create(@Body() dto: NamHocDto) {
         return await this.service.create(dto);
     }
 
@@ -28,9 +27,9 @@ export class NamHocController {
         return await this.service.findAll();
     }
 
-    @Get(':id/tuan')
-    async justWeeks(@Param('id') id: string) {
-        return await this.service.onlyWeeks(id);
+    @Get('gan-nhat')
+    async findLatest() {
+        return await this.service.findLatest();
     }
 
     @Get(':id')
@@ -44,7 +43,7 @@ export class NamHocController {
     }
 
     @Patch(':id')
-    async update(@Param('id') id: string, @Body() dto: UpdateNamHocDto) {
+    async update(@Param('id') id: string, @Body() dto: NamHocDto) {
         return await this.service.update(id, dto);
     }
 

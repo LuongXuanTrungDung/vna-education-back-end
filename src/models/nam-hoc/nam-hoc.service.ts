@@ -3,8 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { bulkObjectID } from '../../helpers/utilities';
 import { TuanHocService } from '../tuan-hoc/tuan-hoc.service';
-import { CreateNamHocDto } from './dto/create-nam-hoc.dto';
-import { UpdateNamHocDto } from './dto/update-nam-hoc.dto';
+import { NamHocDto } from './nam-hoc.dto';
 import { NamHocDocument } from './nam-hoc.entity';
 
 @Injectable()
@@ -14,7 +13,7 @@ export class NamHocService {
         private readonly tuanSer: TuanHocService,
     ) {}
 
-    async create(dto: CreateNamHocDto) {
+    async create(dto: NamHocDto) {
         const { tuanHoc, ...rest } = dto;
         const t = bulkObjectID(tuanHoc);
         return await this.model.create({
@@ -86,7 +85,12 @@ export class NamHocService {
         return tuan.sort((a, b) => b.soTuan - a.soTuan);
     }
 
-    async update(id: string, dto: UpdateNamHocDto) {
+    async findLatest() {
+        const all = await this.findAll();
+        return all[all.length-1];
+    }
+
+    async update(id: string, dto: NamHocDto) {
         await this.model.findById(id).then(async (doc) => {
             const { tuanHoc, ...rest } = dto;
 

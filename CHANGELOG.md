@@ -150,6 +150,13 @@
 	- Điều chỉnh API và model tuan_hoc, diem_danh và tiet_hoc
 	- Điều chỉnh cơ bản cho API danh_gia
 - 2.8.0
-	- Xóa model và API ngay_hoc và hoc_ky. Thêm model và API CRUD nam_hoc
+	- Xóa model và API ngay_hoc và hoc_ky.
+	- Thêm model nam_hoc DTO, và API CRUD
 	- Thêm API trả thông tin học sinh theo lớp học
 	- Thêm API trả tuần học theo năm học, sắp xếp theo tuần mới nhất
+- 2.9.0
+	- Thêm model buoi_hoc, DTO và API CRUD tương ứng
+	- Thêm API trả lịch học theo tuần và lớp
+	- Thay đổi 1 số API để phục vụ việc trả lịch học
+	- Thêm API trả người dùng theo 2 role hiệu trưởng và quản trị
+	- Thêm API trả năm học gần nhất

@@ -61,7 +61,7 @@ export class AppService {
             const b = [];
             for (let j = 0; j < buoiHoc[i].tietHoc.length; j++) {
                 if (buoiHoc[i].tietHoc[j].lopHoc == l) {
-					let {lopHoc, ...rest} = buoiHoc[i].tietHoc[j]
+                    const { lopHoc, ...rest } = buoiHoc[i].tietHoc[j];
                     b.push(rest);
                 }
             }
