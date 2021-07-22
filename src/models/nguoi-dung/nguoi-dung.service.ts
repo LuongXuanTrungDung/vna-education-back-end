@@ -1,6 +1,6 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { genSalt, hash } from 'bcrypt';
+import { hash } from 'bcrypt';
 import { Model, Types } from 'mongoose';
 import { RoleType } from '../../helpers/utilities';
 import { LopHocService } from '../lop-hoc/lop-hoc.service';
@@ -31,10 +31,9 @@ export class NguoiDungService {
             conCai,
             ...rest
         } = dto;
-        const salt = await genSalt(10);
         let result = {
             ...rest,
-            matKhau: await hash(matKhau, salt),
+            matKhau: await hash(matKhau, 10),
         };
         const temp = [];
 
@@ -80,7 +79,6 @@ export class NguoiDungService {
         const toImport = [];
 
         for (let i = 0; i < dto.maND.length; i++) {
-			let salt = await genSalt(10)
             let result = {
                 maND: dto.maND[i],
                 hoTen: dto.hoTen[i],
@@ -93,7 +91,7 @@ export class NguoiDungService {
                 quocTich: dto.quocTich[i],
                 diaChi: dto.diaChi[i],
                 gioiTinh: dto.gioiTinh[i],
-                matKhau: await hash(dto.matKhau[i], salt),
+                matKhau: await hash(dto.matKhau[i], 10),
             };
 
             if (dto.lopHoc[i])
