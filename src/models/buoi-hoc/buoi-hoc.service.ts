@@ -4,7 +4,7 @@ import { Model } from 'mongoose';
 import { bulkObjectID } from '../../helpers/utilities';
 import { TietHocService } from '../tiet-hoc/tiet-hoc.service';
 import { BuoiHocDto } from './buoi-hoc.dto';
-import { BuoiHocDocument } from './buoi-hoc.entity';
+import { BuoiHoc, BuoiHocDocument } from './buoi-hoc.entity';
 
 @Injectable()
 export class BuoiHocService {
@@ -22,11 +22,28 @@ export class BuoiHocService {
     }
 
     async findAll() {
-        return this.model.find();
+        const all = await this.model.find({});
+        const result = [];
+        for (let i = 0; i < all.length; i++) {
+            result.push(await this.findOne(all[i]._id));
+        }
+        return result;
     }
 
-    async findOne(id: string) {
-        return await this.model.findById(id);
+    async findOne(buoi: string | BuoiHoc) {
+        const b = await this.model.findById(buoi);
+        const t = [];
+
+        for (let i = 0; i < b.tietHoc.length; i++) {
+            t.push(await this.thSer.findOne(b.tietHoc[i]));
+        }
+
+        return {
+            id: buoi,
+            thu: b.thu,
+            ngayHoc: b.ngayHoc,
+            tietHoc: t,
+        };
     }
 
     async update(id: string, dto: BuoiHocDto) {
@@ -36,8 +53,8 @@ export class BuoiHocService {
                 $set: {
                     thu: dto.thu,
                     ngayHoc: dto.ngayHoc,
+                    tietHoc: await this.thSer.bulkObjectify(dto.tietHoc),
                 },
-                $push: { tietHoc: { $each: dto.tietHoc } },
             },
             { new: true },
         );

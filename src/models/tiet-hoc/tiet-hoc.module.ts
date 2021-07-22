@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { TietHocService } from './tiet-hoc.service';
 import { TietHocController } from './tiet-hoc.controller';
 import { TietHocSchema } from './tiet-hoc.entity';
@@ -21,7 +21,7 @@ import { DiemDanhModule } from '../diem-danh/diem-danh.module';
         NguoiDungModule,
         LopHocModule,
         MonHocModule,
-        TuanHocModule,
+        forwardRef(() => TuanHocModule),
         DiemDanhModule,
     ],
     controllers: [TietHocController],

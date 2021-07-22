@@ -53,25 +53,21 @@ export class AppService {
     }
 
     async taoLichHoc(tuan: string, lop: string) {
-        const { buoiHoc, ...t } = await this.tSer.findOne(tuan);
-        const l = (await this.lhSer.findOne(lop)).maLH;
-        let result = { ...t };
+        const week = await this.tSer.findOne(tuan);
+        const classe = await this.lhSer.findOne(lop);
+        const result = { ...week, buoiHoc: [] };
 
-        for (let i = 0; i < buoiHoc.length; i++) {
-            const b = [];
-            for (let j = 0; j < buoiHoc[i].tietHoc.length; j++) {
-                if (buoiHoc[i].tietHoc[j].lopHoc == l) {
-                    const { lopHoc, ...rest } = buoiHoc[i].tietHoc[j];
-                    b.push(rest);
-                }
+        for (let i = 0; i < week.buoiHoc.length; i++) {
+            const { tietHoc, ...buoi } = week.buoiHoc[i];
+            const b = { ...buoi, tietHoc: [] };
+
+            for (let j = 0; j < tietHoc.length; j++) {
+                const { lopHoc, tuanHoc, diemDanh, ...rest } = tietHoc[j];
+                if (lopHoc == classe.maLH) b.tietHoc.push(rest);
             }
-            result = Object.assign(result, {
-                id: lop,
-                tenLop: l,
-                tietHoc: b,
-            });
-        }
 
+            result.buoiHoc.push(b);
+        }
         return result;
     }
 }

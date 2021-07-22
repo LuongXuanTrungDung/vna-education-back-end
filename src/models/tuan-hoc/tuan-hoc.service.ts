@@ -2,14 +2,16 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { bulkObjectID } from '../../helpers/utilities';
+import { BuoiHocService } from '../buoi-hoc/buoi-hoc.service';
 import { CreateTuanHocDto } from './dto/create-tuan-hoc.dto';
 import { UpdateTuanHocDto } from './dto/update-tuan-hoc.dto';
-import { TuanHocDocument } from './tuan-hoc.entity';
+import { TuanHoc, TuanHocDocument } from './tuan-hoc.entity';
 
 @Injectable()
 export class TuanHocService {
     constructor(
         @InjectModel('tuan_hoc') private model: Model<TuanHocDocument>,
+        private readonly bhSer: BuoiHocService,
     ) {}
 
     async create(dto: CreateTuanHocDto) {
@@ -21,57 +23,20 @@ export class TuanHocService {
     }
 
     async findAll() {
-        return await this.model.find({});
+        const all = await this.model.find({});
+        const result = [];
+        for (let i = 0; i < all.length; i++) {
+            result.push(await this.findOne(all[i]._id));
+        }
+        return result;
     }
 
-    async findOne(id: string) {
-        const tuan = await (
-            await this.model.findById(id)
-        )
-            .populate({
-                path: 'buoiHoc',
-                model: 'buoi_hoc',
-                populate: {
-                    path: 'tietHoc',
-                    model: 'tiet_hoc',
-                    populate: [
-                        { path: 'monHoc', model: 'mon_hoc' },
-                        { path: 'giaoVien', model: 'nguoi_dung' },
-                        { path: 'lopHoc', model: 'lop_hoc' },
-                    ],
-                },
-            })
-            .execPopulate();
-        const t2 = await (
-            await this.model.findById(id)
-        )
-            .populate({
-                path: 'buoiHoc',
-                model: 'buoi_hoc',
-            })
-            .execPopulate();
-        const t1 = await this.model.findById(id);
-
+    async findOne(id: string | TuanHoc) {
+        const tuan = await this.model.findById(id);
         const b = [];
 
         for (let i = 0; i < tuan.buoiHoc.length; i++) {
-            const t = [];
-            for (let j = 0; j < tuan.buoiHoc[i].tietHoc.length; j++) {
-                t.push({
-                    id: t2.buoiHoc[i].tietHoc[j],
-                    monHoc: tuan.buoiHoc[i].tietHoc[j].monHoc.tenMH,
-                    lopHoc: tuan.buoiHoc[i].tietHoc[j].lopHoc.maLH,
-                    giaoVien: tuan.buoiHoc[i].tietHoc[j].giaoVien.hoTen,
-                    ghiChu: tuan.buoiHoc[i].tietHoc[j].ghiChu,
-                });
-            }
-
-            b.push({
-                id: t1.buoiHoc[i],
-                thu: tuan.buoiHoc[i].thu,
-                ngayHoc: tuan.buoiHoc[i].ngayHoc,
-                tietHoc: t,
-            });
+            b.push(await this.bhSer.findOne(tuan.buoiHoc[i]));
         }
 
         return {

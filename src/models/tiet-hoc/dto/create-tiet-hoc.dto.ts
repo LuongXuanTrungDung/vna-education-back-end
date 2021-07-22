@@ -4,5 +4,6 @@ export class CreateTietHocDto {
     tuanHoc: string;
     monHoc: string;
     lopHoc: string;
-    ghiChu: string;
+    thuTiet: string;
+    thoiGian_batDau: string;
 }

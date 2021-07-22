@@ -51,9 +51,14 @@ export class TietHoc {
     lopHoc: LopHoc;
 
     @Prop({
-        default: 'Tiết 0: 0h - 1h30',
+        default: 'Tiết 0',
     })
-    ghiChu: string;
+    thuTiet: string;
+
+    @Prop({
+        default: '0h - 1h30',
+    })
+    thoiGian_batDau: string;
 
     @Prop({
         type: [

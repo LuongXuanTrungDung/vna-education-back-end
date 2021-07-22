@@ -38,7 +38,6 @@ export class AppController {
     @ApiForbiddenResponse({
         description: 'Ngăn cản truy cập do chưa đăng nhập vào hệ thống',
     })
-    @UseGuards(AuthGuard)
     async laySelects() {
         return await this.service.layGiaTri_choSelects();
     }

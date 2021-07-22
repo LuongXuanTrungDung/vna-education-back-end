@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { NguoiDungService } from '../nguoi-dung/nguoi-dung.service';
-import { DiemDanhDocument } from './diem-danh.entity';
+import { DiemDanh, DiemDanhDocument } from './diem-danh.entity';
 import { CreateDiemDanhDto } from './dto/create-diem-danh.dto';
 import { UpdateDiemDanhDto } from './dto/update-diem-danh.dto';
 
@@ -21,16 +21,21 @@ export class DiemDanhService {
     }
 
     async findAll() {
-        return await this.model.find({});
+        const all = await this.model.find({});
+        const result = [];
+        for (let i = 0; i < all.length; i++) {
+            result.push(await this.findOne(all[i]._id));
+        }
+        return result;
     }
 
-    async findOne(id: string) {
-        const one = await (await this.model.findById(id))
+    async findOne(dd: string | DiemDanh) {
+        const one = await (await this.model.findById(dd))
             .populate({ path: 'hocSinh', model: 'nguoi_dung' })
             .execPopulate();
 
         return {
-            id: one._id,
+            id: dd,
             hocSinh: one.hocSinh.hoTen,
             trangThai: one.trangThai,
             ghiChu: one.ghiChu,
@@ -38,18 +43,29 @@ export class DiemDanhService {
     }
 
     async update(id: string, dto: UpdateDiemDanhDto) {
-        await this.model.findById(id).then(async (doc) => {
-            if (dto.hocSinh)
-                doc.hocSinh = await this.ndSer.objectify(dto.hocSinh);
-            if (dto.trangThai) doc.trangThai = dto.trangThai;
-            if (dto.ghiChu) doc.ghiChu = dto.ghiChu;
-            await doc.save();
-        });
-        return await this.findOne(id);
+        return await this.model.findByIdAndUpdate(
+            id,
+            {
+                $set: {
+                    hocSinh: await this.ndSer.objectify(dto.hocSinh),
+                    trangThai: dto.trangThai,
+                    ghiChu: dto.ghiChu,
+                },
+            },
+            { new: true },
+        );
     }
 
     async objectify(id: string) {
         return (await this.model.findById(id))._id;
+    }
+
+    async bulkObjectify(dd: string[]) {
+        const result = [];
+        for (let i = 0; i < dd.length; i++) {
+            result.push(await this.objectify(dd[i]));
+        }
+        return result;
     }
 
     async remove(id: string) {
