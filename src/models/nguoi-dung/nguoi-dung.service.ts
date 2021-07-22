@@ -3,10 +3,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { RoleType } from '../../helpers/utilities';
 import { LopHocService } from '../lop-hoc/lop-hoc.service';
-import { CreateNguoiDungDto } from './dto/create-nguoi-dung.dto';
-import { ImportNguoiDungDto } from './dto/import-nguoi-dung.dto';
-import { UpdateNguoiDungDto } from './dto/update-nguoi-dung.dto';
-import { NguoiDungDocument } from './nguoi-dung.entity';
+import { NguoiDungDto } from './dto/nguoi-dung.dto';
+import { NguoiDung, NguoiDungDocument } from './nguoi-dung.entity';
 
 @Injectable()
 export class NguoiDungService {
@@ -16,7 +14,7 @@ export class NguoiDungService {
         private readonly lhSer: LopHocService,
     ) {}
 
-    async create(dto: CreateNguoiDungDto) {
+    async create(dto: NguoiDungDto) {
         const {
             cccd,
             ngayCap,
@@ -72,60 +70,66 @@ export class NguoiDungService {
         return await this.model.create(result);
     }
 
-    async bulkCreate(dto: ImportNguoiDungDto) {
-        const toImport = [];
+    // async bulkCreate(dto: ImportNguoiDungDto) {
+    //     const toImport = [];
 
-        for (let i = 0; i < dto.maND.length; i++) {
-            let result = {
-                maND: dto.maND[i],
-                hoTen: dto.hoTen[i],
-                dangHoatDong: dto.dangHoatDong[i],
-                emailND: dto.emailND[i],
-                soDienThoai: dto.soDienThoai[i],
-                noiSinh: dto.noiSinh[i],
-                ngaySinh: dto.ngaySinh[i],
-                danToc: dto.danToc[i],
-                quocTich: dto.quocTich[i],
-                diaChi: dto.diaChi[i],
-                gioiTinh: dto.gioiTinh[i],
-                matKhau: dto.matKhau[i],
-            };
+    //     for (let i = 0; i < dto.maND.length; i++) {
+    //         let result = {
+    //             maND: dto.maND[i],
+    //             hoTen: dto.hoTen[i],
+    //             dangHoatDong: dto.dangHoatDong[i],
+    //             emailND: dto.emailND[i],
+    //             soDienThoai: dto.soDienThoai[i],
+    //             noiSinh: dto.noiSinh[i],
+    //             ngaySinh: dto.ngaySinh[i],
+    //             danToc: dto.danToc[i],
+    //             quocTich: dto.quocTich[i],
+    //             diaChi: dto.diaChi[i],
+    //             gioiTinh: dto.gioiTinh[i],
+    //             matKhau: dto.matKhau[i],
+    //         };
 
-            if (dto.lopHoc[i])
-                result = Object.assign(result, {
-                    lopHoc: await this.lhSer.objectify_fromName(dto.lopHoc[i]),
-                });
+    //         if (dto.cccd[i] && dto.ngayCap[i] && dto.noiCap[i])
+    //             result = Object.assign(result, {
+    //                 cccd: {
+    //                     maSo: dto.cccd[i],
+    //                     ngayCap: dto.ngayCap[i],
+    //                     noiCap: dto.noiCap[i],
+    //                 },
+    //             });
 
-            if (dto.chuNhiem[i])
-                result = Object.assign(result, {
-                    chuNhiem: await this.lhSer.objectify_fromName(
-                        dto.chuNhiem[i],
-                    ),
-                });
+    //         if (dto.maND[i].substring(0, 2) === 'HS') {
+    //             if (dto.lopHoc[i])
+    //                 result = Object.assign(result, {
+    //                     lopHoc: await this.lhSer.objectify_fromName(
+    //                         dto.lopHoc[i],
+    //                     ),
+    //                 });
+    //         }
 
-            if (dto.cccd[i] && dto.ngayCap[i] && dto.noiCap[i])
-                result = Object.assign(result, {
-                    cccd: {
-                        maSo: dto.cccd[i],
-                        ngayCap: dto.ngayCap[i],
-                        noiCap: dto.noiCap[i],
-                    },
-                });
+    //         if (dto.maND[i].substring(0, 2) === 'GV') {
+    //             if (dto.chuNhiem[i])
+    //                 result = Object.assign(result, {
+    //                     chuNhiem: await this.lhSer.objectify_fromName(
+    //                         dto.chuNhiem[i],
+    //                     ),
+    //                 });
+    //         }
 
-            if (dto.chucVu[i] && dto.hopDong[i] && dto.tDCM[i])
-                result = Object.assign(result, {
-                    chucVu: {
-                        chucVu: dto.chucVu[i],
-                        hopDong: dto.hopDong[i],
-                        trinhDo: dto.tDCM[i],
-                    },
-                });
+    //         if (dto.chucVu[i] && dto.hopDong[i] && dto.tDCM[i])
+    //             result = Object.assign(result, {
+    //                 chucVu: {
+    //                     chucVu: dto.chucVu[i],
+    //                     hopDong: dto.hopDong[i],
+    //                     trinhDo: dto.tDCM[i],
+    //                 },
+    //             });
 
-            toImport.push(result);
-        }
+    //         toImport.push(result);
+    //     }
 
-        return await this.model.insertMany(toImport);
-    }
+    //     return await this.model.insertMany(toImport);
+    // }
 
     async forSelect_giaoVien() {
         const result = [];
@@ -139,20 +143,14 @@ export class NguoiDungService {
         return result;
     }
 
-    async forSelect_hocSinh() {
+    async findAll() {
+        const all = await this.model.find();
         const result = [];
-        const hs = await this.findAll_byRole('HS');
-        for (let i = 0; i < hs.length; i++) {
-            result.push({
-                id: hs[i]._id,
-                ten: hs[i].hoTen,
-            });
+
+        for (let i = 0; i < all.length; i++) {
+            result.push(await this.findOne_byID(all[i]));
         }
         return result;
-    }
-
-    async findAll() {
-        return await this.model.find({});
     }
 
     async findAll_byRole(role: RoleType) {
@@ -165,7 +163,7 @@ export class NguoiDungService {
         return await this.model.findOne({ maND: ma });
     }
 
-    async findOne_byID(id: string) {
+    async findOne_byID(id: string | NguoiDung) {
         const nd = await this.model.findById(id);
         const user = await (
             await this.model.findById(id)
@@ -254,54 +252,58 @@ export class NguoiDungService {
         });
     }
 
-    async update(id: string, dto: UpdateNguoiDungDto) {
+    async update(id: string, dto: NguoiDungDto) {
+        const {
+            cccd,
+            ngayCap,
+            noiCap,
+            chuNhiem,
+            chucVu,
+            conCai,
+            hopDong,
+            tDCM,
+            lopHoc,
+            ...rest
+        } = dto;
+        const temp = [];
         let gt, ld;
 
-        if (dto.cccd && dto.ngayCap && dto.noiCap) {
+        if (cccd && ngayCap && noiCap) {
             gt = {
                 maSo: dto.cccd,
                 ngayCap: dto.ngayCap,
                 noiCap: dto.noiCap,
             };
-        } else gt = null;
+        }
 
-        if (dto.chucVu && dto.hopDong && dto.tDCM) {
+        if (chucVu && hopDong && tDCM) {
             ld = {
                 chucVu: dto.chucVu,
                 hopDong: dto.hopDong,
                 trinhDo: dto.tDCM,
             };
-        } else ld = null;
+        }
 
-        await this.getOne(id).then(async (doc) => {
-            if (dto.maND) doc.maND = dto.maND;
-            if (dto.hoTen) doc.hoTen = dto.hoTen;
-            if (dto.matKhau) doc.matKhau = dto.matKhau;
-            if (dto.emailND) doc.emailND = dto.emailND;
-            if (dto.soDienThoai) doc.soDienThoai = dto.soDienThoai;
-            if (dto.quocTich) doc.quocTich = dto.quocTich;
-            if (dto.danToc) doc.danToc = dto.danToc;
-            if (dto.diaChi) doc.diaChi = dto.diaChi;
-            if (dto.gioiTinh) doc.gioiTinh = dto.gioiTinh;
-            if (dto.ngaySinh) doc.ngaySinh = dto.ngaySinh;
-            if (dto.ngayNhapHoc) doc.ngayNhapHoc = dto.ngayNhapHoc;
-            if (dto.dangHoatDong) doc.dangHoatDong = dto.dangHoatDong;
-            if (dto.conCai && dto.conCai.length > 0) {
-                const temp = [];
-                for (let i = 0; i < dto.conCai.length; i++) {
-                    temp.push((await this.getOne(dto.conCai[i]))._id);
-                }
-                doc.conCai = temp;
+        if (conCai && conCai.length > 0) {
+            for (let i = 0; i < conCai.length; i++) {
+                temp.push(await this.objectify(conCai[i]));
             }
-            if (dto.lopHoc)
-                doc.lopHoc = (await this.lhSer.findOne(dto.lopHoc))._id;
-            if (dto.chuNhiem)
-                doc.chuNhiem = (await this.lhSer.findOne(dto.chuNhiem))._id;
-            if (gt) doc.cccd = gt;
-            if (ld) doc.chucVu = ld;
-            await doc.save();
-        });
-        return await this.findOne_byID(id);
+        }
+
+        return await this.model.findByIdAndUpdate(
+            id,
+            {
+                ...rest,
+                $set: {
+                    lopHoc: await this.lhSer.objectify_fromID(lopHoc),
+                    chuNhiem: await this.lhSer.objectify_fromID(chuNhiem),
+                    cccd: gt,
+                    chucVu: ld,
+                    conCai: temp,
+                },
+            },
+            { new: true },
+        );
     }
 
     async check(user: string) {

@@ -14,12 +14,5 @@ export class ImportNguoiDungDto {
     // hoChieu: string[]
     ngayCap: string[];
     noiCap: string[];
-    chucVu: string[];
-    hopDong: string[];
-    tDCM: string[];
-    lopHoc: string[];
-    ngayNhapHoc: string[];
     dangHoatDong: boolean[];
-    chuNhiem: string[];
-    conCai: string[][];
 }

@@ -10,10 +10,8 @@ import {
     Query,
 } from '@nestjs/common';
 import { NguoiDungService } from './nguoi-dung.service';
-import { CreateNguoiDungDto } from './dto/create-nguoi-dung.dto';
-import { UpdateNguoiDungDto } from './dto/update-nguoi-dung.dto';
+import { NguoiDungDto } from './dto/nguoi-dung.dto';
 import {
-    ApiBody,
     ApiCreatedResponse,
     ApiOkResponse,
     ApiParam,
@@ -22,7 +20,6 @@ import {
 } from '@nestjs/swagger';
 import { AuthGuard } from '../../auth.guard';
 import { RoleType } from '../../helpers/utilities';
-import { ImportNguoiDungDto } from './dto/import-nguoi-dung.dto';
 
 @Controller('nguoi-dung')
 @UseGuards(AuthGuard)
@@ -31,15 +28,9 @@ export class NguoiDungController {
     constructor(private readonly service: NguoiDungService) {}
 
     @Post()
-    @ApiBody({ type: CreateNguoiDungDto })
     @ApiCreatedResponse({ description: 'Tạo thành công' })
-    async create(@Body() dto: CreateNguoiDungDto) {
+    async create(@Body() dto: NguoiDungDto) {
         return await this.service.create(dto);
-    }
-
-    @Post('nhap')
-    async bulkCreate(@Body() dto: ImportNguoiDungDto) {
-        return await this.service.bulkCreate(dto);
     }
 
     @Get('theo')
@@ -79,11 +70,8 @@ export class NguoiDungController {
         type: String,
         description: '_id của người dùng',
     })
-    @ApiBody({
-        type: UpdateNguoiDungDto,
-    })
     @ApiOkResponse({ description: 'Cập nhật thành công' })
-    async update(@Param('id') id: string, @Body() dto: UpdateNguoiDungDto) {
+    async update(@Param('id') id: string, @Body() dto: NguoiDungDto) {
         return await this.service.update(id, dto);
     }
 

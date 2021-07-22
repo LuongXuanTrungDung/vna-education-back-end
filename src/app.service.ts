@@ -5,6 +5,8 @@ import { LopHocService } from './models/lop-hoc/lop-hoc.service';
 import { MauDanhGiaService } from './models/mau-danh-gia/mau-danh-gia.service';
 import { MonHocService } from './models/mon-hoc/mon-hoc.service';
 import { NguoiDungService } from './models/nguoi-dung/nguoi-dung.service';
+import { GiaoVienUtils } from './models/nguoi-dung/roles/giao-vien.utils';
+import { HocSinhUtils } from './models/nguoi-dung/roles/hoc-sinh.utils';
 import { ThongBaoService } from './models/thong-bao/thong-bao.service';
 import { TuanHocService } from './models/tuan-hoc/tuan-hoc.service';
 
@@ -18,6 +20,9 @@ export class AppService {
         private readonly lhSer: LopHocService,
         private readonly mauSer: MauDanhGiaService,
         private readonly tSer: TuanHocService,
+
+        private readonly hsU: HocSinhUtils,
+        private readonly gvU: GiaoVienUtils,
     ) {}
 
     async kiemTra_dangNhap(username: string, password: string) {
@@ -44,8 +49,8 @@ export class AppService {
 
     async layGiaTri_choSelects() {
         return {
-            hocSinh: await this.ndSer.forSelect_hocSinh(),
-            giaoVien: await this.ndSer.forSelect_giaoVien(),
+            hocSinh: await this.hsU.forSelect_hocSinh(),
+            giaoVien: await this.gvU.forSelect_giaoVien(),
             mauDG: await this.mauSer.forSelect(),
             monHoc: await this.mhSer.forSelect(),
             lopHoc: await this.lhSer.forSelect(),

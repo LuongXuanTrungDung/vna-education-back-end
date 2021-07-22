@@ -1,4 +1,4 @@
-import { Controller, Get, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
 import {
     ApiForbiddenResponse,
     ApiOkResponse,
@@ -6,6 +6,7 @@ import {
     ApiTags,
 } from '@nestjs/swagger';
 import { AuthGuard } from '../../auth.guard';
+import { ImportGVDTO } from '../../models/nguoi-dung/dto/import-gv.dto';
 import { GiaoVienService } from './giao-vien.service';
 
 @Controller('giao-vien')
@@ -13,6 +14,11 @@ import { GiaoVienService } from './giao-vien.service';
 @ApiTags('giao-vien')
 export class GiaoVienController {
     constructor(private readonly service: GiaoVienService) {}
+
+    @Post()
+    async nhapGV(@Body() dto: ImportGVDTO) {
+        return await this.service.importGV(dto);
+    }
 
     @Get('theo')
     @ApiQuery({

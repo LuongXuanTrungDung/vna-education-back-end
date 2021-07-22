@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class CreateNguoiDungDto {
+export class NguoiDungDto {
     @ApiProperty({
         name: 'maND',
         type: String,
