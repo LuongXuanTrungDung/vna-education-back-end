@@ -1,6 +1,5 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { hash, hashSync } from 'bcrypt';
 import { Model, Types } from 'mongoose';
 import { RoleType } from '../../helpers/utilities';
 import { LopHocService } from '../lop-hoc/lop-hoc.service';
@@ -25,7 +24,6 @@ export class NguoiDungService {
             tDCM,
             chucVu,
             hopDong,
-            matKhau,
             lopHoc,
             chuNhiem,
             conCai,
@@ -33,7 +31,6 @@ export class NguoiDungService {
         } = dto;
         let result = {
             ...rest,
-            matKhau: await hash(matKhau, 10),
         };
         const temp = [];
 
@@ -91,7 +88,7 @@ export class NguoiDungService {
                 quocTich: dto.quocTich[i],
                 diaChi: dto.diaChi[i],
                 gioiTinh: dto.gioiTinh[i],
-                matKhau: hashSync(dto.matKhau[i],10),
+                matKhau: dto.matKhau[i],
             };
 
             if (dto.lopHoc[i])
@@ -170,7 +167,9 @@ export class NguoiDungService {
 
     async findOne_byID(id: string) {
         const nd = await this.model.findById(id);
-        const user = await (await this.model.findById(id))
+        const user = await (
+            await this.model.findById(id)
+        )
             .populate([
                 {
                     path: 'lopHoc',
@@ -277,7 +276,7 @@ export class NguoiDungService {
         await this.getOne(id).then(async (doc) => {
             if (dto.maND) doc.maND = dto.maND;
             if (dto.hoTen) doc.hoTen = dto.hoTen;
-            if (dto.matKhau) doc.matKhau = await hash(dto.matKhau, 10);
+            if (dto.matKhau) doc.matKhau = dto.matKhau;
             if (dto.emailND) doc.emailND = dto.emailND;
             if (dto.soDienThoai) doc.soDienThoai = dto.soDienThoai;
             if (dto.quocTich) doc.quocTich = dto.quocTich;
