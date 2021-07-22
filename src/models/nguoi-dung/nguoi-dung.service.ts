@@ -257,7 +257,6 @@ export class NguoiDungService {
 
     async update(id: string, dto: UpdateNguoiDungDto) {
         let gt, ld;
-        const salt = await genSalt(10);
 
         if (dto.cccd && dto.ngayCap && dto.noiCap) {
             gt = {
@@ -278,7 +277,7 @@ export class NguoiDungService {
         await this.getOne(id).then(async (doc) => {
             if (dto.maND) doc.maND = dto.maND;
             if (dto.hoTen) doc.hoTen = dto.hoTen;
-            if (dto.matKhau) doc.matKhau = await hash(dto.matKhau, salt);
+            if (dto.matKhau) doc.matKhau = await hash(dto.matKhau, 10);
             if (dto.emailND) doc.emailND = dto.emailND;
             if (dto.soDienThoai) doc.soDienThoai = dto.soDienThoai;
             if (dto.quocTich) doc.quocTich = dto.quocTich;
