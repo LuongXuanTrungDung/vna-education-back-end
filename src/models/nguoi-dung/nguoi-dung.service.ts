@@ -1,6 +1,6 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { hash } from 'bcrypt';
+import { hash, hashSync } from 'bcrypt';
 import { Model, Types } from 'mongoose';
 import { RoleType } from '../../helpers/utilities';
 import { LopHocService } from '../lop-hoc/lop-hoc.service';
@@ -91,7 +91,7 @@ export class NguoiDungService {
                 quocTich: dto.quocTich[i],
                 diaChi: dto.diaChi[i],
                 gioiTinh: dto.gioiTinh[i],
-                matKhau: await hash(dto.matKhau[i], 10),
+                matKhau: hashSync(dto.matKhau[i],10),
             };
 
             if (dto.lopHoc[i])
