@@ -160,3 +160,5 @@
 	- Thay đổi 1 số API để phục vụ việc trả lịch học
 	- Thêm API trả người dùng theo 2 role hiệu trưởng và quản trị
 	- Thêm API trả năm học gần nhất
+- 2.9.1
+	- Thêm API thêm nhiều người dùng 1 lúc

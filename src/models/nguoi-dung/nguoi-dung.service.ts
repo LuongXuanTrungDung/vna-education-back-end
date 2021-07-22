@@ -77,10 +77,10 @@ export class NguoiDungService {
     }
 
     async bulkCreate(dto: ImportNguoiDungDto) {
-        const salt = await genSalt(10);
         const toImport = [];
 
         for (let i = 0; i < dto.maND.length; i++) {
+			let salt = await genSalt(10)
             let result = {
                 maND: dto.maND[i],
                 hoTen: dto.hoTen[i],
@@ -172,7 +172,7 @@ export class NguoiDungService {
 
     async findOne_byID(id: string) {
         const nd = await this.model.findById(id);
-        const user = await nd
+        const user = await (await this.model.findById(id))
             .populate([
                 {
                     path: 'lopHoc',
