@@ -1,4 +1,4 @@
-export class CreateBangDiemMonDto {
+export class BangDiemMonDto {
     monHoc: string;
     hocSinh: string;
     giaoVien: string;

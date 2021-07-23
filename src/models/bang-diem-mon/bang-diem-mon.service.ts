@@ -3,9 +3,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { MonHocService } from '../mon-hoc/mon-hoc.service';
 import { NguoiDungService } from '../nguoi-dung/nguoi-dung.service';
+import { BangDiemMonDto } from './bang-diem-mon.dto';
 import { BangDiemMon } from './bang-diem-mon.entity';
-import { CreateBangDiemMonDto } from './dto/create-bang-diem-mon.dto';
-import { UpdateBangDiemMonDto } from './dto/update-bang-diem-mon.dto';
 
 @Injectable()
 export class BangDiemMonService {
@@ -15,7 +14,7 @@ export class BangDiemMonService {
         private readonly mhSer: MonHocService,
     ) {}
 
-    async create(dto: CreateBangDiemMonDto) {
+    async create(dto: BangDiemMonDto) {
         return await this.model.create({
             nhanXet: dto.nhanXet,
             diemTB: dto.diemTB,
@@ -40,12 +39,17 @@ export class BangDiemMonService {
     }
 
     async findAll() {
-        return await this.model.find({});
+        const all = await this.model.find({});
+        const result = [];
+        for (let i = 0; i < all.length; i++) {
+            result.push(all[i]._id);
+        }
+        return result;
     }
 
-    async findOne(id: string) {
+    async findOne(p: string | BangDiemMon) {
         const bd = await (
-            await this.model.findById(id)
+            await this.model.findById(p)
         )
             .populate([
                 {
@@ -58,6 +62,7 @@ export class BangDiemMonService {
             .execPopulate();
 
         return {
+            id: p,
             hocSinh: bd.hocSinh.hoTen,
             giaoVien: bd.giaoVien.hoTen,
             monHoc: bd.monHoc.tenMH,
@@ -68,12 +73,9 @@ export class BangDiemMonService {
         };
     }
 
-    async getOne(id: string) {
-        return await this.model.findById(id);
-    }
-
-    async update(id: string, dto: UpdateBangDiemMonDto) {
-        await this.getOne(id).then(async (doc) => {
+    async update(id: string, dto: BangDiemMonDto) {
+        return await this.model.findById(id, null, null, async (err, doc) => {
+            if (err) throw err;
             if (dto.nhanXet) doc.nhanXet = dto.nhanXet;
             if (dto.diemTB) doc.diemTB = dto.diemTB;
 
@@ -89,15 +91,14 @@ export class BangDiemMonService {
             if (dto.thiHK2) doc.hocKy1.thiHK = dto.thiHK2;
             if (dto.tbHK2) doc.hocKy1.diemTong = dto.tbHK2;
 
-            if (dto.hocSinh && (await this.ndSer.check(dto.hocSinh)))
+            if (dto.hocSinh)
                 doc.hocSinh = await this.ndSer.objectify(dto.hocSinh);
-            if (dto.giaoVien && (await this.ndSer.check(dto.giaoVien)))
+            if (dto.giaoVien)
                 doc.giaoVien = await this.ndSer.objectify(dto.giaoVien);
             if (dto.monHoc) doc.monHoc = await this.mhSer.objectify(dto.monHoc);
 
             await doc.save();
         });
-        return await this.findOne(id);
     }
 
     async findAll_byHS(hs: string) {
@@ -114,10 +115,14 @@ export class BangDiemMonService {
         return result;
     }
 
+    async objectify(rec: string) {
+        return (await this.model.findById(rec))._id;
+    }
+
     async bulkObjectify(rec: string[]) {
         const result = [];
         for (let i = 0; i < rec.length; i++) {
-            result.push((await this.getOne(rec[i]))._id);
+            result.push(await this.objectify(rec[i]));
         }
         return result;
     }
