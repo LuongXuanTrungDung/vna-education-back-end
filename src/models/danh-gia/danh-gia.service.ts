@@ -123,32 +123,20 @@ export class DanhGiaService {
     }
 
     async update(id: string, dto: UpdateDanhGiaDto) {
-        await this.getOne(id).then(async (doc) => {
-            if (dto.tenDG) doc.tenDG = dto.tenDG;
-            if (dto.choGVCN) doc.choGVCN = dto.choGVCN;
-            if (dto.chiTiet) doc.chiTiet = dto.chiTiet;
-            if (dto.ngayDG) doc.ngayDG = dto.ngayDG;
-
-            if (dto.monHoc)
-                doc.monHoc = (await this.mhSer.findOne(dto.monHoc))._id;
-
-            if (dto.mauDG)
-                doc.mauDG = (await this.mdgSer.findOne(dto.mauDG))._id;
-
-            if (dto.lopHoc)
-                doc.lopHoc = (await this.lhSer.findOne(dto.lopHoc))._id;
-
-            if (dto.giaoVien && dto.giaoVien.length > 0) {
-                const temp = [];
-                for (let i = 0; i < dto.giaoVien.length; i++) {
-                    temp.push((await this.ndSer.getOne(dto.giaoVien[i]))._id);
-                }
-                doc.giaoVien = temp;
-            }
-
-            await doc.save();
-        });
-        return await this.findOne(id);
+        const { monHoc, mauDG, lopHoc, giaoVien, ...rest } = dto;
+        return await this.model.findByIdAndUpdate(
+            id,
+            {
+                ...rest,
+                $set: {
+                    monHoc: await this.mhSer.objectify(monHoc),
+                    mauDG: await this.mdgSer.objectify(mauDG),
+                    lopHoc: await this.lhSer.objectify_fromID(lopHoc),
+                    giaoVien: await this.ndSer.bulkObjectify(giaoVien),
+                },
+            },
+            { new: true },
+        );
     }
 
     async update_fromHS(id: string, dto: HSDGDto) {

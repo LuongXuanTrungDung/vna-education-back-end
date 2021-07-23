@@ -148,7 +148,7 @@ export class NguoiDungService {
         const result = [];
 
         for (let i = 0; i < all.length; i++) {
-            result.push(await this.findOne_byID(all[i]));
+            result.push(await this.findOne_byID(all[i]._id));
         }
         return result;
     }
@@ -163,29 +163,19 @@ export class NguoiDungService {
         return await this.model.findOne({ maND: ma });
     }
 
-    async findOne_byID(id: string | NguoiDung) {
-        const nd = await this.model.findById(id);
+    async findOne_byID(nd: string | NguoiDung) {
         const user = await (
-            await this.model.findById(id)
+            await this.model.findById(nd)
         )
-            .populate([
-                {
-                    path: 'lopHoc',
-                    model: 'lop_hoc',
-                    populate: {
-                        path: 'GVCN',
-                        model: 'nguoi_dung',
-                    },
-                },
-                {
-                    path: 'chuNhiem',
-                    model: 'lop_hoc',
-                },
-            ])
+            .populate({
+                path: 'chuNhiem',
+                model: 'lop_hoc',
+            })
             .execPopulate();
+        const cl = user.lopHoc ? await this.lhSer.findOne(user.lopHoc) : null;
 
         return {
-            id: id,
+            id: nd,
             maND: user.maND,
             hoTen: user.hoTen,
             emailND: user.emailND,
@@ -211,12 +201,14 @@ export class NguoiDungService {
                       noiCap: user.hoChieu.noiCap,
                   }
                 : null,
-            hocTap: {
-                id: user.lopHoc ? nd.lopHoc : null,
-                ngayNhapHoc: user.ngayNhapHoc ? user.ngayNhapHoc : null,
-                GVCN: user.lopHoc ? user.lopHoc.GVCN.hoTen : null,
-                lopHoc: user.lopHoc ? user.lopHoc.maLH : null,
-            },
+            hocTap: cl
+                ? {
+                      idLop: cl.id,
+                      ngayNhapHoc: user.ngayNhapHoc,
+                      GVCN: cl.GVCN,
+                      lopHoc: cl.maLH,
+                  }
+                : null,
             chuNhiem: user.chuNhiem ? user.chuNhiem.maLH : null,
             chucVu: user.chucVu
                 ? {
@@ -312,6 +304,14 @@ export class NguoiDungService {
 
     async objectify(user: string) {
         return (await this.getOne(user))._id;
+    }
+
+    async bulkObjectify(user: string[]) {
+        const result = [];
+        for (let i = 0; i < user.length; i++) {
+            result.push(await this.objectify(user[i]));
+        }
+        return result;
     }
 
     async remove(id: string) {

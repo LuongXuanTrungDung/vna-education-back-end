@@ -4,7 +4,7 @@ import { Model, Types } from 'mongoose';
 import { NguoiDungService } from '../nguoi-dung/nguoi-dung.service';
 import { CreateLopHocDto } from './dto/create-lop-hoc.dto';
 import { UpdateLopHocDto } from './dto/update-lop-hoc.dto';
-import { LopHocDocument } from './lop-hoc.entity';
+import { LopHoc, LopHocDocument } from './lop-hoc.entity';
 
 @Injectable()
 export class LopHocService {
@@ -39,16 +39,38 @@ export class LopHocService {
     }
 
     async findAll() {
-        return await this.model.find({});
+        const all = await this.model.find({});
+        const result = [];
+
+        for (let i = 0; i < all.length; i++) {
+            result.push(await this.findOne(all[i]._id));
+        }
+        return result;
     }
 
-    async findOne(id: string) {
-        return await this.model.findById(id, null, null, (err, doc) => {
-            if (err) {
-                console.log(err);
-                return null;
-            } else return doc;
-        });
+    async findOne(lop: string | LopHoc) {
+        const classe = await (
+            await this.model.findById(lop)
+        )
+            .populate([
+                { path: 'GVCN', model: 'nguoi_dung' },
+                { path: 'hocSinh', model: 'nguoi_dung' },
+            ])
+            .execPopulate();
+        const hs = [];
+
+        if (classe.hocSinh.length > 0) {
+            for (let i = 0; i < classe.hocSinh.length; i++) {
+                hs.push(classe.hocSinh[i].hoTen);
+            }
+        }
+
+        return {
+            id: lop,
+            maLH: classe.maLH,
+            GVCN: classe.GVCN.hoTen,
+            hocSinh: hs,
+        };
     }
 
     async addHS(hs: string, lop: string) {
@@ -102,21 +124,17 @@ export class LopHocService {
     }
 
     async update(id: string, dto: UpdateLopHocDto) {
-        await this.findOne(id).then(async (doc) => {
-            if (dto.hocSinh && dto.hocSinh.length > 0) {
-                const temp = [];
-                for (let i = 0; i < dto.hocSinh.length; i++) {
-                    temp.push(await this.ndSer.objectify(dto.hocSinh[i]));
-                }
-                doc.hocSinh = temp;
-            }
-
-            if (dto.GVCN) doc.GVCN = await this.ndSer.objectify(dto.GVCN);
-            if (dto.maLH) doc.maLH = dto.maLH;
-            await doc.save();
-        });
-
-        return await this.findOne(id);
+        return await this.model.findByIdAndUpdate(
+            id,
+            {
+                $set: {
+                    maLH: dto.maLH,
+                    GVCN: await this.ndSer.objectify(dto.GVCN),
+                    hocSinh: await this.ndSer.bulkObjectify(dto.hocSinh),
+                },
+            },
+            { new: true },
+        );
     }
 
     async objectify_fromName(lop: string) {

@@ -53,6 +53,10 @@ export class MauDanhGiaService {
         return await this.findOne(id);
     }
 
+    async objectify(id: string) {
+        return (await this.model.findById(id))._id;
+    }
+
     async remove(id: string) {
         const revs = await this.dgSer.findAll();
         const name = (await this.findOne(id)).tenMau;
