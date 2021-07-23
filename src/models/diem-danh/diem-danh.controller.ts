@@ -10,9 +10,8 @@ import {
 } from '@nestjs/common';
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '../../auth.guard';
+import { DiemDanhDto } from './diem-danh.dto';
 import { DiemDanhService } from './diem-danh.service';
-import { CreateDiemDanhDto } from './dto/create-diem-danh.dto';
-import { UpdateDiemDanhDto } from './dto/update-diem-danh.dto';
 
 @Controller('diem-danh')
 @UseGuards(AuthGuard)
@@ -22,7 +21,7 @@ export class DiemDanhController {
 
     @Post()
     @ApiCreatedResponse({ description: 'Tạo thành công' })
-    async create(@Body() dto: CreateDiemDanhDto) {
+    async create(@Body() dto: DiemDanhDto) {
         return await this.service.create(dto);
     }
 
@@ -40,7 +39,7 @@ export class DiemDanhController {
 
     @Patch(':id')
     @ApiOkResponse({ description: 'Cập nhật thành công' })
-    async update(@Param('id') id: string, @Body() dto: UpdateDiemDanhDto) {
+    async update(@Param('id') id: string, @Body() dto: DiemDanhDto) {
         return await this.service.update(id, dto);
     }
 

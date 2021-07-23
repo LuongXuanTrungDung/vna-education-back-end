@@ -2,9 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { NguoiDungService } from '../nguoi-dung/nguoi-dung.service';
+import { DiemDanhDto } from './diem-danh.dto';
 import { DiemDanh, DiemDanhDocument } from './diem-danh.entity';
-import { CreateDiemDanhDto } from './dto/create-diem-danh.dto';
-import { UpdateDiemDanhDto } from './dto/update-diem-danh.dto';
 
 @Injectable()
 export class DiemDanhService {
@@ -12,7 +11,8 @@ export class DiemDanhService {
         @InjectModel('diem_danh') private model: Model<DiemDanhDocument>,
         private readonly ndSer: NguoiDungService,
     ) {}
-    async create(dto: CreateDiemDanhDto) {
+
+    async create(dto: DiemDanhDto) {
         return await this.model.create({
             hocSinh: Types.ObjectId(dto.hocSinh),
             trangThai: dto.trangThai,
@@ -42,18 +42,17 @@ export class DiemDanhService {
         };
     }
 
-    async update(id: string, dto: UpdateDiemDanhDto) {
-        return await this.model.findByIdAndUpdate(
-            id,
-            {
-                $set: {
-                    hocSinh: await this.ndSer.objectify(dto.hocSinh),
-                    trangThai: dto.trangThai,
-                    ghiChu: dto.ghiChu,
-                },
-            },
-            { new: true },
-        );
+    async update(id: string, dto: DiemDanhDto) {
+        return await this.model.findById(id, null, null, async (err, doc) => {
+            if (err) throw err;
+
+            if (dto.hocSinh)
+                doc.hocSinh = await this.ndSer.objectify(dto.hocSinh);
+            if (dto.trangThai) doc.trangThai = dto.trangThai;
+            if (dto.ghiChu) doc.trangThai = dto.trangThai;
+
+            await doc.save();
+        });
     }
 
     async objectify(id: string) {
