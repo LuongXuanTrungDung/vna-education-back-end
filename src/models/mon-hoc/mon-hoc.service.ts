@@ -1,15 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { CreateMonHocDto } from './dto/create-mon-hoc.dto';
-import { UpdateMonHocDto } from './dto/update-mon-hoc.dto';
+import { assign } from '../../helpers/utilities';
+import { NguoiDungService } from '../nguoi-dung/nguoi-dung.service';
+import { MonHocDto } from './mon-hoc.dto';
 import { MonHocDocument } from './mon-hoc.entity';
 
 @Injectable()
 export class MonHocService {
-    constructor(@InjectModel('mon_hoc') private model: Model<MonHocDocument>) {}
+    constructor(
+        @InjectModel('mon_hoc') private model: Model<MonHocDocument>,
+        private readonly ndSer: NguoiDungService,
+    ) {}
 
-    async create(dto: CreateMonHocDto) {
+    async create(dto: MonHocDto) {
         return await this.model.create(dto);
     }
 
@@ -26,20 +30,42 @@ export class MonHocService {
     }
 
     async findAll() {
-        return await this.model.find({});
+        const all = await this.model.find({});
+        const result = [];
+        for (let i = 0; i < all.length; i++) {
+            result.push(await this.findOne(all[i]._id));
+        }
+        return result;
     }
 
-    async findOne(id: string) {
+    async findOne(mon: string) {
+        const one = await (await this.model.findById(mon))
+            .populate({ path: 'giaoVien', model: 'nguoi_dung' })
+            .execPopulate();
+        const gv = [];
+
+        for (let i = 0; i < one.giaoVien.length; i++) {
+            gv.push(one.giaoVien[i].hoTen);
+        }
+
+        return {
+            id: mon,
+            tenMH: one.tenMH,
+            soTiet: one.soTiet,
+            moTa: one.moTa,
+            giaoVien: gv,
+        };
+    }
+
+    async update(id: string, dto: MonHocDto) {
+        const { giaoVien, ...rest } = dto;
         return await this.model.findById(id, null, null, (err, doc) => {
-            if (err) {
-                console.log(err);
-                return null;
-            } else return doc;
+            if (err) throw err;
+            assign(rest, doc);
+            if (giaoVien)
+                doc.giaoVien = await this.ndSer.bulkObjectify(giaoVien);
+            await doc.save();
         });
-    }
-
-    async update(id: string, dto: UpdateMonHocDto) {
-        return await this.model.findByIdAndUpdate(id, dto);
     }
 
     async objectify(mon: string) {

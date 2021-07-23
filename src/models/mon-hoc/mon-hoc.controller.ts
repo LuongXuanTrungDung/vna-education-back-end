@@ -9,10 +9,8 @@ import {
     UseGuards,
 } from '@nestjs/common';
 import { MonHocService } from './mon-hoc.service';
-import { CreateMonHocDto } from './dto/create-mon-hoc.dto';
-import { UpdateMonHocDto } from './dto/update-mon-hoc.dto';
+import { MonHocDto } from './mon-hoc.dto';
 import {
-    ApiBody,
     ApiCreatedResponse,
     ApiForbiddenResponse,
     ApiOkResponse,
@@ -28,12 +26,11 @@ export class MonHocController {
     constructor(private readonly service: MonHocService) {}
 
     @Post()
-    @ApiBody({ type: CreateMonHocDto })
     @ApiCreatedResponse({ description: 'Tạo thành công' })
     @ApiForbiddenResponse({
         description: 'Ngăn cản truy cập do chưa đăng nhập vào hệ thống',
     })
-    async create(@Body() dto: CreateMonHocDto) {
+    async create(@Body() dto: MonHocDto) {
         return await this.service.create(dto);
     }
 
@@ -66,12 +63,11 @@ export class MonHocController {
         name: 'id',
         description: '_id của môn học',
     })
-    @ApiBody({ type: UpdateMonHocDto })
     @ApiOkResponse({ description: 'Cập nhật thành công' })
     @ApiForbiddenResponse({
         description: 'Ngăn cản truy cập do chưa đăng nhập vào hệ thống',
     })
-    async update(@Param('id') id: string, @Body() dto: UpdateMonHocDto) {
+    async update(@Param('id') id: string, @Body() dto: MonHocDto) {
         return await this.service.update(id, dto);
     }
 

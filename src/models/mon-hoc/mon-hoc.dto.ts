@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { NguoiDung } from '../../nguoi-dung/nguoi-dung.entity';
+import { NguoiDung } from '../nguoi-dung/nguoi-dung.entity';
 
-export class CreateMonHocDto {
+export class MonHocDto {
     @ApiProperty({
         required: true,
         type: String,
