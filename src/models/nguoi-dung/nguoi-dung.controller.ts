@@ -47,6 +47,11 @@ export class NguoiDungController {
         return await this.service.findAll();
     }
 
+    @Post('import')
+    async import(@Body() dto: NguoiDungDto[]) {
+        return await this.service.bulkCreate(dto);
+    }
+
     @Get()
     @ApiOkResponse({ description: 'Trả về tất cả' })
     async findAll() {

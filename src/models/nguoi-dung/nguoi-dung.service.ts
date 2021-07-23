@@ -70,66 +70,22 @@ export class NguoiDungService {
         return await this.model.create(result);
     }
 
-    // async bulkCreate(dto: ImportNguoiDungDto) {
-    //     const toImport = [];
+    async bulkCreate(dto: NguoiDungDto[]) {
+        for (let i = 0; i < dto.length; i++) {
+            await this.create(dto[i]);
+        }
 
-    //     for (let i = 0; i < dto.maND.length; i++) {
-    //         let result = {
-    //             maND: dto.maND[i],
-    //             hoTen: dto.hoTen[i],
-    //             dangHoatDong: dto.dangHoatDong[i],
-    //             emailND: dto.emailND[i],
-    //             soDienThoai: dto.soDienThoai[i],
-    //             noiSinh: dto.noiSinh[i],
-    //             ngaySinh: dto.ngaySinh[i],
-    //             danToc: dto.danToc[i],
-    //             quocTich: dto.quocTich[i],
-    //             diaChi: dto.diaChi[i],
-    //             gioiTinh: dto.gioiTinh[i],
-    //             matKhau: dto.matKhau[i],
-    //         };
+        const latest = await this.model
+            .find()
+            .sort({ _id: -1 })
+            .limit(dto.length);
+        const result = [];
 
-    //         if (dto.cccd[i] && dto.ngayCap[i] && dto.noiCap[i])
-    //             result = Object.assign(result, {
-    //                 cccd: {
-    //                     maSo: dto.cccd[i],
-    //                     ngayCap: dto.ngayCap[i],
-    //                     noiCap: dto.noiCap[i],
-    //                 },
-    //             });
-
-    //         if (dto.maND[i].substring(0, 2) === 'HS') {
-    //             if (dto.lopHoc[i])
-    //                 result = Object.assign(result, {
-    //                     lopHoc: await this.lhSer.objectify_fromName(
-    //                         dto.lopHoc[i],
-    //                     ),
-    //                 });
-    //         }
-
-    //         if (dto.maND[i].substring(0, 2) === 'GV') {
-    //             if (dto.chuNhiem[i])
-    //                 result = Object.assign(result, {
-    //                     chuNhiem: await this.lhSer.objectify_fromName(
-    //                         dto.chuNhiem[i],
-    //                     ),
-    //                 });
-    //         }
-
-    //         if (dto.chucVu[i] && dto.hopDong[i] && dto.tDCM[i])
-    //             result = Object.assign(result, {
-    //                 chucVu: {
-    //                     chucVu: dto.chucVu[i],
-    //                     hopDong: dto.hopDong[i],
-    //                     trinhDo: dto.tDCM[i],
-    //                 },
-    //             });
-
-    //         toImport.push(result);
-    //     }
-
-    //     return await this.model.insertMany(toImport);
-    // }
+        for (let i = 0; i < latest.length; i++) {
+            result.push(await this.findOne_byID(latest[i]._id));
+        }
+        return result;
+    }
 
     async forSelect_giaoVien() {
         const result = [];
