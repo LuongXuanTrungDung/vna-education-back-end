@@ -1,4 +1,4 @@
-export class CreateBangDiemTongDto {
+export class BangDiemTongDto {
     hocSinh: string;
     GVCN: string;
     bangDiemMon: string[];

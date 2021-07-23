@@ -4,9 +4,8 @@ import { Model, Types } from 'mongoose';
 import { bulkObjectID } from '../../helpers/utilities';
 import { BangDiemMonService } from '../bang-diem-mon/bang-diem-mon.service';
 import { NguoiDungService } from '../nguoi-dung/nguoi-dung.service';
+import { BangDiemTongDto } from './bang-diem-tong.dto';
 import { BangDiemTongDocument } from './bang-diem-tong.entity';
-import { CreateBangDiemTongDto } from './dto/create-bang-diem-tong.dto';
-import { UpdateBangDiemTongDto } from './dto/update-bang-diem-tong.dto';
 
 @Injectable()
 export class BangDiemTongService {
@@ -17,7 +16,7 @@ export class BangDiemTongService {
         private readonly bdMSer: BangDiemMonService,
     ) {}
 
-    async create(dto: CreateBangDiemTongDto) {
+    async create(dto: BangDiemTongDto) {
         return await this.model.create({
             nhanXet: dto.nhanXet,
             xepLoai: dto.xepLoai,
@@ -43,7 +42,12 @@ export class BangDiemTongService {
     }
 
     async findAll() {
-        return await this.model.find({});
+        const all = await this.model.find({});
+        const result = [];
+        for (let i = 0; i < all.length; i++) {
+            result.push(await this.findOne(all[i]._id));
+        }
+        return result;
     }
 
     async findOne_byHS(hs: string) {
@@ -84,12 +88,10 @@ export class BangDiemTongService {
         };
     }
 
-    async getOne(id: string) {
-        return await this.model.findById(id);
-    }
+    async update(id: string, dto: BangDiemTongDto) {
+        return await this.model.findById(id, null, null, async (err, doc) => {
+            if (err) throw err;
 
-    async update(id: string, dto: UpdateBangDiemTongDto) {
-        await this.getOne(id).then(async (doc) => {
             if (dto.nhanXet) doc.nhanXet = dto.nhanXet;
             if (dto.xepLoai) doc.xepLoai = dto.xepLoai;
 
@@ -115,7 +117,6 @@ export class BangDiemTongService {
 
             await doc.save();
         });
-        return await this.findOne(id);
     }
 
     async remove(id: string) {

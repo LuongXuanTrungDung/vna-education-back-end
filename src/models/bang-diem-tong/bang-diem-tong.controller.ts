@@ -9,9 +9,8 @@ import {
     UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '../../auth.guard';
+import { BangDiemTongDto } from './bang-diem-tong.dto';
 import { BangDiemTongService } from './bang-diem-tong.service';
-import { CreateBangDiemTongDto } from './dto/create-bang-diem-tong.dto';
-import { UpdateBangDiemTongDto } from './dto/update-bang-diem-tong.dto';
 
 @Controller('bang-diem-tong')
 @UseGuards(AuthGuard)
@@ -19,7 +18,7 @@ export class BangDiemTongController {
     constructor(private readonly service: BangDiemTongService) {}
 
     @Post()
-    async create(@Body() dto: CreateBangDiemTongDto) {
+    async create(@Body() dto: BangDiemTongDto) {
         return await this.service.create(dto);
     }
 
@@ -34,7 +33,7 @@ export class BangDiemTongController {
     }
 
     @Patch(':id')
-    async update(@Param('id') id: string, @Body() dto: UpdateBangDiemTongDto) {
+    async update(@Param('id') id: string, @Body() dto: BangDiemTongDto) {
         return await this.service.update(id, dto);
     }
 
