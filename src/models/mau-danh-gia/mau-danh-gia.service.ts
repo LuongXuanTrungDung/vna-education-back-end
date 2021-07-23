@@ -2,9 +2,8 @@ import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { DanhGiaService } from '../danh-gia/danh-gia.service';
-import { CreateMauDanhGiaDto } from './dto/create-mau-danh-gia.dto';
-import { UpdateMauDanhGiaDto } from './dto/update-mau-danh-gia.dto';
-import { MauDanhGiaDocument } from './mau-danh-gia.entity';
+import { MauDanhGiaDto } from './mau-danh-gia.dto';
+import { MauDanhGia, MauDanhGiaDocument } from './mau-danh-gia.entity';
 
 @Injectable()
 export class MauDanhGiaService {
@@ -14,7 +13,7 @@ export class MauDanhGiaService {
         private readonly dgSer: DanhGiaService,
     ) {}
 
-    async create(dto: CreateMauDanhGiaDto) {
+    async create(dto: MauDanhGiaDto) {
         return await this.model.create(dto);
     }
 
@@ -31,26 +30,31 @@ export class MauDanhGiaService {
     }
 
     async findAll() {
-        return await this.model.find({});
+        const all = await this.model.find({});
+        const result = [];
+        for (let i = 0; i < all.length; i++) {
+            result.push(await this.findOne(all[i]._id));
+        }
+        return result;
     }
 
-    async findOne(id: string) {
-        return await this.model.findById(id, null, null, (err, doc) => {
-            if (err) {
-                console.log(err);
-                return null;
-            } else return doc;
-        });
+    async findOne(id: string | MauDanhGia) {
+        const one = await this.model.findById(id);
+        return {
+            tenMau: one.tenMau,
+            ghiChu: one.ghiChu,
+            tieuChi: one.tieuChi,
+        };
     }
 
-    async update(id: string, dto: UpdateMauDanhGiaDto) {
-        await this.findOne(id).then(async (doc) => {
+    async update(id: string, dto: MauDanhGiaDto) {
+        return await this.model.findById(id, null, null, async (err, doc) => {
+            if (err) throw err;
             if (dto.tenMau) doc.tenMau = dto.tenMau;
             if (dto.ghiChu) doc.ghiChu = dto.ghiChu;
             if (dto.tieuChi) doc.tieuChi = dto.tieuChi;
             await doc.save();
         });
-        return await this.findOne(id);
     }
 
     async objectify(id: string) {

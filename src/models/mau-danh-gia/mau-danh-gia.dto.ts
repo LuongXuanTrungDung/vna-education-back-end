@@ -1,7 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { MonHoc } from '../../mon-hoc/mon-hoc.entity';
 
-export class CreateMauDanhGiaDto {
+export class MauDanhGiaDto {
     @ApiProperty({
         required: true,
         name: 'tenMau',

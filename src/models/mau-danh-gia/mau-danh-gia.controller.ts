@@ -9,10 +9,7 @@ import {
     UseGuards,
 } from '@nestjs/common';
 import { MauDanhGiaService } from './mau-danh-gia.service';
-import { CreateMauDanhGiaDto } from './dto/create-mau-danh-gia.dto';
-import { UpdateMauDanhGiaDto } from './dto/update-mau-danh-gia.dto';
 import {
-    ApiBody,
     ApiCreatedResponse,
     ApiForbiddenResponse,
     ApiOkResponse,
@@ -20,6 +17,7 @@ import {
     ApiTags,
 } from '@nestjs/swagger';
 import { AuthGuard } from '../../auth.guard';
+import { MauDanhGiaDto } from './mau-danh-gia.dto';
 
 @Controller('mau-danh-gia')
 @UseGuards(AuthGuard)
@@ -28,12 +26,11 @@ export class MauDanhGiaController {
     constructor(private readonly service: MauDanhGiaService) {}
 
     @Post()
-    @ApiBody({ type: CreateMauDanhGiaDto })
     @ApiCreatedResponse({ description: 'Tạo thành công' })
     @ApiForbiddenResponse({
         description: 'Ngăn cản truy cập do chưa đăng nhập vào hệ thống',
     })
-    async create(@Body() dto: CreateMauDanhGiaDto) {
+    async create(@Body() dto: MauDanhGiaDto) {
         return await this.service.create(dto);
     }
 
@@ -66,12 +63,11 @@ export class MauDanhGiaController {
         type: String,
         description: '_id của mẫu đánh giá',
     })
-    @ApiBody({ type: UpdateMauDanhGiaDto })
     @ApiForbiddenResponse({
         description: 'Ngăn cản truy cập do chưa đăng nhập vào hệ thống',
     })
     @ApiOkResponse({ description: 'Cập nhật thành công' })
-    async update(@Param('id') id: string, @Body() dto: UpdateMauDanhGiaDto) {
+    async update(@Param('id') id: string, @Body() dto: MauDanhGiaDto) {
         return await this.service.update(id, dto);
     }
 
