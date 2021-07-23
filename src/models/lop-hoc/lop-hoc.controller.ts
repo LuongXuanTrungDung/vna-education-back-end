@@ -9,8 +9,6 @@ import {
     UseGuards,
 } from '@nestjs/common';
 import { LopHocService } from './lop-hoc.service';
-import { CreateLopHocDto } from './dto/create-lop-hoc.dto';
-import { UpdateLopHocDto } from './dto/update-lop-hoc.dto';
 import {
     ApiBody,
     ApiCreatedResponse,
@@ -20,6 +18,7 @@ import {
     ApiTags,
 } from '@nestjs/swagger';
 import { AuthGuard } from '../../auth.guard';
+import { LopHocDto } from './lop-hoc.dto';
 
 @Controller('lop-hoc')
 @UseGuards(AuthGuard)
@@ -28,12 +27,12 @@ export class LopHocController {
     constructor(private readonly service: LopHocService) {}
 
     @Post()
-    @ApiBody({ type: CreateLopHocDto })
+    @ApiBody({ type: LopHocDto })
     @ApiCreatedResponse({ description: 'Tạo thành công' })
     @ApiForbiddenResponse({
         description: 'Ngăn cản truy cập do chưa đăng nhập vào hệ thống',
     })
-    async create(@Body() dto: CreateLopHocDto) {
+    async create(@Body() dto: LopHocDto) {
         return await this.service.create(dto);
     }
 
@@ -60,12 +59,12 @@ export class LopHocController {
 
     @Patch(':id')
     @ApiParam({ name: 'id', type: String, description: 'Mã lớp học' })
-    @ApiBody({ type: UpdateLopHocDto })
+    @ApiBody({ type: LopHocDto })
     @ApiOkResponse({ description: 'Cập nhật thành công' })
     @ApiForbiddenResponse({
         description: 'Ngăn cản truy cập do chưa đăng nhập vào hệ thống',
     })
-    async update(@Param('id') id: string, @Body() dto: UpdateLopHocDto) {
+    async update(@Param('id') id: string, @Body() dto: LopHocDto) {
         return await this.service.update(id, dto);
     }
 

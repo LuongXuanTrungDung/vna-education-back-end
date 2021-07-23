@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class CreateLopHocDto {
+export class LopHocDto {
     @ApiProperty({
         name: 'maLH',
         type: String,

@@ -1,9 +1,9 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
+import { bulkObjectID } from '../../helpers/utilities';
 import { NguoiDungService } from '../nguoi-dung/nguoi-dung.service';
-import { CreateLopHocDto } from './dto/create-lop-hoc.dto';
-import { UpdateLopHocDto } from './dto/update-lop-hoc.dto';
+import { LopHocDto } from './lop-hoc.dto';
 import { LopHoc, LopHocDocument } from './lop-hoc.entity';
 
 @Injectable()
@@ -14,15 +14,11 @@ export class LopHocService {
         private readonly ndSer: NguoiDungService,
     ) {}
 
-    async create(dto: CreateLopHocDto) {
-        const temp = [];
-        for (let i = 0; i < dto.hocSinh.length; i++) {
-            temp.push(Types.ObjectId(dto.hocSinh[i]));
-        }
+    async create(dto: LopHocDto) {
         return await this.model.create({
             maLH: dto.maLH,
             GVCN: Types.ObjectId(dto.GVCN),
-            hocSinh: temp,
+            hocSinh: bulkObjectID(dto.hocSinh),
         });
     }
 
@@ -123,18 +119,15 @@ export class LopHocService {
         return result;
     }
 
-    async update(id: string, dto: UpdateLopHocDto) {
-        return await this.model.findByIdAndUpdate(
-            id,
-            {
-                $set: {
-                    maLH: dto.maLH,
-                    GVCN: await this.ndSer.objectify(dto.GVCN),
-                    hocSinh: await this.ndSer.bulkObjectify(dto.hocSinh),
-                },
-            },
-            { new: true },
-        );
+    async update(id: string, dto: LopHocDto) {
+        return await this.model.findById(id, null, null, async (err, doc) => {
+            if (err) throw err;
+            if (dto.maLH) doc.maLH = dto.maLH;
+            if (dto.GVCN) doc.GVCN = await this.ndSer.objectify(dto.GVCN);
+            if (dto.hocSinh)
+                doc.hocSinh = await this.ndSer.bulkObjectify(dto.hocSinh);
+            await doc.save();
+        });
     }
 
     async objectify_fromName(lop: string) {
