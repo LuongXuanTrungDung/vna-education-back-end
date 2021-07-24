@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
+import { assign, bulkObjectID } from '../../helpers/utilities';
 import { LopHocService } from '../lop-hoc/lop-hoc.service';
 import { MauDanhGiaService } from '../mau-danh-gia/mau-danh-gia.service';
 import { MonHocService } from '../mon-hoc/mon-hoc.service';
@@ -22,17 +23,12 @@ export class DanhGiaService {
 
     async create(dto: CreateDanhGiaDto) {
         const { mauDG, monHoc, lopHoc, giaoVien, ...rest } = dto;
-        const temp = [];
-
-        for (let i = 0; i < giaoVien.length; i++) {
-            temp.push(Types.ObjectId(giaoVien[i]));
-        }
 
         return await this.model.create({
             ...rest,
             mauDG: Types.ObjectId(mauDG),
             monHoc: Types.ObjectId(monHoc),
-            giaoVien: temp,
+            giaoVien: bulkObjectID(giaoVien),
             lopHoc: Types.ObjectId(lopHoc),
         });
     }
@@ -69,14 +65,15 @@ export class DanhGiaService {
     async findOne(id: string) {
         const gvs = [];
         const org = await this.model.findById(id);
-        const rev = await org
+        const rev = await (
+            await this.model.findById(id)
+        )
             .populate([
                 {
                     path: 'giaoVien',
                     model: 'nguoi_dung',
                 },
                 { path: 'monHoc', model: 'mon_hoc' },
-
                 {
                     path: 'mauDG',
                     model: 'mau_danh_gia',
@@ -124,29 +121,24 @@ export class DanhGiaService {
 
     async update(id: string, dto: UpdateDanhGiaDto) {
         const { monHoc, mauDG, lopHoc, giaoVien, ...rest } = dto;
-        return await this.model.findByIdAndUpdate(
-            id,
-            {
-                ...rest,
-                $set: {
-                    monHoc: await this.mhSer.objectify(monHoc),
-                    mauDG: await this.mdgSer.objectify(mauDG),
-                    lopHoc: await this.lhSer.objectify_fromID(lopHoc),
-                    giaoVien: await this.ndSer.bulkObjectify(giaoVien),
-                },
-            },
-            { new: true },
-        );
+        return await this.model.findById(id, null, null, async (err, doc) => {
+            if (err) throw err;
+
+            assign(rest, doc);
+            if (monHoc) doc.monHoc = await this.mhSer.objectify(monHoc);
+            if (mauDG) doc.mauDG = await this.mdgSer.objectify(mauDG);
+            if (lopHoc) doc.lopHoc = await this.lhSer.objectify_fromID(lopHoc);
+            if (giaoVien)
+                doc.giaoVien = await this.ndSer.bulkObjectify(giaoVien);
+
+            await doc.save();
+        });
     }
 
     async update_fromHS(id: string, dto: HSDGDto) {
         return await this.model.findByIdAndUpdate(id, {
             $push: { chiTiet: dto },
         });
-    }
-
-    async getOne(id: string) {
-        return await this.model.findById(id);
     }
 
     async getAll() {

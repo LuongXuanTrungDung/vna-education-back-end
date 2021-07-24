@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { compare } from 'bcrypt';
+import { BuoiHocService } from './models/buoi-hoc/buoi-hoc.service';
 import { DanhGiaService } from './models/danh-gia/danh-gia.service';
 import { LopHocService } from './models/lop-hoc/lop-hoc.service';
 import { MauDanhGiaService } from './models/mau-danh-gia/mau-danh-gia.service';
@@ -20,6 +21,7 @@ export class AppService {
         private readonly lhSer: LopHocService,
         private readonly mauSer: MauDanhGiaService,
         private readonly tSer: TuanHocService,
+        private readonly bhSer: BuoiHocService,
 
         private readonly hsU: HocSinhUtils,
         private readonly gvU: GiaoVienUtils,
@@ -60,18 +62,21 @@ export class AppService {
     async taoLichHoc(tuan: string, lop: string) {
         const week = await this.tSer.findOne(tuan);
         const classe = await this.lhSer.findOne(lop);
-        const result = { ...week, buoiHoc: [] };
+        const buoi = await this.bhSer.findAll();
+        const result = { ...week, lopHoc: classe.maLH, buoiHoc: [] };
 
-        for (let i = 0; i < week.buoiHoc.length; i++) {
-            const { tietHoc, ...buoi } = week.buoiHoc[i];
-            const b = { ...buoi, tietHoc: [] };
+        for (let i = 0; i < buoi.length; i++) {
+            if (buoi[i].tuanHoc == week.soTuan) {
+                const { tietHoc, ...moment } = buoi[i];
+                const m = { ...moment, tietHoc: [] };
 
-            for (let j = 0; j < tietHoc.length; j++) {
-                const { lopHoc, tuanHoc, diemDanh, ...rest } = tietHoc[j];
-                if (lopHoc == classe.maLH) b.tietHoc.push(rest);
+                for (let j = 0; j < tietHoc.length; j++) {
+                    const { lopHoc, diemDanh, ...rest } = tietHoc[j];
+                    if (lopHoc == classe.maLH) m.tietHoc.push(rest);
+                }
+
+                result.buoiHoc.push(m);
             }
-
-            result.buoiHoc.push(b);
         }
         return result;
     }

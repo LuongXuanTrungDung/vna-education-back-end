@@ -25,7 +25,6 @@ export class TietHocService {
             giaoVien: Types.ObjectId(dto.giaoVien),
             monHoc: Types.ObjectId(dto.monHoc),
             lopHoc: Types.ObjectId(dto.lopHoc),
-            tuanHoc: Types.ObjectId(dto.tuanHoc),
             thuTiet: dto.thuTiet,
             thoiGian_batDau: dto.thoiGian_batDau,
             ngayHoc: dto.ngayHoc,

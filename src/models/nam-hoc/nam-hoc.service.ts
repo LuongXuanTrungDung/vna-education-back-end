@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { bulkObjectID } from '../../helpers/utilities';
+import { assign, bulkObjectID } from '../../helpers/utilities';
 import { TuanHocService } from '../tuan-hoc/tuan-hoc.service';
 import { NamHocDto } from './nam-hoc.dto';
 import { NamHocDocument } from './nam-hoc.entity';
@@ -15,10 +15,9 @@ export class NamHocService {
 
     async create(dto: NamHocDto) {
         const { tuanHoc, ...rest } = dto;
-        const t = bulkObjectID(tuanHoc);
         return await this.model.create({
             ...rest,
-            tuanHoc: t,
+            tuanHoc: bulkObjectID(tuanHoc),
         });
     }
 
@@ -93,20 +92,14 @@ export class NamHocService {
     }
 
     async update(id: string, dto: NamHocDto) {
-        await this.model.findById(id).then(async (doc) => {
-            const { tuanHoc, ...rest } = dto;
-
-            for (const key in rest) {
-                if (Object.prototype.hasOwnProperty.call(rest, key)) {
-                    doc[key] = rest[key];
-                }
-            }
-
+        const { tuanHoc, ...rest } = dto;
+        return await this.model.findById(id, null, null, async (err, doc) => {
+            if (err) throw err;
+            assign(rest, doc);
             if (tuanHoc)
                 doc.tuanHoc = await this.tuanSer.bulkObjectify(tuanHoc);
             await doc.save();
         });
-        return this.findOne(id);
     }
 
     async addWeeks(id: string, weeks: string[]) {

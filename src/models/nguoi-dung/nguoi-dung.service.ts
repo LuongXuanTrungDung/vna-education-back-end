@@ -219,7 +219,7 @@ export class NguoiDungService {
 
         return await this.model.findById(id, null, null, async (err, doc) => {
             if (err) throw err;
-            assign(rest,doc);
+            assign(rest, doc);
             if (lopHoc) doc.lopHoc = await this.lhSer.objectify_fromID(lopHoc);
             if (chuNhiem)
                 doc.chuNhiem = await this.lhSer.objectify_fromID(chuNhiem);

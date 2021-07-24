@@ -161,4 +161,8 @@
 	- Thêm API trả người dùng theo 2 role hiệu trưởng và quản trị
 	- Thêm API trả năm học gần nhất
 - 2.9.1
-	- Thêm API thêm nhiều người dùng 1 lúc
+	- Thêm API thêm nhiều người dùng 1 lúc, 1 cho nhiều học sinh và 1 cho nhiều giáo viên
+	- Điều chỉnh API cho tuan_hoc, nguoi_dung, buoi_hoc, tiet_hoc, lop_hoc, danh_gia và diem_danh
+- 2.10.0
+	- Tối ưu hóa các model của CSDL
+	- Điều chỉnh model tuan_hoc và buoi_hoc, API trả lịch học

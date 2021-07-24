@@ -38,9 +38,10 @@ export class MauDanhGiaService {
         return result;
     }
 
-    async findOne(id: string | MauDanhGia) {
-        const one = await this.model.findById(id);
+    async findOne(mau: string | MauDanhGia) {
+        const one = await this.model.findById(mau);
         return {
+            id: mau,
             tenMau: one.tenMau,
             ghiChu: one.ghiChu,
             tieuChi: one.tieuChi,
