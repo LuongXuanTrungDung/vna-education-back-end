@@ -1,25 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { bulkObjectID } from '../../helpers/utilities';
-import { BuoiHocService } from '../buoi-hoc/buoi-hoc.service';
-import { CreateTuanHocDto } from './dto/create-tuan-hoc.dto';
-import { UpdateTuanHocDto } from './dto/update-tuan-hoc.dto';
+import { assign } from '../../helpers/utilities';
+import { TuanHocDto } from './tuan-hoc.dto';
 import { TuanHoc, TuanHocDocument } from './tuan-hoc.entity';
 
 @Injectable()
 export class TuanHocService {
     constructor(
         @InjectModel('tuan_hoc') private model: Model<TuanHocDocument>,
-        private readonly bhSer: BuoiHocService,
     ) {}
 
-    async create(dto: CreateTuanHocDto) {
-        const { buoiHoc, ...rest } = dto;
-        return await this.model.create({
-            ...rest,
-            buoiHoc: bulkObjectID(buoiHoc),
-        });
+    async create(dto: TuanHocDto) {
+        return await this.model.create(dto);
     }
 
     async findAll() {
@@ -33,12 +26,6 @@ export class TuanHocService {
 
     async findOne(id: string | TuanHoc) {
         const tuan = await this.model.findById(id);
-        const b = [];
-
-        for (let i = 0; i < tuan.buoiHoc.length; i++) {
-            b.push(await this.bhSer.findOne(tuan.buoiHoc[i]));
-        }
-
         return {
             id: tuan._id,
             soTuan: tuan.soTuan,
@@ -46,22 +33,15 @@ export class TuanHocService {
             ngayBatDau: tuan.ngayBatDau,
             ngayKetThuc: tuan.ngayKetThuc,
             hocKy: tuan.hocKy,
-            buoiHoc: b,
         };
     }
 
-    async update(id: string, dto: UpdateTuanHocDto) {
-        const { buoiHoc, ...rest } = dto;
-        return await this.model.findByIdAndUpdate(
-            id,
-            {
-                $set: {
-                    ...rest,
-                },
-                $push: { buoiHoc: { $each: buoiHoc } },
-            },
-            { new: true },
-        );
+    async update(id: string, dto: TuanHocDto) {
+        return await this.model.findById(id, null, null, async (err, doc) => {
+            if (err) throw err;
+            assign(dto, doc);
+            await doc.save();
+        });
     }
 
     async objectify(tuan: string) {

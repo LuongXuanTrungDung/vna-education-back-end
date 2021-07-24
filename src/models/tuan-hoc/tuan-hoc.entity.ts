@@ -1,6 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Schema as MongooseSchema } from 'mongoose';
-import { BuoiHoc } from '../buoi-hoc/buoi-hoc.entity';
+import { Document } from 'mongoose';
 
 export type TuanHocDocument = TuanHoc & Document;
 
@@ -26,9 +25,6 @@ export class TuanHoc {
 
     @Prop({ required: true })
     hocKy: number;
-
-    @Prop({ default: [], type: [{ type: MongooseSchema.Types.ObjectId }] })
-    buoiHoc: BuoiHoc[];
 }
 
 export const TuanHocSchema = SchemaFactory.createForClass(TuanHoc);

@@ -9,10 +9,9 @@ import {
     UseGuards,
 } from '@nestjs/common';
 import { TuanHocService } from './tuan-hoc.service';
-import { CreateTuanHocDto } from './dto/create-tuan-hoc.dto';
-import { UpdateTuanHocDto } from './dto/update-tuan-hoc.dto';
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '../../auth.guard';
+import { TuanHocDto } from './tuan-hoc.dto';
 
 @Controller('tuan-hoc')
 @UseGuards(AuthGuard)
@@ -22,7 +21,7 @@ export class TuanHocController {
 
     @Post()
     @ApiCreatedResponse({ description: 'Tạo thành công' })
-    async create(@Body() dto: CreateTuanHocDto) {
+    async create(@Body() dto: TuanHocDto) {
         return await this.service.create(dto);
     }
 
@@ -40,7 +39,7 @@ export class TuanHocController {
 
     @Patch(':id')
     @ApiOkResponse({ description: 'Cập nhật thành công' })
-    async update(@Param('id') id: string, @Body() dto: UpdateTuanHocDto) {
+    async update(@Param('id') id: string, @Body() dto: TuanHocDto) {
         return await this.service.update(id, dto);
     }
 
