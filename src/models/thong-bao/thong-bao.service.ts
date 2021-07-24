@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
+import { assign } from '../../helpers/utilities';
 import { NguoiDungService } from '../nguoi-dung/nguoi-dung.service';
-import { CreateThongBaoDto } from './dto/create-thong-bao.dto';
-import { UpdateThongBaoDto } from './dto/update-thong-bao.dto';
+import { ThongBaoDto } from './thong-bao.dto';
 import { ThongBaoDocument } from './thong-bao.entity';
 
 @Injectable()
@@ -13,7 +13,7 @@ export class ThongBaoService {
         private readonly ndSer: NguoiDungService,
     ) {}
 
-    async create(dto: CreateThongBaoDto) {
+    async create(dto: ThongBaoDto) {
         const { nguoiDang, ...rest } = dto;
         return await this.model.create({
             ...rest,
@@ -34,16 +34,7 @@ export class ThongBaoService {
         const result = [];
 
         for (let i = 0; i < news.length; i++) {
-            result.push({
-                id: news[i]._id,
-                danhMuc: news[i].danhMuc,
-                tieuDe: news[i].tieuDe,
-                tomTat: news[i].tomTat,
-                nguoiDang: news[i].nguoiDang.hoTen,
-                noiDung: news[i].noiDung,
-                ngayDang: news[i].ngayDang,
-                daDuyet: news[i].daDuyet,
-            });
+            result.push(await this.findOne(news[i]._id));
         }
         return result;
     }
@@ -58,9 +49,9 @@ export class ThongBaoService {
         return result;
     }
 
-    async findOne(id: string) {
+    async findOne(tb: string) {
         const ns = await (
-            await this.model.findById(id)
+            await this.model.findById(tb)
         )
             .populate([
                 {
@@ -70,7 +61,7 @@ export class ThongBaoService {
             ])
             .execPopulate();
         return {
-            id: ns._id,
+            id: tb,
             danhMuc: ns.danhMuc,
             tieuDe: ns.tieuDe,
             tomTat: ns.tomTat,
@@ -81,24 +72,15 @@ export class ThongBaoService {
         };
     }
 
-    async getOne(id: string) {
-        return await this.model.findById(id);
-    }
-
-    async update(id: string, dto: UpdateThongBaoDto) {
-        await this.getOne(id).then(async (doc) => {
-            if (dto.nguoiDang)
-                doc.nguoiDang = (await this.ndSer.getOne(dto.nguoiDang))._id;
-            if (dto.tomTat) doc.tomTat = dto.tomTat;
-            if (dto.tieuDe) doc.tieuDe = dto.tieuDe;
-            if (dto.daDuyet) doc.daDuyet = dto.daDuyet;
-            if (dto.danhMuc) doc.danhMuc = dto.danhMuc;
-            if (dto.ngayDang) doc.ngayDang = dto.ngayDang;
-            if (dto.noiDung) doc.noiDung = dto.noiDung;
+    async update(id: string, dto: ThongBaoDto) {
+        const { nguoiDang, ...rest } = dto;
+        return await this.model.findById(id, null, null, async (err, doc) => {
+            if (err) throw err;
+            assign(rest, doc);
+            if (nguoiDang)
+                doc.nguoiDang = await this.ndSer.objectify(nguoiDang);
             await doc.save();
         });
-        // return await this.findOne(id)
-        return 'Cập nhật thành công';
     }
 
     async remove(id: string) {
