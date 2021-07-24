@@ -10,7 +10,7 @@ import {
     Query,
 } from '@nestjs/common';
 import { NguoiDungService } from './nguoi-dung.service';
-import { NguoiDungDto } from './dto/nguoi-dung.dto';
+import { NguoiDungDto } from './nguoi-dung.dto';
 import {
     ApiCreatedResponse,
     ApiOkResponse,

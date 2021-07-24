@@ -1,9 +1,9 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
-import { RoleType } from '../../helpers/utilities';
+import { assign, RoleType } from '../../helpers/utilities';
 import { LopHocService } from '../lop-hoc/lop-hoc.service';
-import { NguoiDungDto } from './dto/nguoi-dung.dto';
+import { NguoiDungDto } from './nguoi-dung.dto';
 import { NguoiDung, NguoiDungDocument } from './nguoi-dung.entity';
 
 @Injectable()
@@ -83,18 +83,6 @@ export class NguoiDungService {
 
         for (let i = 0; i < latest.length; i++) {
             result.push(await this.findOne_byID(latest[i]._id));
-        }
-        return result;
-    }
-
-    async forSelect_giaoVien() {
-        const result = [];
-        const gv = await this.findAll_byRole('GV');
-        for (let i = 0; i < gv.length; i++) {
-            result.push({
-                id: gv[i]._id,
-                ten: gv[i].hoTen,
-            });
         }
         return result;
     }
@@ -191,15 +179,6 @@ export class NguoiDungService {
         else return null;
     }
 
-    async getOne(id: string) {
-        return await this.model.findById(id, null, null, (err, doc) => {
-            if (err) {
-                console.log(err);
-                return null;
-            } else return doc;
-        });
-    }
-
     async update(id: string, dto: NguoiDungDto) {
         const {
             cccd,
@@ -232,34 +211,27 @@ export class NguoiDungService {
             };
         }
 
-        if (conCai && conCai.length > 0) {
+        if (conCai) {
             for (let i = 0; i < conCai.length; i++) {
                 temp.push(await this.objectify(conCai[i]));
             }
         }
 
-        return await this.model.findByIdAndUpdate(
-            id,
-            {
-                ...rest,
-                $set: {
-                    lopHoc: await this.lhSer.objectify_fromID(lopHoc),
-                    chuNhiem: await this.lhSer.objectify_fromID(chuNhiem),
-                    cccd: gt,
-                    chucVu: ld,
-                    conCai: temp,
-                },
-            },
-            { new: true },
-        );
-    }
-
-    async check(user: string) {
-        return (await this.getOne(user)) ? true : false;
+        return await this.model.findById(id, null, null, async (err, doc) => {
+            if (err) throw err;
+            assign(rest,doc);
+            if (lopHoc) doc.lopHoc = await this.lhSer.objectify_fromID(lopHoc);
+            if (chuNhiem)
+                doc.chuNhiem = await this.lhSer.objectify_fromID(chuNhiem);
+            if (gt) doc.cccd = gt;
+            if (ld) doc.chucVu = ld;
+            if (conCai) doc.conCai = temp;
+            await doc.save();
+        });
     }
 
     async objectify(user: string) {
-        return (await this.getOne(user))._id;
+        return (await this.model.findById(user))._id;
     }
 
     async bulkObjectify(user: string[]) {

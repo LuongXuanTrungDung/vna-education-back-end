@@ -6,7 +6,6 @@ import {
     ApiTags,
 } from '@nestjs/swagger';
 import { AuthGuard } from '../../auth.guard';
-import { ImportGVDTO } from '../../models/nguoi-dung/dto/import-gv.dto';
 import { GiaoVienService } from './giao-vien.service';
 
 @Controller('giao-vien')
@@ -15,10 +14,6 @@ import { GiaoVienService } from './giao-vien.service';
 export class GiaoVienController {
     constructor(private readonly service: GiaoVienService) {}
 
-    @Post()
-    async nhapGV(@Body() dto: ImportGVDTO) {
-        return await this.service.importGV(dto);
-    }
 
     @Get('theo')
     @ApiQuery({
