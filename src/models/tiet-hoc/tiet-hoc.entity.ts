@@ -4,7 +4,6 @@ import { DiemDanh } from '../diem-danh/diem-danh.entity';
 import { LopHoc } from '../lop-hoc/lop-hoc.entity';
 import { MonHoc } from '../mon-hoc/mon-hoc.entity';
 import { NguoiDung } from '../nguoi-dung/nguoi-dung.entity';
-import { TuanHoc } from '../tuan-hoc/tuan-hoc.entity';
 
 export type TietHocDocument = TietHoc & Document;
 
@@ -28,13 +27,6 @@ export class TietHoc {
         default: Date.now(),
     })
     ngayHoc: string;
-
-    @Prop({
-        required: true,
-        ref: 'tuan_hoc',
-        type: MongooseSchema.Types.ObjectId,
-    })
-    tuanHoc: TuanHoc;
 
     @Prop({
         required: true,

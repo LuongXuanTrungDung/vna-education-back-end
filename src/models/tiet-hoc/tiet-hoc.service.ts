@@ -1,11 +1,11 @@
-import { forwardRef, Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
+import { assign } from '../../helpers/utilities';
 import { DiemDanhService } from '../diem-danh/diem-danh.service';
 import { LopHocService } from '../lop-hoc/lop-hoc.service';
 import { MonHocService } from '../mon-hoc/mon-hoc.service';
 import { NguoiDungService } from '../nguoi-dung/nguoi-dung.service';
-import { TuanHocService } from '../tuan-hoc/tuan-hoc.service';
 import { CreateTietHocDto } from './dto/create-tiet-hoc.dto';
 import { UpdateTietHocDto } from './dto/update-tiet-hoc.dto';
 import { TietHoc, TietHocDocument } from './tiet-hoc.entity';
@@ -14,8 +14,6 @@ import { TietHoc, TietHocDocument } from './tiet-hoc.entity';
 export class TietHocService {
     constructor(
         @InjectModel('tiet_hoc') private model: Model<TietHocDocument>,
-        @Inject(forwardRef(() => TuanHocService))
-        private readonly tuanSer: TuanHocService,
         private readonly lhSer: LopHocService,
         private readonly ndSer: NguoiDungService,
         private readonly mhSer: MonHocService,
@@ -53,7 +51,6 @@ export class TietHocService {
                 { path: 'giaoVien', model: 'nguoi_dung' },
                 { path: 'monHoc', model: 'mon_hoc' },
                 { path: 'lopHoc', model: 'lop_hoc' },
-                { path: 'tuanHoc', model: 'tuan_hoc' },
             ])
             .execPopulate();
 
@@ -69,28 +66,21 @@ export class TietHocService {
             giaoVien: cl.giaoVien.hoTen,
             monHoc: cl.monHoc.tenMH,
             lopHoc: cl.lopHoc.maLH,
-            tuanHoc: cl.tuanHoc.soTuan,
             diemDanh: dd,
         };
     }
 
     async update(id: string, dto: UpdateTietHocDto) {
-        return await this.model.findByIdAndUpdate(
-            id,
-            {
-                $set: {
-                    lopHoc: await this.lhSer.objectify_fromID(dto.lopHoc),
-                    giaoVien: await this.ndSer.objectify(dto.giaoVien),
-                    monHoc: await this.mhSer.objectify(dto.monHoc),
-                    tuanHoc: await this.tuanSer.objectify(dto.tuanHoc),
-                    thuTiet: dto.thuTiet,
-                    thoiGian_batDau: dto.thoiGian_batDau,
-                    ngayHoc: dto.ngayHoc,
-                    diemDanh: await this.ddSer.bulkObjectify(dto.diemDanh),
-                },
-            },
-            { new: true },
-        );
+        const { lopHoc, giaoVien, monHoc, diemDanh, ...rest } = dto;
+        return await this.model.findById(id, null, null, async (err, doc) => {
+            if (lopHoc) doc.lopHoc = await this.lhSer.objectify_fromID(lopHoc);
+            if (giaoVien) doc.giaoVien = await this.ndSer.objectify(giaoVien);
+            if (monHoc) doc.monHoc = await this.mhSer.objectify(monHoc);
+            if (diemDanh)
+                doc.diemDanh = await this.ddSer.bulkObjectify(diemDanh);
+            assign(rest, doc);
+            await doc.save();
+        });
     }
 
     async objectify(tiet: string) {
