@@ -27,6 +27,7 @@ export class LopHocDto {
         description: 'Các học sinh của lớp',
         minItems: 1,
         uniqueItems: true,
+        default: [],
     })
     hocSinh: string[];
 }

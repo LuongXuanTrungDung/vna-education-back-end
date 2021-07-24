@@ -23,7 +23,7 @@ export class LopHoc {
     GVCN: NguoiDung;
 
     @Prop({
-        required: true,
+        default: [],
         type: [
             {
                 type: MongooseSchema.Types.ObjectId,

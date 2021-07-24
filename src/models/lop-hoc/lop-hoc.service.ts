@@ -55,9 +55,11 @@ export class LopHocService {
             .execPopulate();
         const hs = [];
 
-        if (classe.hocSinh.length > 0) {
-            for (let i = 0; i < classe.hocSinh.length; i++) {
-                hs.push(classe.hocSinh[i].hoTen);
+        if (classe.hocSinh) {
+            if (classe.hocSinh.length > 0) {
+                for (let i = 0; i < classe.hocSinh.length; i++) {
+                    hs.push(classe.hocSinh[i].hoTen);
+                }
             }
         }
 
@@ -161,6 +163,6 @@ export class LopHocService {
     }
 
     async remove(id: string) {
-        return await this.model.findOneAndDelete({ maLH: id });
+        return await this.model.findByIdAndDelete(id);
     }
 }
