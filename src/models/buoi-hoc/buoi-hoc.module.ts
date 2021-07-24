@@ -5,6 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { BuoiHocSchema } from './buoi-hoc.entity';
 import { NguoiDungModule } from '../nguoi-dung/nguoi-dung.module';
 import { TietHocModule } from '../tiet-hoc/tiet-hoc.module';
+import { TuanHocModule } from '../tuan-hoc/tuan-hoc.module';
 
 @Module({
     imports: [
@@ -17,6 +18,7 @@ import { TietHocModule } from '../tiet-hoc/tiet-hoc.module';
         ]),
         NguoiDungModule,
         TietHocModule,
+        TuanHocModule,
     ],
     controllers: [BuoiHocController],
     providers: [BuoiHocService],

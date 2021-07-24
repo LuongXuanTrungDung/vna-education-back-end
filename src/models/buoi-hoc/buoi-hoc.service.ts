@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { bulkObjectID } from '../../helpers/utilities';
+import { Model, Types } from 'mongoose';
+import { assign, bulkObjectID } from '../../helpers/utilities';
 import { TietHocService } from '../tiet-hoc/tiet-hoc.service';
+import { TuanHocService } from '../tuan-hoc/tuan-hoc.service';
 import { BuoiHocDto } from './buoi-hoc.dto';
 import { BuoiHoc, BuoiHocDocument } from './buoi-hoc.entity';
 
@@ -11,6 +12,7 @@ export class BuoiHocService {
     constructor(
         @InjectModel('buoi_hoc') private model: Model<BuoiHocDocument>,
         private readonly thSer: TietHocService,
+        private readonly tuanSer: TuanHocService,
     ) {}
 
     async create(dto: BuoiHocDto) {
@@ -18,6 +20,7 @@ export class BuoiHocService {
             thu: dto.thu,
             ngayHoc: dto.ngayHoc,
             tietHoc: bulkObjectID(dto.tietHoc),
+            tuanHoc: Types.ObjectId(dto.tuanHoc),
         });
     }
 
@@ -34,30 +37,30 @@ export class BuoiHocService {
         const b = await this.model.findById(buoi);
         const t = [];
 
-        for (let i = 0; i < b.tietHoc.length; i++) {
-            t.push(await this.thSer.findOne(b.tietHoc[i]));
+        if (b.tietHoc) {
+            for (let i = 0; i < b.tietHoc.length; i++) {
+                t.push(await this.thSer.findOne(b.tietHoc[i]));
+            }
         }
 
         return {
             id: buoi,
             thu: b.thu,
             ngayHoc: b.ngayHoc,
+            tuanHoc: (await this.tuanSer.findOne(b.tuanHoc)).soTuan,
             tietHoc: t,
         };
     }
 
     async update(id: string, dto: BuoiHocDto) {
-        return await this.model.findByIdAndUpdate(
-            id,
-            {
-                $set: {
-                    thu: dto.thu,
-                    ngayHoc: dto.ngayHoc,
-                    tietHoc: await this.thSer.bulkObjectify(dto.tietHoc),
-                },
-            },
-            { new: true },
-        );
+        const { tietHoc, tuanHoc, ...rest } = dto;
+        return await this.model.findById(id, null, null, async (err, doc) => {
+            if (err) throw err;
+            assign(rest, doc);
+            if (tietHoc) doc.tietHoc = await this.thSer.bulkObjectify(tietHoc);
+            if (tuanHoc) doc.tuanHoc = await this.tuanSer.objectify(tuanHoc);
+            await doc.save();
+        });
     }
 
     async remove(id: string) {
