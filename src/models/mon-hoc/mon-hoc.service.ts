@@ -39,13 +39,17 @@ export class MonHocService {
     }
 
     async findOne(mon: string) {
+        const org = await this.model.findById(mon);
         const one = await (await this.model.findById(mon))
             .populate({ path: 'giaoVien', model: 'nguoi_dung' })
             .execPopulate();
         const gv = [];
 
         for (let i = 0; i < one.giaoVien.length; i++) {
-            gv.push(one.giaoVien[i].hoTen);
+            gv.push({
+                id: org.giaoVien[i],
+                hoTen: one.giaoVien[i].hoTen,
+            });
         }
 
         return {
@@ -59,7 +63,7 @@ export class MonHocService {
 
     async update(id: string, dto: MonHocDto) {
         const { giaoVien, ...rest } = dto;
-        return await this.model.findById(id, null, null, (err, doc) => {
+        return await this.model.findById(id, null, null, async (err, doc) => {
             if (err) throw err;
             assign(rest, doc);
             if (giaoVien)

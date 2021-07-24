@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
+import { Controller, Get, Query, UseGuards } from '@nestjs/common';
 import {
     ApiForbiddenResponse,
     ApiOkResponse,
@@ -13,7 +13,6 @@ import { GiaoVienService } from './giao-vien.service';
 @ApiTags('giao-vien')
 export class GiaoVienController {
     constructor(private readonly service: GiaoVienService) {}
-
 
     @Get('theo')
     @ApiQuery({

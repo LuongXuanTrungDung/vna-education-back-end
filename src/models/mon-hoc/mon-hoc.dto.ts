@@ -35,5 +35,5 @@ export class MonHocDto {
         name: 'giaoVien',
         description: 'Danh sách các giáo viên dạy môn học',
     })
-    giaoVien: NguoiDung[];
+    giaoVien: string[];
 }
