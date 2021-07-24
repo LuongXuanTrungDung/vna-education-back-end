@@ -4,8 +4,9 @@ import { Model, Types } from 'mongoose';
 import { assign, bulkObjectID } from '../../helpers/utilities';
 import { TietHocService } from '../tiet-hoc/tiet-hoc.service';
 import { TuanHocService } from '../tuan-hoc/tuan-hoc.service';
-import { BuoiHocDto } from './buoi-hoc.dto';
+import { CreateBuoiHocDto } from './dto/create-buoi-hoc.dto';
 import { BuoiHoc, BuoiHocDocument } from './buoi-hoc.entity';
+import { UpdateBuoiHocDto } from './dto/update-buoi-hoc.dto';
 
 @Injectable()
 export class BuoiHocService {
@@ -15,11 +16,11 @@ export class BuoiHocService {
         private readonly tuanSer: TuanHocService,
     ) {}
 
-    async create(dto: BuoiHocDto) {
+    async create(dto: CreateBuoiHocDto) {
         return await this.model.create({
             thu: dto.thu,
             ngayHoc: dto.ngayHoc,
-            tietHoc: bulkObjectID(dto.tietHoc),
+            tietHoc: [],
             tuanHoc: Types.ObjectId(dto.tuanHoc),
         });
     }
@@ -52,7 +53,7 @@ export class BuoiHocService {
         };
     }
 
-    async update(id: string, dto: BuoiHocDto) {
+    async update(id: string, dto: UpdateBuoiHocDto) {
         const { tietHoc, tuanHoc, ...rest } = dto;
         return await this.model.findById(id, null, null, async (err, doc) => {
             if (err) throw err;
@@ -61,6 +62,14 @@ export class BuoiHocService {
             if (tuanHoc) doc.tuanHoc = await this.tuanSer.objectify(tuanHoc);
             await doc.save();
         });
+    }
+
+    async addClass(id: string, classe: string[]) {
+        return await this.model.findByIdAndUpdate(
+            id,
+            { $push: { tietHoc: { $each: classe } } },
+            { new: true },
+        );
     }
 
     async remove(id: string) {

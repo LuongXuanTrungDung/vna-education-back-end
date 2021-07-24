@@ -1,6 +1,5 @@
-export class BuoiHocDto {
+export class CreateBuoiHocDto {
     thu: string;
     ngayHoc: string;
-    tietHoc: string[];
     tuanHoc: string;
 }

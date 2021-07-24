@@ -165,4 +165,4 @@
 	- Điều chỉnh API cho tuan_hoc, nguoi_dung, buoi_hoc, tiet_hoc, lop_hoc, danh_gia và diem_danh
 - 2.10.0
 	- Tối ưu hóa các model của CSDL
-	- Điều chỉnh model tuan_hoc và buoi_hoc, API trả lịch học
+	- Điều chỉnh model và API tuan_hoc và buoi_hoc, API trả lịch học
