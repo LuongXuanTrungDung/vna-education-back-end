@@ -7,7 +7,14 @@ import {
     Post,
     UseGuards,
 } from '@nestjs/common';
-import { ApiBody, ApiParam, ApiTags } from '@nestjs/swagger';
+import {
+    ApiBody,
+    ApiForbiddenResponse,
+    ApiInternalServerErrorResponse,
+    ApiOkResponse,
+    ApiParam,
+    ApiTags,
+} from '@nestjs/swagger';
 import { AuthGuard } from '../../auth.guard';
 import { HSDGDto } from '../../models/danh-gia/dto/HSDG.dto';
 import { HocSinhService } from './hoc-sinh.service';
@@ -18,8 +25,24 @@ import { HocSinhService } from './hoc-sinh.service';
 export class HocSinhController {
     constructor(private service: HocSinhService) {}
 
-    @Patch(':hs/vao-lop/:lop')
-    async vaoLop(@Param('hs') hs: string, @Param('lop') lop: string) {
+    @Patch('vao-lop/:lop')
+    @ApiBody({
+        type: [String],
+        description: 'Các _id của học sinh',
+    })
+    @ApiParam({
+		name: 'lop',
+        type: String,
+        description: '_id của lớp cần thêm học sinh',
+    })
+    @ApiOkResponse({ description: 'Cập nhật thành công' })
+    @ApiForbiddenResponse({
+        description: 'Ngăn cản truy cập do chưa đăng nhập vào hệ thống',
+    })
+    @ApiInternalServerErrorResponse({
+        description: 'Lỗi hệ thống',
+    })
+    async vaoLop(@Body() hs: string[], @Param('lop') lop: string) {
         return await this.service.enroll(hs, lop);
     }
 

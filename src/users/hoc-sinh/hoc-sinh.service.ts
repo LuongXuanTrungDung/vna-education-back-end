@@ -12,7 +12,7 @@ export class HocSinhService {
         private readonly bdtSer: BangDiemTongService,
     ) {}
 
-    async enroll(hs: string, lop: string) {
+    async enroll(hs: string[], lop: string) {
         return await this.lhSer.addHS(hs, lop);
     }
 

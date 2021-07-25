@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IsArray, IsNotEmpty, IsString } from 'class-validator';
 
 export class LopHocDto {
     @ApiProperty({
@@ -8,15 +9,19 @@ export class LopHocDto {
         example: '13A4',
         description: 'Tên lớp học',
     })
+    @IsNotEmpty()
+    @IsString()
     maLH: string;
 
     @ApiProperty({
-        name: 'chuNhiem',
+        name: 'GVCN',
         type: String,
         required: true,
         example: '60bxxxxxxxxxxxxx',
         description: 'Giáo viên chủ nhiệm của lớp',
     })
+    @IsNotEmpty()
+    @IsString()
     GVCN: string;
 
     @ApiProperty({
@@ -29,5 +34,6 @@ export class LopHocDto {
         uniqueItems: true,
         default: [],
     })
+    @IsArray()
     hocSinh: string[];
 }
