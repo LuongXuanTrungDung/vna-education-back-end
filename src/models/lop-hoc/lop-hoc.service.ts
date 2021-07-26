@@ -74,7 +74,7 @@ export class LopHocService {
     async addHS(hs: string[], lop: string) {
         const students = await this.ndSer.bulkObjectify(hs);
         const classe = (await this.model.findById(lop)).hocSinh;
-        const result = diff(classe,students);
+        const result = diff(classe, students);
 
         return await this.model.findByIdAndUpdate(lop, {
             $push: { hocSinh: { $each: result } },
