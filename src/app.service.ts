@@ -71,8 +71,8 @@ export class AppService {
                 const m = { ...moment, tietHoc: [] };
 
                 for (let j = 0; j < tietHoc.length; j++) {
-                    const { lopHoc, diemDanh, ngayHoc, ...rest } = tietHoc[j];
-                    if (lopHoc == classe.maLH) m.tietHoc.push(rest);
+                    const { lopHoc, diemDanh, ...rest } = tietHoc[j];
+                    if (lopHoc.maLH == classe.maLH) m.tietHoc.push(rest);
                 }
 
                 result.buoiHoc.push(m);

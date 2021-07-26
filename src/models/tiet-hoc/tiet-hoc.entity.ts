@@ -24,12 +24,6 @@ export class TietHoc {
 
     @Prop({
         required: true,
-        default: Date.now(),
-    })
-    ngayHoc: string;
-
-    @Prop({
-        required: true,
         ref: 'mon_hoc',
         type: MongooseSchema.Types.ObjectId,
     })
@@ -48,7 +42,7 @@ export class TietHoc {
     thuTiet: string;
 
     @Prop({
-        default: '0h - 1h30',
+        default: '0h',
     })
     thoiGian_batDau: string;
 

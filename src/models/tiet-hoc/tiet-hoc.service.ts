@@ -27,7 +27,6 @@ export class TietHocService {
             lopHoc: Types.ObjectId(dto.lopHoc),
             thuTiet: dto.thuTiet,
             thoiGian_batDau: dto.thoiGian_batDau,
-            ngayHoc: dto.ngayHoc,
             diemDanh: [],
         });
     }
@@ -43,6 +42,7 @@ export class TietHocService {
 
     async findOne(tiet: string | TietHoc) {
         const dd = [];
+        const org = await this.model.findById(tiet);
         const cl = await (
             await this.model.findById(tiet)
         )
@@ -61,10 +61,12 @@ export class TietHocService {
             id: tiet,
             thuTiet: cl.thuTiet,
             thoiGian: cl.thoiGian_batDau,
-            ngayHoc: cl.ngayHoc,
             giaoVien: cl.giaoVien.hoTen,
             monHoc: cl.monHoc.tenMH,
-            lopHoc: cl.lopHoc.maLH,
+            lopHoc: {
+                idLop: org.lopHoc,
+                maLH: cl.lopHoc.maLH,
+            },
             diemDanh: dd,
         };
     }
