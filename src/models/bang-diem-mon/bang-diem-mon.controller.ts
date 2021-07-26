@@ -8,11 +8,13 @@ import {
     Delete,
     UseGuards,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '../../auth.guard';
 import { BangDiemMonDto } from './bang-diem-mon.dto';
 import { BangDiemMonService } from './bang-diem-mon.service';
 
 @Controller('bang-diem-mon')
+@ApiTags('bang-diem-mon')
 @UseGuards(AuthGuard)
 export class BangDiemMonController {
     constructor(private readonly service: BangDiemMonService) {}

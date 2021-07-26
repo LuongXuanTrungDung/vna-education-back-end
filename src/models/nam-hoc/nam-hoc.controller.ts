@@ -11,8 +11,10 @@ import {
 import { NamHocService } from './nam-hoc.service';
 import { AuthGuard } from '../../auth.guard';
 import { NamHocDto } from './nam-hoc.dto';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('nam-hoc')
+@ApiTags('nam-hoc')
 @UseGuards(AuthGuard)
 export class NamHocController {
     constructor(private readonly service: NamHocService) {}

@@ -12,8 +12,10 @@ import { BuoiHocService } from './buoi-hoc.service';
 import { CreateBuoiHocDto } from './dto/create-buoi-hoc.dto';
 import { AuthGuard } from '../../auth.guard';
 import { UpdateBuoiHocDto } from './dto/update-buoi-hoc.dto';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('buoi-hoc')
+@ApiTags('buoi-hoc')
 @UseGuards(AuthGuard)
 export class BuoiHocController {
     constructor(private readonly service: BuoiHocService) {}

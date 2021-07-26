@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
-import { assign, bulkObjectID } from '../../helpers/utilities';
+import { assign } from '../../helpers/utilities';
 import { TietHocService } from '../tiet-hoc/tiet-hoc.service';
 import { TuanHocService } from '../tuan-hoc/tuan-hoc.service';
 import { CreateBuoiHocDto } from './dto/create-buoi-hoc.dto';

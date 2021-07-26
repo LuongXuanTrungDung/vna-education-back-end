@@ -66,12 +66,12 @@ export class AppService {
         const result = { ...week, lopHoc: classe.maLH, buoiHoc: [] };
 
         for (let i = 0; i < buoi.length; i++) {
-            if (buoi[i].tuanHoc == week.soTuan) {
-                const { tietHoc, ...moment } = buoi[i];
+            const { tietHoc, tuanHoc, ...moment } = buoi[i];
+            if (tuanHoc == week.soTuan) {
                 const m = { ...moment, tietHoc: [] };
 
                 for (let j = 0; j < tietHoc.length; j++) {
-                    const { lopHoc, diemDanh, ...rest } = tietHoc[j];
+                    const { lopHoc, diemDanh, ngayHoc, ...rest } = tietHoc[j];
                     if (lopHoc == classe.maLH) m.tietHoc.push(rest);
                 }
 

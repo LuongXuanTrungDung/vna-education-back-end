@@ -12,10 +12,12 @@ import {
     ApiForbiddenResponse,
     ApiInternalServerErrorResponse,
     ApiOkResponse,
+    ApiCreatedResponse,
     ApiParam,
     ApiTags,
 } from '@nestjs/swagger';
 import { AuthGuard } from '../../auth.guard';
+import { BangDiemRes } from '../../helpers/bangDiem.dto';
 import { HSDGDto } from '../../models/danh-gia/dto/HSDG.dto';
 import { HocSinhService } from './hoc-sinh.service';
 
@@ -31,7 +33,7 @@ export class HocSinhController {
         description: 'Các _id của học sinh',
     })
     @ApiParam({
-		name: 'lop',
+        name: 'lop',
         type: String,
         description: '_id của lớp cần thêm học sinh',
     })
@@ -47,6 +49,21 @@ export class HocSinhController {
     }
 
     @Get(':hs/diem-so')
+    @ApiParam({
+        name: 'hs',
+        type: String,
+        description: '_id của học sinh',
+    })
+    @ApiOkResponse({
+        description: 'Trả về điểm số của học sinh',
+        type: BangDiemRes,
+    })
+    @ApiForbiddenResponse({
+        description: 'Ngăn cản truy cập do chưa đăng nhập vào hệ thống',
+    })
+    @ApiInternalServerErrorResponse({
+        description: 'Lỗi hệ thống',
+    })
     async xemDiem(@Param('hs') hs: string) {
         return await this.service.seeReport(hs);
     }
@@ -65,6 +82,15 @@ export class HocSinhController {
     @ApiBody({
         type: HSDGDto,
         description: 'Các dữ liệu đã thay đổi khi học sinh làm đánh giá',
+    })
+    @ApiCreatedResponse({
+        description: 'Đánh giá được thêm vào CSDL',
+    })
+    @ApiForbiddenResponse({
+        description: 'Ngăn cản truy cập do chưa đăng nhập vào hệ thống',
+    })
+    @ApiInternalServerErrorResponse({
+        description: 'Lỗi hệ thống',
     })
     async danhGia(@Param('id') id: string, @Body() dto: HSDGDto) {
         return await this.service.makeReview(id, dto);
