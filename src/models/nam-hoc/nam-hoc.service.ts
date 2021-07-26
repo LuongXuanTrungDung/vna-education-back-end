@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { assign, bulkObjectID } from '../../helpers/utilities';
+import { assign } from '../../helpers/utilities';
 import { TuanHocService } from '../tuan-hoc/tuan-hoc.service';
-import { NamHocDto } from './nam-hoc.dto';
+import { CreateNamHocDto } from './dto/create-nam-hoc.dto';
+import { UpdateNamHocDTO } from './dto/update-nam-hoc.dto';
 import { NamHocDocument } from './nam-hoc.entity';
 
 @Injectable()
@@ -13,11 +14,10 @@ export class NamHocService {
         private readonly tuanSer: TuanHocService,
     ) {}
 
-    async create(dto: NamHocDto) {
-        const { tuanHoc, ...rest } = dto;
+    async create(dto: CreateNamHocDto) {
         return await this.model.create({
-            ...rest,
-            tuanHoc: bulkObjectID(tuanHoc),
+            ...dto,
+            tuanHoc: [],
         });
     }
 
@@ -47,8 +47,10 @@ export class NamHocService {
             .execPopulate();
         const tuan = [];
 
-        for (let i = 0; i < one.tuanHoc.length; i++) {
-            tuan.push(one.tuanHoc[i]);
+        if (one.tuanHoc) {
+            for (let i = 0; i < one.tuanHoc.length; i++) {
+                tuan.push(one.tuanHoc[i]);
+            }
         }
 
         return await {
@@ -91,7 +93,7 @@ export class NamHocService {
         return all[all.length - 1];
     }
 
-    async update(id: string, dto: NamHocDto) {
+    async update(id: string, dto: UpdateNamHocDTO) {
         const { tuanHoc, ...rest } = dto;
         return await this.model.findById(id, null, null, async (err, doc) => {
             if (err) throw err;

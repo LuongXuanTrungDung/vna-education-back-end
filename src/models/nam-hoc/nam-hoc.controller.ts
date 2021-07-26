@@ -10,8 +10,9 @@ import {
 } from '@nestjs/common';
 import { NamHocService } from './nam-hoc.service';
 import { AuthGuard } from '../../auth.guard';
-import { NamHocDto } from './nam-hoc.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { CreateNamHocDto } from './dto/create-nam-hoc.dto';
+import { UpdateNamHocDTO } from './dto/update-nam-hoc.dto';
 
 @Controller('nam-hoc')
 @ApiTags('nam-hoc')
@@ -20,7 +21,7 @@ export class NamHocController {
     constructor(private readonly service: NamHocService) {}
 
     @Post()
-    async create(@Body() dto: NamHocDto) {
+    async create(@Body() dto: CreateNamHocDto) {
         return await this.service.create(dto);
     }
 
@@ -45,7 +46,7 @@ export class NamHocController {
     }
 
     @Patch(':id')
-    async update(@Param('id') id: string, @Body() dto: NamHocDto) {
+    async update(@Param('id') id: string, @Body() dto: UpdateNamHocDTO) {
         return await this.service.update(id, dto);
     }
 

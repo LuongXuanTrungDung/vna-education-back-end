@@ -14,9 +14,9 @@ export type NamHocDocument = NamHoc & Document;
 export class NamHoc {
     @Prop({ default: 'Năm học 1 TCN - 1 SCN', required: true }) tenNam: string;
 
-    @Prop({ default: 1 }) namBatDau: string;
+    @Prop({ default: 1 }) namBatDau: number;
 
-    @Prop({ default: 1 }) namKetThuc: string;
+    @Prop({ default: 1 }) namKetThuc: number;
 
     @Prop({ type: [{ type: MongooseSchema.Types.ObjectId }], default: [] })
     tuanHoc: TuanHoc[];
