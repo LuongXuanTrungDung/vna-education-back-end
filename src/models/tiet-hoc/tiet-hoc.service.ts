@@ -32,8 +32,9 @@ export class TietHocService {
     }
 
     async findAll() {
-        const all = await this.model.find({});
+        const all = await this.model.find();
         const result = [];
+
         for (let i = 0; i < all.length; i++) {
             result.push(await this.findOne(all[i]._id));
         }
@@ -64,8 +65,8 @@ export class TietHocService {
             giaoVien: cl.giaoVien.hoTen,
             monHoc: cl.monHoc.tenMH,
             lopHoc: {
-                idLop: org.lopHoc,
-                maLH: cl.lopHoc.maLH,
+                id: org.lopHoc,
+                maLH: cl.lopHoc ? cl.lopHoc.maLH : null,
             },
             diemDanh: dd,
         };

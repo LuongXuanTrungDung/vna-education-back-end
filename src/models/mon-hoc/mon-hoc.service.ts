@@ -4,7 +4,7 @@ import { Model } from 'mongoose';
 import { assign } from '../../helpers/utilities';
 import { NguoiDungService } from '../nguoi-dung/nguoi-dung.service';
 import { MonHocDto } from './mon-hoc.dto';
-import { MonHocDocument } from './mon-hoc.entity';
+import { MonHoc, MonHocDocument } from './mon-hoc.entity';
 
 @Injectable()
 export class MonHocService {
@@ -38,7 +38,7 @@ export class MonHocService {
         return result;
     }
 
-    async findOne(mon: string) {
+    async findOne(mon: string | MonHoc) {
         const org = await this.model.findById(mon);
         const one = await (await this.model.findById(mon))
             .populate({ path: 'giaoVien', model: 'nguoi_dung' })
