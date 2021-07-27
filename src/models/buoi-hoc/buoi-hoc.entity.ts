@@ -25,12 +25,6 @@ export class BuoiHoc {
         ref: 'tuan_hoc',
     })
     tuanHoc: TuanHoc;
-
-    @Prop({
-        default: [],
-        type: [{ type: MongooseSchema.Types.ObjectId, ref: 'tiet_hoc' }],
-    })
-    tietHoc: TietHoc[];
 }
 
 export const BuoiHocSchema = SchemaFactory.createForClass(BuoiHoc);

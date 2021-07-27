@@ -7,6 +7,7 @@ import { NguoiDungModule } from '../nguoi-dung/nguoi-dung.module';
 import { LopHocModule } from '../lop-hoc/lop-hoc.module';
 import { MonHocModule } from '../mon-hoc/mon-hoc.module';
 import { DiemDanhModule } from '../diem-danh/diem-danh.module';
+import { BuoiHocModule } from '../buoi-hoc/buoi-hoc.module';
 
 @Module({
     imports: [
@@ -21,6 +22,7 @@ import { DiemDanhModule } from '../diem-danh/diem-danh.module';
         LopHocModule,
         MonHocModule,
         DiemDanhModule,
+        BuoiHocModule,
     ],
     controllers: [TietHocController],
     providers: [TietHocService],

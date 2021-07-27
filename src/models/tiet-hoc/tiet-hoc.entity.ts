@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
+import { BuoiHoc } from '../buoi-hoc/buoi-hoc.entity';
 import { DiemDanh } from '../diem-danh/diem-danh.entity';
 import { LopHoc } from '../lop-hoc/lop-hoc.entity';
 import { MonHoc } from '../mon-hoc/mon-hoc.entity';
@@ -45,6 +46,13 @@ export class TietHoc {
         default: '0h',
     })
     thoiGian_batDau: string;
+
+    @Prop({
+        required: true,
+        ref: 'buoi_hoc',
+        type: MongooseSchema.Types.ObjectId,
+    })
+    buoiHoc: BuoiHoc;
 
     @Prop({
         type: [

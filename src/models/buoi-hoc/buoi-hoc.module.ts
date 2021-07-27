@@ -17,7 +17,6 @@ import { TuanHocModule } from '../tuan-hoc/tuan-hoc.module';
             },
         ]),
         NguoiDungModule,
-        TietHocModule,
         TuanHocModule,
     ],
     controllers: [BuoiHocController],

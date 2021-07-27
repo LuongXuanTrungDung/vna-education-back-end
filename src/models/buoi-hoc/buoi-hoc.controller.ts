@@ -9,10 +9,9 @@ import {
     UseGuards,
 } from '@nestjs/common';
 import { BuoiHocService } from './buoi-hoc.service';
-import { CreateBuoiHocDto } from './dto/create-buoi-hoc.dto';
 import { AuthGuard } from '../../auth.guard';
-import { UpdateBuoiHocDto } from './dto/update-buoi-hoc.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { BuoiHocDto } from './buoi-hoc.dto';
 
 @Controller('buoi-hoc')
 @ApiTags('buoi-hoc')
@@ -21,7 +20,7 @@ export class BuoiHocController {
     constructor(private readonly service: BuoiHocService) {}
 
     @Post()
-    async create(@Body() dto: CreateBuoiHocDto) {
+    async create(@Body() dto: BuoiHocDto) {
         return await this.service.create(dto);
     }
 
@@ -35,13 +34,8 @@ export class BuoiHocController {
         return await this.service.findOne(id);
     }
 
-    @Patch(':id/them-tiet')
-    async addClass(@Param('id') id: string, @Body() classe: string[]) {
-        return await this.service.addClass(id, classe);
-    }
-
     @Patch(':id')
-    async update(@Param('id') id: string, @Body() dto: UpdateBuoiHocDto) {
+    async update(@Param('id') id: string, @Body() dto: BuoiHocDto) {
         return await this.service.update(id, dto);
     }
 

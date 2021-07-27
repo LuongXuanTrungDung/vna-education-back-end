@@ -4,4 +4,5 @@ export class CreateTietHocDto {
     lopHoc: string;
     thuTiet: string;
     thoiGian_batDau: string;
+    buoiHoc: string;
 }
