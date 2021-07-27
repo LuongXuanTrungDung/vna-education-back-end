@@ -167,3 +167,6 @@
 	- Tối ưu hóa các model của CSDL
 	- Điều chỉnh model và API tuan_hoc và buoi_hoc, API trả lịch học
 	- Sửa API thêm học sinh vào lớp học
+- 2.10.1
+	- Sửa API và model tiet_hoc
+	- Thêm API trả người dùng theo lớp học

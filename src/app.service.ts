@@ -1,27 +1,25 @@
 import { Injectable } from '@nestjs/common';
 import { compare } from 'bcrypt';
 import { BuoiHocService } from './models/buoi-hoc/buoi-hoc.service';
-import { DanhGiaService } from './models/danh-gia/danh-gia.service';
 import { LopHocService } from './models/lop-hoc/lop-hoc.service';
 import { MauDanhGiaService } from './models/mau-danh-gia/mau-danh-gia.service';
 import { MonHocService } from './models/mon-hoc/mon-hoc.service';
 import { NguoiDungService } from './models/nguoi-dung/nguoi-dung.service';
 import { GiaoVienUtils } from './models/nguoi-dung/roles/giao-vien.utils';
 import { HocSinhUtils } from './models/nguoi-dung/roles/hoc-sinh.utils';
-import { ThongBaoService } from './models/thong-bao/thong-bao.service';
+import { TietHocService } from './models/tiet-hoc/tiet-hoc.service';
 import { TuanHocService } from './models/tuan-hoc/tuan-hoc.service';
 
 @Injectable()
 export class AppService {
     constructor(
         private readonly ndSer: NguoiDungService,
-        private readonly dgSer: DanhGiaService,
-        private readonly tbSer: ThongBaoService,
         private readonly mhSer: MonHocService,
         private readonly lhSer: LopHocService,
         private readonly mauSer: MauDanhGiaService,
-        private readonly tSer: TuanHocService,
+        private readonly tuanSer: TuanHocService,
         private readonly bhSer: BuoiHocService,
+        private readonly thSer: TietHocService,
 
         private readonly hsU: HocSinhUtils,
         private readonly gvU: GiaoVienUtils,
@@ -60,24 +58,24 @@ export class AppService {
     }
 
     async taoLichHoc(tuan: string, lop: string) {
-        const week = await this.tSer.findOne(tuan);
+        const week = await this.tuanSer.findOne(tuan);
         const classe = await this.lhSer.findOne(lop);
-        const buoi = await this.bhSer.findAll();
+        const tiet = await this.thSer.findAll();
         const result = { ...week, lopHoc: classe.maLH, buoiHoc: [] };
 
-        for (let i = 0; i < buoi.length; i++) {
-            const { tietHoc, tuanHoc, ...moment } = buoi[i];
-            if (tuanHoc == week.soTuan) {
-                const m = { ...moment, tietHoc: [] };
-
-                for (let j = 0; j < tietHoc.length; j++) {
-                    const { lopHoc, diemDanh, ...rest } = tietHoc[j];
-                    if (lopHoc.maLH == classe.maLH) m.tietHoc.push(rest);
-                }
-
+        for (let i = 0; i < tiet.length; i++) {
+            if (
+                tiet[i].buoiHoc &&
+                tiet[i].lopHoc.maLH == classe.maLH &&
+                tiet[i].buoiHoc.tuanHoc == week.soTuan
+            ) {
+                const m = { ...tiet[i].buoiHoc, tietHoc: [] };
+                const { lopHoc, diemDanh, ...rest } = tiet[i];
+                m.tietHoc.push(rest);
                 result.buoiHoc.push(m);
             }
         }
+
         return result;
     }
 }

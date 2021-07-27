@@ -110,17 +110,18 @@ export class NguoiDungService {
     }
 
     async findAll_byClass(lop: string) {
-        const result = [];
-        const classe = await this.lhSer.findOne(lop);
-        const students = await this.findAll_byRole('HS');
+        // const result = [];
+        // const classe = await this.lhSer.findOne(lop);
+        // const students = await this.findAll_byRole('HS');
 
-        for (let i = 0; i < students.length; i++) {
-            if (students[i].hocTap.lopHoc == classe.maLH) {
-                const { hocTap, ...rest } = students[i];
-                result.push(rest);
-            }
-        }
-        return result;
+        // for (let i = 0; i < students.length; i++) {
+        //     if (students[i].hocTap.lopHoc == classe.maLH) {
+        //         const { hocTap, ...rest } = students[i];
+        //         result.push(rest);
+        //     }
+        // }
+        // return result;
+        return await this.model.find({ lopHoc: Object(lop) });
     }
 
     async findOne_byMaND(ma: string) {
