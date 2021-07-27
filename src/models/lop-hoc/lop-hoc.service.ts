@@ -83,12 +83,14 @@ export class LopHocService {
 
     async onlyHS(lop: string) {
         const result = [];
+        const s = await this.model.findById(lop);
         const p = await (await this.model.findById(lop))
             .populate({ path: 'hocSinh', model: 'nguoi_dung' })
             .execPopulate();
 
         for (let i = 0; i < p.hocSinh.length; i++) {
             result.push({
+                id: s.hocSinh[i],
                 maND: p.hocSinh[i].maND,
                 hoTen: p.hocSinh[i].hoTen,
                 emailND: p.hocSinh[i].emailND,

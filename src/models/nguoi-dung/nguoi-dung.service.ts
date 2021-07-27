@@ -100,7 +100,27 @@ export class NguoiDungService {
     async findAll_byRole(role: RoleType) {
         const reg =
             role === 'QT-HT' ? new RegExp('QT|HT', 'i') : new RegExp(role, 'i');
-        return await this.model.find({ maND: reg });
+        const all = await this.model.find({ maND: reg });
+        const result = [];
+
+        for (let i = 0; i < all.length; i++) {
+            result.push(await this.findOne_byID(all[i]._id));
+        }
+        return result;
+    }
+
+    async findAll_byClass(lop: string) {
+        const result = [];
+        const classe = await this.lhSer.findOne(lop);
+        const students = await this.findAll_byRole('HS');
+
+        for (let i = 0; i < students.length; i++) {
+            if (students[i].hocTap.lopHoc == classe.maLH) {
+                const { hocTap, ...rest } = students[i];
+                result.push(rest);
+            }
+        }
+        return result;
     }
 
     async findOne_byMaND(ma: string) {

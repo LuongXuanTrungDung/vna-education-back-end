@@ -40,9 +40,14 @@ export class NguoiDungController {
         description: 'Vai trò của người dùng, 2 chữ cái đầu của maND',
     })
     @ApiOkResponse({ description: 'Trả về tất cả' })
-    async findAll_according(@Query('role') role: string) {
+    async findAll_according(
+        @Query('role') role: string,
+        @Query('lop') lop: string,
+    ) {
         if (role && role != '')
-            return this.service.findAll_byRole(<RoleType>role);
+            return await this.service.findAll_byRole(<RoleType>role);
+
+        if (lop && lop != '') return await this.service.findAll_byClass(lop);
 
         return await this.service.findAll();
     }
