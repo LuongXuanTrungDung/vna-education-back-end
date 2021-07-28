@@ -65,8 +65,8 @@ export class LopHocService {
 
         return {
             id: lop,
-            maLH: classe.maLH,
-            GVCN: classe.GVCN.hoTen,
+            maLH: classe.maLH ? classe.maLH : null,
+            GVCN: classe.GVCN ? classe.GVCN.hoTen : null,
             hocSinh: hs,
         };
     }

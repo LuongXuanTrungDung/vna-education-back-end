@@ -98,15 +98,18 @@ export class NguoiDungService {
     }
 
     async findAll_byRole(role: RoleType) {
+        // const reg =
+        //     role === 'QT-HT' ? new RegExp('QT|HT', 'i') : new RegExp(role, 'i');
+        // const all = await this.model.find({ maND: reg });
+        // const result = [];
+
+        // for (let i = 0; i < all.length; i++) {
+        //     result.push(await this.findOne_byID(all[i]._id));
+        // }
+        // return result;
         const reg =
             role === 'QT-HT' ? new RegExp('QT|HT', 'i') : new RegExp(role, 'i');
-        const all = await this.model.find({ maND: reg });
-        const result = [];
-
-        for (let i = 0; i < all.length; i++) {
-            result.push(await this.findOne_byID(all[i]._id));
-        }
-        return result;
+        return await this.model.find({ maND: reg });
     }
 
     async findAll_byClass(lop: string) {
