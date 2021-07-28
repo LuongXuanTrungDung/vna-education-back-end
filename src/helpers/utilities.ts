@@ -27,3 +27,17 @@ export function diff(array_1: any[], array_2: any[]) {
     }
     return result;
 }
+
+// by Kannan of Chennai
+export function removeDuplicates(arr: any, key: string) {
+    const flag = {};
+    const unique = [];
+
+    for (let i = 0; i < arr.length; i++) {
+        if (!flag[arr[i][key]]) {
+            flag[arr[i][key]] = true;
+            unique.push(arr[i]);
+        }
+    }
+    return unique;
+}

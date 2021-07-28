@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { compare } from 'bcrypt';
+import { removeDuplicates } from './helpers/utilities';
 import { BuoiHocService } from './models/buoi-hoc/buoi-hoc.service';
 import { LopHocService } from './models/lop-hoc/lop-hoc.service';
 import { MauDanhGiaService } from './models/mau-danh-gia/mau-danh-gia.service';
@@ -61,21 +62,28 @@ export class AppService {
         const week = await this.tuanSer.findOne(tuan);
         const classe = await this.lhSer.findOne(lop);
         const tiet = await this.thSer.findAll();
+        const t1 = [];
         const result = { ...week, lopHoc: classe.maLH, buoiHoc: [] };
 
         for (let i = 0; i < tiet.length; i++) {
-            if (
-                tiet[i].buoiHoc &&
-                tiet[i].lopHoc.maLH == classe.maLH &&
-                tiet[i].buoiHoc.tuanHoc == week.soTuan
-            ) {
-                const m = { ...tiet[i].buoiHoc, tietHoc: [] };
-                const { lopHoc, diemDanh, ...rest } = tiet[i];
-                m.tietHoc.push(rest);
-                result.buoiHoc.push(m);
+            if (tiet[i].buoiHoc && tiet[i].buoiHoc.tuanHoc == week.soTuan) {
+                const { tuanHoc, ...b } = tiet[i].buoiHoc;
+                t1.push({ ...b, tietHoc: [] });
             }
         }
+        const t2 = removeDuplicates(t1, 'id');
 
+        for (let j = 0; j < t2.length; j++) {
+            for (let k = 0; k < tiet.length; k++) {
+                if (tiet[k].lopHoc.maLH && tiet[k].lopHoc.maLH == classe.maLH) {
+                    const { lopHoc, diemDanh, buoiHoc, ...t } = tiet[k];
+                    t2[j].tietHoc.push(t);
+                }
+            }
+            t2[j].tietHoc = removeDuplicates(t2[j].tietHoc, 'thuTiet');
+        }
+
+        result.buoiHoc = t2;
         return result;
     }
 }

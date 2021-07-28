@@ -169,4 +169,6 @@
 	- Sửa API thêm học sinh vào lớp học
 - 2.10.1
 	- Sửa API và model tiet_hoc
+	- Thêm API trả tiết học theo buổi học
 	- Thêm API trả người dùng theo lớp học
+	- Sửa API trả lịch học

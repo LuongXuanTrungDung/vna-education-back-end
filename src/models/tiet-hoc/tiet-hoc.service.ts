@@ -94,7 +94,7 @@ export class TietHocService {
 
     async findAll_byDate(buoi: string) {
         const org = await this.model.find({ buoiHoc: Object(buoi) });
-		const b = await this.bhSer.findOne(buoi)
+        const b = await this.bhSer.findOne(buoi);
         const all = await this.model
             .find({ buoiHoc: Object(buoi) })
             .populate([
@@ -111,20 +111,20 @@ export class TietHocService {
                 thuTiet: all[i].thuTiet,
                 thoiGian: all[i].thoiGian_batDau,
                 giaoVien: {
-					id: org[i].giaoVien,
-					hoTen: all[i].giaoVien.hoTen
-				},
+                    id: org[i].giaoVien,
+                    hoTen: all[i].giaoVien.hoTen,
+                },
                 monHoc: {
-					id: org[i].monHoc,
-					tenMH: all[i].monHoc.tenMH
-				},
+                    id: org[i].monHoc,
+                    tenMH: all[i].monHoc.tenMH,
+                },
                 lopHoc: {
                     id: org[i].lopHoc,
                     maLH: all[i].lopHoc ? all[i].lopHoc.maLH : null,
                 },
             });
         }
-        return {...b, tietHoc: result};
+        return { ...b, tietHoc: result };
     }
 
     async update(id: string, dto: UpdateTietHocDto) {
