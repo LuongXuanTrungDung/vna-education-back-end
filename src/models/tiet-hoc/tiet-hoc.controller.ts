@@ -7,6 +7,7 @@ import {
     Param,
     Delete,
     UseGuards,
+    Query,
 } from '@nestjs/common';
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '../../auth.guard';
@@ -29,6 +30,12 @@ export class TietHocController {
     @Get()
     @ApiOkResponse({ description: 'Trả về tất cả' })
     async findAll() {
+        return await this.service.findAll();
+    }
+
+    @Get('theo')
+    async findBY(@Query('buoi') buoi: string) {
+        if (buoi && buoi != '') return await this.service.findAll_byDate(buoi);
         return await this.service.findAll();
     }
 

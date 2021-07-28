@@ -92,6 +92,41 @@ export class TietHocService {
         };
     }
 
+    async findAll_byDate(buoi: string) {
+        const org = await this.model.find({ buoiHoc: Object(buoi) });
+		const b = await this.bhSer.findOne(buoi)
+        const all = await this.model
+            .find({ buoiHoc: Object(buoi) })
+            .populate([
+                { path: 'giaoVien', model: 'nguoi_dung' },
+                { path: 'monHoc', model: 'mon_hoc' },
+                { path: 'lopHoc', model: 'lop_hoc' },
+            ])
+            .exec();
+        const result = [];
+
+        for (let i = 0; i < all.length; i++) {
+            result.push({
+                id: all[i]._id,
+                thuTiet: all[i].thuTiet,
+                thoiGian: all[i].thoiGian_batDau,
+                giaoVien: {
+					id: org[i].giaoVien,
+					hoTen: all[i].giaoVien.hoTen
+				},
+                monHoc: {
+					id: org[i].monHoc,
+					tenMH: all[i].monHoc.tenMH
+				},
+                lopHoc: {
+                    id: org[i].lopHoc,
+                    maLH: all[i].lopHoc ? all[i].lopHoc.maLH : null,
+                },
+            });
+        }
+        return {...b, tietHoc: result};
+    }
+
     async update(id: string, dto: UpdateTietHocDto) {
         const { lopHoc, giaoVien, monHoc, diemDanh, buoiHoc, ...rest } = dto;
         return await this.model.findById(id, null, null, async (err, doc) => {
