@@ -5,19 +5,11 @@ import {
     Param,
     Patch,
     Post,
+    Query,
     UseGuards,
 } from '@nestjs/common';
-import {
-    ApiBody,
-    ApiForbiddenResponse,
-    ApiInternalServerErrorResponse,
-    ApiOkResponse,
-    ApiCreatedResponse,
-    ApiParam,
-    ApiTags,
-} from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '../../auth.guard';
-import { BangDiemRes } from '../../helpers/bangDiem.dto';
 import { HSDGDto } from '../../models/danh-gia/dto/HSDG.dto';
 import { HocSinhService } from './hoc-sinh.service';
 
@@ -28,42 +20,11 @@ export class HocSinhController {
     constructor(private service: HocSinhService) {}
 
     @Patch('vao-lop/:lop')
-    @ApiBody({
-        type: [String],
-        description: 'Các _id của học sinh',
-    })
-    @ApiParam({
-        name: 'lop',
-        type: String,
-        description: '_id của lớp cần thêm học sinh',
-    })
-    @ApiOkResponse({ description: 'Cập nhật thành công' })
-    @ApiForbiddenResponse({
-        description: 'Ngăn cản truy cập do chưa đăng nhập vào hệ thống',
-    })
-    @ApiInternalServerErrorResponse({
-        description: 'Lỗi hệ thống',
-    })
     async vaoLop(@Body() hs: string[], @Param('lop') lop: string) {
         return await this.service.enroll(hs, lop);
     }
 
     @Get(':hs/diem-so')
-    @ApiParam({
-        name: 'hs',
-        type: String,
-        description: '_id của học sinh',
-    })
-    @ApiOkResponse({
-        description: 'Trả về điểm số của học sinh',
-        type: BangDiemRes,
-    })
-    @ApiForbiddenResponse({
-        description: 'Ngăn cản truy cập do chưa đăng nhập vào hệ thống',
-    })
-    @ApiInternalServerErrorResponse({
-        description: 'Lỗi hệ thống',
-    })
     async xemDiem(@Param('hs') hs: string) {
         return await this.service.seeReport(hs);
     }
@@ -73,25 +34,12 @@ export class HocSinhController {
         return await this.service.ofClass(lop);
     }
 
+    @Get(':hs/danh-gia')
+    async lamDG(@Param('hs') hs: string, @Query('tuan') tuan: string) {
+        return await this.service.getReviews(hs, tuan);
+    }
+
     @Post('danh-gia/:id')
-    @ApiParam({
-        name: 'id',
-        type: 'string',
-        description: '',
-    })
-    @ApiBody({
-        type: HSDGDto,
-        description: 'Các dữ liệu đã thay đổi khi học sinh làm đánh giá',
-    })
-    @ApiCreatedResponse({
-        description: 'Đánh giá được thêm vào CSDL',
-    })
-    @ApiForbiddenResponse({
-        description: 'Ngăn cản truy cập do chưa đăng nhập vào hệ thống',
-    })
-    @ApiInternalServerErrorResponse({
-        description: 'Lỗi hệ thống',
-    })
     async danhGia(@Param('id') id: string, @Body() dto: HSDGDto) {
         return await this.service.makeReview(id, dto);
     }
