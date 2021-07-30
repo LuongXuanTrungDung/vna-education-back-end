@@ -4,6 +4,7 @@ import { LopHoc } from '../lop-hoc/lop-hoc.entity';
 import { MauDanhGia } from '../mau-danh-gia/mau-danh-gia.entity';
 import { MonHoc } from '../mon-hoc/mon-hoc.entity';
 import { NguoiDung } from '../nguoi-dung/nguoi-dung.entity';
+import { TuanHoc } from '../tuan-hoc/tuan-hoc.entity';
 import { ChiTietDG, ChiTietDGSchema } from './chiTietDG.schema';
 
 export type DanhGiaDocument = DanhGia & Document;
@@ -26,7 +27,7 @@ export class DanhGia {
     })
     lopHoc: LopHoc;
 
-    @Prop({ required: true, type: [ChiTietDGSchema] })
+    @Prop({ type: [ChiTietDGSchema] })
     chiTiet: ChiTietDG[];
 
     @Prop({
@@ -48,8 +49,10 @@ export class DanhGia {
 
     @Prop({
         required: true,
+        type: MongooseSchema.Types.ObjectId,
+        ref: 'tuan_hoc',
     })
-    ngayDG: string;
+    tuanDG: TuanHoc;
 
     @Prop({
         required: true,
@@ -58,7 +61,7 @@ export class DanhGia {
     })
     mauDG: MauDanhGia;
 
-    @Prop({ required: true, default: false })
+    @Prop({ default: false })
     choGVCN: boolean;
 }
 

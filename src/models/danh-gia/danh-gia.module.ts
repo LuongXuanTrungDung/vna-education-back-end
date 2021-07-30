@@ -7,6 +7,7 @@ import { NguoiDungModule } from '../nguoi-dung/nguoi-dung.module';
 import { LopHocModule } from '../lop-hoc/lop-hoc.module';
 import { MonHocModule } from '../mon-hoc/mon-hoc.module';
 import { MauDanhGiaModule } from '../mau-danh-gia/mau-danh-gia.module';
+import { TuanHocModule } from '../tuan-hoc/tuan-hoc.module';
 
 @Module({
     imports: [
@@ -16,7 +17,7 @@ import { MauDanhGiaModule } from '../mau-danh-gia/mau-danh-gia.module';
         NguoiDungModule,
         LopHocModule,
         MonHocModule,
-        // MauDanhGiaModule,
+        TuanHocModule,
         forwardRef(() => MauDanhGiaModule),
     ],
     controllers: [DanhGiaController],
