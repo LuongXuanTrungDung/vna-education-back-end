@@ -172,3 +172,7 @@
 	- Thêm API trả tiết học theo buổi học
 	- Thêm API trả người dùng theo lớp học
 	- Sửa API trả lịch học
+- 2.10.2
+	- Các thay đổi cho API docs
+	- Thêm API trả đánh giá theo người dùng, theo tuần
+	- Thêm API trả năm và tuần học gần nhất
