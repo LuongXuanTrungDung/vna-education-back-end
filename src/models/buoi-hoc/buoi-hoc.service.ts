@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { assign } from '../../helpers/utilities';
-import { TietHocService } from '../tiet-hoc/tiet-hoc.service';
 import { TuanHocService } from '../tuan-hoc/tuan-hoc.service';
 import { BuoiHocDto } from './buoi-hoc.dto';
 import { BuoiHoc, BuoiHocDocument } from './buoi-hoc.entity';

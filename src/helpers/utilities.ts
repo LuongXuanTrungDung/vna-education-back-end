@@ -18,6 +18,14 @@ export function assign(dto: any, doc: any) {
     }
 }
 
+export function objectify(dto: any, doc: any) {
+    for (const key in dto) {
+        if (Object.prototype.hasOwnProperty.call(dto, key)) {
+            doc[key] = Object(dto[key]);
+        }
+    }
+}
+
 export function diff(array_1: any[], array_2: any[]) {
     const arr = array_2.concat(array_1);
     const result = [];

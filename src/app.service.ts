@@ -4,10 +4,7 @@ import { removeDuplicates } from './helpers/utilities';
 import { BuoiHocService } from './models/buoi-hoc/buoi-hoc.service';
 import { LopHocService } from './models/lop-hoc/lop-hoc.service';
 import { MauDanhGiaService } from './models/mau-danh-gia/mau-danh-gia.service';
-import { MonHocService } from './models/mon-hoc/mon-hoc.service';
 import { NguoiDungService } from './models/nguoi-dung/nguoi-dung.service';
-import { GiaoVienUtils } from './models/nguoi-dung/roles/giao-vien.utils';
-import { HocSinhUtils } from './models/nguoi-dung/roles/hoc-sinh.utils';
 import { TietHocService } from './models/tiet-hoc/tiet-hoc.service';
 import { TuanHocService } from './models/tuan-hoc/tuan-hoc.service';
 
@@ -15,15 +12,10 @@ import { TuanHocService } from './models/tuan-hoc/tuan-hoc.service';
 export class AppService {
     constructor(
         private readonly ndSer: NguoiDungService,
-        private readonly mhSer: MonHocService,
         private readonly lhSer: LopHocService,
-        private readonly mauSer: MauDanhGiaService,
         private readonly tuanSer: TuanHocService,
         private readonly bhSer: BuoiHocService,
         private readonly thSer: TietHocService,
-
-        private readonly hsU: HocSinhUtils,
-        private readonly gvU: GiaoVienUtils,
     ) {}
 
     async kiemTra_dangNhap(username: string, password: string) {
@@ -46,16 +38,6 @@ export class AppService {
                 resOK: false,
             };
         }
-    }
-
-    async layGiaTri_choSelects() {
-        return {
-            hocSinh: await this.hsU.forSelect_hocSinh(),
-            giaoVien: await this.gvU.forSelect_giaoVien(),
-            mauDG: await this.mauSer.forSelect(),
-            monHoc: await this.mhSer.forSelect(),
-            lopHoc: await this.lhSer.forSelect(),
-        };
     }
 
     async taoLichHoc(tuan: string, lop: string) {

@@ -94,9 +94,8 @@ export class NamHocService {
     }
 
     async findLatest_latestWeek() {
-        return (await this.findLatest()).tuanHoc[
-            (await this.findLatest()).tuanHoc.length - 1
-        ];
+        const latest = await this.findLatest();
+        return latest.tuanHoc[0];
     }
 
     async update(id: string, dto: UpdateNamHocDTO) {
