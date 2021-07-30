@@ -35,6 +35,11 @@ export class NamHocController {
         return await this.service.findLatest();
     }
 
+    @Get('gan-nhat/tuan-gan-nhat')
+    async findLatestWeek() {
+        return await this.service.findLatest_latestWeek();
+    }
+
     @Get(':id')
     async findOne(@Param('id') id: string) {
         return await this.service.findOne(id);

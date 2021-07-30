@@ -93,6 +93,12 @@ export class NamHocService {
         return all[all.length - 1];
     }
 
+    async findLatest_latestWeek() {
+        return (await this.findLatest()).tuanHoc[
+            (await this.findLatest()).tuanHoc.length - 1
+        ];
+    }
+
     async update(id: string, dto: UpdateNamHocDTO) {
         const { tuanHoc, ...rest } = dto;
         return await this.model.findById(id, null, null, async (err, doc) => {
