@@ -22,18 +22,6 @@ export class LopHocService {
         });
     }
 
-    async forSelect() {
-        const result = [];
-        const mh = await this.findAll();
-        for (let i = 0; i < mh.length; i++) {
-            result.push({
-                id: mh[i]._id,
-                ten: mh[i].maLH,
-            });
-        }
-        return result;
-    }
-
     async findAll() {
         const all = await this.model.find({});
         const result = [];

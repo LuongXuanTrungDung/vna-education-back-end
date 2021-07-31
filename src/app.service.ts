@@ -48,18 +48,29 @@ export class AppService {
         const result = { ...week, lopHoc: classe.maLH, buoiHoc: [] };
 
         for (let i = 0; i < tiet.length; i++) {
-            if (tiet[i].buoiHoc && tiet[i].buoiHoc.tuanHoc == week.soTuan) {
-                const { tuanHoc, ...b } = tiet[i].buoiHoc;
-                t1.push({ ...b, tietHoc: [] });
+            if (
+                tiet[i].buoiHoc &&
+                tiet[i].buoiHoc.tuanHoc.soTuan == week.soTuan
+            ) {
+                const { tuanHoc, thu, ngayHoc, _id } = tiet[i].buoiHoc;
+                t1.push({ thu, ngayHoc, _id, tietHoc: [] });
             }
         }
-        const t2 = removeDuplicates(t1, 'id');
+        const t2 = removeDuplicates(t1, '_id');
 
         for (let j = 0; j < t2.length; j++) {
             for (let k = 0; k < tiet.length; k++) {
-                if (tiet[k].lopHoc.maLH && tiet[k].lopHoc.maLH == classe.maLH) {
-                    const { lopHoc, diemDanh, buoiHoc, ...t } = tiet[k];
-                    t2[j].tietHoc.push(t);
+                if (tiet[k].lopHoc && tiet[k].lopHoc == classe.maLH) {
+                    const {
+                        lopHoc,
+                        diemDanh,
+                        buoiHoc,
+                        thuTiet,
+                        thoiGian,
+                        giaoVien,
+                        monHoc,
+                    } = tiet[k];
+                    t2[j].tietHoc.push({ thuTiet, thoiGian, giaoVien, monHoc });
                 }
             }
             t2[j].tietHoc = removeDuplicates(t2[j].tietHoc, 'thuTiet');

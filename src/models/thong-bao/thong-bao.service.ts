@@ -17,7 +17,7 @@ export class ThongBaoService {
         const { nguoiDang, ...rest } = dto;
         return await this.model.create({
             ...rest,
-            nguoiDang: Types.ObjectId(nguoiDang),
+            nguoiDang: Object(nguoiDang),
         });
     }
 
@@ -27,14 +27,23 @@ export class ThongBaoService {
             .populate([
                 {
                     path: 'nguoiDang',
-                    model: 'nguoi_dung',
+                    select: 'hoTen',
                 },
             ])
             .exec();
         const result = [];
 
         for (let i = 0; i < news.length; i++) {
-            result.push(await this.findOne(news[i]._id));
+            result.push({
+                id: news[i]._id,
+                danhMuc: news[i].danhMuc,
+                tieuDe: news[i].tieuDe,
+                tomTat: news[i].tomTat,
+                nguoiDang: news[i].nguoiDang.hoTen,
+                ngayDang: news[i].ngayDang,
+                noiDung: news[i].noiDung,
+                daDuyet: news[i].daDuyet,
+            });
         }
         return result;
     }
@@ -56,7 +65,7 @@ export class ThongBaoService {
             .populate([
                 {
                     path: 'nguoiDang',
-                    model: 'nguoi_dung',
+                    select: 'hoTen',
                 },
             ])
             .execPopulate();
@@ -77,8 +86,7 @@ export class ThongBaoService {
         return await this.model.findById(id, null, null, async (err, doc) => {
             if (err) throw err;
             assign(rest, doc);
-            if (nguoiDang)
-                doc.nguoiDang = await this.ndSer.objectify(nguoiDang);
+            if (nguoiDang) doc.nguoiDang = Object(nguoiDang);
             await doc.save();
         });
     }

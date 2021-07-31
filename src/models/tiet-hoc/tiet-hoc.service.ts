@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
-import { assign } from '../../helpers/utilities';
+import { assign, objectify } from '../../helpers/utilities';
 import { BuoiHocService } from '../buoi-hoc/buoi-hoc.service';
 import { DiemDanhService } from '../diem-danh/diem-danh.service';
 import { LopHocService } from '../lop-hoc/lop-hoc.service';
@@ -35,72 +35,87 @@ export class TietHocService {
     }
 
     async findAll() {
-        const all = await this.model.find();
+        const all = await this.model
+            .find()
+            .populate([
+                { path: 'giaoVien', select: 'hoTen' },
+                { path: 'monHoc', select: 'tenMH' },
+                { path: 'lopHoc', select: 'maLH' },
+                {
+                    path: 'buoiHoc',
+                    select: ['tuanHoc', 'thu', 'ngayHoc'],
+                    populate: {
+                        path: 'tuanHoc',
+                        select: 'soTuan',
+                    },
+                },
+                {
+                    path: 'diemDanh',
+                    select: ['hocSinh', 'trangThai', 'ghiChu'],
+                },
+            ])
+            .exec();
         const result = [];
 
         for (let i = 0; i < all.length; i++) {
-            result.push(await this.findOne(all[i]._id));
+            result.push({
+                _id: all[i]._id,
+                thuTiet: all[i].thuTiet,
+                thoiGian: all[i].thoiGian_batDau,
+                giaoVien: all[i].giaoVien.hoTen,
+                monHoc: all[i].monHoc.tenMH,
+                lopHoc: all[i].lopHoc ? all[i].lopHoc.maLH : null,
+                buoiHoc: all[i].buoiHoc,
+                diemDanh: all[i].diemDanh,
+            });
         }
         return result;
     }
 
-    async findOne(tiet: string | TietHoc) {
+    async findOne(tiet: string) {
         const dd = [];
-        const org = await this.model.findById(tiet);
         const cl = await (
             await this.model.findById(tiet)
         )
             .populate([
-                { path: 'giaoVien', model: 'nguoi_dung' },
-                { path: 'monHoc', model: 'mon_hoc' },
-                { path: 'lopHoc', model: 'lop_hoc' },
+                { path: 'giaoVien', select: 'hoTen' },
+                { path: 'monHoc', select: 'tenMH' },
+                { path: 'lopHoc', select: 'maLH' },
                 {
                     path: 'buoiHoc',
-                    model: 'buoi_hoc',
+                    select: ['tuanHoc', 'thu', 'ngayHoc'],
                     populate: {
                         path: 'tuanHoc',
-                        model: 'tuan_hoc',
+                        select: 'soTuan',
                     },
+                },
+                {
+                    path: 'diemDanh',
+                    select: ['hocSinh', 'trangThai', 'ghiChu'],
                 },
             ])
             .execPopulate();
 
-        for (let i = 0; i < cl.diemDanh.length; i++) {
-            dd.push(await this.ddSer.findOne(cl.diemDanh[i]));
-        }
-
         return {
-            id: tiet,
+            _id: tiet,
             thuTiet: cl.thuTiet,
             thoiGian: cl.thoiGian_batDau,
             giaoVien: cl.giaoVien.hoTen,
             monHoc: cl.monHoc.tenMH,
-            lopHoc: {
-                id: org.lopHoc,
-                maLH: cl.lopHoc ? cl.lopHoc.maLH : null,
-            },
-            buoiHoc:
-                org.buoiHoc && cl.buoiHoc
-                    ? {
-                          id: org.buoiHoc,
-                          thu: cl.buoiHoc.thu,
-                          ngayHoc: cl.buoiHoc.ngayHoc,
-                          tuanHoc: cl.buoiHoc.tuanHoc.soTuan,
-                      }
-                    : null,
-            diemDanh: dd,
+            lopHoc: cl.lopHoc ? cl.lopHoc.maLH : null,
+            buoiHoc: cl.buoiHoc,
+            diemDanh: cl.diemDanh,
         };
     }
 
     async findAll_byDate(buoi: string) {
-        const org = await this.model.find({ buoiHoc: Object(buoi) });
         const b = await this.bhSer.findOne(buoi);
         const all = await this.model
             .find({ buoiHoc: Object(buoi) })
             .populate([
-                { path: 'giaoVien', model: 'nguoi_dung' },
-                { path: 'monHoc', model: 'mon_hoc' },
-                { path: 'lopHoc', model: 'lop_hoc' },
+                { path: 'giaoVien', select: 'hoTen' },
+                { path: 'monHoc', select: 'tenMH' },
+                { path: 'lopHoc', select: 'maLH' },
             ])
             .exec();
         const result = [];
@@ -110,18 +125,9 @@ export class TietHocService {
                 id: all[i]._id,
                 thuTiet: all[i].thuTiet,
                 thoiGian: all[i].thoiGian_batDau,
-                giaoVien: {
-                    id: org[i].giaoVien,
-                    hoTen: all[i].giaoVien.hoTen,
-                },
-                monHoc: {
-                    id: org[i].monHoc,
-                    tenMH: all[i].monHoc.tenMH,
-                },
-                lopHoc: {
-                    id: org[i].lopHoc,
-                    maLH: all[i].lopHoc ? all[i].lopHoc.maLH : null,
-                },
+                giaoVien: all[i].giaoVien,
+                monHoc: all[i].monHoc,
+                lopHoc: all[i].lopHoc ? all[i].lopHoc.maLH : null,
             });
         }
         return { ...b, tietHoc: result };
@@ -130,12 +136,11 @@ export class TietHocService {
     async update(id: string, dto: UpdateTietHocDto) {
         const { lopHoc, giaoVien, monHoc, diemDanh, buoiHoc, ...rest } = dto;
         return await this.model.findById(id, null, null, async (err, doc) => {
-            if (lopHoc) doc.lopHoc = await this.lhSer.objectify_fromID(lopHoc);
-            if (giaoVien) doc.giaoVien = await this.ndSer.objectify(giaoVien);
-            if (monHoc) doc.monHoc = await this.mhSer.objectify(monHoc);
-            if (buoiHoc) doc.buoiHoc = await this.bhSer.objectify(buoiHoc);
+            objectify({ lopHoc, giaoVien, monHoc, buoiHoc }, doc);
             if (diemDanh)
-                doc.diemDanh = await this.ddSer.bulkObjectify(diemDanh);
+                doc.diemDanh = dto.diemDanh.map((e) => {
+                    return Object(e);
+                });
             assign(rest, doc);
             await doc.save();
         });

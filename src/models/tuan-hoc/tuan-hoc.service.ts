@@ -19,12 +19,19 @@ export class TuanHocService {
         const all = await this.model.find({});
         const result = [];
         for (let i = 0; i < all.length; i++) {
-            result.push(await this.findOne(all[i]._id));
+            result.push({
+                id: all[i]._id,
+                soTuan: all[i].soTuan,
+                tenTuan: all[i].tenTuan,
+                ngayBatDau: all[i].ngayBatDau,
+                ngayKetThuc: all[i].ngayKetThuc,
+                hocKy: all[i].hocKy,
+            });
         }
         return result;
     }
 
-    async findOne(id: string | TuanHoc) {
+    async findOne(id: string) {
         const tuan = await this.model.findById(id);
         return {
             id: tuan._id,
