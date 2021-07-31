@@ -169,7 +169,7 @@ export class DanhGiaService {
                 { path: 'monHoc', select: 'tenMH' },
                 {
                     path: 'mauDG',
-                    select: 'tieuChi',
+                    select: ['tieuChi', 'tenMau'],
                 },
                 {
                     path: 'lopHoc',
@@ -190,6 +190,7 @@ export class DanhGiaService {
                 monHoc: all[i].monHoc,
                 giaoVien: all[i].giaoVien.hoTen,
                 choGVCN: all[i].choGVCN,
+                mauDG: all[i].mauDG.tenMau,
                 tuanDG: all[i].tuanDG.soTuan,
                 chiTiet: {
                     lopHoc: all[i].lopHoc.maLH,

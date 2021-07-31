@@ -35,7 +35,8 @@ export class QuanTriService {
                 tiet[i].lopHoc &&
                 tiet[i].lopHoc == classe.maLH
             ) {
-                const { lopHoc, diemDanh, buoiHoc, thuTiet, thoiGian, ...t } = tiet[i];
+                const { lopHoc, diemDanh, buoiHoc, thuTiet, thoiGian, ...t } =
+                    tiet[i];
                 result.push(t);
             }
         }

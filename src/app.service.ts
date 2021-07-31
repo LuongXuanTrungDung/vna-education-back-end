@@ -61,12 +61,7 @@ export class AppService {
         for (let j = 0; j < t2.length; j++) {
             for (let k = 0; k < tiet.length; k++) {
                 if (tiet[k].lopHoc && tiet[k].lopHoc == classe.maLH) {
-                    const {
-                        lopHoc,
-                        diemDanh,
-                        buoiHoc,
-			...t
-                    } = tiet[k];
+                    const { lopHoc, diemDanh, buoiHoc, ...t } = tiet[k];
                     t2[j].tietHoc.push(t);
                 }
             }
