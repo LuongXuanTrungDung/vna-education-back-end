@@ -49,3 +49,8 @@ export function removeDuplicates(arr: any, key: string) {
     }
     return unique;
 }
+
+export function arrange(date: string) {
+    const dat = date.trim().split('-').reverse().join('-');
+    return new Date(dat);
+}

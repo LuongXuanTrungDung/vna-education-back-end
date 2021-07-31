@@ -38,14 +38,10 @@ export class DanhGia {
 
     @Prop({
         required: true,
-        type: [
-            {
-                type: MongooseSchema.Types.ObjectId,
-                ref: 'nguoi_dung',
-            },
-        ],
+        type: MongooseSchema.Types.ObjectId,
+        ref: 'nguoi_dung',
     })
-    giaoVien: NguoiDung[];
+    giaoVien: NguoiDung;
 
     @Prop({
         required: true,
