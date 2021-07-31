@@ -92,7 +92,7 @@ export class DanhGiaService {
                     if (arrange(revs[i].tuanDG.ngayKetThuc).getTime() < now)
                         n.hetHan = true;
 
-                    result.push(n);
+                    if (n) result.push(n);
                 }
             } else {
                 n = {
@@ -108,9 +108,9 @@ export class DanhGiaService {
 
                 if (arrange(revs[i].tuanDG.ngayKetThuc).getTime() < now)
                     n.hetHan = true;
-
-                result.push(n);
             }
+
+            if (n) result.push(n);
         }
 
         return result;

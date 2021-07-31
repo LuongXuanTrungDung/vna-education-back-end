@@ -65,12 +65,9 @@ export class AppService {
                         lopHoc,
                         diemDanh,
                         buoiHoc,
-                        thuTiet,
-                        thoiGian,
-                        giaoVien,
-                        monHoc,
+			...t
                     } = tiet[k];
-                    t2[j].tietHoc.push({ thuTiet, thoiGian, giaoVien, monHoc });
+                    t2[j].tietHoc.push(t);
                 }
             }
             t2[j].tietHoc = removeDuplicates(t2[j].tietHoc, 'thuTiet');
