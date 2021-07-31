@@ -63,33 +63,95 @@ export class DanhGiaService {
                 },
                 {
                     path: 'tuanDG',
-                    select: ['soTuan', 'ngayBatDau', 'ngayKetThuc'],
+                    select: ['soTuan', 'ngayKetThuc'],
                 },
             ])
             .exec();
 
         for (let i = 0; i < revs.length; i++) {
+            let n;
             const m = {
-                id: revs[i]._id,
+                _id: revs[i]._id,
                 tenDG: revs[i].tenDG,
                 tieuChi: revs[i].mauDG.tieuChi,
                 choGVCN: revs[i].choGVCN,
                 tuanDG: revs[i].tuanDG.soTuan,
                 tenLop: revs[i].lopHoc.maLH,
-                monHoc: revs[i].monHoc.tenMH,
+                monHoc: revs[i].monHoc,
                 giaoVien: revs[i].giaoVien.hoTen,
                 hetHan: false,
-                hocSinhDG: {
-                    diemDG: 0,
-                    gopY: '',
-                    nguoiDG: hs,
-                    trangThai: false,
-                    formDG: [],
-                },
             };
 
-            if (arrange(revs[i].tuanDG.ngayKetThuc).getTime() < now) m.hetHan = true;
-            result.push(m);
+            if (revs[i].chiTiet.length > 0) {
+                for (let j = 0; j < revs[i].chiTiet.length; j++) {
+                    const t = revs[i].chiTiet[j];
+                    if (revs[i].chiTiet[j].nguoiDG == Object(hs)) {
+                        n = { ...m, hocSinhDG: { ...t } };
+                    }
+
+                    if (arrange(revs[i].tuanDG.ngayKetThuc).getTime() < now)
+                        n.hetHan = true;
+
+                    result.push(n);
+                }
+            } else {
+                n = {
+                    ...m,
+                    hocSinhDG: {
+                        diemDG: 0,
+                        formDG: [0],
+                        gopY: '',
+                        nguoiDG: hs,
+                        trangThai: false,
+                    },
+                };
+
+                if (arrange(revs[i].tuanDG.ngayKetThuc).getTime() < now)
+                    n.hetHan = true;
+
+                result.push(n);
+            }
+        }
+
+        return result;
+    }
+
+    async findUnfinished(user: string, tuan: string) {
+        const now = new Date().getTime();
+        const all = await this.findAll_byUser(user, tuan);
+        const result = [];
+
+        for (let i = 0; i < all.length; i++) {
+            for (let j = 0; j < all[i].chiTiet.length; j++) {
+                if (
+                    all[i].chiTiet[j].nguoiDG == Object(user) &&
+                    !all[i].chiTiet[j].trangThai
+                ) {
+                    const m = {
+                        id: all[i]._id,
+                        tenDG: all[i].tenDG,
+                        tieuChi: all[i].mauDG.tieuChi,
+                        monHoc: all[i].monHoc,
+                        giaoVien: all[i].giaoVien.hoTen,
+                        choGVCN: all[i].choGVCN,
+                        lopHoc: all[i].lopHoc.maLH,
+                        tuanDG: all[i].tuanDG.soTuan,
+                        hetHan: false,
+                        hocSinhDG: {
+                            diemDG: all[i].chiTiet[j].diemDG,
+                            gopY: all[i].chiTiet[j].gopY,
+                            nguoiDG: all[i].chiTiet[j].nguoiDG,
+                            trangThai: all[i].chiTiet[j].trangThai,
+                            formDG: all[i].chiTiet[j].formDG,
+                        },
+                    };
+
+                    if (arrange(all[i].tuanDG.ngayKetThuc).getTime() < now)
+                        m.hetHan = true;
+
+                    result.push(m);
+                }
+            }
         }
 
         return result;
@@ -125,10 +187,9 @@ export class DanhGiaService {
                 id: all[i]._id,
                 tenDG: all[i].tenDG,
                 tieuChi: all[i].mauDG.tieuChi,
-                monHoc: all[i].monHoc.tenMH,
+                monHoc: all[i].monHoc,
                 giaoVien: all[i].giaoVien.hoTen,
                 choGVCN: all[i].choGVCN,
-                lopHoc: all[i].lopHoc.maLH,
                 tuanDG: all[i].tuanDG.soTuan,
                 chiTiet: {
                     lopHoc: all[i].lopHoc.maLH,
@@ -170,10 +231,9 @@ export class DanhGiaService {
             id: rev._id,
             tenDG: rev.tenDG,
             tieuChi: rev.mauDG.tieuChi,
-            monHoc: rev.monHoc.tenMH,
+            monHoc: rev.monHoc,
             giaoVien: rev.giaoVien.hoTen,
             choGVCN: rev.choGVCN,
-            lopHoc: rev.lopHoc.maLH,
             tuanDG: rev.tuanDG.soTuan,
             chiTiet: {
                 lopHoc: rev.lopHoc.maLH,
@@ -194,8 +254,9 @@ export class DanhGiaService {
     }
 
     async update_fromHS(id: string, dto: HSDGDto) {
+        const { nguoiDG, ...rest } = dto;
         return await this.model.findByIdAndUpdate(id, {
-            $push: { chiTiet: dto },
+            $push: { chiTiet: { ...rest, nguoiDG: Object(nguoiDG) } },
         });
     }
 
