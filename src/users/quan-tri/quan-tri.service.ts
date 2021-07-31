@@ -6,6 +6,6 @@ export class QuanTriService {
     constructor(private readonly dgSer: DanhGiaService) {}
 
     async tatCa_danhGia() {
-        return await this.dgSer.getAll();
+        return await this.dgSer.findAll();
     }
 }
