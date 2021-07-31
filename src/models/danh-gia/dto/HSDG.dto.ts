@@ -3,5 +3,5 @@ export class HSDGDto {
     trangThai: boolean;
     gopY: string;
     diemDG: number;
-    formDG: number[];
+    formDG: any[];
 }

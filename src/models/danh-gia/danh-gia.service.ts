@@ -86,7 +86,7 @@ export class DanhGiaService {
                 for (let j = 0; j < revs[i].chiTiet.length; j++) {
                     const t = revs[i].chiTiet[j];
                     if (revs[i].chiTiet[j].nguoiDG == Object(hs)) {
-                        n = { ...m, hocSinhDG: { ...t } };
+                        n = { ...m, hocSinhDG: t };
                     }
 
                     if (arrange(revs[i].tuanDG.ngayKetThuc).getTime() < now)
@@ -108,9 +108,9 @@ export class DanhGiaService {
 
                 if (arrange(revs[i].tuanDG.ngayKetThuc).getTime() < now)
                     n.hetHan = true;
-            }
 
-            if (n) result.push(n);
+                if (n) result.push(n);
+            }
         }
 
         return result;

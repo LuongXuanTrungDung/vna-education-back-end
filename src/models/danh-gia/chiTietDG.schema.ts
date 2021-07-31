@@ -31,7 +31,7 @@ export class ChiTietDG {
     trangThai: boolean;
 
     @Prop({ default: [] })
-    formDG: number[];
+    formDG: any[];
 }
 
 export const ChiTietDGSchema = SchemaFactory.createForClass(ChiTietDG);
