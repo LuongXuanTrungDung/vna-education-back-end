@@ -97,6 +97,17 @@ export class NguoiDungService {
         return result;
     }
 
+    async findGVCN() {
+        const reg = new RegExp('GV', 'i');
+        const all = await this.model.find({ maND: reg });
+        const result = [];
+
+        for (let i = 0; i < all.length; i++) {
+            if (all[i].chuNhiem) result.push(all[i]);
+        }
+        return result;
+    }
+
     async findAll_byRole(role: RoleType) {
         const reg =
             role === 'QT-HT' ? new RegExp('QT|HT', 'i') : new RegExp(role, 'i');
@@ -115,12 +126,21 @@ export class NguoiDungService {
         const user = await (
             await this.model.findById(nd)
         )
-            .populate({
-                path: 'chuNhiem',
-                model: 'lop_hoc',
-            })
+            .populate([
+                {
+                    path: 'chuNhiem',
+                    select: 'maLH',
+                },
+                {
+                    path: 'lopHoc',
+                    select: ['maLH', 'GVCN'],
+                    populate: {
+                        path: 'GVCN',
+                        select: 'hoTen',
+                    },
+                },
+            ])
             .execPopulate();
-        const cl = user.lopHoc ? await this.lhSer.findOne(user.lopHoc) : null;
 
         return {
             id: nd,
@@ -149,12 +169,12 @@ export class NguoiDungService {
                       noiCap: user.hoChieu.noiCap,
                   }
                 : null,
-            hocTap: cl
+            hocTap: user.lopHoc
                 ? {
-                      idLop: cl.id,
+                      idLop: user.populated('lopHoc'),
                       ngayNhapHoc: user.ngayNhapHoc,
-                      GVCN: cl.GVCN,
-                      lopHoc: cl.maLH,
+                      GVCN: user.lopHoc.GVCN.hoTen,
+                      lopHoc: user.lopHoc.maLH,
                   }
                 : null,
             chuNhiem: user.chuNhiem ? user.chuNhiem.maLH : null,

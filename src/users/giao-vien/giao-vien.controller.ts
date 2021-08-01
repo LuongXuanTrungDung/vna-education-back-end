@@ -27,4 +27,9 @@ export class GiaoVienController {
     async giaoVien(@Query('mon') mon: string) {
         if (mon && mon != '') return await this.service.giaoVien_theoMon(mon);
     }
+
+    @Get('chu-nhiem')
+    async chuNhiem() {
+        return await this.service.laGVCN();
+    }
 }
