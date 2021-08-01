@@ -54,3 +54,7 @@ export function arrange(date: string) {
     const dat = date.trim().split('-').reverse().join('-');
     return new Date(dat);
 }
+
+export function weekdaySort(a: string, b: string) {
+    return null;
+}

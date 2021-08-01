@@ -7,6 +7,7 @@ import {
     Param,
     Delete,
     UseGuards,
+    Query,
 } from '@nestjs/common';
 import {
     ApiBody,
@@ -28,10 +29,7 @@ import { UpdateDanhGiaDto } from './dto/update-danh-gia.dto';
 @ApiTags('danh-gia')
 @ApiExtraModels(CreateDanhGiaDto, UpdateDanhGiaDto)
 export class DanhGiaController {
-    constructor(
-        private readonly dgSer: DanhGiaService,
-        private ndSer: NguoiDungService,
-    ) {}
+    constructor(private readonly service: DanhGiaService) {}
 
     @Post()
     @ApiBody({
@@ -43,7 +41,7 @@ export class DanhGiaController {
         description: 'Ngăn cản truy cập do chưa đăng nhập vào hệ thống',
     })
     async create(@Body() dto: CreateDanhGiaDto) {
-        return await this.dgSer.create(dto);
+        return await this.service.create(dto);
     }
 
     @Get()
@@ -55,7 +53,18 @@ export class DanhGiaController {
         description: 'Ngăn cản truy cập do chưa đăng nhập vào hệ thống',
     })
     async findAll() {
-        return await this.dgSer.findAll();
+        return await this.service.findAll();
+    }
+
+    @Get('chua-lam')
+    async findAll_notDone(@Query('hs') hs: string, tuan: string) {
+        return await this.service.findUnfinished(hs, tuan);
+    }
+
+    @Get('theo')
+    async findAllBy(@Query('mon') mon: string) {
+        if (mon && mon != '') return await this.service.findAll_bySubject(mon);
+        return await this.service.findAll();
     }
 
     @Get(':id')
@@ -69,7 +78,7 @@ export class DanhGiaController {
     })
     @ApiOkResponse({ description: 'Trả về 1 đối tượng', isArray: false })
     async findOne(@Param('id') id: string) {
-        return await this.dgSer.findOne(id);
+        return await this.service.findOne(id);
     }
 
     @Patch(':id')
@@ -88,7 +97,7 @@ export class DanhGiaController {
     })
     @ApiOkResponse({ description: 'Cập nhật thành công', isArray: false })
     async update(@Param('id') id: string, @Body() dto: UpdateDanhGiaDto) {
-        return await this.dgSer.update(id, dto);
+        return await this.service.update(id, dto);
     }
 
     @Delete(':id')
@@ -102,6 +111,6 @@ export class DanhGiaController {
     })
     @ApiOkResponse({ description: 'Xóa thành công', isArray: false })
     async remove(@Param('id') id: string) {
-        return await this.dgSer.remove(id);
+        return await this.service.remove(id);
     }
 }

@@ -176,3 +176,8 @@
 	- Các thay đổi cho API docs
 	- Thêm API trả đánh giá theo người dùng, theo tuần
 	- Thêm API trả năm và tuần học gần nhất
+- 2.10.3
+	- Thêm API trả lịch học đơn giản cho quản trị viên
+	- Thêm API trả nguoi_dung là GVCN
+	- Sửa API trả đánh giá theo người dùng, theo tuần
+	- Thêm API trả đánh giá còn hạn trong tuần chưa làm cho người dùng
