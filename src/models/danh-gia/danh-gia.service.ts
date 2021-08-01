@@ -2,10 +2,10 @@ import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import {
-    arrange,
-    assign,
-    bulkObjectID,
-    objectify,
+	arrange,
+	assign,
+	bulkObjectID,
+	objectify,
 } from '../../helpers/utilities';
 import { LopHocService } from '../lop-hoc/lop-hoc.service';
 import { MauDanhGiaService } from '../mau-danh-gia/mau-danh-gia.service';
@@ -19,249 +19,276 @@ import { UpdateDanhGiaDto } from './dto/update-danh-gia.dto';
 
 @Injectable()
 export class DanhGiaService {
-    constructor(
-        @InjectModel('danh_gia') private model: Model<DanhGiaDocument>,
-        private readonly ndSer: NguoiDungService,
-        @Inject(forwardRef(() => MauDanhGiaService))
-        private readonly mdgSer: MauDanhGiaService,
-        private readonly lhSer: LopHocService,
-        private readonly mhSer: MonHocService,
-        private readonly tuanSer: TuanHocService,
-    ) {}
+	constructor(
+		@InjectModel('danh_gia') private model: Model<DanhGiaDocument>,
+		private readonly ndSer: NguoiDungService,
+		@Inject(forwardRef(() => MauDanhGiaService))
+		private readonly mdgSer: MauDanhGiaService,
+		private readonly lhSer: LopHocService,
+		private readonly mhSer: MonHocService,
+		private readonly tuanSer: TuanHocService,
+	) { }
 
-    async create(dto: CreateDanhGiaDto) {
-        return await this.model.create({
-            tenDG: dto.tenDG,
-            choGVCN: dto.choGVCN,
-            tuanDG: Types.ObjectId(dto.tuanDG),
-            mauDG: Types.ObjectId(dto.mauDG),
-            monHoc: Types.ObjectId(dto.monHoc),
-            giaoVien: Types.ObjectId(dto.giaoVien),
-            lopHoc: Types.ObjectId(dto.lopHoc),
-        });
-    }
+	async create(dto: CreateDanhGiaDto) {
+		return await this.model.create({
+			tenDG: dto.tenDG,
+			choGVCN: dto.choGVCN,
+			tuanDG: Types.ObjectId(dto.tuanDG),
+			mauDG: Types.ObjectId(dto.mauDG),
+			monHoc: Types.ObjectId(dto.monHoc),
+			giaoVien: Types.ObjectId(dto.giaoVien),
+			lopHoc: Types.ObjectId(dto.lopHoc),
+		});
+	}
 
-    async findAll_byUser(hs: string, tuan: string) {
-        const result = [];
-        const user = await this.ndSer.findOne_byID(hs);
-        const now = new Date().getTime();
-        const revs = await this.model
-            .find({ lopHoc: Object(user.hocTap.idLop), tuanDG: Object(tuan) })
-            .populate([
-                {
-                    path: 'giaoVien',
-                    select: 'hoTen',
-                },
-                { path: 'monHoc', select: 'tenMH' },
-                {
-                    path: 'mauDG',
-                    select: 'tieuChi',
-                },
-                {
-                    path: 'lopHoc',
-                    select: 'maLH',
-                },
-                {
-                    path: 'tuanDG',
-                    select: ['soTuan', 'ngayKetThuc'],
-                },
-            ])
-            .exec();
+	async findAll_byUser(hs: string, tuan: string) {
+		const result = [];
+		const user = await this.ndSer.findOne_byID(hs);
+		const now = new Date().getTime();
+		const revs = await this.model
+			.find({ lopHoc: Object(user.hocTap.idLop), tuanDG: Object(tuan) })
+			.populate([
+				{
+					path: 'giaoVien',
+					select: 'hoTen',
+				},
+				{ path: 'monHoc', select: 'tenMH' },
+				{
+					path: 'mauDG',
+					select: 'tieuChi',
+				},
+				{
+					path: 'lopHoc',
+					select: 'maLH',
+				},
+				{
+					path: 'tuanDG',
+					select: ['soTuan', 'ngayKetThuc'],
+				},
+			])
+			.exec();
 
-        for (let i = 0; i < revs.length; i++) {
-            let n;
-            const m = {
-                _id: revs[i]._id,
-                tenDG: revs[i].tenDG,
-                tieuChi: revs[i].mauDG.tieuChi,
-                choGVCN: revs[i].choGVCN,
-                tuanDG: revs[i].tuanDG.soTuan,
-                tenLop: revs[i].lopHoc.maLH,
-                monHoc: revs[i].monHoc,
-                giaoVien: revs[i].giaoVien.hoTen,
-                hetHan: false,
-            };
+		for (let i = 0; i < revs.length; i++) {
+			let n;
+			const m = {
+				_id: revs[i]._id,
+				tenDG: revs[i].tenDG,
+				tieuChi: revs[i].mauDG.tieuChi,
+				choGVCN: revs[i].choGVCN,
+				tuanDG: revs[i].tuanDG.soTuan,
+				tenLop: revs[i].lopHoc.maLH,
+				monHoc: revs[i].monHoc,
+				giaoVien: revs[i].giaoVien.hoTen,
+				hetHan: false,
+			};
 
-            if (revs[i].chiTiet.length > 0) {
-                for (let j = 0; j < revs[i].chiTiet.length; j++) {
-                    const t = revs[i].chiTiet[j];
-                    if (revs[i].chiTiet[j].nguoiDG == Object(hs)) {
-                        n = { ...m, hocSinhDG: t };
-                    }
+			if (revs[i].chiTiet.length > 0) {
+				for (let j = 0; j < revs[i].chiTiet.length; j++) {
+					const t = revs[i].chiTiet[j];
+					if (t.nguoiDG == Object(hs).toString()) {
+						n = { ...m, hocSinhDG: t };
+					} else {
+						n = {
+							...m,
+							hocSinhDG: {
+								diemDG: 0,
+								formDG: [],
+								gopY: '',
+								nguoiDG: hs,
+								trangThai: false,
+							},
+						};
+					}
 
-                    if (arrange(revs[i].tuanDG.ngayKetThuc).getTime() < now)
-                        n.hetHan = true;
+					if (arrange(revs[i].tuanDG.ngayKetThuc).getTime() < now)
+						n.hetHan = true;
 
-                    if (n) result.push(n);
-                }
-            } else {
-                n = {
-                    ...m,
-                    hocSinhDG: {
-                        diemDG: 0,
-                        formDG: [0],
-                        gopY: '',
-                        nguoiDG: hs,
-                        trangThai: false,
-                    },
-                };
+					if (n) result.push(n);
+				}
+			} else {
+				n = {
+					...m,
+					hocSinhDG: {
+						diemDG: 0,
+						formDG: [],
+						gopY: '',
+						nguoiDG: hs,
+						trangThai: false,
+					},
+				};
 
-                if (arrange(revs[i].tuanDG.ngayKetThuc).getTime() < now)
-                    n.hetHan = true;
+				if (arrange(revs[i].tuanDG.ngayKetThuc).getTime() < now)
+					n.hetHan = true;
 
-                if (n) result.push(n);
-            }
-        }
+				if (n) result.push(n);
+			}
+		}
 
-        return result;
-    }
+		return result;
+	}
 
-    async findUnfinished(user: string, tuan: string) {
-        const now = new Date().getTime();
-        const all = await this.findAll_byUser(user, tuan);
-        const result = [];
+	async findUnfinished(user: string, tuan: string) {
+		const now = new Date().getTime();
+		const all = await this.findAll_byUser(user, tuan);
+		const result = [];
 
-        for (let i = 0; i < all.length; i++) {
-            for (let j = 0; j < all[i].chiTiet.length; j++) {
-                if (
-                    all[i].chiTiet[j].nguoiDG == Object(user) &&
-                    !all[i].chiTiet[j].trangThai
-                ) {
-                    const m = {
-                        id: all[i]._id,
-                        tenDG: all[i].tenDG,
-                        tieuChi: all[i].mauDG.tieuChi,
-                        monHoc: all[i].monHoc,
-                        giaoVien: all[i].giaoVien.hoTen,
-                        choGVCN: all[i].choGVCN,
-                        lopHoc: all[i].lopHoc.maLH,
-                        tuanDG: all[i].tuanDG.soTuan,
-                        hetHan: false,
-                        hocSinhDG: {
-                            diemDG: all[i].chiTiet[j].diemDG,
-                            gopY: all[i].chiTiet[j].gopY,
-                            nguoiDG: all[i].chiTiet[j].nguoiDG,
-                            trangThai: all[i].chiTiet[j].trangThai,
-                            formDG: all[i].chiTiet[j].formDG,
-                        },
-                    };
+		for (let i = 0; i < all.length; i++) {
+			for (let j = 0; j < all[i].chiTiet.length; j++) {
+				if (
+					all[i].chiTiet[j].nguoiDG == Object(user) &&
+					!all[i].chiTiet[j].trangThai
+				) {
+					const m = {
+						id: all[i]._id,
+						tenDG: all[i].tenDG,
+						tieuChi: all[i].mauDG.tieuChi,
+						monHoc: all[i].monHoc,
+						giaoVien: all[i].giaoVien.hoTen,
+						choGVCN: all[i].choGVCN,
+						lopHoc: all[i].lopHoc.maLH,
+						tuanDG: all[i].tuanDG.soTuan,
+						hetHan: false,
+						hocSinhDG: {
+							diemDG: all[i].chiTiet[j].diemDG,
+							gopY: all[i].chiTiet[j].gopY,
+							nguoiDG: all[i].chiTiet[j].nguoiDG,
+							trangThai: all[i].chiTiet[j].trangThai,
+							formDG: all[i].chiTiet[j].formDG,
+						},
+					};
 
-                    if (arrange(all[i].tuanDG.ngayKetThuc).getTime() < now)
-                        m.hetHan = true;
+					if (arrange(all[i].tuanDG.ngayKetThuc).getTime() < now)
+						m.hetHan = true;
 
-                    result.push(m);
-                }
-            }
-        }
+					result.push(m);
+				}
+			}
+		}
 
-        return result;
-    }
+		return result;
+	}
 
-    async findAll() {
-        const result = [];
-        const all = await this.model
-            .find()
-            .populate([
-                {
-                    path: 'giaoVien',
-                    select: 'hoTen',
-                },
-                { path: 'monHoc', select: 'tenMH' },
-                {
-                    path: 'mauDG',
-                    select: ['tieuChi', 'tenMau'],
-                },
-                {
-                    path: 'lopHoc',
-                    select: ['maLH', 'hocSinh'],
-                },
-                {
-                    path: 'tuanDG',
-                    select: 'soTuan',
-                },
-            ])
-            .exec();
+	async findAll() {
+		const result = [];
+		const all = await this.model
+			.find()
+			.populate([
+				{
+					path: 'giaoVien',
+					select: 'hoTen',
+				},
+				{ path: 'monHoc', select: 'tenMH' },
+				{
+					path: 'mauDG',
+					select: ['tieuChi', 'tenMau'],
+				},
+				{
+					path: 'lopHoc',
+					select: ['maLH', 'hocSinh'],
+				},
+				{
+					path: 'tuanDG',
+					select: 'soTuan',
+				},
+			])
+			.exec();
 
-        for (let i = 0; i < all.length; i++) {
-            result.push({
-                id: all[i]._id,
-                tenDG: all[i].tenDG,
-                tieuChi: all[i].mauDG.tieuChi,
-                monHoc: all[i].monHoc,
-                giaoVien: all[i].giaoVien.hoTen,
-                choGVCN: all[i].choGVCN,
-                mauDG: all[i].mauDG.tenMau,
-                tuanDG: all[i].tuanDG.soTuan,
-                chiTiet: {
-                    lopHoc: all[i].lopHoc.maLH,
-                    siSo: all[i].lopHoc.hocSinh.length,
-                    hocSinhDG: all[i].chiTiet,
-                },
-            });
-        }
-        return result;
-    }
+		for (let i = 0; i < all.length; i++) {
+			result.push({
+				_id: all[i]._id,
+				tenDG: all[i].tenDG,
+				tieuChi: all[i].mauDG.tieuChi
+				monHoc: all[i].monHoc,
+				giaoVien: all[i].giaoVien,
+				choGVCN: all[i].choGVCN,
+				mauDG: {
+					_id: all[i].populated('mauDG')
+					tenMau: all[i].mauDG.tenMau
+				},
+				tuanDG: all[i].tuanDG,
+				chiTiet: {
+					_id: all[i].populated('lopHoc'),
+					lopHoc: all[i].lopHoc.maLH,
+					siSo: all[i].lopHoc.hocSinh.length,
+					hocSinhDG: all[i].chiTiet,
+				},
+			});
+		}
+		return result;
+	}
 
-    async findOne(id: string) {
-        const gvs = [];
-        const rev = await (
-            await this.model.findById(id)
-        )
-            .populate([
-                {
-                    path: 'giaoVien',
-                    select: 'hoTen',
-                },
-                { path: 'monHoc', select: 'tenMH' },
-                {
-                    path: 'mauDG',
-                    select: 'tieuChi',
-                },
-                {
-                    path: 'lopHoc',
-                    select: ['maLH', 'hocSinh'],
-                },
-                {
-                    path: 'tuanHoc',
-                    select: 'soTuan',
-                },
-            ])
-            .execPopulate();
+	async findOne(id: string) {
+		const gvs = [];
+		const rev = await (
+			await this.model.findById(id)
+		)
+			.populate([
+				{
+					path: 'giaoVien',
+					select: 'hoTen',
+				},
+				{ path: 'monHoc', select: 'tenMH' },
+				{
+					path: 'mauDG',
+					select: 'tieuChi',
+				},
+				{
+					path: 'lopHoc',
+					select: ['maLH', 'hocSinh'],
+					transform: (doc, id) => {
+						return {
+							_id: id,
+							maLH: doc.maLH,
+							siSo: doc.hocSinh.length
+						}
+					}
+				},
+				{
+					path: 'tuanHoc',
+					select: 'soTuan',
+				},
+			])
+			.execPopulate();
 
-        return {
-            id: rev._id,
-            tenDG: rev.tenDG,
-            tieuChi: rev.mauDG.tieuChi,
-            monHoc: rev.monHoc,
-            giaoVien: rev.giaoVien.hoTen,
-            choGVCN: rev.choGVCN,
-            tuanDG: rev.tuanDG.soTuan,
-            chiTiet: {
-                lopHoc: rev.lopHoc.maLH,
-                siSo: rev.lopHoc.hocSinh.length,
-                hocSinhDG: rev.chiTiet,
-            },
-        };
-    }
+		return {
+			_id: rev._id,
+			tenDG: rev.tenDG,
+			tieuChi: rev.mauDG.tieuChi,
+			monHoc: rev.monHoc,
+			giaoVien: rev.giaoVien,
+			choGVCN: rev.choGVCN,
+			mauDG: {
+				_id: rev.populated('mauDG'),
+				tenMau: rev.mauDG.tenMau
+			},
+			tuanDG: rev.tuanDG.soTuan,
+			chiTiet: {
+				_id: rev.populated('lopHoc'),
+				lopHoc: rev.lopHoc.maLH,
+				siSo: rev.lopHoc.hocSinh.length,
+				hocSinhDG: rev.chiTiet,
+			},
+		};
+	}
 
-    async update(id: string, dto: UpdateDanhGiaDto) {
-        const { monHoc, mauDG, lopHoc, giaoVien, tuanDG, ...rest } = dto;
-        return await this.model.findById(id, null, null, async (err, doc) => {
-            if (err) throw err;
-            assign(rest, doc);
-            objectify({ monHoc, mauDG, lopHoc, giaoVien, tuanDG }, doc);
-            await doc.save();
-        });
-    }
+	async update(id: string, dto: UpdateDanhGiaDto) {
+		const { monHoc, mauDG, lopHoc, giaoVien, tuanDG, ...rest } = dto;
+		return await this.model.findById(id, null, null, async (err, doc) => {
+			if (err) throw err;
+			assign(rest, doc);
+			objectify({ monHoc, mauDG, lopHoc, giaoVien, tuanDG }, doc);
+			await doc.save();
+		});
+	}
 
-    async update_fromHS(id: string, dto: HSDGDto) {
-        const { nguoiDG, ...rest } = dto;
-        return await this.model.findByIdAndUpdate(id, {
-            $push: { chiTiet: { ...rest, nguoiDG: Object(nguoiDG) } },
-        });
-    }
+	async update_fromHS(id: string, dto: HSDGDto) {
+		const { nguoiDG, ...rest } = dto;
+		return await this.model.findByIdAndUpdate(id, {
+			$push: { chiTiet: { ...rest, nguoiDG: Object(nguoiDG) } },
+		});
+	}
 
-    async remove(id: string) {
-        return await this.model.findByIdAndDelete(id);
-    }
+	async remove(id: string) {
+		return await this.model.findByIdAndDelete(id);
+	}
 }
