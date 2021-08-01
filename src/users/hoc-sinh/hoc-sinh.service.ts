@@ -31,4 +31,8 @@ export class HocSinhService {
     async getReviews(hs: string, week: string) {
         return await this.dgSer.findAll_byUser(hs, week);
     }
+
+    async getReview(rev: string) {
+        return await this.dgSer.getOne(rev);
+    }
 }

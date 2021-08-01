@@ -146,7 +146,7 @@ export class DanhGiaService {
     async findAll(condition: any = {}) {
         const result = [];
         const all = await this.model
-            .find()
+            .find(condition)
             .populate([
                 {
                     path: 'giaoVien',
@@ -193,7 +193,82 @@ export class DanhGiaService {
     }
 
     async findOne(id: string) {
-        return await this.findAll({ _id: Object(id) });
+        const one = await this.model
+            .findById(id)
+            .populate([
+                {
+                    path: 'giaoVien',
+                    select: 'hoTen',
+                },
+                { path: 'monHoc', select: 'tenMH' },
+                {
+                    path: 'mauDG',
+                    select: ['tieuChi', 'tenMau'],
+                },
+                {
+                    path: 'lopHoc',
+                    select: 'maLH',
+                },
+                {
+                    path: 'tuanDG',
+                    select: 'soTuan',
+                },
+            ])
+            .exec();
+        return {
+            _id: id,
+            tenDG: one.tenDG,
+            tieuChi: one.mauDG.tieuChi,
+            choGVCN: one.choGVCN,
+            mauDG: {
+                _id: one.populated('mauDG'),
+                tenMau: one.mauDG.tenMau,
+            },
+            lopHoc: one.lopHoc,
+            tuanDG: one.tuanDG,
+            giaoVien: one.giaoVien,
+            chiTiet: one.chiTiet,
+        };
+    }
+
+    async getOne(id: string) {
+        const one = await this.model
+            .findById(id)
+            .populate([
+                {
+                    path: 'giaoVien',
+                    select: 'hoTen',
+                },
+                { path: 'monHoc', select: 'tenMH' },
+                {
+                    path: 'mauDG',
+                    select: 'tieuChi',
+                },
+                {
+                    path: 'lopHoc',
+                    select: ['maLH', 'hocSinh'],
+                },
+                {
+                    path: 'tuanDG',
+                    select: 'soTuan',
+                },
+            ])
+            .exec();
+
+        return {
+            _id: id,
+            tenDG: one.tenDG,
+            tieuChi: one.mauDG.tieuChi,
+            tuanDG: one.tuanDG.soTuan,
+            giaoVien: one.giaoVien.hoTen,
+            choGVCN: one.choGVCN,
+            chiTiet: {
+                idLop: one.populated('lopHoc'),
+                lopHoc: one.lopHoc.maLH,
+                siSo: one.lopHoc.hocSinh.length,
+                hocSinhDG: one.chiTiet,
+            },
+        };
     }
 
     async update(id: string, dto: UpdateDanhGiaDto) {

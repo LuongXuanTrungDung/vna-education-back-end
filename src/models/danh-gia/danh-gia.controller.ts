@@ -57,7 +57,10 @@ export class DanhGiaController {
     }
 
     @Get('chua-lam')
-    async findAll_notDone(@Query('hs') hs: string, @Query('tuan') tuan: string) {
+    async findAll_notDone(
+        @Query('hs') hs: string,
+        @Query('tuan') tuan: string,
+    ) {
         return await this.service.findUnfinished(hs, tuan);
     }
 

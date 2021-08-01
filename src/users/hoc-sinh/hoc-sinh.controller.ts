@@ -35,12 +35,17 @@ export class HocSinhController {
     }
 
     @Get(':hs/danh-gia')
-    async lamDG(@Param('hs') hs: string, @Query('tuan') tuan: string) {
+    async hetDG(@Param('hs') hs: string, @Query('tuan') tuan: string) {
         return await this.service.getReviews(hs, tuan);
     }
 
     @Post('danh-gia/:id')
     async danhGia(@Param('id') id: string, @Body() dto: HSDGDto) {
         return await this.service.makeReview(id, dto);
+    }
+
+    @Get('danh-gia/:id')
+    async motDG(@Param('id') id: string) {
+        return await this.service.getReview(id);
     }
 }
