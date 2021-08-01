@@ -232,6 +232,7 @@ export class DanhGiaService {
     }
 
     async getOne(id: string) {
+        const now = new Date().getTime();
         const one = await this.model
             .findById(id)
             .populate([
@@ -250,10 +251,13 @@ export class DanhGiaService {
                 },
                 {
                     path: 'tuanDG',
-                    select: 'soTuan',
+                    select: ['soTuan', 'ngayKetThuc'],
                 },
             ])
             .exec();
+
+        const n = { hetHan: false };
+        if (arrange(one.tuanDG.ngayKetThuc).getTime() < now) n.hetHan = true;
 
         return {
             _id: id,
@@ -262,6 +266,8 @@ export class DanhGiaService {
             tuanDG: one.tuanDG.soTuan,
             giaoVien: one.giaoVien.hoTen,
             choGVCN: one.choGVCN,
+            monHoc: one.monHoc.tenMH,
+            ...n,
             chiTiet: {
                 idLop: one.populated('lopHoc'),
                 lopHoc: one.lopHoc.maLH,
