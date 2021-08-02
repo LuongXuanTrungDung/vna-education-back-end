@@ -29,7 +29,7 @@ export class HocSinhController {
         return await this.service.seeReport(hs);
     }
 
-    @Get('lop/:lop')
+    @Get('thuoc-lop/:lop')
     async danhSach_hocSinh(@Param('lop') lop: string) {
         return await this.service.ofClass(lop);
     }

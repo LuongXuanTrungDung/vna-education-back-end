@@ -82,45 +82,44 @@ export class LopHocService {
 
     async onlyHS(lop: string) {
         const result = [];
-        const s = await this.model.findById(lop);
         const p = await (await this.model.findById(lop))
             .populate({ path: 'hocSinh', model: 'nguoi_dung' })
             .execPopulate();
 
         for (let i = 0; i < p.hocSinh.length; i++) {
             result.push({
-                id: s.hocSinh[i],
+                _id: p.populated('hocSinh')[i],
                 maND: p.hocSinh[i].maND,
                 hoTen: p.hocSinh[i].hoTen,
-                emailND: p.hocSinh[i].emailND,
-                diaChi: p.hocSinh[i].diaChi,
-                ngaySinh: p.hocSinh[i].ngaySinh,
-                noiSinh: p.hocSinh[i].noiSinh,
-                gioiTinh: p.hocSinh[i].gioiTinh,
-                soDienThoai: p.hocSinh[i].soDienThoai
-                    ? p.hocSinh[i].soDienThoai
-                    : null,
-                dangHoatDong: p.hocSinh[i].dangHoatDong,
-                quocTich: p.hocSinh[i].quocTich,
-                danToc: p.hocSinh[i].danToc,
-                cccd: p.hocSinh[i].cccd
-                    ? {
-                          maSo: p.hocSinh[i].cccd.maSo,
-                          ngayCap: p.hocSinh[i].cccd.ngayCap,
-                          noiCap: p.hocSinh[i].cccd.noiCap,
-                      }
-                    : null,
-                hoChieu: p.hocSinh[i].hoChieu
-                    ? {
-                          maSo: p.hocSinh[i].hoChieu.maSo,
-                          ngayCap: p.hocSinh[i].hoChieu.ngayCap,
-                          noiCap: p.hocSinh[i].hoChieu.noiCap,
-                      }
-                    : null,
-                ngayNhapHoc: p.hocSinh[i].ngayNhapHoc
-                    ? p.hocSinh[i].ngayNhapHoc
-                    : null,
-                lopHoc: p.maLH,
+                // emailND: p.hocSinh[i].emailND,
+                // diaChi: p.hocSinh[i].diaChi,
+                // ngaySinh: p.hocSinh[i].ngaySinh,
+                // noiSinh: p.hocSinh[i].noiSinh,
+                // gioiTinh: p.hocSinh[i].gioiTinh,
+                // soDienThoai: p.hocSinh[i].soDienThoai
+                //     ? p.hocSinh[i].soDienThoai
+                //     : null,
+                // dangHoatDong: p.hocSinh[i].dangHoatDong,
+                // quocTich: p.hocSinh[i].quocTich,
+                // danToc: p.hocSinh[i].danToc,
+                // cccd: p.hocSinh[i].cccd
+                //     ? {
+                //           maSo: p.hocSinh[i].cccd.maSo,
+                //           ngayCap: p.hocSinh[i].cccd.ngayCap,
+                //           noiCap: p.hocSinh[i].cccd.noiCap,
+                //       }
+                //     : null,
+                // hoChieu: p.hocSinh[i].hoChieu
+                //     ? {
+                //           maSo: p.hocSinh[i].hoChieu.maSo,
+                //           ngayCap: p.hocSinh[i].hoChieu.ngayCap,
+                //           noiCap: p.hocSinh[i].hoChieu.noiCap,
+                //       }
+                //     : null,
+                // ngayNhapHoc: p.hocSinh[i].ngayNhapHoc
+                //     ? p.hocSinh[i].ngayNhapHoc
+                //     : null,
+                // lopHoc: p.maLH,
             });
         }
         return result;
