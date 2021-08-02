@@ -6,6 +6,7 @@ import {
     assign,
     bulkObjectID,
     objectify,
+    removeDuplicates,
 } from '../../helpers/utilities';
 import { LopHocService } from '../lop-hoc/lop-hoc.service';
 import { MauDanhGiaService } from '../mau-danh-gia/mau-danh-gia.service';
@@ -80,17 +81,7 @@ export class DanhGiaService {
                 hetHan: false,
             };
 
-            if (revs[i].chiTiet.length > 0) {
-                for (let j = 0; j < revs[i].chiTiet.length; j++) {
-                    const t = revs[i].chiTiet[j];
-                    if (t.nguoiDG == Object(hs).toString()) {
-                        n = { ...m, hocSinhDG: t };
-                        if (arrange(revs[i].tuanDG.ngayKetThuc).getTime() < now)
-                            n.hetHan = true;
-                        if (n) result.push(n);
-                    }
-                }
-            } else {
+            if (revs[i].chiTiet.length === 0) {
                 n = {
                     ...m,
                     hocSinhDG: {
@@ -101,42 +92,79 @@ export class DanhGiaService {
                         trangThai: false,
                     },
                 };
-
                 if (arrange(revs[i].tuanDG.ngayKetThuc).getTime() < now)
                     n.hetHan = true;
 
                 if (n) result.push(n);
-            }
-        }
+            } else {
+                for (let j = 0; j < revs[i].chiTiet.length; j++) {
+                    const t = revs[i].chiTiet[j];
+                    n =
+                        t.nguoiDG.toString() === hs
+                            ? { ...m, hocSinhDG: t }
+                            : {
+                                  ...m,
+                                  hocSinhDG: {
+                                      diemDG: 0,
+                                      formDG: [],
+                                      gopY: '',
+                                      nguoiDG: hs,
+                                      trangThai: false,
+                                  },
+                              };
 
-        return result;
-    }
-
-    async findUnfinished(hs: string, tuan: string) {
-        const user = await this.ndSer.findOne_byID(hs);
-        const all = await this.findAll({
-            lopHoc: Object(user.hocTap.idLop),
-            tuanDG: Object(tuan),
-        });
-        const result = [];
-
-        for (let i = 0; i < all.length; i++) {
-            for (let j = 0; j < all[i].chiTiet.length; j++) {
-                if (
-                    all[i].chiTiet[j].hocSinhDG.nguoiDG ==
-                        Object(user).toString() &&
-                    !all[i].hetHan &&
-                    !all[i].chiTiet[j].hocSinhDG.trangThai
-                ) {
-                    result.push({
-                        _id: all[i]._id,
-                        tenDG: all[i].tenDG,
-                    });
+                    if (arrange(revs[i].tuanDG.ngayKetThuc).getTime() < now)
+                        n.hetHan = true;
+                    if (n) result.push(n);
                 }
             }
         }
 
-        return result;
+        return removeDuplicates(result, '_id');
+    }
+
+    async findUnfinished(hs: string, tuan: string) {
+        const user = await this.ndSer.findOne_byID(hs);
+        const now = new Date().getTime();
+        const all = await this.model
+            .find({ lopHoc: Object(user.hocTap.idLop), tuanDG: Object(tuan) })
+            .populate({
+                path: 'tuanDG',
+                select: 'ngayKetThuc',
+            })
+            .exec();
+        const result = [];
+
+        for (let i = 0; i < all.length; i++) {
+            if (arrange(all[i].tuanDG.ngayKetThuc).getTime() < now) {
+                result.push({
+                    _id: all[i]._id,
+                    tenDG: all[i].tenDG,
+                });
+            }
+
+            if (all[i].chiTiet.length === 0) {
+                result.push({
+                    _id: all[i]._id,
+                    tenDG: all[i].tenDG,
+                });
+            } else {
+                for (let j = 0; j < all[i].chiTiet.length; j++) {
+                    const uid = all[i].chiTiet[j];
+                    if (
+                        uid.nguoiDG !== Object(hs).toString() &&
+                        !uid.trangThai
+                    ) {
+                        result.push({
+                            _id: all[i]._id,
+                            tenDG: all[i].tenDG,
+                        });
+                    }
+                }
+            }
+        }
+
+        return removeDuplicates(result, '_id');
     }
 
     async findAll_bySubject(mon: string) {
@@ -163,7 +191,7 @@ export class DanhGiaService {
                 },
                 {
                     path: 'tuanDG',
-                    select: 'soTuan',
+                    select: ['soTuan', 'ngayKetThuc'],
                 },
             ])
             .exec();
