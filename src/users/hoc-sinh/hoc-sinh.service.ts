@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { BangDiemTongService } from '../../models/bang-diem-tong/bang-diem-tong.service';
 import { DanhGiaService } from '../../models/danh-gia/danh-gia.service';
 import { HSDGDto } from '../../models/danh-gia/dto/HSDG.dto';
+import { DiemDanhService } from '../../models/diem-danh/diem-danh.service';
 import { LopHocService } from '../../models/lop-hoc/lop-hoc.service';
 
 @Injectable()
@@ -10,6 +11,7 @@ export class HocSinhService {
         private readonly dgSer: DanhGiaService,
         private readonly lhSer: LopHocService,
         private readonly bdtSer: BangDiemTongService,
+        private readonly ddSer: DiemDanhService,
     ) {}
 
     async enroll(hs: string[], lop: string) {
@@ -34,5 +36,9 @@ export class HocSinhService {
 
     async getReview(rev: string) {
         return await this.dgSer.getOne(rev);
+    }
+
+    async getPresented(hs: string) {
+        return await this.ddSer.findAll({ hocSinh: Object(hs) });
     }
 }

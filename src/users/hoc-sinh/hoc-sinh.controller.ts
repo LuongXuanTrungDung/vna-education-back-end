@@ -48,4 +48,9 @@ export class HocSinhController {
     async motDG(@Param('id') id: string) {
         return await this.service.getReview(id);
     }
+
+    @Get(':hs/diem-danh')
+    async hetDD(@Param('hs') hs: string) {
+        return await this.service.getPresented(hs);
+    }
 }

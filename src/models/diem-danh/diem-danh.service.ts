@@ -20,9 +20,9 @@ export class DiemDanhService {
         });
     }
 
-    async findAll() {
+    async findAll(condition: any = {}) {
         const all = await this.model
-            .find()
+            .find(condition)
             .populate({ path: 'hocSinh', select: 'hoTen' })
             .exec();
         const result = [];
@@ -30,7 +30,7 @@ export class DiemDanhService {
         for (let i = 0; i < all.length; i++) {
             result.push({
                 _id: all[i]._id,
-                hocSinh: all[i].hocSinh.hoTen,
+                hocSinh: all[i].hocSinh,
                 trangThai: all[i].trangThai,
                 ghiChu: all[i].ghiChu,
             });
@@ -45,10 +45,7 @@ export class DiemDanhService {
 
         return {
             id: dd,
-            hocSinh: {
-                id: one.hocSinh,
-                hoTen: one.hocSinh.hoTen,
-            },
+            hocSinh: one.hocSinh,
             trangThai: one.trangThai,
             ghiChu: one.ghiChu,
         };
