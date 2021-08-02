@@ -99,8 +99,7 @@ export class DanhGiaService {
             } else {
                 for (let j = 0; j < revs[i].chiTiet.length; j++) {
                     const t = revs[i].chiTiet[j];
-                    n =
-                        t.nguoiDG.toString() === hs
+                    n = t.nguoiDG.toString() === hs
                             ? { ...m, hocSinhDG: t }
                             : {
                                   ...m,
@@ -120,7 +119,7 @@ export class DanhGiaService {
             }
         }
 
-        return removeDuplicates(result, '_id');
+        return result
     }
 
     async findUnfinished(hs: string, tuan: string) {
@@ -134,37 +133,32 @@ export class DanhGiaService {
             })
             .exec();
         const result = [];
+        
 
         for (let i = 0; i < all.length; i++) {
-            if (arrange(all[i].tuanDG.ngayKetThuc).getTime() < now) {
-                result.push({
-                    _id: all[i]._id,
-                    tenDG: all[i].tenDG,
-                });
-            }
-
-            if (all[i].chiTiet.length === 0) {
-                result.push({
-                    _id: all[i]._id,
-                    tenDG: all[i].tenDG,
-                });
-            } else {
-                for (let j = 0; j < all[i].chiTiet.length; j++) {
-                    const uid = all[i].chiTiet[j];
-                    if (
-                        uid.nguoiDG !== Object(hs).toString() &&
-                        !uid.trangThai
-                    ) {
-                        result.push({
-                            _id: all[i]._id,
-                            tenDG: all[i].tenDG,
-                        });
+            // còn hạn
+            if (arrange(all[i].tuanDG.ngayKetThuc).getTime() > now) {
+                if (all[i].chiTiet.length === 0) {
+                    result.push({
+                        _id: all[i]._id,
+                        tenDG: all[i].tenDG,
+                    });
+                } else {
+                    for (let j = 0; j < all[i].chiTiet.length; j++) {
+                        const uid = all[i].chiTiet[j];
+                        if (uid.nguoiDG.toString() !== Object(hs).toString()){
+                            result.push({
+                                _id: all[i]._id,
+                                tenDG: all[i].tenDG
+                            });                            
+                        }                          
                     }
                 }
             }
+
         }
 
-        return removeDuplicates(result, '_id');
+        return result
     }
 
     async findAll_bySubject(mon: string) {
