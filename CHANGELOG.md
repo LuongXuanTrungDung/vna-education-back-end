@@ -181,3 +181,8 @@
 	- Thêm API trả nguoi_dung là GVCN
 	- Sửa API trả đánh giá theo người dùng, theo tuần
 	- Thêm API trả đánh giá còn hạn trong tuần chưa làm cho người dùng
+- 2.10.4
+	- Sửa API liên quan đến model danh_gia
+	- Sửa API trả nguoi_dung là GVCN
+	- Sửa API trả lịch học
+	- Thêm API trả điểm danh theo học sinh
