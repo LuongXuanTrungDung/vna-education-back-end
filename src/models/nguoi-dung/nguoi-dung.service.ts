@@ -97,17 +97,6 @@ export class NguoiDungService {
         return result;
     }
 
-    async findGVCN() {
-        const reg = new RegExp('GV', 'i');
-        const all = await this.model.find({ maND: reg });
-        const result = [];
-
-        for (let i = 0; i < all.length; i++) {
-            if (all[i].chuNhiem) result.push(all[i]);
-        }
-        return result;
-    }
-
     async findAll_byRole(role: RoleType) {
         const reg =
             role === 'QT-HT' ? new RegExp('QT|HT', 'i') : new RegExp(role, 'i');

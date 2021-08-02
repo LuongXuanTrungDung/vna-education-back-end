@@ -22,12 +22,23 @@ export class LopHocService {
         });
     }
 
-    async findAll() {
-        const all = await this.model.find({});
+    async findAll(condition: any = {}) {
+        const all = await this.model
+            .find(condition)
+            .populate([
+                { path: 'GVCN', select: 'hoTen' },
+                { path: 'hocSinh', select: 'hoTen' },
+            ])
+            .exec();
         const result = [];
 
         for (let i = 0; i < all.length; i++) {
-            result.push(await this.findOne(all[i]._id));
+            result.push({
+                _id: all[i]._id,
+                maLH: all[i].maLH,
+                GVCN: all[i].GVCN,
+                hocSinh: all[i].hocSinh,
+            });
         }
         return result;
     }
@@ -111,6 +122,16 @@ export class LopHocService {
                     : null,
                 lopHoc: p.maLH,
             });
+        }
+        return result;
+    }
+
+    async onlyGV() {
+        const all = await this.findAll();
+        const result = [];
+
+        for (let i = 0; i < all.length; i++) {
+            result.push(all[i].GVCN);
         }
         return result;
     }
