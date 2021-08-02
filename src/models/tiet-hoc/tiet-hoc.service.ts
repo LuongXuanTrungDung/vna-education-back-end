@@ -65,7 +65,7 @@ export class TietHocService {
                 giaoVien: all[i].giaoVien,
                 monHoc: all[i].monHoc,
                 lopHoc: all[i].lopHoc ? all[i].lopHoc : null,
-                buoiHoc: all[i].buoiHoc,
+                buoiHoc: all[i].buoiHoc? all[i].buoiHoc: null,
                 diemDanh: all[i].diemDanh,
             });
         }

@@ -56,5 +56,12 @@ export function arrange(date: string) {
 }
 
 export function weekdaySort(a: string, b: string) {
-    return null;
+    const weekDays = ['Thứ Hai','Thứ Ba','Thứ Tư','Thứ Năm','Thứ Sáu','Thứ Bảy','Chủ Nhật']
+	let aVal = 0, bVal=0
+
+	for (let i = 0; i < weekDays.length; i++) {
+		if (a===weekDays[i]) aVal=i
+		if (b===weekDays[i]) bVal=i
+	}
+	return aVal-bVal
 }
