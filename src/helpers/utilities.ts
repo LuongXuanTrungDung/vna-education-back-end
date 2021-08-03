@@ -21,7 +21,7 @@ export function assign(dto: any, doc: any) {
 export function objectify(dto: any, doc: any) {
     for (const key in dto) {
         if (Object.prototype.hasOwnProperty.call(dto, key)) {
-            doc[key] = Object(dto[key]);
+            doc[key] = Types.ObjectId(dto[key]);
         }
     }
 }

@@ -116,6 +116,7 @@ export class DanhGiaService {
                     if (arrange(revs[i].tuanDG.ngayKetThuc).getTime() < now)
                         n.hetHan = true;
                     if (n) result.push(n);
+                    break;
                 }
             }
         }
@@ -151,6 +152,7 @@ export class DanhGiaService {
                                 _id: all[i]._id,
                                 tenDG: all[i].tenDG,
                             });
+                            break;
                         }
                     }
                 }

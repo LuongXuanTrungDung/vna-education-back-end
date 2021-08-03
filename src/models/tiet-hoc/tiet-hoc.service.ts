@@ -54,14 +54,18 @@ export class TietHocService {
                 _id: all[i]._id,
                 thuTiet: all[i].thuTiet,
                 thoiGian: all[i].thoiGian_batDau,
-                giaoVien: {
-                    _id: all[i].populated('giaoVien'),
-                    hoTen: all[i].giaoVien.hoTen,
-                },
-                monHoc: {
-                    _id: all[i].populated('monHoc'),
-                    tenMH: all[i].monHoc.tenMH,
-                },
+                giaoVien: all[i].giaoVien
+                    ? {
+                          _id: all[i].populated('giaoVien'),
+                          hoTen: all[i].giaoVien.hoTen,
+                      }
+                    : null,
+                monHoc: all[i].monHoc
+                    ? {
+                          _id: all[i].populated('monHoc'),
+                          tenMH: all[i].monHoc.tenMH,
+                      }
+                    : null,
                 lopHoc: all[i].lopHoc
                     ? {
                           _id: all[i].populated('lopHoc'),
@@ -134,7 +138,6 @@ export class TietHocService {
                 },
             ])
             .execPopulate();
-
         return {
             _id: tiet,
             thuTiet: cl.thuTiet,
@@ -193,7 +196,7 @@ export class TietHocService {
         return await this.model.findById(id, null, null, async (err, doc) => {
             objectify({ lopHoc, giaoVien, monHoc, buoiHoc }, doc);
             if (diemDanh)
-                doc.diemDanh = dto.diemDanh.map((e) => {
+                doc.diemDanh = diemDanh.map((e) => {
                     return Object(e);
                 });
             assign(rest, doc);
