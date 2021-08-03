@@ -43,12 +43,8 @@ export class TietHocService {
                 { path: 'lopHoc', select: 'maLH' },
                 {
                     path: 'buoiHoc',
-                    select: ['tuanHoc', 'thu', 'ngayHoc'],
-                    populate: {
-                        path: 'tuanHoc',
-                        select: 'soTuan',
-                    },
-                }
+                    select: ['thu', 'ngayHoc'],
+                },
             ])
             .exec();
         const result = [];
@@ -58,18 +54,27 @@ export class TietHocService {
                 _id: all[i]._id,
                 thuTiet: all[i].thuTiet,
                 thoiGian: all[i].thoiGian_batDau,
-                giaoVien: all[i].giaoVien,
-                monHoc: all[i].monHoc,
-                lopHoc: all[i].lopHoc ? {
-					_id: all[i].populated('lopHoc'),
-					maLH: all[i].lopHoc.maLH
-				} : null,
-                buoiHoc: all[i].buoiHoc ? {
-					_id: all[i].populated('buoiHoc'),
-					thu: all[i].buoiHoc.thu,
-					ngayHoc: all[i].buoiHoc.ngayHoc,
-					tuanHoc: all[i].buoiHoc.tuanHoc.soTuan
-				} : null,
+                giaoVien: {
+                    _id: all[i].populated('giaoVien'),
+                    hoTen: all[i].giaoVien.hoTen,
+                },
+                monHoc: {
+                    _id: all[i].populated('monHoc'),
+                    tenMH: all[i].monHoc.tenMH,
+                },
+                lopHoc: all[i].lopHoc
+                    ? {
+                          _id: all[i].populated('lopHoc'),
+                          maLH: all[i].lopHoc.maLH,
+                      }
+                    : null,
+                buoiHoc: all[i].buoiHoc
+                    ? {
+                          _id: all[i].populated('buoiHoc'),
+                          thu: all[i].buoiHoc.thu,
+                          ngayHoc: all[i].buoiHoc.ngayHoc,
+                      }
+                    : null,
             });
         }
         return result;
@@ -125,15 +130,7 @@ export class TietHocService {
                 { path: 'lopHoc', select: 'maLH' },
                 {
                     path: 'buoiHoc',
-                    select: ['tuanHoc', 'thu', 'ngayHoc'],
-                    populate: {
-                        path: 'tuanHoc',
-                        select: 'soTuan',
-                    },
-                },
-                {
-                    path: 'diemDanh',
-                    select: ['hocSinh', 'trangThai', 'ghiChu'],
+                    select: ['thu', 'ngayHoc'],
                 },
             ])
             .execPopulate();
@@ -142,11 +139,27 @@ export class TietHocService {
             _id: tiet,
             thuTiet: cl.thuTiet,
             thoiGian: cl.thoiGian_batDau,
-            giaoVien: cl.giaoVien.hoTen,
-            monHoc: cl.monHoc.tenMH,
-            lopHoc: cl.lopHoc ? cl.lopHoc.maLH : null,
-            buoiHoc: cl.buoiHoc,
-            diemDanh: cl.diemDanh,
+            giaoVien: {
+                _id: cl.populated('giaoVien'),
+                hoTen: cl.giaoVien.hoTen,
+            },
+            monHoc: {
+                _id: cl.populated('monHoc'),
+                tenMH: cl.monHoc.tenMH,
+            },
+            lopHoc: cl.lopHoc
+                ? {
+                      _id: cl.populated('lopHoc'),
+                      maLH: cl.lopHoc.maLH,
+                  }
+                : null,
+            buoiHoc: cl.buoiHoc
+                ? {
+                      _id: cl.populated('buoiHoc'),
+                      thu: cl.buoiHoc.thu,
+                      ngayHoc: cl.buoiHoc.ngayHoc,
+                  }
+                : null,
         };
     }
 

@@ -184,7 +184,7 @@ export class DanhGiaService {
                 },
                 {
                     path: 'tuanDG',
-                    select: ['soTuan', 'ngayKetThuc'],
+                    select: 'soTuan',
                 },
             ])
             .exec();
@@ -194,20 +194,28 @@ export class DanhGiaService {
                 _id: all[i]._id,
                 tenDG: all[i].tenDG,
                 tieuChi: all[i].mauDG.tieuChi,
-                monHoc: all[i].monHoc,
-                giaoVien: all[i].giaoVien,
+                monHoc: {
+                    _id: all[i].populated('monHoc'),
+                    tenMH: all[i].monHoc.tenMH,
+                },
+                giaoVien: {
+                    _id: all[i].populated('giaoVien'),
+                    hoTen: all[i].giaoVien.hoTen,
+                },
                 choGVCN: all[i].choGVCN,
                 mauDG: {
                     _id: all[i].populated('mauDG'),
                     tenMau: all[i].mauDG.tenMau,
                 },
-                tuanDG: all[i].tuanDG,
-                chiTiet: {
-                    _id: all[i].populated('lopHoc'),
-                    lopHoc: all[i].lopHoc.maLH,
-                    siSo: all[i].lopHoc.hocSinh.length,
-                    hocSinhDG: all[i].chiTiet,
+                tuanDG: {
+                    _id: all[i].populated('tuanDG'),
+                    soTuan: all[i].tuanDG.soTuan,
                 },
+                lopHoc: {
+                    _id: all[i].populated('lopHoc'),
+                    maLH: all[i].lopHoc.maLH,
+                },
+                chiTiet: all[i].chiTiet,
             });
         }
         return result;
@@ -240,14 +248,27 @@ export class DanhGiaService {
             _id: id,
             tenDG: one.tenDG,
             tieuChi: one.mauDG.tieuChi,
+            monHoc: {
+                _id: one.populated('monHoc'),
+                tenMH: one.monHoc.tenMH,
+            },
+            giaoVien: {
+                _id: one.populated('giaoVien'),
+                hoTen: one.giaoVien.hoTen,
+            },
             choGVCN: one.choGVCN,
             mauDG: {
                 _id: one.populated('mauDG'),
                 tenMau: one.mauDG.tenMau,
             },
-            lopHoc: one.lopHoc,
-            tuanDG: one.tuanDG,
-            giaoVien: one.giaoVien,
+            tuanDG: {
+                _id: one.populated('tuanDG'),
+                soTuan: one.tuanDG.soTuan,
+            },
+            lopHoc: {
+                _id: one.populated('lopHoc'),
+                maLH: one.lopHoc.maLH,
+            },
             chiTiet: one.chiTiet,
         };
     }

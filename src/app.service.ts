@@ -67,8 +67,8 @@ export class AppService {
 
         result.buoiHoc = t2;
         result.buoiHoc.sort((a, b) => {
-          return weekdaySort(a.thu, b.thu);
-         });
+            return weekdaySort(a.thu, b.thu);
+        });
         return result;
     }
 }
