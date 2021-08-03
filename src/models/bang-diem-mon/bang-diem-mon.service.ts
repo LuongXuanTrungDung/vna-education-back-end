@@ -38,16 +38,67 @@ export class BangDiemMonService {
         });
     }
 
-    async findAll() {
-        const all = await this.model.find({});
+    async findAll(condition: any = {}) {
+        const all = await this.model.find(condition).populate([
+            {
+                path: 'hocSinh',
+                select: 'hoTen',
+            },
+            { path: 'giaoVien', select: 'hoTen' },
+            { path: 'monHoc', select: 'tenMH' },
+        ]);
         const result = [];
+
         for (let i = 0; i < all.length; i++) {
-            result.push(all[i]._id);
+            result.push({
+                _id: all[i]._id,
+                hocSinh: {
+                    _id: all[i].populated('hocSinh'),
+                    hoTen: all[i].hocSinh.hoTen,
+                },
+                giaoVien: {
+                    _id: all[i].populated('giaoVien'),
+                    hoTen: all[i].giaoVien.hoTen,
+                },
+                monHoc: {
+                    _id: all[i].populated('monHoc'),
+                    tenMH: all[i].monHoc.tenMH,
+                },
+                hocKy1: all[i].hocKy1,
+                hocKy2: all[i].hocKy2,
+                diemTB: all[i].diemTB,
+                nhanXet: all[i].nhanXet,
+            });
         }
         return result;
     }
 
-    async findOne(p: string | BangDiemMon) {
+    async getAll(condition: any = {}) {
+        const all = await this.model.find(condition).populate([
+            {
+                path: 'hocSinh',
+                select: 'hoTen',
+            },
+            { path: 'giaoVien', select: 'hoTen' },
+            { path: 'monHoc', select: 'tenMH' },
+        ]);
+        const result = [];
+        for (let i = 0; i < all.length; i++) {
+            result.push({
+                _id: all[i]._id,
+                hocSinh: all[i].hocSinh.hoTen,
+                giaoVien: all[i].giaoVien.hoTen,
+                monHoc: all[i].monHoc.tenMH,
+                hocKy1: all[i].hocKy1,
+                hocKy2: all[i].hocKy2,
+                diemTB: all[i].diemTB,
+                nhanXet: all[i].nhanXet,
+            });
+        }
+        return result;
+    }
+
+    async findOne(p: string) {
         const bd = await (
             await this.model.findById(p)
         )
@@ -62,10 +113,19 @@ export class BangDiemMonService {
             .execPopulate();
 
         return {
-            id: p,
-            hocSinh: bd.hocSinh.hoTen,
-            giaoVien: bd.giaoVien.hoTen,
-            monHoc: bd.monHoc.tenMH,
+            _id: p,
+            hocSinh: {
+                _id: bd.populated('hocSinh'),
+                hoTen: bd.hocSinh.hoTen,
+            },
+            giaoVien: {
+                _id: bd.populated('giaoVien'),
+                hoTen: bd.giaoVien.hoTen,
+            },
+            monHoc: {
+                _id: bd.populated('monHoc'),
+                tenMH: bd.monHoc.tenMH,
+            },
             hocKy1: bd.hocKy1,
             hocKy2: bd.hocKy2,
             diemTB: bd.diemTB,
@@ -101,15 +161,12 @@ export class BangDiemMonService {
         });
     }
 
-    async findAll_byHS(hs: string) {
-        const all = await this.model.find({
-            hocSinh: await this.ndSer.objectify(hs),
-        });
+    async getAll_byHS(hs: string) {
+        const all = await this.getAll({ hocSinh: Object(hs) });
         const result = [];
 
         for (let i = 0; i < all.length; i++) {
-            const one = await this.findOne(all[i]._id);
-            const { hocSinh, ...rest } = one;
+            const { hocSinh, ...rest } = all[i];
             result.push(rest);
         }
         return result;
