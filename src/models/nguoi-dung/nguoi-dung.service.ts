@@ -87,31 +87,158 @@ export class NguoiDungService {
         return result;
     }
 
-    async findAll() {
-        const all = await this.model.find();
+    async findAll(condition: any = {}) {
+        const all = await this.model
+            .find(condition)
+            .populate([
+                {
+                    path: 'chuNhiem',
+                    select: 'maLH',
+                },
+                {
+                    path: 'lopHoc',
+                    select: 'maLH',
+                },
+            ])
+            .exec();
         const result = [];
 
         for (let i = 0; i < all.length; i++) {
-            result.push(await this.findOne_byID(all[i]._id));
+            result.push({
+                _id: all[i]._id,
+                maND: all[i].maND,
+                hoTen: all[i].hoTen,
+                emailND: all[i].emailND,
+                diaChi: all[i].diaChi,
+                ngaySinh: all[i].ngaySinh,
+                noiSinh: all[i].noiSinh,
+                gioiTinh: all[i].gioiTinh,
+                soDienThoai: all[i].soDienThoai ? all[i].soDienThoai : null,
+                dangHoatDong: all[i].dangHoatDong,
+                quocTich: all[i].quocTich,
+                danToc: all[i].danToc,
+                cccd: all[i].cccd
+                    ? {
+                          maSo: all[i].cccd.maSo,
+                          ngayCap: all[i].cccd.ngayCap,
+                          noiCap: all[i].cccd.noiCap,
+                      }
+                    : null,
+                hoChieu: all[i].hoChieu
+                    ? {
+                          maSo: all[i].hoChieu.maSo,
+                          ngayCap: all[i].hoChieu.ngayCap,
+                          noiCap: all[i].hoChieu.noiCap,
+                      }
+                    : null,
+                lopHoc: all[i].lopHoc
+                    ? {
+                          _id: all[i].populated('lopHoc'),
+                          maLH: all[i].lopHoc.maLH,
+                      }
+                    : null,
+                ngayNhapHoc: all[i].ngayNhapHoc ? all[i].ngayNhapHoc : null,
+                chuNhiem: all[i].chuNhiem
+                    ? {
+                          _id: all[i].populated('chuNhiem'),
+                          maLH: all[i].chuNhiem,
+                      }
+                    : null,
+                chucVu: all[i].chucVu
+                    ? {
+                          chucVu: all[i].chucVu.chucVu,
+                          hopDong: all[i].chucVu.hopDong,
+                          trinhDo: all[i].chucVu.trinhDo,
+                      }
+                    : null,
+            });
         }
         return result;
+    }
+
+    async getAll(condition: any = {}) {
+        const all = await this.model
+            .find(condition)
+            .populate([
+                {
+                    path: 'chuNhiem',
+                    select: 'maLH',
+                },
+                {
+                    path: 'lopHoc',
+                    select: ['maLH', 'GVCN'],
+                    populate: {
+                        path: 'GVCN',
+                        select: 'hoTen',
+                    },
+                },
+            ])
+            .exec();
+        const result = [];
+        for (let i = 0; i < all.length; i++) {
+            result.push({
+                _id: all[i]._id,
+                maND: all[i].maND,
+                hoTen: all[i].hoTen,
+                emailND: all[i].emailND,
+                diaChi: all[i].diaChi,
+                ngaySinh: all[i].ngaySinh,
+                noiSinh: all[i].noiSinh,
+                gioiTinh: all[i].gioiTinh,
+                soDienThoai: all[i].soDienThoai ? all[i].soDienThoai : null,
+                dangHoatDong: all[i].dangHoatDong,
+                quocTich: all[i].quocTich,
+                danToc: all[i].danToc,
+                cccd: all[i].cccd
+                    ? {
+                          maSo: all[i].cccd.maSo,
+                          ngayCap: all[i].cccd.ngayCap,
+                          noiCap: all[i].cccd.noiCap,
+                      }
+                    : null,
+                hoChieu: all[i].hoChieu
+                    ? {
+                          maSo: all[i].hoChieu.maSo,
+                          ngayCap: all[i].hoChieu.ngayCap,
+                          noiCap: all[i].hoChieu.noiCap,
+                      }
+                    : null,
+                hocTap: all[i].lopHoc
+                    ? {
+                          idLop: all[i].populated('lopHoc'),
+                          ngayNhapHoc: all[i].ngayNhapHoc,
+                          GVCN: all[i].lopHoc.GVCN.hoTen,
+                          lopHoc: all[i].lopHoc.maLH,
+                      }
+                    : null,
+                chuNhiem: all[i].chuNhiem ? all[i].chuNhiem.maLH : null,
+                chucVu: all[i].chucVu
+                    ? {
+                          chucVu: all[i].chucVu.chucVu,
+                          hopDong: all[i].chucVu.hopDong,
+                          trinhDo: all[i].chucVu.trinhDo,
+                      }
+                    : null,
+            });
+        }
+        return;
     }
 
     async findAll_byRole(role: RoleType) {
         const reg =
             role === 'QT-HT' ? new RegExp('QT|HT', 'i') : new RegExp(role, 'i');
-        return await this.model.find({ maND: reg });
+        return await this.findAll({ maND: reg });
     }
 
     async findAll_byClass(lop: string) {
-        return await this.model.find({ lopHoc: Object(lop) });
+        return await this.getAll();
     }
 
     async findOne_byMaND(ma: string) {
         return await this.model.findOne({ maND: ma });
     }
 
-    async findOne_byID(nd: string | NguoiDung) {
+    async getOne_byID(nd: string) {
         const user = await (
             await this.model.findById(nd)
         )
@@ -132,7 +259,7 @@ export class NguoiDungService {
             .execPopulate();
 
         return {
-            id: nd,
+            _id: nd,
             maND: user.maND,
             hoTen: user.hoTen,
             emailND: user.emailND,
@@ -174,7 +301,72 @@ export class NguoiDungService {
                       trinhDo: user.chucVu.trinhDo,
                   }
                 : null,
-            conCai: user.conCai && user.conCai.length > 0 ? user.conCai : null,
+        };
+    }
+
+    async findOne_byID(nd: string) {
+        const user = await (
+            await this.model.findById(nd)
+        )
+            .populate([
+                {
+                    path: 'chuNhiem',
+                    select: 'maLH',
+                },
+                {
+                    path: 'lopHoc',
+                    select: 'maLH',
+                },
+            ])
+            .execPopulate();
+
+        return {
+            _id: nd,
+            maND: user.maND,
+            hoTen: user.hoTen,
+            emailND: user.emailND,
+            diaChi: user.diaChi,
+            ngaySinh: user.ngaySinh,
+            noiSinh: user.noiSinh,
+            gioiTinh: user.gioiTinh,
+            soDienThoai: user.soDienThoai ? user.soDienThoai : null,
+            dangHoatDong: user.dangHoatDong,
+            quocTich: user.quocTich,
+            danToc: user.danToc,
+            cccd: user.cccd
+                ? {
+                      maSo: user.cccd.maSo,
+                      ngayCap: user.cccd.ngayCap,
+                      noiCap: user.cccd.noiCap,
+                  }
+                : null,
+            hoChieu: user.hoChieu
+                ? {
+                      maSo: user.hoChieu.maSo,
+                      ngayCap: user.hoChieu.ngayCap,
+                      noiCap: user.hoChieu.noiCap,
+                  }
+                : null,
+            ngayNhapHoc: user.ngayNhapHoc ? user.ngayNhapHoc : null,
+            lopHoc: user.lopHoc
+                ? {
+                      _id: user.populated('lopHoc'),
+                      maLH: user.lopHoc,
+                  }
+                : null,
+            chuNhiem: user.chuNhiem
+                ? {
+                      _id: user.populated('chuNhiem'),
+                      maLH: user.chuNhiem,
+                  }
+                : null,
+            chucVu: user.chucVu
+                ? {
+                      chucVu: user.chucVu.chucVu,
+                      hopDong: user.chucVu.hopDong,
+                      trinhDo: user.chucVu.trinhDo,
+                  }
+                : null,
         };
     }
 

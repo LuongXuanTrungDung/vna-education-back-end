@@ -47,7 +47,7 @@ export class DanhGiaService {
         const user = await this.ndSer.findOne_byID(hs);
         const now = new Date().getTime();
         const revs = await this.model
-            .find({ lopHoc: Object(user.hocTap.idLop), tuanDG: Object(tuan) })
+            .find({ lopHoc: Object(user.lopHoc._id), tuanDG: Object(tuan) })
             .populate([
                 {
                     path: 'giaoVien',
@@ -99,7 +99,8 @@ export class DanhGiaService {
             } else {
                 for (let j = 0; j < revs[i].chiTiet.length; j++) {
                     const t = revs[i].chiTiet[j];
-                    n = t.nguoiDG.toString() === hs
+                    n =
+                        t.nguoiDG.toString() === hs
                             ? { ...m, hocSinhDG: t }
                             : {
                                   ...m,
@@ -119,21 +120,20 @@ export class DanhGiaService {
             }
         }
 
-        return result
+        return result;
     }
 
     async findUnfinished(hs: string, tuan: string) {
         const user = await this.ndSer.findOne_byID(hs);
         const now = new Date().getTime();
         const all = await this.model
-            .find({ lopHoc: Object(user.hocTap.idLop), tuanDG: Object(tuan) })
+            .find({ lopHoc: Object(user.lopHoc._id), tuanDG: Object(tuan) })
             .populate({
                 path: 'tuanDG',
                 select: 'ngayKetThuc',
             })
             .exec();
         const result = [];
-        
 
         for (let i = 0; i < all.length; i++) {
             // còn hạn
@@ -146,19 +146,18 @@ export class DanhGiaService {
                 } else {
                     for (let j = 0; j < all[i].chiTiet.length; j++) {
                         const uid = all[i].chiTiet[j];
-                        if (uid.nguoiDG.toString() !== Object(hs).toString()){
+                        if (uid.nguoiDG.toString() !== Object(hs).toString()) {
                             result.push({
                                 _id: all[i]._id,
-                                tenDG: all[i].tenDG
-                            });                            
-                        }                          
+                                tenDG: all[i].tenDG,
+                            });
+                        }
                     }
                 }
             }
-
         }
 
-        return result
+        return result;
     }
 
     async findAll_bySubject(mon: string) {
