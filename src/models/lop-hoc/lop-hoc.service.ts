@@ -128,11 +128,24 @@ export class LopHocService {
     }
 
     async onlyGV() {
-        const all = await this.findAll();
+        const all = await this.model
+            .find()
+            .populate({
+                path: 'GVCN',
+                select: ['maND', 'hoTen'],
+            })
+            .exec();
         const result = [];
 
         for (let i = 0; i < all.length; i++) {
-            result.push(all[i].GVCN);
+            result.push({
+                chuNhiem: all[i].maLH,
+                GVCN: {
+                    _id: all[i].populated('GVCN'),
+                    maND: all[i].GVCN.maND,
+                    hoTen: all[i].GVCN.hoTen,
+                },
+            });
         }
         return result;
     }

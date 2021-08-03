@@ -20,8 +20,9 @@ export class AppController {
         return await this.service.taoLichHoc(tuan, lop);
     }
 
-	@Get('thong-tin')
-	async thongTin(@Query('user') user: string) {
-		if (user && user!='') return await this.service.thongTin_nguoiDung(user)
-	}
+    @Get('thong-tin')
+    async thongTin(@Query('user') user: string) {
+        if (user && user != '')
+            return await this.service.thongTin_nguoiDung(user);
+    }
 }

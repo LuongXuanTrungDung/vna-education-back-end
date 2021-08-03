@@ -4,7 +4,7 @@ import { Model, Types } from 'mongoose';
 import { assign } from '../../helpers/utilities';
 import { TuanHocService } from '../tuan-hoc/tuan-hoc.service';
 import { BuoiHocDto } from './buoi-hoc.dto';
-import {  BuoiHocDocument } from './buoi-hoc.entity';
+import { BuoiHocDocument } from './buoi-hoc.entity';
 
 @Injectable()
 export class BuoiHocService {

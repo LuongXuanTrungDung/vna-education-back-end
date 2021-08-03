@@ -34,7 +34,7 @@ export class TietHocService {
         });
     }
 
-    async findAll(condition: any={}) {
+    async findAll(condition: any = {}) {
         const all = await this.model
             .find()
             .populate([
@@ -84,7 +84,7 @@ export class TietHocService {
         return result;
     }
 
-    async getAll(condition: any={}) {
+    async getAll(condition: any = {}) {
         const all = await this.model
             .find()
             .populate([
@@ -166,7 +166,7 @@ export class TietHocService {
     }
 
     async findAll_byDate(buoi: string) {
-        return await this.findAll({buoiHoc: Object(buoi)})
+        return await this.findAll({ buoiHoc: Object(buoi) });
     }
 
     async update(id: string, dto: UpdateTietHocDto) {
