@@ -19,4 +19,9 @@ export class AppController {
     async layLichHoc(@Query('tuan') tuan: string, @Query('lop') lop: string) {
         return await this.service.taoLichHoc(tuan, lop);
     }
+
+	@Get('thong-tin')
+	async thongTin(@Query('user') user: string) {
+		if (user && user!='') return await this.service.thongTin_nguoiDung(user)
+	}
 }

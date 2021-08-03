@@ -39,6 +39,10 @@ export class AppService {
         }
     }
 
+	async thongTin_nguoiDung(user: string) {
+		return await this.ndSer.getOne_byID(user)
+	}
+
     async taoLichHoc(tuan: string, lop: string) {
         const week = await this.tuanSer.findOne(tuan);
         const classe = await this.lhSer.findOne(lop);
