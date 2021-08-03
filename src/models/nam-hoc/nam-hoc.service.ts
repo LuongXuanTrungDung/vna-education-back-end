@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { assign } from '../../helpers/utilities';
+import { Model, Types } from 'mongoose';
+import { assign, bulkObjectID } from '../../helpers/utilities';
 import { TuanHocService } from '../tuan-hoc/tuan-hoc.service';
 import { CreateNamHocDto } from './dto/create-nam-hoc.dto';
 import { UpdateNamHocDTO } from './dto/update-nam-hoc.dto';
@@ -111,7 +111,7 @@ export class NamHocService {
 
     async addWeeks(id: string, weeks: string[]) {
         return await this.model.findByIdAndUpdate(id, {
-            $push: { tuanHoc: { $each: weeks } },
+            $push: { tuanHoc: { $each: bulkObjectID(weeks) } },
         });
     }
 

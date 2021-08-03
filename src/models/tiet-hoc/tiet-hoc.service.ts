@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
-import { assign, objectify } from '../../helpers/utilities';
+import { assign } from '../../helpers/utilities';
 import { BuoiHocService } from '../buoi-hoc/buoi-hoc.service';
 import { DiemDanhService } from '../diem-danh/diem-danh.service';
 import { LopHocService } from '../lop-hoc/lop-hoc.service';
@@ -9,7 +9,7 @@ import { MonHocService } from '../mon-hoc/mon-hoc.service';
 import { NguoiDungService } from '../nguoi-dung/nguoi-dung.service';
 import { CreateTietHocDto } from './dto/create-tiet-hoc.dto';
 import { UpdateTietHocDto } from './dto/update-tiet-hoc.dto';
-import { TietHoc, TietHocDocument } from './tiet-hoc.entity';
+import { TietHocDocument } from './tiet-hoc.entity';
 
 @Injectable()
 export class TietHocService {
@@ -124,7 +124,6 @@ export class TietHocService {
     }
 
     async findOne(tiet: string) {
-        const dd = [];
         const cl = await (
             await this.model.findById(tiet)
         )
@@ -194,12 +193,14 @@ export class TietHocService {
     async update(id: string, dto: UpdateTietHocDto) {
         const { lopHoc, giaoVien, monHoc, diemDanh, buoiHoc, ...rest } = dto;
         return await this.model.findById(id, null, null, async (err, doc) => {
-            objectify({ lopHoc, giaoVien, monHoc, buoiHoc }, doc);
-            if (diemDanh)
-                doc.diemDanh = diemDanh.map((e) => {
-                    return Object(e);
-                });
+            if (err) throw err;
             assign(rest, doc);
+            if (lopHoc) doc.lopHoc = await this.lhSer.objectify_fromID(lopHoc);
+            if (giaoVien) doc.giaoVien = await this.ndSer.objectify(giaoVien);
+            if (monHoc) doc.monHoc = await this.mhSer.objectify(monHoc);
+            if (buoiHoc) doc.buoiHoc = await this.bhSer.objectify(buoiHoc);
+            if (diemDanh)
+                doc.diemDanh = await this.ddSer.bulkObjectify(diemDanh);
             await doc.save();
         });
     }

@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { assign } from '../../helpers/utilities';
 import { TuanHocDto } from './tuan-hoc.dto';
-import { TuanHoc, TuanHocDocument } from './tuan-hoc.entity';
+import { TuanHocDocument } from './tuan-hoc.entity';
 
 @Injectable()
 export class TuanHocService {

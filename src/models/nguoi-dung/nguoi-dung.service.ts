@@ -231,7 +231,7 @@ export class NguoiDungService {
     }
 
     async findAll_byClass(lop: string) {
-        return await this.getAll();
+        return await this.getAll({ lopHoc: Object(lop) });
     }
 
     async findOne_byMaND(ma: string) {
@@ -416,21 +416,15 @@ export class NguoiDungService {
             };
         }
 
-        if (conCai) {
-            for (let i = 0; i < conCai.length; i++) {
-                temp.push(await this.objectify(conCai[i]));
-            }
-        }
-
         return await this.model.findById(id, null, null, async (err, doc) => {
             if (err) throw err;
             assign(rest, doc);
+            if (gt) doc.cccd = gt;
+            if (ld) doc.chucVu = ld;
             if (lopHoc) doc.lopHoc = await this.lhSer.objectify_fromID(lopHoc);
             if (chuNhiem)
                 doc.chuNhiem = await this.lhSer.objectify_fromID(chuNhiem);
-            if (gt) doc.cccd = gt;
-            if (ld) doc.chucVu = ld;
-            if (conCai) doc.conCai = temp;
+            if (conCai) doc.conCai = await this.bulkObjectify(conCai);
             await doc.save();
         });
     }

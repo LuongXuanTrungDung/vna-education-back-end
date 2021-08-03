@@ -4,9 +4,6 @@ import { Model, Types } from 'mongoose';
 import {
     arrange,
     assign,
-    bulkObjectID,
-    objectify,
-    removeDuplicates,
 } from '../../helpers/utilities';
 import { LopHocService } from '../lop-hoc/lop-hoc.service';
 import { MauDanhGiaService } from '../mau-danh-gia/mau-danh-gia.service';
@@ -326,7 +323,11 @@ export class DanhGiaService {
         return await this.model.findById(id, null, null, async (err, doc) => {
             if (err) throw err;
             assign(rest, doc);
-            objectify({ monHoc, mauDG, lopHoc, giaoVien, tuanDG }, doc);
+            if (monHoc) doc.monHoc = await this.mhSer.objectify(monHoc);
+            if (mauDG) doc.mauDG = await this.mdgSer.objectify(mauDG);
+            if (lopHoc) doc.lopHoc = await this.lhSer.objectify_fromID(lopHoc);
+            if (giaoVien) doc.giaoVien = await this.ndSer.objectify(giaoVien);
+            if (tuanDG) doc.tuanDG = await this.tuanSer.objectify(tuanDG);
             await doc.save();
         });
     }

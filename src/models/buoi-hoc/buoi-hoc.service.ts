@@ -4,7 +4,7 @@ import { Model, Types } from 'mongoose';
 import { assign } from '../../helpers/utilities';
 import { TuanHocService } from '../tuan-hoc/tuan-hoc.service';
 import { BuoiHocDto } from './buoi-hoc.dto';
-import { BuoiHoc, BuoiHocDocument } from './buoi-hoc.entity';
+import {  BuoiHocDocument } from './buoi-hoc.entity';
 
 @Injectable()
 export class BuoiHocService {
@@ -17,7 +17,7 @@ export class BuoiHocService {
         return await this.model.create({
             thu: dto.thu,
             ngayHoc: dto.ngayHoc,
-            tuanHoc: Object(dto.tuanHoc),
+            tuanHoc: Types.ObjectId(dto.tuanHoc),
         });
     }
 
@@ -77,7 +77,7 @@ export class BuoiHocService {
         return await this.model.findById(id, null, null, async (err, doc) => {
             if (err) throw err;
             assign(rest, doc);
-            if (tuanHoc) doc.tuanHoc = Object(tuanHoc);
+            if (tuanHoc) doc.tuanHoc = await this.tuanSer.objectify(tuanHoc);
             await doc.save();
         });
     }

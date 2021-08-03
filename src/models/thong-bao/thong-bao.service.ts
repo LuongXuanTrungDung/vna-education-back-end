@@ -17,7 +17,7 @@ export class ThongBaoService {
         const { nguoiDang, ...rest } = dto;
         return await this.model.create({
             ...rest,
-            nguoiDang: Object(nguoiDang),
+            nguoiDang: Types.ObjectId(nguoiDang),
         });
     }
 
@@ -86,7 +86,8 @@ export class ThongBaoService {
         return await this.model.findById(id, null, null, async (err, doc) => {
             if (err) throw err;
             assign(rest, doc);
-            if (nguoiDang) doc.nguoiDang = Object(nguoiDang);
+            if (nguoiDang)
+                doc.nguoiDang = await this.ndSer.objectify(nguoiDang);
             await doc.save();
         });
     }

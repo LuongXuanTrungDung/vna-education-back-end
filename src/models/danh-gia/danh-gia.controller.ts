@@ -19,7 +19,6 @@ import {
     ApiTags,
 } from '@nestjs/swagger';
 import { AuthGuard } from '../../auth.guard';
-import { NguoiDungService } from '../nguoi-dung/nguoi-dung.service';
 import { DanhGiaService } from './danh-gia.service';
 import { CreateDanhGiaDto } from './dto/create-danh-gia.dto';
 import { UpdateDanhGiaDto } from './dto/update-danh-gia.dto';

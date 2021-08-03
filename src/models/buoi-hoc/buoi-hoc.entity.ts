@@ -1,6 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
-import { TietHoc } from '../tiet-hoc/tiet-hoc.entity';
 import { TuanHoc } from '../tuan-hoc/tuan-hoc.entity';
 
 export type BuoiHocDocument = BuoiHoc & Document;

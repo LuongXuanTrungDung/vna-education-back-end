@@ -3,7 +3,6 @@ import { compare } from 'bcrypt';
 import { removeDuplicates, weekdaySort } from './helpers/utilities';
 import { BuoiHocService } from './models/buoi-hoc/buoi-hoc.service';
 import { LopHocService } from './models/lop-hoc/lop-hoc.service';
-import { MauDanhGiaService } from './models/mau-danh-gia/mau-danh-gia.service';
 import { NguoiDungService } from './models/nguoi-dung/nguoi-dung.service';
 import { TietHocService } from './models/tiet-hoc/tiet-hoc.service';
 import { TuanHocService } from './models/tuan-hoc/tuan-hoc.service';
@@ -48,7 +47,7 @@ export class AppService {
         const result = { ...week, lopHoc: classe.maLH, buoiHoc: [] };
 
         for (let i = 0; i < tiet.length; i++) {
-            if (tiet[i].buoiHoc && tiet[i].buoiHoc.tuanHoc == week.soTuan) {
+            if (tiet[i].buoiHoc.tuanHoc === week.soTuan) {
                 const { tuanHoc, ...b } = tiet[i].buoiHoc;
                 t1.push({ ...b, tietHoc: [] });
             }
@@ -57,7 +56,7 @@ export class AppService {
 
         for (let j = 0; j < t2.length; j++) {
             for (let k = 0; k < tiet.length; k++) {
-                if (tiet[k].lopHoc && tiet[k].lopHoc == classe.maLH) {
+                if (tiet[k].lopHoc === classe.maLH) {
                     const { lopHoc, buoiHoc, ...t } = tiet[k];
                     t2[j].tietHoc.push(t);
                 }

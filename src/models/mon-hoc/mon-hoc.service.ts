@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { assign } from '../../helpers/utilities';
+import { assign, bulkObjectID } from '../../helpers/utilities';
 import { NguoiDungService } from '../nguoi-dung/nguoi-dung.service';
 import { MonHocDto } from './mon-hoc.dto';
 import { MonHoc, MonHocDocument } from './mon-hoc.entity';
@@ -14,7 +14,11 @@ export class MonHocService {
     ) {}
 
     async create(dto: MonHocDto) {
-        return await this.model.create(dto);
+        const { giaoVien, ...rest } = dto;
+        return await this.model.create({
+            ...rest,
+            giaoVien: bulkObjectID(giaoVien),
+        });
     }
 
     async forSelect() {

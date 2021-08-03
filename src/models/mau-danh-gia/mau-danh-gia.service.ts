@@ -1,6 +1,7 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { assign } from '../../helpers/utilities';
 import { DanhGiaService } from '../danh-gia/danh-gia.service';
 import { MauDanhGiaDto } from './mau-danh-gia.dto';
 import { MauDanhGia, MauDanhGiaDocument } from './mau-danh-gia.entity';
@@ -51,9 +52,7 @@ export class MauDanhGiaService {
     async update(id: string, dto: MauDanhGiaDto) {
         return await this.model.findById(id, null, null, async (err, doc) => {
             if (err) throw err;
-            if (dto.tenMau) doc.tenMau = dto.tenMau;
-            if (dto.ghiChu) doc.ghiChu = dto.ghiChu;
-            if (dto.tieuChi) doc.tieuChi = dto.tieuChi;
+            assign(dto, doc);
             await doc.save();
         });
     }
