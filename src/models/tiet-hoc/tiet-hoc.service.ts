@@ -48,11 +48,7 @@ export class TietHocService {
                         path: 'tuanHoc',
                         select: 'soTuan',
                     },
-                },
-                {
-                    path: 'diemDanh',
-                    select: ['hocSinh', 'trangThai', 'ghiChu'],
-                },
+                }
             ])
             .exec();
         const result = [];
@@ -64,9 +60,55 @@ export class TietHocService {
                 thoiGian: all[i].thoiGian_batDau,
                 giaoVien: all[i].giaoVien,
                 monHoc: all[i].monHoc,
-                lopHoc: all[i].lopHoc ? all[i].lopHoc : null,
-                buoiHoc: all[i].buoiHoc? all[i].buoiHoc: null,
-                diemDanh: all[i].diemDanh,
+                lopHoc: all[i].lopHoc ? {
+					_id: all[i].populated('lopHoc'),
+					maLH: all[i].lopHoc.maLH
+				} : null,
+                buoiHoc: all[i].buoiHoc ? {
+					_id: all[i].populated('buoiHoc'),
+					thu: all[i].buoiHoc.thu,
+					ngayHoc: all[i].buoiHoc.ngayHoc,
+					tuanHoc: all[i].buoiHoc.tuanHoc.soTuan
+				} : null,
+            });
+        }
+        return result;
+    }
+
+    async getAll() {
+        const all = await this.model
+            .find()
+            .populate([
+                { path: 'giaoVien', select: 'hoTen' },
+                { path: 'monHoc', select: 'tenMH' },
+                { path: 'lopHoc', select: 'maLH' },
+                {
+                    path: 'buoiHoc',
+                    select: ['tuanHoc', 'thu', 'ngayHoc'],
+                    populate: {
+                        path: 'tuanHoc',
+                        select: 'soTuan',
+                    },
+                },
+            ])
+            .exec();
+        const result = [];
+
+        for (let i = 0; i < all.length; i++) {
+            result.push({
+                _id: all[i]._id,
+                thuTiet: all[i].thuTiet,
+                thoiGian: all[i].thoiGian_batDau,
+                giaoVien: all[i].giaoVien.hoTen,
+                monHoc: all[i].monHoc.tenMH,
+                lopHoc: all[i].lopHoc ? all[i].lopHoc.maLH : null,
+                buoiHoc: all[i].buoiHoc
+                    ? {
+                          thu: all[i].buoiHoc.thu,
+                          ngayHoc: all[i].buoiHoc.ngayHoc,
+                          tuanHoc: all[i].buoiHoc.tuanHoc.soTuan,
+                      }
+                    : null,
             });
         }
         return result;

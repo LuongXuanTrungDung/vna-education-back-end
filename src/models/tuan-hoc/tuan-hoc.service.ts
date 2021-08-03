@@ -16,7 +16,7 @@ export class TuanHocService {
     }
 
     async findAll() {
-        const all = await this.model.find({});
+        const all = await this.model.find();
         const result = [];
         for (let i = 0; i < all.length; i++) {
             result.push({
