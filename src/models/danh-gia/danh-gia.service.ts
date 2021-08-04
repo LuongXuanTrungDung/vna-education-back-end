@@ -63,6 +63,9 @@ export class DanhGiaService {
             ])
             .exec();
 
+        // console.log(revs);
+        
+
         for (let i = 0; i < revs.length; i++) {
             let n;
             const m = {
@@ -91,26 +94,28 @@ export class DanhGiaService {
 
                 if (n) result.push(n);
             } else {
-                for (let j = 0; j < revs[i].chiTiet.length; j++) {
-                    const t = revs[i].chiTiet[j];
-                    n =
-                        t.nguoiDG.toString() === hs
-                            ? { ...m, hocSinhDG: t }
-                            : {
-                                  ...m,
-                                  hocSinhDG: {
-                                      diemDG: 0,
-                                      formDG: [],
-                                      gopY: '',
-                                      nguoiDG: hs,
-                                      trangThai: false,
-                                  },
-                              };
 
+                let x = revs[i].chiTiet.findIndex(user => {
+                    return user.nguoiDG.toString() === hs
+                })
+
+                if (x > -1) {
+                    const loopuser = revs[i].chiTiet[x]; 
+                    n = { ...m, hocSinhDG: loopuser }
                     if (arrange(revs[i].tuanDG.ngayKetThuc).getTime() < now)
-                        n.hetHan = true;
+                    n.hetHan = true;
                     if (n) result.push(n);
-                    break;
+                } else {
+                    n = { ...m, hocSinhDG: {
+                            diemDG: 0,
+                            formDG: [],
+                            gopY: '',
+                            nguoiDG: hs,
+                            trangThai: false,
+                        } }
+                    if (arrange(revs[i].tuanDG.ngayKetThuc).getTime() < now)
+                    n.hetHan = true;
+                    if (n) result.push(n);
                 }
             }
         }
@@ -130,24 +135,29 @@ export class DanhGiaService {
             .exec();
         const result = [];
 
+        console.log(all);
+        
         for (let i = 0; i < all.length; i++) {
             // còn hạn
             if (arrange(all[i].tuanDG.ngayKetThuc).getTime() > now) {
+                // loop
                 if (all[i].chiTiet.length === 0) {
+                    // trả "_id": "610a86614222fd9488ef8c4c",
+                    // "tenDG": "Đánh giá GVCN  Nguyển Sơn Tùng clone 1"
                     result.push({
                         _id: all[i]._id,
                         tenDG: all[i].tenDG,
                     });
                 } else {
-                    for (let j = 0; j < all[i].chiTiet.length; j++) {
-                        const uid = all[i].chiTiet[j];
-                        if (uid.nguoiDG.toString() !== Object(hs).toString()) {
-                            result.push({
-                                _id: all[i]._id,
-                                tenDG: all[i].tenDG,
-                            });
-                            break;
-                        }
+                    let x = all[i].chiTiet.findIndex(user => {
+                        return user.nguoiDG.toString() === Object(hs).toString()
+                    })
+
+                    if (x === -1) {
+                        result.push({
+                            _id: all[i]._id,
+                            tenDG: all[i].tenDG,
+                        });
                     }
                 }
             }
