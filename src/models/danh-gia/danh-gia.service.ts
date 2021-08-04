@@ -30,9 +30,9 @@ export class DanhGiaService {
             choGVCN: dto.choGVCN,
             tuanDG: Types.ObjectId(dto.tuanDG),
             mauDG: Types.ObjectId(dto.mauDG),
-            monHoc: Types.ObjectId(dto.monHoc),
+            monHoc: dto.monHoc ? Types.ObjectId(dto.monHoc) : dto.monHoc,
             giaoVien: Types.ObjectId(dto.giaoVien),
-            lopHoc: Types.ObjectId(dto.lopHoc),
+            lopHoc: dto.lopHoc ? Types.ObjectId(dto.lopHoc) : dto.lopHoc,
         });
     }
 

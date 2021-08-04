@@ -21,9 +21,9 @@ export class DanhGia {
     tenDG: string;
 
     @Prop({
-        required: true,
         type: MongooseSchema.Types.ObjectId,
         ref: 'lop_hoc',
+        default: null,
     })
     lopHoc: LopHoc;
 
@@ -33,6 +33,7 @@ export class DanhGia {
     @Prop({
         type: MongooseSchema.Types.ObjectId,
         ref: 'mon_hoc',
+        default: null,
     })
     monHoc: MonHoc;
 
