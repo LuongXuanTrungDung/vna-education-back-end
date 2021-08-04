@@ -14,7 +14,7 @@ export type MonHocDocument = MonHoc & Document;
 export class MonHoc {
     @Prop({ required: true }) tenMH: string;
 
-    @Prop({ required: true, default: 0, min: 0 })
+    @Prop({ default: 0, min: 0 })
     soTiet: number;
 
     @Prop() moTa: string;

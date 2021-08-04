@@ -39,7 +39,7 @@ export class NamHocService {
 
         for (let i = 0; i < all.length; i++) {
             result.push({
-                _id: all[i],
+                _id: all[i]._id,
                 tenNam: all[i].tenNam,
                 namBatDau: all[i].namBatDau,
                 namKetThuc: all[i].namKetThuc,
@@ -105,6 +105,7 @@ export class NamHocService {
             .find()
             .populate({
                 path: 'tuanHoc',
+				model: 'tuan_hoc',
                 select: [
                     'tenTuan',
                     'soTuan',
@@ -122,17 +123,7 @@ export class NamHocService {
                 tenNam: all[i].tenNam,
                 namBatDau: all[i].namBatDau,
                 namKetThuc: all[i].namKetThuc,
-                tuanHoc: all[i].tuanHoc
-                    .map((val) => {
-                        return {
-                            tenTuan: val.tenTuan,
-                            soTuan: val.soTuan,
-                            ngayBatDau: val.ngayBatDau,
-                            ngayKetThuc: val.ngayKetThuc,
-                            hocKy: val.hocKy,
-                        };
-                    })
-                    .sort((a, b) => {
+                tuanHoc: all[i].tuanHoc.sort((a, b) => {
                         return a.soTuan - b.soTuan;
                     }),
             });
@@ -142,7 +133,13 @@ export class NamHocService {
 
     async getLatest() {
         const all = await this.getAll();
-        return all[all.length - 1];
+        const thisYear = new Date().getFullYear()
+        for (let i = 0; i < all.length; i++) {
+            if (all[i].namBatDau <= thisYear && all[i].namKetThuc >= thisYear) {
+                return all[i];
+                break;
+            }
+        }
     }
 
     async getLatest_latestWeek() {
