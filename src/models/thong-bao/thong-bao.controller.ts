@@ -49,16 +49,16 @@ export class ThongBaoController {
         if (muc && muc != '') {
             switch (muc) {
                 case 'hoat-dong':
-                    return await this.service.findAll_byCatalog('Hoạt động');
+                    return await this.service.getAll_byCatalog('Hoạt động');
                     break;
                 case 'hoc-tap':
-                    return await this.service.findAll_byCatalog('Học tập');
+                    return await this.service.getAll_byCatalog('Học tập');
                     break;
                 case 'hoc-phi':
-                    return await this.service.findAll_byCatalog('Học phí');
+                    return await this.service.getAll_byCatalog('Học phí');
                     break;
                 default:
-                    return await this.service.findAll_byCatalog('Khác');
+                    return await this.service.getAll_byCatalog('Khác');
                     break;
             }
         }

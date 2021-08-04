@@ -34,39 +34,50 @@ export class LopHocService {
 
         for (let i = 0; i < all.length; i++) {
             result.push({
-                _id: all[i]._id,
+                _id: all[i],
                 maLH: all[i].maLH,
-                GVCN: all[i].GVCN,
-                hocSinh: all[i].hocSinh,
+                GVCN: all[i].GVCN
+                    ? {
+                          _id: all[i].populated('GVCN'),
+                          hoTen: all[i].GVCN.hoTen,
+                      }
+                    : null,
+                hocSinh: all[i].hocSinh.map((val, index) => {
+                    return {
+                        _id: all[i].populated('hocSinh')[index],
+                        hoTen: val.hoTen,
+                    };
+                }),
             });
         }
         return result;
     }
 
-    async findOne(lop: string | LopHoc) {
+    async findOne(lop: string) {
         const classe = await (
             await this.model.findById(lop)
         )
             .populate([
-                { path: 'GVCN', model: 'nguoi_dung' },
-                { path: 'hocSinh', model: 'nguoi_dung' },
+                { path: 'GVCN', select: 'hoTen' },
+                { path: 'hocSinh', select: 'hoTen' },
             ])
             .execPopulate();
-        const hs = [];
-
-        if (classe.hocSinh) {
-            if (classe.hocSinh.length > 0) {
-                for (let i = 0; i < classe.hocSinh.length; i++) {
-                    hs.push(classe.hocSinh[i].hoTen);
-                }
-            }
-        }
 
         return {
-            id: lop,
-            maLH: classe.maLH ? classe.maLH : null,
-            GVCN: classe.GVCN ? classe.GVCN.hoTen : null,
-            hocSinh: hs,
+            _id: lop,
+            maLH: classe.maLH,
+            GVCN: classe.GVCN
+                ? {
+                      _id: classe.populated('GVCN'),
+                      hoTen: classe.GVCN.hoTen,
+                  }
+                : null,
+            hocSinh: classe.hocSinh.map((val, index) => {
+                return {
+                    _id: classe.populated('hocSinh')[index],
+                    hoTen: val.hoTen,
+                };
+            }),
         };
     }
 
@@ -93,35 +104,6 @@ export class LopHocService {
                     _id: id,
                     maND: p.hocSinh[i].maND,
                     hoTen: p.hocSinh[i].hoTen,
-                    // emailND: p.hocSinh[i].emailND,
-                    // diaChi: p.hocSinh[i].diaChi,
-                    // ngaySinh: p.hocSinh[i].ngaySinh,
-                    // noiSinh: p.hocSinh[i].noiSinh,
-                    // gioiTinh: p.hocSinh[i].gioiTinh,
-                    // soDienThoai: p.hocSinh[i].soDienThoai
-                    //     ? p.hocSinh[i].soDienThoai
-                    //     : null,
-                    // dangHoatDong: p.hocSinh[i].dangHoatDong,
-                    // quocTich: p.hocSinh[i].quocTich,
-                    // danToc: p.hocSinh[i].danToc,
-                    // cccd: p.hocSinh[i].cccd
-                    //     ? {
-                    //           maSo: p.hocSinh[i].cccd.maSo,
-                    //           ngayCap: p.hocSinh[i].cccd.ngayCap,
-                    //           noiCap: p.hocSinh[i].cccd.noiCap,
-                    //       }
-                    //     : null,
-                    // hoChieu: p.hocSinh[i].hoChieu
-                    //     ? {
-                    //           maSo: p.hocSinh[i].hoChieu.maSo,
-                    //           ngayCap: p.hocSinh[i].hoChieu.ngayCap,
-                    //           noiCap: p.hocSinh[i].hoChieu.noiCap,
-                    //       }
-                    //     : null,
-                    // ngayNhapHoc: p.hocSinh[i].ngayNhapHoc
-                    //     ? p.hocSinh[i].ngayNhapHoc
-                    //     : null,
-                    // lopHoc: p.maLH,
                 });
         }
         return result;

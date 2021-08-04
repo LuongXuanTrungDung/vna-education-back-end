@@ -166,18 +166,13 @@ export class NguoiDungService {
                 },
                 {
                     path: 'lopHoc',
-                    select: ['maLH', 'GVCN'],
-                    populate: {
-                        path: 'GVCN',
-                        select: 'hoTen',
-                    },
+                    select: 'maLH',
                 },
             ])
             .exec();
         const result = [];
         for (let i = 0; i < all.length; i++) {
             result.push({
-                _id: all[i]._id,
                 maND: all[i].maND,
                 hoTen: all[i].hoTen,
                 emailND: all[i].emailND,
@@ -203,14 +198,8 @@ export class NguoiDungService {
                           noiCap: all[i].hoChieu.noiCap,
                       }
                     : null,
-                hocTap: all[i].lopHoc
-                    ? {
-                          idLop: all[i].populated('lopHoc'),
-                          ngayNhapHoc: all[i].ngayNhapHoc,
-                          GVCN: all[i].lopHoc.GVCN.hoTen,
-                          lopHoc: all[i].lopHoc.maLH,
-                      }
-                    : null,
+                ngayNhapHoc: all[i].ngayNhapHoc ? all[i].ngayNhapHoc : null,
+                lopHoc: all[i].lopHoc ? all[i].lopHoc.maLH : null,
                 chuNhiem: all[i].chuNhiem ? all[i].chuNhiem.maLH : null,
                 chucVu: all[i].chucVu
                     ? {
@@ -259,7 +248,6 @@ export class NguoiDungService {
             .execPopulate();
 
         return {
-            _id: nd,
             maND: user.maND,
             hoTen: user.hoTen,
             emailND: user.emailND,

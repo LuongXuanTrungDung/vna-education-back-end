@@ -35,11 +35,14 @@ export class ThongBaoService {
 
         for (let i = 0; i < news.length; i++) {
             result.push({
-                id: news[i]._id,
+                _id: news[i]._id,
                 danhMuc: news[i].danhMuc,
                 tieuDe: news[i].tieuDe,
                 tomTat: news[i].tomTat,
-                nguoiDang: news[i].nguoiDang.hoTen,
+                nguoiDang: {
+                    _id: news[i].populated('nguoiDang'),
+                    hoTen: news[i].nguoiDang.hoTen,
+                },
                 ngayDang: news[i].ngayDang,
                 noiDung: news[i].noiDung,
                 daDuyet: news[i].daDuyet,
@@ -48,14 +51,35 @@ export class ThongBaoService {
         return result;
     }
 
-    async findAll_byCatalog(catalog: string) {
-        const all = await this.findAll();
+    async getAll(condition: any = {}) {
+        const all = await this.model
+            .find(condition)
+            .populate([
+                {
+                    path: 'nguoiDang',
+                    select: 'hoTen',
+                },
+            ])
+            .exec();
         const result = [];
 
         for (let i = 0; i < all.length; i++) {
-            if (all[i].danhMuc == catalog) result.push(all[i]);
+            result.push({
+                _id: all[i]._id,
+                danhMuc: all[i].danhMuc,
+                tieuDe: all[i].tieuDe,
+                tomTat: all[i].tomTat,
+                nguoiDang: all[i].nguoiDang.hoTen,
+                ngayDang: all[i].ngayDang,
+                noiDung: all[i].noiDung,
+                daDuyet: all[i].daDuyet,
+            });
         }
         return result;
+    }
+
+    async getAll_byCatalog(catalog: string) {
+        return await this.getAll({ danhMuc: catalog });
     }
 
     async findOne(tb: string) {
@@ -70,11 +94,14 @@ export class ThongBaoService {
             ])
             .execPopulate();
         return {
-            id: tb,
+            _id: tb,
             danhMuc: ns.danhMuc,
             tieuDe: ns.tieuDe,
             tomTat: ns.tomTat,
-            nguoiDang: ns.nguoiDang.hoTen,
+            nguoiDang: {
+                _id: ns.populated('nguoiDang'),
+                hoTen: ns.nguoiDang.hoTen,
+            },
             ngayDang: ns.ngayDang,
             noiDung: ns.noiDung,
             daDuyet: ns.daDuyet,

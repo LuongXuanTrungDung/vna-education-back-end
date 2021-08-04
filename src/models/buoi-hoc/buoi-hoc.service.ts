@@ -26,13 +26,7 @@ export class BuoiHocService {
             .find()
             .populate({
                 path: 'tuanHoc',
-                select: [
-                    'soTuan',
-                    'tenTuan',
-                    'ngayBatDau',
-                    'ngayKetThuc',
-                    'hocKy',
-                ],
+                select: 'soTuan',
             })
             .exec();
         const result = [];
@@ -42,7 +36,10 @@ export class BuoiHocService {
                 _id: all[i]._id,
                 thu: all[i].thu,
                 ngayHoc: all[i].ngayHoc,
-                tuanHoc: all[i].tuanHoc,
+                tuanHoc: {
+                    _id: all[i].populated('tuanHoc'),
+                    soTuan: all[i].tuanHoc.soTuan,
+                },
             });
         }
         return result;
@@ -54,13 +51,7 @@ export class BuoiHocService {
         )
             .populate({
                 path: 'tuanHoc',
-                select: [
-                    'soTuan',
-                    'tenTuan',
-                    'ngayBatDau',
-                    'ngayKetThuc',
-                    'hocKy',
-                ],
+                select: 'soTuan',
             })
             .execPopulate();
 
@@ -68,7 +59,10 @@ export class BuoiHocService {
             _id: buoi,
             thu: b.thu,
             ngayHoc: b.ngayHoc,
-            tuanHoc: b.tuanHoc,
+            tuanHoc: {
+                _id: b.populated('tuanHoc'),
+                soTuan: b.tuanHoc.soTuan,
+            },
         };
     }
 

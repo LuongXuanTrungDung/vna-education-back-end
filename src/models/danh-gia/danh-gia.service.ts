@@ -36,7 +36,7 @@ export class DanhGiaService {
         });
     }
 
-    async findAll_byUser(hs: string, tuan: string) {
+    async getAll_byUser(hs: string, tuan: string) {
         const result = [];
         const user = await this.ndSer.findOne_byID(hs);
         const now = new Date().getTime();
@@ -118,7 +118,7 @@ export class DanhGiaService {
         return result;
     }
 
-    async findUnfinished(hs: string, tuan: string) {
+    async getUnfinished(hs: string, tuan: string) {
         const user = await this.ndSer.findOne_byID(hs);
         const now = new Date().getTime();
         const all = await this.model

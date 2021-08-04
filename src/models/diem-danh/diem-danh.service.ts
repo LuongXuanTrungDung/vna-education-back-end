@@ -30,7 +30,10 @@ export class DiemDanhService {
         for (let i = 0; i < all.length; i++) {
             result.push({
                 _id: all[i]._id,
-                hocSinh: all[i].hocSinh,
+                hocSinh: {
+                    _id: all[i].populated('hocSinh'),
+                    hoTen: all[i].hocSinh.hoTen,
+                },
                 trangThai: all[i].trangThai,
                 ghiChu: all[i].ghiChu,
             });
@@ -45,7 +48,10 @@ export class DiemDanhService {
 
         return {
             id: dd,
-            hocSinh: one.hocSinh,
+            hocSinh: {
+                _id: one.populated('hocSinh'),
+                hoTen: one.hocSinh.hoTen,
+            },
             trangThai: one.trangThai,
             ghiChu: one.ghiChu,
         };

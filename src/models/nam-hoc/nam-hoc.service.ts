@@ -22,15 +22,41 @@ export class NamHocService {
     }
 
     async findAll() {
-        const all = await this.model.find();
+        const all = await this.model
+            .find()
+            .populate({
+                path: 'tuanHoc',
+                select: [
+                    'tenTuan',
+                    'soTuan',
+                    'hocKy',
+                    'ngayBatDau',
+                    'ngayKetThuc',
+                ],
+            })
+            .exec();
         const result = [];
 
         for (let i = 0; i < all.length; i++) {
-            const { tuanHoc, ...rest } = await this.findOne(all[i]._id);
-            const w = await this.onlyWeeks(all[i]._id);
             result.push({
-                ...rest,
-                tuanHoc: w,
+                _id: all[i],
+                tenNam: all[i].tenNam,
+                namBatDau: all[i].namBatDau,
+                namKetThuc: all[i].namKetThuc,
+                tuanHoc: all[i].tuanHoc
+                    .map((val, ind) => {
+                        return {
+                            _id: all[i].populated('tuanHoc')[ind],
+                            tenTuan: val.tenTuan,
+                            soTuan: val.soTuan,
+                            ngayBatDau: val.ngayBatDau,
+                            ngayKetThuc: val.ngayKetThuc,
+                            hocKy: val.hocKy,
+                        };
+                    })
+                    .sort((a, b) => {
+                        return a.soTuan - b.soTuan;
+                    }),
             });
         }
         return result;
@@ -42,59 +68,84 @@ export class NamHocService {
         )
             .populate({
                 path: 'tuanHoc',
-                model: 'tuan_hoc',
+                select: [
+                    'tenTuan',
+                    'soTuan',
+                    'hocKy',
+                    'ngayBatDau',
+                    'ngayKetThuc',
+                ],
             })
             .execPopulate();
-        const tuan = [];
 
-        if (one.tuanHoc) {
-            for (let i = 0; i < one.tuanHoc.length; i++) {
-                tuan.push(one.tuanHoc[i]);
-            }
-        }
-
-        return await {
-            id: nam,
+        return {
+            _id: nam,
             tenNam: one.tenNam,
             namBatDau: one.namBatDau,
             namKetThuc: one.namKetThuc,
-            tuanHoc: tuan,
+            tuanHoc: one.tuanHoc
+                .map((val, ind) => {
+                    return {
+                        _id: one.populated('tuanHoc')[ind],
+                        tenTuan: val.tenTuan,
+                        soTuan: val.soTuan,
+                        ngayBatDau: val.ngayBatDau,
+                        ngayKetThuc: val.ngayKetThuc,
+                        hocKy: val.hocKy,
+                    };
+                })
+                .sort((a, b) => {
+                    return a.soTuan - b.soTuan;
+                }),
         };
     }
 
-    async onlyWeeks(nam: string) {
-        const org = await this.model.findById(nam);
-        const one = await (
-            await this.model.findById(nam)
-        )
+    async getAll() {
+        const all = await this.model
+            .find()
             .populate({
                 path: 'tuanHoc',
-                model: 'tuan_hoc',
+                select: [
+                    'tenTuan',
+                    'soTuan',
+                    'hocKy',
+                    'ngayBatDau',
+                    'ngayKetThuc',
+                ],
             })
-            .execPopulate();
-        const tuan = [];
+            .exec();
+        const result = [];
 
-        for (let i = 0; i < one.tuanHoc.length; i++) {
-            tuan.push({
-                id: org.tuanHoc[i],
-                tenTuan: one.tuanHoc[i].tenTuan,
-                soTuan: one.tuanHoc[i].soTuan,
-                ngayBatDau: one.tuanHoc[i].ngayBatDau,
-                ngayKetThuc: one.tuanHoc[i].ngayKetThuc,
-                hocKy: one.tuanHoc[i].hocKy,
-            });
+        for (let i = 0; i < all.length; i++) {
+            result
+                .push({
+                    tenNam: all[i].tenNam,
+                    namBatDau: all[i].namBatDau,
+                    namKetThuc: all[i].namKetThuc,
+                    tuanHoc: all[i].tuanHoc.map((val, ind) => {
+                        return {
+                            tenTuan: val.tenTuan,
+                            soTuan: val.soTuan,
+                            ngayBatDau: val.ngayBatDau,
+                            ngayKetThuc: val.ngayKetThuc,
+                            hocKy: val.hocKy,
+                        };
+                    }),
+                })
+                .sort((a, b) => {
+                    return a.soTuan - b.soTuan;
+                });
         }
-
-        return tuan.sort((a, b) => b.soTuan - a.soTuan);
+        return result;
     }
 
-    async findLatest() {
-        const all = await this.findAll();
+    async getLatest() {
+        const all = await this.getAll();
         return all[all.length - 1];
     }
 
-    async findLatest_latestWeek() {
-        const latest = await this.findLatest();
+    async getLatest_latestWeek() {
+        const latest = await this.getLatest();
         return latest.tuanHoc[0];
     }
 

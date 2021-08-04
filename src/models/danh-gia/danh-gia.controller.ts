@@ -60,7 +60,7 @@ export class DanhGiaController {
         @Query('hs') hs: string,
         @Query('tuan') tuan: string,
     ) {
-        return await this.service.findUnfinished(hs, tuan);
+        return await this.service.getUnfinished(hs, tuan);
     }
 
     @Get('theo')

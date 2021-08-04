@@ -21,47 +21,46 @@ export class MonHocService {
         });
     }
 
-    async forSelect() {
-        const result = [];
-        const mh = await this.findAll();
-        for (let i = 0; i < mh.length; i++) {
-            result.push({
-                id: mh[i]._id,
-                ten: mh[i].tenMH,
-            });
-        }
-        return result;
-    }
-
     async findAll() {
-        const all = await this.model.find({});
+        const all = await this.model
+            .find()
+            .populate({ path: 'giaoVien', select: 'hoTen' })
+            .exec();
+
         const result = [];
         for (let i = 0; i < all.length; i++) {
-            result.push(await this.findOne(all[i]._id));
+            result.push({
+                _id: all[i]._id,
+                tenMH: all[i].tenMH,
+                soTiet: all[i].soTiet,
+                moTa: all[i].moTa,
+                giaoVien: all[i].giaoVien.map((val, ind) => {
+                    return {
+                        _id: all[i].populated('giaoVien')[ind],
+                        hoTen: val.hoTen,
+                    };
+                }),
+            });
         }
         return result;
     }
 
-    async findOne(mon: string | MonHoc) {
-        const org = await this.model.findById(mon);
+    async findOne(mon: string) {
         const one = await (await this.model.findById(mon))
-            .populate({ path: 'giaoVien', model: 'nguoi_dung' })
+            .populate({ path: 'giaoVien', select: 'hoTen' })
             .execPopulate();
-        const gv = [];
-
-        for (let i = 0; i < one.giaoVien.length; i++) {
-            gv.push({
-                id: org.giaoVien[i],
-                hoTen: one.giaoVien[i].hoTen,
-            });
-        }
 
         return {
-            id: mon,
+            _id: mon,
             tenMH: one.tenMH,
             soTiet: one.soTiet,
             moTa: one.moTa,
-            giaoVien: gv,
+            giaoVien: one.giaoVien.map((val, ind) => {
+                return {
+                    _id: one.populated('giaoVien')[ind],
+                    hoTen: val.hoTen,
+                };
+            }),
         };
     }
 

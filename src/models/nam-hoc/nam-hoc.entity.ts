@@ -12,7 +12,7 @@ export type NamHocDocument = NamHoc & Document;
     versionKey: false,
 })
 export class NamHoc {
-    @Prop({ default: 'Năm học 1 TCN - 1 SCN', required: true }) tenNam: string;
+    @Prop({ default: '', required: true }) tenNam: string;
 
     @Prop({ default: 1 }) namBatDau: number;
 

@@ -27,11 +27,11 @@ export class HocSinhService {
     }
 
     async seeReport(hs: string) {
-        return await this.bdtSer.getOne_byHS(hs)
+        return await this.bdtSer.getOne_byHS(hs);
     }
 
     async getReviews(hs: string, week: string) {
-        return await this.dgSer.findAll_byUser(hs, week);
+        return await this.dgSer.getAll_byUser(hs, week);
     }
 
     async getReview(rev: string) {

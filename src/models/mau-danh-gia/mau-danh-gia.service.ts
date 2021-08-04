@@ -18,31 +18,24 @@ export class MauDanhGiaService {
         return await this.model.create(dto);
     }
 
-    async forSelect() {
+    async findAll() {
+        const all = await this.model.find({});
         const result = [];
-        const all = await this.findAll();
         for (let i = 0; i < all.length; i++) {
             result.push({
-                id: all[i]._id,
-                ten: all[i].tenMau,
+                _id: all[i],
+                tenMau: all[i].tenMau,
+                ghiChu: all[i].ghiChu,
+                tieuChi: all[i].tieuChi,
             });
         }
         return result;
     }
 
-    async findAll() {
-        const all = await this.model.find({});
-        const result = [];
-        for (let i = 0; i < all.length; i++) {
-            result.push(await this.findOne(all[i]._id));
-        }
-        return result;
-    }
-
-    async findOne(mau: string | MauDanhGia) {
+    async findOne(mau: string) {
         const one = await this.model.findById(mau);
         return {
-            id: mau,
+            _id: mau,
             tenMau: one.tenMau,
             ghiChu: one.ghiChu,
             tieuChi: one.tieuChi,
