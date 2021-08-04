@@ -186,3 +186,9 @@
 	- Sửa API trả nguoi_dung là GVCN
 	- Sửa API trả lịch học
 	- Thêm API trả điểm danh theo học sinh
+- 2.10.5
+	- Thêm API trả thông tin người dùng
+	- Sửa API trả tiết học theo buổi
+	- Sửa API trả bảng điểm và đánh giá
+	- Sửa API trả lịch học
+	- Tối ưu hóa
