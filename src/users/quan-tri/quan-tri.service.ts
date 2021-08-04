@@ -27,10 +27,10 @@ export class QuanTriService {
         const result = [];
 
         for (let i = 0; i < tiet.length; i++) {
-			if (tiet[i].buoiHoc.tuanHoc === week.soTuan) {
-				const { lopHoc, buoiHoc, thuTiet, thoiGian, ...t } = tiet[i];
-				result.push(t);
-			}
+            if (tiet[i].buoiHoc.tuanHoc === week.soTuan) {
+                const { lopHoc, buoiHoc, thuTiet, thoiGian, ...t } = tiet[i];
+                result.push(t);
+            }
         }
         return result;
     }

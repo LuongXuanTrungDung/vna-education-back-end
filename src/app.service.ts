@@ -51,10 +51,10 @@ export class AppService {
         const result = { ...week, lopHoc: classe.maLH, buoiHoc: [] };
 
         for (let i = 0; i < tiet.length; i++) {
-			if (tiet[i].buoiHoc.tuanHoc === week.soTuan) {
-				const { tuanHoc, ...b } = tiet[i].buoiHoc;
-				t1.push({ ...b, tietHoc: [] });
-			}
+            if (tiet[i].buoiHoc.tuanHoc === week.soTuan) {
+                const { tuanHoc, ...b } = tiet[i].buoiHoc;
+                t1.push({ ...b, tietHoc: [] });
+            }
         }
         const t2 = removeDuplicates(t1, 'ngayHoc');
 

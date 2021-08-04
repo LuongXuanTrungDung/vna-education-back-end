@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Types } from 'mongoose';
+import { Model } from 'mongoose';
 import { assign, bulkObjectID } from '../../helpers/utilities';
 import { TuanHocService } from '../tuan-hoc/tuan-hoc.service';
 import { CreateNamHocDto } from './dto/create-nam-hoc.dto';
@@ -117,12 +117,13 @@ export class NamHocService {
         const result = [];
 
         for (let i = 0; i < all.length; i++) {
-            result
-                .push({
-                    tenNam: all[i].tenNam,
-                    namBatDau: all[i].namBatDau,
-                    namKetThuc: all[i].namKetThuc,
-                    tuanHoc: all[i].tuanHoc.map((val, ind) => {
+            result.push({
+                _id: all[i]._id,
+                tenNam: all[i].tenNam,
+                namBatDau: all[i].namBatDau,
+                namKetThuc: all[i].namKetThuc,
+                tuanHoc: all[i].tuanHoc
+                    .map((val) => {
                         return {
                             tenTuan: val.tenTuan,
                             soTuan: val.soTuan,
@@ -130,10 +131,11 @@ export class NamHocService {
                             ngayKetThuc: val.ngayKetThuc,
                             hocKy: val.hocKy,
                         };
-                    }).sort((a, b) => {
-						return a.soTuan - b.soTuan;
-					}),
-                })
+                    })
+                    .sort((a, b) => {
+                        return a.soTuan - b.soTuan;
+                    }),
+            });
         }
         return result;
     }

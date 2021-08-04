@@ -4,7 +4,7 @@ import { Model } from 'mongoose';
 import { assign, bulkObjectID } from '../../helpers/utilities';
 import { NguoiDungService } from '../nguoi-dung/nguoi-dung.service';
 import { MonHocDto } from './mon-hoc.dto';
-import { MonHoc, MonHocDocument } from './mon-hoc.entity';
+import { MonHocDocument } from './mon-hoc.entity';
 
 @Injectable()
 export class MonHocService {

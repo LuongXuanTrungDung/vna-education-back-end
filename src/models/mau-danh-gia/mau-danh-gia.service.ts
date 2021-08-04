@@ -4,7 +4,7 @@ import { Model } from 'mongoose';
 import { assign } from '../../helpers/utilities';
 import { DanhGiaService } from '../danh-gia/danh-gia.service';
 import { MauDanhGiaDto } from './mau-danh-gia.dto';
-import { MauDanhGia, MauDanhGiaDocument } from './mau-danh-gia.entity';
+import { MauDanhGiaDocument } from './mau-danh-gia.entity';
 
 @Injectable()
 export class MauDanhGiaService {

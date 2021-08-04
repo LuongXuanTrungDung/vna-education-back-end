@@ -4,7 +4,7 @@ import { Model, Types } from 'mongoose';
 import { assign, RoleType } from '../../helpers/utilities';
 import { LopHocService } from '../lop-hoc/lop-hoc.service';
 import { NguoiDungDto } from './nguoi-dung.dto';
-import { NguoiDung, NguoiDungDocument } from './nguoi-dung.entity';
+import { NguoiDungDocument } from './nguoi-dung.entity';
 
 @Injectable()
 export class NguoiDungService {
@@ -385,7 +385,6 @@ export class NguoiDungService {
             lopHoc,
             ...rest
         } = dto;
-        const temp = [];
         let gt, ld;
 
         if (cccd && ngayCap && noiCap) {

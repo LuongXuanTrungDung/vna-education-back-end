@@ -4,7 +4,7 @@ import { Model, Types } from 'mongoose';
 import { bulkObjectID, diff } from '../../helpers/utilities';
 import { NguoiDungService } from '../nguoi-dung/nguoi-dung.service';
 import { LopHocDto } from './lop-hoc.dto';
-import { LopHoc, LopHocDocument } from './lop-hoc.entity';
+import { LopHocDocument } from './lop-hoc.entity';
 
 @Injectable()
 export class LopHocService {
