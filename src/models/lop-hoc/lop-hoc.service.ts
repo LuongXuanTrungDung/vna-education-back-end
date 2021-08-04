@@ -34,7 +34,7 @@ export class LopHocService {
 
         for (let i = 0; i < all.length; i++) {
             result.push({
-                _id: all[i],
+                _id: all[i]._id,
                 maLH: all[i].maLH,
                 GVCN: all[i].GVCN
                     ? {
