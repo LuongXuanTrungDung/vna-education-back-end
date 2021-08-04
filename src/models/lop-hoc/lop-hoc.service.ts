@@ -36,8 +36,13 @@ export class LopHocService {
 			result.push({
 				_id: all[i]._id,
 				maLH: all[i].maLH,
-				GVCN: all[i].GVCN
-                hocSinh: all[i].hocSinh
+				GVCN: all[i].GVCN,
+                hocSinh: all[i].hocSinh.map((val, index) => {
+					return {
+						_id: all[i].populated('hocSinh')[index],
+						hoTen: val.hoTen,
+					};
+				}),
 			});
 		}
 		return result;
@@ -84,7 +89,7 @@ export class LopHocService {
 	async onlyHS(lop: string) {
 		const result = [];
 		const p = await (await this.model.findById(lop))
-			.populate({ path: 'hocSinh', model: 'nguoi_dung' })
+			.populate({ path: 'hocSinh', select: ['maND','hoTen'] })
 			.execPopulate();
 
 		for (let i = 0; i < p.hocSinh.length; i++) {
@@ -92,8 +97,8 @@ export class LopHocService {
 			if (Types.ObjectId.isValid(id))
 				result.push({
 					_id: id,
-					maND: p.hocSinh[i].maND,
-					hoTen: p.hocSinh[i].hoTen,
+					maND: p.maND,
+					hoTen: p.hoTen,
 				});
 		}
 		return result;
