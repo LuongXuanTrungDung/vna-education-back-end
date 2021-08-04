@@ -130,11 +130,10 @@ export class NamHocService {
                             ngayKetThuc: val.ngayKetThuc,
                             hocKy: val.hocKy,
                         };
-                    }),
+                    }).sort((a, b) => {
+						return a.soTuan - b.soTuan;
+					}),
                 })
-                .sort((a, b) => {
-                    return a.soTuan - b.soTuan;
-                });
         }
         return result;
     }

@@ -36,7 +36,7 @@ export class TietHocService {
 
     async findAll(condition: any = {}) {
         const all = await this.model
-            .find()
+            .find(condition)
             .populate([
                 { path: 'giaoVien', select: 'hoTen' },
                 { path: 'monHoc', select: 'tenMH' },
@@ -86,7 +86,7 @@ export class TietHocService {
 
     async getAll(condition: any = {}) {
         const all = await this.model
-            .find()
+            .find(condition)
             .populate([
                 { path: 'giaoVien', select: 'hoTen' },
                 { path: 'monHoc', select: 'tenMH' },

@@ -18,26 +18,19 @@ export class QuanTriService {
     }
 
     async layDG_chuaXong(hs: string, tuan: string) {
-        return this.dgSer.findUnfinished(hs, tuan);
+        return this.dgSer.getUnfinished(hs, tuan);
     }
 
     async traLichHoc(tuan: string, lop: string) {
         const week = await this.tuanSer.findOne(tuan);
-        const classe = await this.lhSer.findOne(lop);
-        const tiet = await this.thSer.findAll();
+        const tiet = await this.thSer.findAll({ lopHoc: Object(lop) });
         const result = [];
 
         for (let i = 0; i < tiet.length; i++) {
-            if (
-                tiet[i].buoiHoc &&
-                tiet[i].buoiHoc.tuanHoc.soTuan == week.soTuan &&
-                tiet[i].lopHoc &&
-                tiet[i].lopHoc &&
-                tiet[i].lopHoc == classe.maLH
-            ) {
-                const { lopHoc, buoiHoc, thuTiet, thoiGian, ...t } = tiet[i];
-                result.push(t);
-            }
+			if (tiet[i].buoiHoc.tuanHoc === week.soTuan) {
+				const { lopHoc, buoiHoc, thuTiet, thoiGian, ...t } = tiet[i];
+				result.push(t);
+			}
         }
         return result;
     }
