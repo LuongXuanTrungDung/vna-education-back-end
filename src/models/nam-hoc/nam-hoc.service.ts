@@ -89,42 +89,41 @@ export class NamHocService {
         };
     }
 
-    async getAll() {
-        const all = await this.model
-            .find()
-            .populate({
-                path: 'tuanHoc',
-                select: [
-                    'tenTuan',
-                    'soTuan',
-                    'hocKy',
-                    'ngayBatDau',
-                    'ngayKetThuc',
-                ],
-            })
-            .exec();
-        const result = [];
-
-        for (let i = 0; i < all.length; i++) {
-            result.push({
-                _id: all[i]._id,
-                tenNam: all[i].tenNam,
-                namBatDau: all[i].namBatDau,
-                namKetThuc: all[i].namKetThuc,
-                tuanHoc: all[i].tuanHoc.sort((a, b) => {
-                    return b.soTuan - a.soTuan;
-                }),
-            });
-        }
-        return result;
-    }
-
     async getLatest() {
-        const all = await this.getAll();
+        const agg = await this.model.aggregate([
+            {
+                $lookup: {
+                    from: 'tuan_hoc',
+                    localField: 'tuanHoc',
+                    foreignField: '_id',
+                    as: 'tuanHoc',
+                },
+            },
+            { $unwind: '$tuanHoc' },
+            {
+                $project: {
+                    tenNam: 1,
+                    namBatDau: 1,
+                    namKetThuc: 1,
+                    tuanHoc: {
+                        tenTuan: '$tuanHoc.tenTuan',
+                        soTuan: '$tuanHoc.soTuan',
+                        hocKy: '$tuanHoc.hocKy',
+                        ngayBatDau: '$tuanHoc.ngayBatDau',
+                        ngayKetThuc: '$tuanHoc.ngayKetThuc',
+                    },
+                },
+            },
+        ]);
+
+        agg.sort((a, b) => {
+            return b.tuanHoc.soTuan - a.tuanHoc.soTuan;
+        });
+
         const thisYear = new Date().getFullYear();
-        for (let i = 0; i < all.length; i++) {
-            if (all[i].namBatDau <= thisYear && all[i].namKetThuc >= thisYear) {
-                return all[i];
+        for (let i = 0; i < agg.length; i++) {
+            if (agg[i].namBatDau <= thisYear && agg[i].namKetThuc >= thisYear) {
+                return agg[i];
                 break;
             }
         }
@@ -132,7 +131,7 @@ export class NamHocService {
 
     async getLatest_latestWeek() {
         const latest = await this.getLatest();
-        return latest.tuanHoc[0];
+        return latest.tuanHoc;
     }
 
     async update(id: string, dto: UpdateNamHocDTO) {
