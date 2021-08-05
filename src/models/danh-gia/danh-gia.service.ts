@@ -134,7 +134,9 @@ export class DanhGiaService {
             })
             .exec();
         const result = [];
-
+      
+        console.log(all);
+      
         for (let i = 0; i < all.length; i++) {
             // còn hạn
             if (arrange(all[i].tuanDG.ngayKetThuc).getTime() > now) {

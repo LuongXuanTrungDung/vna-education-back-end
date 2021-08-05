@@ -106,19 +106,19 @@ export class NamHocService {
 			.exec();
 		const result = [];
 
-		for (let i = 0; i < all.length; i++) {
-			result.push({
-				_id: all[i]._id,
-				tenNam: all[i].tenNam,
-				namBatDau: all[i].namBatDau,
-				namKetThuc: all[i].namKetThuc,
-				tuanHoc: all[i].tuanHoc.sort((a, b) => {
-					return a.soTuan - b.soTuan;
-				}),
-			});
-		}
-		return result;
-	}
+        for (let i = 0; i < all.length; i++) {
+            result.push({
+                _id: all[i]._id,
+                tenNam: all[i].tenNam,
+                namBatDau: all[i].namBatDau,
+                namKetThuc: all[i].namKetThuc,
+                tuanHoc: all[i].tuanHoc.sort((a, b) => {
+                        return b.soTuan - a.soTuan;
+                    }),
+            });
+        }
+        return result;
+    }
 
 	async getLatest() {
 		const all = await this.getAll();

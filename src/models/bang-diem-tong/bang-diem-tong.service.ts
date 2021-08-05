@@ -100,6 +100,9 @@ export class BangDiemTongService {
             .exec();
         const result = [];
 
+        // console.log(all);
+        
+
         for (let i = 0; i < all.length; i++) {
             result.push({
                 _id: all[i]._id,
@@ -118,8 +121,8 @@ export class BangDiemTongService {
 
     async getOne_byHS(hs: string) {
         const m = await this.bdMSer.getAll_byHS(hs);
-        const t = await this.getAll({ hocSinh: Object(hs) })[0];
-        return { ...t, bangDiemMon: m };
+        const t = await this.getAll({hocSinh: Object(hs)});
+        return { ...t[0], bangDiemMon: m };
     }
 
     async findOne(rec: string) {
