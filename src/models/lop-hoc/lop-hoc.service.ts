@@ -97,8 +97,8 @@ export class LopHocService {
 			if (Types.ObjectId.isValid(id))
 				result.push({
 					_id: id,
-					maND: p.maND,
-					hoTen: p.hoTen,
+					maND: p.hocSinh[i].maND,
+					hoTen: p.hocSinh[i].hoTen,
 				});
 		}
 		return result;
