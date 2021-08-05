@@ -219,6 +219,23 @@ export class NguoiDungService {
         return await this.findAll({ maND: reg });
     }
 
+	async groupInfo(group: string[]) {
+		const result = []
+		for (let i = 0; i < group.length; i++) {
+			result.push(await this.quickInfo(group[i]))
+		}
+		return result
+	}
+
+	async quickInfo(user: string) {
+		const one = await this.model.findById(user)
+		return {
+			_id: user,
+			maND: one.maND,
+            hoTen: one.hoTen,
+		}
+	}
+
     async findAll_byClass(lop: string) {
         return await this.getAll({ lopHoc: Types.ObjectId(lop) });
     }

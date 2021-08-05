@@ -14,8 +14,12 @@ export class HocSinhService {
         private readonly ddSer: DiemDanhService,
     ) {}
 
-    async enroll(hs: string[], lop: string) {
-        return await this.lhSer.addHS(hs, lop);
+    async enrollMore(hs: string[], lop: string) {
+        return await this.lhSer.addBulkHS(hs, lop);
+    }
+
+    async enrollOne(hs: string, lop: string) {
+        return await this.lhSer.addOneHS(hs, lop);
     }
 
     async makeReview(id: string, dto: HSDGDto) {

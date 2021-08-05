@@ -20,8 +20,13 @@ export class HocSinhController {
     constructor(private service: HocSinhService) {}
 
     @Patch('vao-lop/:lop')
-    async vaoLop(@Body() hs: string[], @Param('lop') lop: string) {
-        return await this.service.enroll(hs, lop);
+    async vaoLop_nhieuHS(@Body() hs: string[], @Param('lop') lop: string) {
+        return await this.service.enrollMore(hs, lop);
+    }
+
+    @Patch(':hs/vao-lop/:lop')
+    async vaoLop_motHS(@Param('hs') hs: string, @Param('lop') lop: string) {
+        return await this.service.enrollOne(hs, lop);
     }
 
     @Get(':hs/diem-so')
