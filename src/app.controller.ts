@@ -20,6 +20,12 @@ export class AppController {
         return await this.service.taoLichHoc(tuan, lop);
     }
 
+	@Get('lich-hoc-v2')
+	@UseGuards(AuthGuard)
+    async layLichHoc_v2(@Query('tuan') tuan: string, @Query('lop') lop: string) {
+        return await this.service.taoLichHoc_v2(tuan, lop);
+    }
+
     @Get('thong-tin')
     async thongTin(@Query('user') user: string) {
         if (user && user != '')

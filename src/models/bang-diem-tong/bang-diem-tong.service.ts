@@ -101,7 +101,6 @@ export class BangDiemTongService {
         const result = [];
 
         // console.log(all);
-        
 
         for (let i = 0; i < all.length; i++) {
             result.push({
@@ -121,7 +120,7 @@ export class BangDiemTongService {
 
     async getOne_byHS(hs: string) {
         const m = await this.bdMSer.getAll_byHS(hs);
-        const t = await this.getAll({hocSinh: Object(hs)});
+        const t = await this.getAll({ hocSinh: Object(hs) });
         return { ...t[0], bangDiemMon: m };
     }
 

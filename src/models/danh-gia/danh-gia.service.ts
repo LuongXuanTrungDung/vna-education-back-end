@@ -65,7 +65,6 @@ export class DanhGiaService {
 
         // console.log(revs);
 
-
         for (let i = 0; i < revs.length; i++) {
             let n;
             const m = {
@@ -94,27 +93,29 @@ export class DanhGiaService {
 
                 if (n) result.push(n);
             } else {
-
-                let x = revs[i].chiTiet.findIndex(user => {
-                    return user.nguoiDG.toString() === hs
-                })
+                const x = revs[i].chiTiet.findIndex((user) => {
+                    return user.nguoiDG.toString() === hs;
+                });
 
                 if (x > -1) {
                     const loopuser = revs[i].chiTiet[x];
-                    n = { ...m, hocSinhDG: loopuser }
+                    n = { ...m, hocSinhDG: loopuser };
                     if (arrange(revs[i].tuanDG.ngayKetThuc).getTime() < now)
-                    n.hetHan = true;
+                        n.hetHan = true;
                     if (n) result.push(n);
                 } else {
-                    n = { ...m, hocSinhDG: {
+                    n = {
+                        ...m,
+                        hocSinhDG: {
                             diemDG: 0,
                             formDG: [],
                             gopY: '',
                             nguoiDG: hs,
                             trangThai: false,
-                        } }
+                        },
+                    };
                     if (arrange(revs[i].tuanDG.ngayKetThuc).getTime() < now)
-                    n.hetHan = true;
+                        n.hetHan = true;
                     if (n) result.push(n);
                 }
             }
@@ -134,9 +135,9 @@ export class DanhGiaService {
             })
             .exec();
         const result = [];
-      
+
         console.log(all);
-      
+
         for (let i = 0; i < all.length; i++) {
             // còn hạn
             if (arrange(all[i].tuanDG.ngayKetThuc).getTime() > now) {
@@ -149,9 +150,11 @@ export class DanhGiaService {
                         tenDG: all[i].tenDG,
                     });
                 } else {
-                    let x = all[i].chiTiet.findIndex(user => {
-                        return user.nguoiDG.toString() === Object(hs).toString()
-                    })
+                    const x = all[i].chiTiet.findIndex((user) => {
+                        return (
+                            user.nguoiDG.toString() === Object(hs).toString()
+                        );
+                    });
 
                     if (x === -1) {
                         result.push({

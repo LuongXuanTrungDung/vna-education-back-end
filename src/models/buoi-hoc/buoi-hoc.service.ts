@@ -45,6 +45,27 @@ export class BuoiHocService {
         return result;
     }
 
+    async getAll(condition: any = {}) {
+        const all = await this.model
+            .find(condition)
+            .populate({
+                path: 'tuanHoc',
+                select: 'soTuan',
+            })
+            .exec();
+        const result = [];
+
+        for (let i = 0; i < all.length; i++) {
+            result.push({
+                _id: all[i]._id,
+                thu: all[i].thu,
+                ngayHoc: all[i].ngayHoc,
+                tuanHoc: all[i].tuanHoc.soTuan,
+            });
+        }
+        return result;
+    }
+
     async findOne(buoi: string) {
         const b = await (
             await this.model.findById(buoi)

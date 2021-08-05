@@ -72,4 +72,37 @@ export class AppService {
         });
         return result;
     }
+
+    async taoLichHoc_v2(tuan: string, lop: string) {
+        const week = await this.tuanSer.findOne(tuan);
+        const classe = await this.lhSer.findOne(lop);
+        const buoi = await this.bhSer.getAll({ tuanHoc: Object(tuan) });
+        const tiet = await this.thSer.getAll({ lopHoc: Object(lop) });
+
+        const temp = [];
+        const result = { ...week, lopHoc: classe.maLH, buoiHoc: [] };
+
+        for (let i = 0; i < buoi.length; i++) {
+            const { tuanHoc, ...b } = buoi[i];
+            temp.push({ ...b, tietHoc: [] });
+        }
+
+        for (let j = 0; j < temp.length; j++) {
+            for (let k = 0; k < tiet.length; k++) {
+                if (
+                    tiet[k].buoiHoc.thu === temp[j].thu &&
+                    tiet[k].buoiHoc.ngayHoc === temp[j].ngayHoc
+                ) {
+                    const { lopHoc, buoiHoc, ...t } = tiet[k];
+                    temp[j].tietHoc.push(t);
+                }
+            }
+        }
+
+        result.buoiHoc = temp;
+        result.buoiHoc.sort((a, b) => {
+            return weekdaySort(a.thu, b.thu);
+        });
+        return result;
+    }
 }
