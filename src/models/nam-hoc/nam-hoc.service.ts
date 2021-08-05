@@ -124,7 +124,7 @@ export class NamHocService {
                 namBatDau: all[i].namBatDau,
                 namKetThuc: all[i].namKetThuc,
                 tuanHoc: all[i].tuanHoc.sort((a, b) => {
-                        return a.soTuan - b.soTuan;
+                        return b.soTuan - a.soTuan;
                     }),
             });
         }
