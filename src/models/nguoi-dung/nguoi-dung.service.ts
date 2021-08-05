@@ -220,7 +220,7 @@ export class NguoiDungService {
     }
 
     async findAll_byClass(lop: string) {
-        return await this.getAll({ lopHoc: Object(lop) });
+        return await this.getAll({ lopHoc: Types.ObjectId(lop) });
     }
 
     async findOne_byMaND(ma: string) {

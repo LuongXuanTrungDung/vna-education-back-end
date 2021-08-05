@@ -1,7 +1,7 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
-import { bulkObjectID, diff } from '../../helpers/utilities';
+import { bulkObjectID, removeDuplicates } from '../../helpers/utilities';
 import { NguoiDungService } from '../nguoi-dung/nguoi-dung.service';
 import { LopHocDto } from './lop-hoc.dto';
 import { LopHocDocument } from './lop-hoc.entity';
@@ -79,11 +79,15 @@ export class LopHocService {
     async addHS(hs: string[], lop: string) {
         const students = await this.ndSer.bulkObjectify(hs);
         const classe = (await this.model.findById(lop)).hocSinh;
-        const result = diff(classe, students);
+        const joiner = removeDuplicates(classe.concat(students), '_id');
 
-        return await this.model.findByIdAndUpdate(lop, {
-            $push: { hocSinh: { $each: result } },
-        });
+        return await this.model.findByIdAndUpdate(
+            lop,
+            {
+                $set: { hocSinh: joiner },
+            },
+            { new: true },
+        );
     }
 
     async onlyHS(lop: string) {

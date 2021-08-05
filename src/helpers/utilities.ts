@@ -18,16 +18,6 @@ export function assign(dto: any, doc: any) {
     }
 }
 
-export function diff(array_1: any[], array_2: any[]) {
-    const arr = array_2.concat(array_1);
-    const result = [];
-
-    for (let i = 0; i < arr.length; i++) {
-        if (array_1.indexOf(arr[i]) === -1) result.push(arr[i]);
-    }
-    return result;
-}
-
 // by Kannan of Chennai
 export function removeDuplicates(arr: any, key: string) {
     const flag = {};
