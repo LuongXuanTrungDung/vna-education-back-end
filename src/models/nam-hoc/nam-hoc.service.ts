@@ -106,6 +106,7 @@ export class NamHocService {
                     namBatDau: 1,
                     namKetThuc: 1,
                     tuanHoc: {
+                        _id: '$tuanHoc._id',
                         tenTuan: '$tuanHoc.tenTuan',
                         soTuan: '$tuanHoc.soTuan',
                         hocKy: '$tuanHoc.hocKy',
