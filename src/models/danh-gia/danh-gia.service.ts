@@ -64,7 +64,7 @@ export class DanhGiaService {
             .exec();
 
         // console.log(revs);
-        
+
 
         for (let i = 0; i < revs.length; i++) {
             let n;
@@ -100,7 +100,7 @@ export class DanhGiaService {
                 })
 
                 if (x > -1) {
-                    const loopuser = revs[i].chiTiet[x]; 
+                    const loopuser = revs[i].chiTiet[x];
                     n = { ...m, hocSinhDG: loopuser }
                     if (arrange(revs[i].tuanDG.ngayKetThuc).getTime() < now)
                     n.hetHan = true;
@@ -134,9 +134,9 @@ export class DanhGiaService {
             })
             .exec();
         const result = [];
-
-        // console.log(all);
-        
+      
+        console.log(all);
+      
         for (let i = 0; i < all.length; i++) {
             // còn hạn
             if (arrange(all[i].tuanDG.ngayKetThuc).getTime() > now) {
