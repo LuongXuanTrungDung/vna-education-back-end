@@ -89,7 +89,7 @@ export class NamHocService {
         };
     }
 
-    async getLatest() {
+    async getAll() {
         const agg = await this.model.aggregate([
             {
                 $lookup: {
@@ -99,28 +99,23 @@ export class NamHocService {
                     as: 'tuanHoc',
                 },
             },
-            { $unwind: '$tuanHoc' },
             {
                 $project: {
                     tenNam: 1,
                     namBatDau: 1,
                     namKetThuc: 1,
-                    tuanHoc: {
-                        _id: '$tuanHoc._id',
-                        tenTuan: '$tuanHoc.tenTuan',
-                        soTuan: '$tuanHoc.soTuan',
-                        hocKy: '$tuanHoc.hocKy',
-                        ngayBatDau: '$tuanHoc.ngayBatDau',
-                        ngayKetThuc: '$tuanHoc.ngayKetThuc',
-                    },
+                    tuanHoc: 1
                 },
             },
         ]);
 
-        agg.sort((a, b) => {
+        return agg.sort((a, b) => {
             return b.tuanHoc.soTuan - a.tuanHoc.soTuan;
         });
+    }
 
+    async getLatest() {
+        const agg = await this.getAll();
         const thisYear = new Date().getFullYear();
         for (let i = 0; i < agg.length; i++) {
             if (agg[i].namBatDau <= thisYear && agg[i].namKetThuc >= thisYear) {
