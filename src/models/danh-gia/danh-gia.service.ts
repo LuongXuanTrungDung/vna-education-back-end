@@ -25,15 +25,24 @@ export class DanhGiaService {
     ) {}
 
     async create(dto: CreateDanhGiaDto) {
-        return await this.model.create({
+        let toCreate = {
             tenDG: dto.tenDG,
             choGVCN: dto.choGVCN,
             tuanDG: Types.ObjectId(dto.tuanDG),
             mauDG: Types.ObjectId(dto.mauDG),
-            monHoc: dto.monHoc ? Types.ObjectId(dto.monHoc) : dto.monHoc,
             giaoVien: Types.ObjectId(dto.giaoVien),
-            lopHoc: dto.lopHoc ? Types.ObjectId(dto.lopHoc) : dto.lopHoc,
-        });
+        };
+
+        if (dto.monHoc)
+            toCreate = Object.assign(toCreate, {
+                monHoc: Types.ObjectId(dto.monHoc),
+            });
+        if (dto.lopHoc)
+            toCreate = Object.assign(toCreate, {
+                lopHoc: Types.ObjectId(dto.lopHoc),
+            });
+
+        return await this.model.create(toCreate);
     }
 
     async getAll_byUser(hs: string, tuan: string) {
@@ -70,7 +79,7 @@ export class DanhGiaService {
             const m = {
                 _id: revs[i]._id,
                 tenDG: revs[i].tenDG,
-                monHoc: revs[i].monHoc.tenMH,
+                monHoc: revs[i].monHoc?.tenMH,
                 giaoVien: revs[i].giaoVien.hoTen,
                 choGVCN: revs[i].choGVCN,
                 tuanDG: revs[i].tuanDG.soTuan,
@@ -203,10 +212,12 @@ export class DanhGiaService {
                 _id: all[i]._id,
                 tenDG: all[i].tenDG,
                 tieuChi: all[i].mauDG.tieuChi,
-                monHoc: {
-                    _id: all[i].populated('monHoc'),
-                    tenMH: all[i].monHoc.tenMH,
-                },
+                monHoc: all[i].monHoc
+                    ? {
+                          _id: all[i].populated('monHoc'),
+                          tenMH: all[i].monHoc.tenMH,
+                      }
+                    : null,
                 giaoVien: {
                     _id: all[i].populated('giaoVien'),
                     hoTen: all[i].giaoVien.hoTen,
@@ -220,10 +231,12 @@ export class DanhGiaService {
                     _id: all[i].populated('tuanDG'),
                     soTuan: all[i].tuanDG.soTuan,
                 },
-                lopHoc: {
-                    _id: all[i].populated('lopHoc'),
-                    maLH: all[i].lopHoc.maLH,
-                },
+                lopHoc: all[i].lopHoc
+                    ? {
+                          _id: all[i].populated('lopHoc'),
+                          maLH: all[i].lopHoc.maLH,
+                      }
+                    : null,
                 chiTiet: all[i].chiTiet,
             });
         }
@@ -257,10 +270,12 @@ export class DanhGiaService {
             _id: id,
             tenDG: one.tenDG,
             tieuChi: one.mauDG.tieuChi,
-            monHoc: {
-                _id: one.populated('monHoc'),
-                tenMH: one.monHoc.tenMH,
-            },
+            monHoc: one.monHoc
+                ? {
+                      _id: one.populated('monHoc'),
+                      tenMH: one.monHoc.tenMH,
+                  }
+                : null,
             giaoVien: {
                 _id: one.populated('giaoVien'),
                 hoTen: one.giaoVien.hoTen,
@@ -274,10 +289,12 @@ export class DanhGiaService {
                 _id: one.populated('tuanDG'),
                 soTuan: one.tuanDG.soTuan,
             },
-            lopHoc: {
-                _id: one.populated('lopHoc'),
-                maLH: one.lopHoc.maLH,
-            },
+            lopHoc: one.lopHoc
+                ? {
+                      _id: one.populated('lopHoc'),
+                      maLH: one.lopHoc.maLH,
+                  }
+                : null,
             chiTiet: one.chiTiet,
         };
     }
@@ -317,14 +334,16 @@ export class DanhGiaService {
             tuanDG: one.tuanDG.soTuan,
             giaoVien: one.giaoVien.hoTen,
             choGVCN: one.choGVCN,
-            monHoc: one.monHoc.tenMH,
+            monHoc: one.monHoc?.tenMH,
             ...n,
-            chiTiet: {
-                idLop: one.populated('lopHoc'),
-                lopHoc: one.lopHoc.maLH,
-                siSo: one.lopHoc.hocSinh.length,
-                hocSinhDG: one.chiTiet,
-            },
+            chiTiet: one.lopHoc
+                ? {
+                      idLop: one.populated('lopHoc'),
+                      lopHoc: one.lopHoc.maLH,
+                      siSo: one.lopHoc.hocSinh.length,
+                      hocSinhDG: one.chiTiet,
+                  }
+                : null,
         };
     }
 
