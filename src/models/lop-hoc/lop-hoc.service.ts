@@ -77,46 +77,49 @@ export class LopHocService {
     }
 
     async addBulkHS(hs: string[], lop: string) {
-        const classe = await this.onlyHS(lop)
-		const students = await this.ndSer.groupInfo(hs)
-		const toAdd = []
+        const classe = await this.onlyHS(lop);
+        const students = await this.ndSer.groupInfo(hs);
+        const toAdd = [];
 
-		for (let i = 0; i < classe.length; i++) {
-			for (let j = 0; j < students.length; j++) {
-				if (students[j].maND !== classe[i].maND) toAdd.push(students[i]._id)
-			}
-		}
+        for (let i = 0; i < classe.length; i++) {
+            for (let j = 0; j < students.length; j++) {
+                if (students[j].maND !== classe[i].maND)
+                    toAdd.push(students[i]._id);
+            }
+        }
 
         return await this.model.findByIdAndUpdate(
             lop,
             {
-                $push: { hocSinh: {$each: toAdd} },
+                $push: { hocSinh: { $each: toAdd } },
             },
-            { new: true }
+            { new: true },
         );
     }
 
-
     async addOneHS(hs: string, lop: string) {
-		let isDupl = false
+        let isDupl = false;
         const classe = await this.onlyHS(lop);
-		const student = await this.ndSer.quickInfo(hs)
+        const student = await this.ndSer.quickInfo(hs);
 
-		for (let i = 0; i < classe.length; i++) {
-			if (student.maND === classe[i]) {
-				isDupl=true
-				break
-			}
-		}
+        for (let i = 0; i < classe.length; i++) {
+            if (student[0].maND === classe[i]) {
+                isDupl = true;
+                break;
+            }
+        }
 
-        return (!isDupl) ? await this.model.findByIdAndUpdate(
-            lop,
-            {
-                $push: { hocSinh: Types.ObjectId(hs) },
-            },
-            { new: true },
-        ): classe
+        return !isDupl
+            ? await this.model.findByIdAndUpdate(
+                  lop,
+                  {
+                      $push: { hocSinh: Types.ObjectId(hs) },
+                  },
+                  { new: true },
+              )
+            : classe;
     }
+
     async onlyHS(lop: string) {
         const result = [];
         const p = await (await this.model.findById(lop))

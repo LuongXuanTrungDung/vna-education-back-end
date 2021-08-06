@@ -1,7 +1,7 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
-import { assign, RoleType } from '../../helpers/utilities';
+import { assign, bulkObjectID, RoleType } from '../../helpers/utilities';
 import { LopHocService } from '../lop-hoc/lop-hoc.service';
 import { NguoiDungDto } from './nguoi-dung.dto';
 import { NguoiDungDocument } from './nguoi-dung.entity';
@@ -219,22 +219,33 @@ export class NguoiDungService {
         return await this.findAll({ maND: reg });
     }
 
-	async groupInfo(group: string[]) {
-		const result = []
-		for (let i = 0; i < group.length; i++) {
-			result.push(await this.quickInfo(group[i]))
-		}
-		return result
-	}
+    async groupInfo(group: string[]) {
+        return await this.model.aggregate([
+            {
+                $match: { _id: { $all: bulkObjectID(group) } },
+            },
+            {
+                $project: {
+                    maND: 1,
+                    hoTen: 1,
+                },
+            },
+        ]);
+    }
 
-	async quickInfo(user: string) {
-		const one = await this.model.findById(user)
-		return {
-			_id: user,
-			maND: one.maND,
-            hoTen: one.hoTen,
-		}
-	}
+    async quickInfo(user: string) {
+        return await this.model.aggregate([
+            {
+                $match: { _id: Types.ObjectId(user) },
+            },
+            {
+                $project: {
+                    maND: 1,
+                    hoTen: 1,
+                },
+            },
+        ]);
+    }
 
     async findAll_byClass(lop: string) {
         return await this.getAll({ lopHoc: Types.ObjectId(lop) });
