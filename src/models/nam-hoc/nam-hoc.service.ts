@@ -43,20 +43,7 @@ export class NamHocService {
                 tenNam: all[i].tenNam,
                 namBatDau: all[i].namBatDau,
                 namKetThuc: all[i].namKetThuc,
-                tuanHoc: all[i].tuanHoc
-                    .map((val, ind) => {
-                        return {
-                            _id: all[i].populated('tuanHoc')[ind],
-                            tenTuan: val.tenTuan,
-                            soTuan: val.soTuan,
-                            ngayBatDau: val.ngayBatDau,
-                            ngayKetThuc: val.ngayKetThuc,
-                            hocKy: val.hocKy,
-                        };
-                    })
-                    .sort((a, b) => {
-                        return a.soTuan - b.soTuan;
-                    }),
+                tuanHoc: all[i].tuanHoc,
             });
         }
         return result;
@@ -90,7 +77,7 @@ export class NamHocService {
     }
 
     async getAll() {
-        const agg = await this.model.aggregate([
+        return await this.model.aggregate([
             {
                 $lookup: {
                     from: 'tuan_hoc',
@@ -104,14 +91,10 @@ export class NamHocService {
                     tenNam: 1,
                     namBatDau: 1,
                     namKetThuc: 1,
-                    tuanHoc: 1
+                    tuanHoc: 1,
                 },
             },
         ]);
-
-        return agg.sort((a, b) => {
-            return b.tuanHoc.soTuan - a.tuanHoc.soTuan;
-        });
     }
 
     async getLatest() {
@@ -119,15 +102,17 @@ export class NamHocService {
         const thisYear = new Date().getFullYear();
         for (let i = 0; i < agg.length; i++) {
             if (agg[i].namBatDau <= thisYear && agg[i].namKetThuc >= thisYear) {
+                agg[i].tuanHoc.sort((a, b) => {
+                    return b.soTuan - a.soTuan;
+                });
                 return agg[i];
-                break;
             }
         }
     }
 
     async getLatest_latestWeek() {
         const latest = await this.getLatest();
-        return latest.tuanHoc[latest.tuanHoc.length-1];
+        return latest.tuanHoc[0];
     }
 
     async update(id: string, dto: UpdateNamHocDTO) {
