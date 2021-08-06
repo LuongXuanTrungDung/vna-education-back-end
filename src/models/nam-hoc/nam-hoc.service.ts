@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { assign, bulkObjectID } from '../../helpers/utilities';
 import { TuanHocService } from '../tuan-hoc/tuan-hoc.service';
 import { CreateNamHocDto } from './dto/create-nam-hoc.dto';
@@ -21,59 +21,25 @@ export class NamHocService {
         });
     }
 
-    async findAll() {
-        const all = await this.model
-            .find()
-            .populate({
-                path: 'tuanHoc',
-                select: [
-                    'tenTuan',
-                    'soTuan',
-                    'hocKy',
-                    'ngayBatDau',
-                    'ngayKetThuc',
-                ],
-            })
-            .exec();
-        const result = [];
-
-        for (let i = 0; i < all.length; i++) {
-            result.push({
-                _id: all[i]._id,
-                tenNam: all[i].tenNam,
-                namBatDau: all[i].namBatDau,
-                namKetThuc: all[i].namKetThuc,
-                tuanHoc: all[i].tuanHoc,
-            });
-        }
-        return result;
-    }
-
-    async findOne(nam: string) {
-        const one = await (
-            await this.model.findById(nam)
-        )
-            .populate({
-                path: 'tuanHoc',
-                select: [
-                    'tenTuan',
-                    'soTuan',
-                    'hocKy',
-                    'ngayBatDau',
-                    'ngayKetThuc',
-                ],
-            })
-            .execPopulate();
-
-        return {
-            _id: nam,
-            tenNam: one.tenNam,
-            namBatDau: one.namBatDau,
-            namKetThuc: one.namKetThuc,
-            tuanHoc: one.tuanHoc.sort((a, b) => {
-                return a.soTuan - b.soTuan;
-            }),
-        };
+    async getOne(nam: string) {
+        return await this.model.aggregate([{$match: {_id: Types.ObjectId(nam)}},
+            {
+                $lookup: {
+                    from: 'tuan_hoc',
+                    localField: 'tuanHoc',
+                    foreignField: '_id',
+                    as: 'tuanHoc',
+                },
+            },
+            {
+                $project: {
+                    tenNam: 1,
+                    namBatDau: 1,
+                    namKetThuc: 1,
+                    tuanHoc: 1,
+                },
+            },
+        ]);
     }
 
     async getAll() {

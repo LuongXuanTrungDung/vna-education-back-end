@@ -27,7 +27,7 @@ export class NamHocController {
 
     @Get()
     async findAll() {
-        return await this.service.findAll();
+        return await this.service.getAll()
     }
 
     @Get('gan-nhat')
@@ -42,7 +42,7 @@ export class NamHocController {
 
     @Get(':id')
     async findOne(@Param('id') id: string) {
-        return await this.service.findOne(id);
+        return await this.service.getOne(id)
     }
 
     @Patch(':id/them-tuan')

@@ -23,7 +23,7 @@ export class MauDanhGiaService {
         const result = [];
         for (let i = 0; i < all.length; i++) {
             result.push({
-                _id: all[i],
+                _id: all[i]._id,
                 tenMau: all[i].tenMau,
                 ghiChu: all[i].ghiChu,
                 tieuChi: all[i].tieuChi,
