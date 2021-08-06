@@ -108,10 +108,8 @@ export class NamHocService {
                 },
             },
         ]);
-
-        return agg.sort((a, b) => {
-            return b.tuanHoc.soTuan - a.tuanHoc.soTuan;
-        });
+        
+        return agg;
     }
 
     async getLatest() {
@@ -119,15 +117,19 @@ export class NamHocService {
         const thisYear = new Date().getFullYear();
         for (let i = 0; i < agg.length; i++) {
             if (agg[i].namBatDau <= thisYear && agg[i].namKetThuc >= thisYear) {
+                // sort tại đây
+                agg[i].tuanHoc.sort((a, b) => {
+                    return  b.soTuan - a.soTuan ;
+                })
                 return agg[i];
-                break;
             }
         }
     }
 
     async getLatest_latestWeek() {
         const latest = await this.getLatest();
-        return latest.tuanHoc[latest.tuanHoc.length-1];
+        // lấy tuần dầu
+        return latest.tuanHoc[0];
     }
 
     async update(id: string, dto: UpdateNamHocDTO) {
