@@ -1,7 +1,7 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { compare, hash, hashSync } from 'bcrypt';
-import { Model, Types } from 'mongoose';
+import { compare, hashSync } from 'bcrypt';
+import { isValidObjectId, Model, Types } from 'mongoose';
 import { assign, bulkObjectID, RoleType } from '../../helpers/utilities';
 import { LopHocService } from '../lop-hoc/lop-hoc.service';
 import { ChangePassDTO } from '../../helpers/changePass.dto';
@@ -454,18 +454,26 @@ export class NguoiDungService {
     }
 
     async changePass(dto: ChangePassDTO) {
-        const user = await this.model.aggregate([
-            { $match: { _id: Types.ObjectId(dto.idUser) } },
-            {
-                $project: {
-                    maND: 1,
-                    matKhau: 1,
-                },
-            },
-        ]);
+        let user;
 
-        if (user[0]) {
-            if (await compare(dto.oldPass, user[0].matKhau)) {
+        if (isValidObjectId(dto.idUser)) {
+            user = await this.model.aggregate([
+                { $match: { _id: Types.ObjectId(dto.idUser) } },
+                {
+                    $project: {
+                        maND: 1,
+                        matKhau: 1,
+                    },
+                },
+            ]);
+        } else
+            return {
+                msg: '_id người dùng không hợp lệ',
+                checkOK: false,
+            };
+
+        if (user) {
+            if (await compare(dto.oldPass, user.matKhau)) {
                 await this.model.findByIdAndUpdate(
                     user[0]._id,
                     { $set: { matKhau: hashSync(dto.newPass, 10) } },
