@@ -1,5 +1,5 @@
 export class ChangePassDTO {
-    username: string;
+    idUser: string;
     oldPass: string;
     newPass: string;
 }

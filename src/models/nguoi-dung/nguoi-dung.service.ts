@@ -455,7 +455,7 @@ export class NguoiDungService {
 
     async changePass(dto: ChangePassDTO) {
         const user = await this.model.aggregate([
-            { $match: { maND: dto.username } },
+            { $match: { _id: Types.ObjectId(dto.idUser) } },
             {
                 $project: {
                     maND: 1,
