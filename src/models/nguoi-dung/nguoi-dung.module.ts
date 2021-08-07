@@ -11,23 +11,11 @@ import { GiaoVienUtils } from './roles/giao-vien.utils';
 
 @Module({
     imports: [
-        MongooseModule.forFeatureAsync([
+        MongooseModule.forFeature([
             {
                 name: 'nguoi_dung',
                 collection: 'nguoi_dung',
-                useFactory: async () => {
-                    const schema = NguoiDungSchema;
-                    schema.pre('save', async function (next: HookNextFunction) {
-                        try {
-                            if (!this.isModified('matKhau')) return next();
-                            this['matKhau'] = await hash(this['matKhau'], 10);
-                            return next();
-                        } catch (err) {
-                            return next(err);
-                        }
-                    });
-                    return schema;
-                },
+                schema: NguoiDungSchema,
             },
         ]),
         forwardRef(() => LopHocModule),

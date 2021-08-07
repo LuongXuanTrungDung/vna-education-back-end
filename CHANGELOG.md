@@ -191,4 +191,7 @@
 	- Sửa API trả tiết học theo buổi
 	- Sửa API trả bảng điểm và đánh giá
 	- Sửa API trả lịch học
-	- Tối ưu hóa
+- 2.10.6
+	- Model danh_gia ko ràng buộc đối với tham chiếu sang lop_hoc và mon_hoc
+	- Sửa lỗi API mau_danh_gia và nam_hoc
+	- Thêm API đổi mật khẩu

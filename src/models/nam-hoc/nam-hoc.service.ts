@@ -22,7 +22,8 @@ export class NamHocService {
     }
 
     async getOne(nam: string) {
-        return await this.model.aggregate([{$match: {_id: Types.ObjectId(nam)}},
+        return await this.model.aggregate([
+            { $match: { _id: Types.ObjectId(nam) } },
             {
                 $lookup: {
                     from: 'tuan_hoc',
