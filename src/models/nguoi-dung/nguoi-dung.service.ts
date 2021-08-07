@@ -1,8 +1,10 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { compare, hash, hashSync } from 'bcrypt';
 import { Model, Types } from 'mongoose';
 import { assign, bulkObjectID, RoleType } from '../../helpers/utilities';
 import { LopHocService } from '../lop-hoc/lop-hoc.service';
+import { ChangePassDTO } from '../../helpers/changePass.dto';
 import { NguoiDungDto } from './nguoi-dung.dto';
 import { NguoiDungDocument } from './nguoi-dung.entity';
 
@@ -25,10 +27,12 @@ export class NguoiDungService {
             lopHoc,
             chuNhiem,
             conCai,
+            matKhau,
             ...rest
         } = dto;
         let result = {
             ...rest,
+            matKhau: hashSync(matKhau, 10),
         };
         const temp = [];
 
@@ -411,6 +415,7 @@ export class NguoiDungService {
             hopDong,
             tDCM,
             lopHoc,
+            matKhau,
             ...rest
         } = dto;
         let gt, ld;
@@ -433,15 +438,53 @@ export class NguoiDungService {
 
         return await this.model.findById(id, null, null, async (err, doc) => {
             if (err) throw err;
+
             assign(rest, doc);
+            if (matKhau) doc.matKhau = hashSync(matKhau, 10);
             if (gt) doc.cccd = gt;
             if (ld) doc.chucVu = ld;
+
             if (lopHoc) doc.lopHoc = await this.lhSer.objectify_fromID(lopHoc);
             if (chuNhiem)
                 doc.chuNhiem = await this.lhSer.objectify_fromID(chuNhiem);
             if (conCai) doc.conCai = await this.bulkObjectify(conCai);
+
             await doc.save();
         });
+    }
+
+    async changePass(dto: ChangePassDTO) {
+        const user = await this.model.aggregate([
+            { $match: { maND: dto.username } },
+            {
+                $project: {
+                    maND: 1,
+                    matKhau: 1,
+                },
+            },
+        ]);
+
+        if (user[0]) {
+            if (await compare(dto.oldPass, user[0].matKhau)) {
+                await this.model.findByIdAndUpdate(
+                    user[0]._id,
+                    { $set: { matKhau: hashSync(dto.newPass, 10) } },
+                    { new: true },
+                );
+                return {
+                    msg: 'Đổi mật khẩu thành công!',
+                    checkOK: true,
+                };
+            } else
+                return {
+                    msg: 'Mật khẩu cũ không đúng!',
+                    checkOK: false,
+                };
+        } else
+            return {
+                msg: 'Người dùng không tồn tại!',
+                checkOK: false,
+            };
     }
 
     async objectify(user: string) {
