@@ -454,26 +454,24 @@ export class NguoiDungService {
     }
 
     async changePass(dto: ChangePassDTO) {
-        let user;
-
-        if (isValidObjectId(dto.idUser)) {
-            user = await this.model.aggregate([
-                { $match: { _id: Types.ObjectId(dto.idUser) } },
-                {
-                    $project: {
-                        maND: 1,
-                        matKhau: 1,
-                    },
-                },
-            ]);
-        } else
+        if (!isValidObjectId(dto.idUser))
             return {
                 msg: '_id người dùng không hợp lệ',
                 checkOK: false,
             };
 
-        if (user) {
-            if (await compare(dto.oldPass, user.matKhau)) {
+        const user = await this.model.aggregate([
+            { $match: { _id: Types.ObjectId(dto.idUser) } },
+            {
+                $project: {
+                    maND: 1,
+                    matKhau: 1,
+                },
+            },
+        ]);
+
+        if (user[0]) {
+            if (await compare(dto.oldPass, user[0].matKhau)) {
                 await this.model.findByIdAndUpdate(
                     user[0]._id,
                     { $set: { matKhau: hashSync(dto.newPass, 10) } },
