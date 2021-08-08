@@ -1,7 +1,7 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
-import { bulkObjectID, removeDuplicates } from '../../helpers/utilities';
+import { bulkObjectID } from '../../helpers/utilities';
 import { NguoiDungService } from '../nguoi-dung/nguoi-dung.service';
 import { LopHocDto } from './lop-hoc.dto';
 import { LopHocDocument } from './lop-hoc.entity';

@@ -4,10 +4,6 @@ import { NguoiDungController } from './nguoi-dung.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { NguoiDungSchema } from './nguoi-dung.entity';
 import { LopHocModule } from '../lop-hoc/lop-hoc.module';
-import { hash } from 'bcrypt';
-import { HookNextFunction } from 'mongoose';
-import { HocSinhUtils } from './roles/hoc-sinh.utils';
-import { GiaoVienUtils } from './roles/giao-vien.utils';
 
 @Module({
     imports: [
@@ -21,7 +17,7 @@ import { GiaoVienUtils } from './roles/giao-vien.utils';
         forwardRef(() => LopHocModule),
     ],
     controllers: [NguoiDungController],
-    providers: [NguoiDungService, HocSinhUtils, GiaoVienUtils],
-    exports: [NguoiDungService, HocSinhUtils, GiaoVienUtils],
+    providers: [NguoiDungService],
+    exports: [NguoiDungService],
 })
 export class NguoiDungModule {}
