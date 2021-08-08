@@ -1,4 +1,4 @@
-import { Controller, Get, Query, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, Query, UseGuards } from '@nestjs/common';
 import {
     ApiForbiddenResponse,
     ApiOkResponse,
@@ -13,6 +13,16 @@ import { GiaoVienService } from './giao-vien.service';
 @ApiTags('giao-vien')
 export class GiaoVienController {
     constructor(private readonly service: GiaoVienService) {}
+
+    @Get('danh-gia')
+    async layDanhGia(@Query('gv') gv: string, @Query('tuan') tuan: string) {
+        return await this.service.xemHet_danhGia(gv, tuan);
+    }
+
+    @Get('danh-gia/:dg')
+    async xemDanhGia(@Param('dg') dg: string) {
+        return await this.service.xemMot_danhGia(dg);
+    }
 
     @Get('theo')
     @ApiQuery({

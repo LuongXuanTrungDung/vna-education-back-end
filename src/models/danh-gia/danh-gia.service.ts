@@ -45,7 +45,7 @@ export class DanhGiaService {
         return await this.model.create(toCreate);
     }
 
-    async getAll_byUser(hs: string, tuan: string) {
+    async getAll_byHS(hs: string, tuan: string) {
         const result = [];
         const user = await this.ndSer.findOne_byID(hs);
         const now = new Date().getTime();
@@ -130,6 +130,40 @@ export class DanhGiaService {
             }
         }
 
+        return result;
+    }
+
+    async getAll_byGV(gv: string, tuan: string) {
+        const result = [];
+        const all = await this.model
+            .find({ giaoVien: Object(gv), tuanDG: Object(tuan) })
+            .populate([
+                { path: 'monHoc', select: 'tenMH' },
+                {
+                    path: 'lopHoc',
+                    select: ['maLH', 'hocSinh'],
+                },
+                {
+                    path: 'tuanDG',
+                    select: 'soTuan',
+                },
+            ])
+            .exec();
+
+        for (let i = 0; i < all.length; i++) {
+            result.push({
+                _id: all[i]._id,
+                tenDG: all[i].tenDG,
+                monHoc: all[i].monHoc.tenMH,
+                choGVCN: all[i].choGVCN,
+                lopHoc: {
+                    maLH: all[i].lopHoc.maLH,
+                    siSo: all[i].lopHoc.hocSinh.length,
+                },
+                tuanDG: all[i].tuanDG.soTuan,
+                chiTiet: all[i].chiTiet,
+            });
+        }
         return result;
     }
 
@@ -299,7 +333,7 @@ export class DanhGiaService {
         };
     }
 
-    async getOne(id: string) {
+    async getOne_forHS(id: string) {
         const now = new Date().getTime();
         const one = await this.model
             .findById(id)
@@ -344,6 +378,36 @@ export class DanhGiaService {
                       hocSinhDG: one.chiTiet,
                   }
                 : null,
+        };
+    }
+
+    async getOne_forGV(id: string) {
+        const one = await this.model
+            .findById(id)
+            .populate([
+                { path: 'monHoc', select: 'tenMH' },
+                {
+                    path: 'lopHoc',
+                    select: ['maLH', 'hocSinh'],
+                },
+                {
+                    path: 'tuanDG',
+                    select: 'soTuan',
+                },
+            ])
+            .exec();
+
+        return {
+            _id: id,
+            tenDG: one.tenDG,
+            monHoc: one.monHoc.tenMH,
+            choGVCN: one.choGVCN,
+            lopHoc: {
+                maLH: one.lopHoc.maLH,
+                siSo: one.lopHoc.hocSinh.length,
+            },
+            tuanDG: one.tuanDG.soTuan,
+            chiTiet: one.chiTiet,
         };
     }
 
