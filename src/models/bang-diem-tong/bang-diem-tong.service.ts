@@ -63,15 +63,15 @@ export class BangDiemTongService {
                 _id: all[i]._id,
                 hocSinh: {
                     _id: all[i].populated('hocSinh'),
-                    hoTen: all[i].hocSinh.hoTen,
+                    hoTen: all[i].hocSinh?.hoTen,
                 },
                 lopHoc: {
                     _id: all[i].populated('lopHoc'),
-                    maLH: all[i].hocSinh.lopHoc.maLH,
+                    maLH: all[i].hocSinh?.lopHoc.maLH,
                 },
                 GVCN: {
                     _id: all[i].populated('GVCN'),
-                    hoTen: all[i].GVCN.hoTen,
+                    hoTen: all[i].GVCN?.hoTen,
                 },
                 hocKy1: all[i].hocKy1,
                 hocKy2: all[i].hocKy2,
@@ -105,9 +105,9 @@ export class BangDiemTongService {
         for (let i = 0; i < all.length; i++) {
             result.push({
                 _id: all[i]._id,
-                hocSinh: all[i].hocSinh.hoTen,
-                lopHoc: all[i].hocSinh.lopHoc.maLH,
-                GVCN: all[i].GVCN.hoTen,
+                hocSinh: all[i].hocSinh?.hoTen,
+                lopHoc: all[i].hocSinh?.lopHoc.maLH,
+                GVCN: all[i].GVCN?.hoTen,
                 hocKy1: all[i].hocKy1,
                 hocKy2: all[i].hocKy2,
                 caNam: all[i].caNam,
@@ -145,15 +145,15 @@ export class BangDiemTongService {
             _id: rec,
             hocSinh: {
                 _id: bd.populated('hocSinh'),
-                hoTen: bd.hocSinh.hoTen,
+                hoTen: bd.hocSinh?.hoTen,
             },
             lopHoc: {
                 _id: bd.populated('lopHoc'),
-                maLH: bd.hocSinh.lopHoc.maLH,
+                maLH: bd.hocSinh?.lopHoc.maLH,
             },
             GVCN: {
                 _id: bd.populated('GVCN'),
-                hoTen: bd.GVCN.hoTen,
+                hoTen: bd.GVCN?.hoTen,
             },
             hocKy1: bd.hocKy1,
             hocKy2: bd.hocKy2,

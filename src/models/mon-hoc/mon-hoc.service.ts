@@ -34,7 +34,7 @@ export class MonHocService {
                 tenMH: all[i].tenMH,
                 soTiet: all[i].soTiet,
                 moTa: all[i].moTa,
-                giaoVien: all[i].giaoVien.map((val, ind) => {
+                giaoVien: all[i].giaoVien?.map((val, ind) => {
                     return {
                         _id: all[i].populated('giaoVien')[ind],
                         hoTen: val.hoTen,
@@ -55,7 +55,7 @@ export class MonHocService {
             tenMH: one.tenMH,
             soTiet: one.soTiet,
             moTa: one.moTa,
-            giaoVien: one.giaoVien.map((val, ind) => {
+            giaoVien: one.giaoVien?.map((val, ind) => {
                 return {
                     _id: one.populated('giaoVien')[ind],
                     hoTen: val.hoTen,

@@ -38,7 +38,7 @@ export class BuoiHocService {
                 ngayHoc: all[i].ngayHoc,
                 tuanHoc: {
                     _id: all[i].populated('tuanHoc'),
-                    soTuan: all[i].tuanHoc.soTuan,
+                    soTuan: all[i].tuanHoc?.soTuan,
                 },
             });
         }
@@ -60,7 +60,7 @@ export class BuoiHocService {
                 _id: all[i]._id,
                 thu: all[i].thu,
                 ngayHoc: all[i].ngayHoc,
-                tuanHoc: all[i].tuanHoc.soTuan,
+                tuanHoc: all[i].tuanHoc?.soTuan,
             });
         }
         return result;
@@ -82,7 +82,7 @@ export class BuoiHocService {
             ngayHoc: b.ngayHoc,
             tuanHoc: {
                 _id: b.populated('tuanHoc'),
-                soTuan: b.tuanHoc.soTuan,
+                soTuan: b.tuanHoc?.soTuan,
             },
         };
     }

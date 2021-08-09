@@ -36,8 +36,13 @@ export class LopHocService {
             result.push({
                 _id: all[i]._id,
                 maLH: all[i].maLH,
-                GVCN: all[i].GVCN,
-                hocSinh: all[i].hocSinh.map((val, index) => {
+                GVCN: all[i].GVCN
+                    ? {
+                          _id: classe.populated('GVCN'),
+                          hoTen: all[i].GVCN.hoTen,
+                      }
+                    : null,
+                hocSinh: all[i].hocSinh?.map((val, index) => {
                     return {
                         _id: all[i].populated('hocSinh')[index],
                         hoTen: val.hoTen,
@@ -67,7 +72,7 @@ export class LopHocService {
                       hoTen: classe.GVCN.hoTen,
                   }
                 : null,
-            hocSinh: classe.hocSinh.map((val, index) => {
+            hocSinh: classe.hocSinh?.map((val, index) => {
                 return {
                     _id: classe.populated('hocSinh')[index],
                     hoTen: val.hoTen,
@@ -128,7 +133,7 @@ export class LopHocService {
 
         for (let i = 0; i < p.hocSinh.length; i++) {
             const id = p.populated('hocSinh')[i];
-            if (Types.ObjectId.isValid(id))
+            if (p.hocSinh[i] && Types.ObjectId.isValid(id))
                 result.push({
                     _id: id,
                     maND: p.hocSinh[i].maND,
@@ -151,11 +156,13 @@ export class LopHocService {
         for (let i = 0; i < all.length; i++) {
             result.push({
                 chuNhiem: all[i].maLH,
-                GVCN: {
-                    _id: all[i].populated('GVCN'),
-                    maND: all[i].GVCN.maND,
-                    hoTen: all[i].GVCN.hoTen,
-                },
+                GVCN: all[i].GVCN
+                    ? {
+                          _id: all[i].populated('GVCN'),
+                          maND: all[i].GVCN.maND,
+                          hoTen: all[i].GVCN.hoTen,
+                      }
+                    : null,
             });
         }
         return result;

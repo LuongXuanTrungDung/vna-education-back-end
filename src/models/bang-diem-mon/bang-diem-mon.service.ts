@@ -54,15 +54,15 @@ export class BangDiemMonService {
                 _id: all[i]._id,
                 hocSinh: {
                     _id: all[i].populated('hocSinh'),
-                    hoTen: all[i].hocSinh.hoTen,
+                    hoTen: all[i].hocSinh?.hoTen,
                 },
                 giaoVien: {
                     _id: all[i].populated('giaoVien'),
-                    hoTen: all[i].giaoVien.hoTen,
+                    hoTen: all[i].giaoVien?.hoTen,
                 },
                 monHoc: {
                     _id: all[i].populated('monHoc'),
-                    tenMH: all[i].monHoc.tenMH,
+                    tenMH: all[i].monHoc?.tenMH,
                 },
                 hocKy1: all[i].hocKy1,
                 hocKy2: all[i].hocKy2,
@@ -86,9 +86,9 @@ export class BangDiemMonService {
         for (let i = 0; i < all.length; i++) {
             result.push({
                 _id: all[i]._id,
-                hocSinh: all[i].hocSinh.hoTen,
-                giaoVien: all[i].giaoVien.hoTen,
-                monHoc: all[i].monHoc.tenMH,
+                hocSinh: all[i].hocSinh?.hoTen,
+                giaoVien: all[i].giaoVien?.hoTen,
+                monHoc: all[i].monHoc?.tenMH,
                 hocKy1: all[i].hocKy1,
                 hocKy2: all[i].hocKy2,
                 diemTB: all[i].diemTB,
@@ -116,15 +116,15 @@ export class BangDiemMonService {
             _id: p,
             hocSinh: {
                 _id: bd.populated('hocSinh'),
-                hoTen: bd.hocSinh.hoTen,
+                hoTen: bd.hocSinh?.hoTen,
             },
             giaoVien: {
                 _id: bd.populated('giaoVien'),
-                hoTen: bd.giaoVien.hoTen,
+                hoTen: bd.giaoVien?.hoTen,
             },
             monHoc: {
                 _id: bd.populated('monHoc'),
-                tenMH: bd.monHoc.tenMH,
+                tenMH: bd.monHoc?.tenMH,
             },
             hocKy1: bd.hocKy1,
             hocKy2: bd.hocKy2,

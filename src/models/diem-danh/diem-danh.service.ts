@@ -32,7 +32,7 @@ export class DiemDanhService {
                 _id: all[i]._id,
                 hocSinh: {
                     _id: all[i].populated('hocSinh'),
-                    hoTen: all[i].hocSinh.hoTen,
+                    hoTen: all[i].hocSinh?.hoTen,
                 },
                 trangThai: all[i].trangThai,
                 ghiChu: all[i].ghiChu,
@@ -50,7 +50,7 @@ export class DiemDanhService {
             id: dd,
             hocSinh: {
                 _id: one.populated('hocSinh'),
-                hoTen: one.hocSinh.hoTen,
+                hoTen: one.hocSinh?.hoTen,
             },
             trangThai: one.trangThai,
             ghiChu: one.ghiChu,

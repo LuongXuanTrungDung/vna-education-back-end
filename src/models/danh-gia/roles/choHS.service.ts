@@ -48,9 +48,9 @@ export class ChoHocSinhService {
                 _id: revs[i]._id,
                 tenDG: revs[i].tenDG,
                 monHoc: revs[i].monHoc?.tenMH,
-                giaoVien: revs[i].giaoVien.hoTen,
+                giaoVien: revs[i].giaoVien?.hoTen,
                 choGVCN: revs[i].choGVCN,
-                tuanDG: revs[i].tuanDG.soTuan,
+                tuanDG: revs[i].tuanDG?.soTuan,
                 hetHan: false,
             };
 
@@ -77,7 +77,10 @@ export class ChoHocSinhService {
                 if (x > -1) {
                     const loopuser = revs[i].chiTiet[x];
                     n = { ...m, hocSinhDG: loopuser };
-                    if (arrange(revs[i].tuanDG.ngayKetThuc).getTime() < now)
+                    if (
+                        revs[i].tuanDG &&
+                        arrange(revs[i].tuanDG.ngayKetThuc).getTime() < now
+                    )
                         n.hetHan = true;
                     if (n) result.push(n);
                 } else {
@@ -91,7 +94,10 @@ export class ChoHocSinhService {
                             trangThai: false,
                         },
                     };
-                    if (arrange(revs[i].tuanDG.ngayKetThuc).getTime() < now)
+                    if (
+                        revs[i].tuanDG &&
+                        arrange(revs[i].tuanDG.ngayKetThuc).getTime() < now
+                    )
                         n.hetHan = true;
                     if (n) result.push(n);
                 }
@@ -127,14 +133,15 @@ export class ChoHocSinhService {
             .exec();
 
         const n = { hetHan: false };
-        if (arrange(one.tuanDG.ngayKetThuc).getTime() < now) n.hetHan = true;
+        if (one.tuanDG && arrange(one.tuanDG.ngayKetThuc).getTime() < now)
+            n.hetHan = true;
 
         return {
             _id: id,
             tenDG: one.tenDG,
-            tieuChi: one.mauDG.tieuChi,
-            tuanDG: one.tuanDG.soTuan,
-            giaoVien: one.giaoVien.hoTen,
+            tieuChi: one.mauDG?.tieuChi,
+            tuanDG: one.tuanDG?.soTuan,
+            giaoVien: one.giaoVien?.hoTen,
             choGVCN: one.choGVCN,
             monHoc: one.monHoc?.tenMH,
             ...n,

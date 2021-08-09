@@ -64,7 +64,7 @@ export class ChoGiaoViehService {
             .findById(id)
             .populate([
                 { path: 'monHoc', select: 'tenMH' },
-				{path: 'mauDG', select: 'tieuChi'},
+                { path: 'mauDG', select: 'tieuChi' },
                 {
                     path: 'lopHoc',
                     select: ['maLH', 'hocSinh'],
@@ -87,7 +87,7 @@ export class ChoGiaoViehService {
             _id: id,
             tenDG: one.tenDG,
             monHoc: one.monHoc?.tenMH,
-			tieuChi: one.mauDG?.tieuChi,
+            tieuChi: one.mauDG?.tieuChi,
             choGVCN: one.choGVCN,
             lopHoc: one.lopHoc
                 ? {

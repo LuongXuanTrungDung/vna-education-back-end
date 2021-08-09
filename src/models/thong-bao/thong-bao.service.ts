@@ -39,10 +39,12 @@ export class ThongBaoService {
                 danhMuc: news[i].danhMuc,
                 tieuDe: news[i].tieuDe,
                 tomTat: news[i].tomTat,
-                nguoiDang: {
-                    _id: news[i].populated('nguoiDang'),
-                    hoTen: news[i].nguoiDang.hoTen,
-                },
+                nguoiDang: news[i].nguoiDang
+                    ? {
+                          _id: news[i].populated('nguoiDang'),
+                          hoTen: news[i].nguoiDang.hoTen,
+                      }
+                    : null,
                 ngayDang: news[i].ngayDang,
                 noiDung: news[i].noiDung,
                 daDuyet: news[i].daDuyet,
@@ -69,7 +71,7 @@ export class ThongBaoService {
                 danhMuc: all[i].danhMuc,
                 tieuDe: all[i].tieuDe,
                 tomTat: all[i].tomTat,
-                nguoiDang: all[i].nguoiDang.hoTen,
+                nguoiDang: all[i].nguoiDang?.hoTen,
                 ngayDang: all[i].ngayDang,
                 noiDung: all[i].noiDung,
                 daDuyet: all[i].daDuyet,
@@ -98,10 +100,12 @@ export class ThongBaoService {
             danhMuc: ns.danhMuc,
             tieuDe: ns.tieuDe,
             tomTat: ns.tomTat,
-            nguoiDang: {
-                _id: ns.populated('nguoiDang'),
-                hoTen: ns.nguoiDang.hoTen,
-            },
+            nguoiDang: ns.nguoiDang
+                ? {
+                      _id: ns.populated('nguoiDang'),
+                      hoTen: ns.nguoiDang.hoTen,
+                  }
+                : null,
             ngayDang: ns.ngayDang,
             noiDung: ns.noiDung,
             daDuyet: ns.daDuyet,

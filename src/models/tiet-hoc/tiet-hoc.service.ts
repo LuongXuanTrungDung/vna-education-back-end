@@ -108,8 +108,8 @@ export class TietHocService {
                 _id: all[i]._id,
                 thuTiet: all[i].thuTiet,
                 thoiGian: all[i].thoiGian_batDau,
-                giaoVien: all[i].giaoVien.hoTen,
-                monHoc: all[i].monHoc.tenMH,
+                giaoVien: all[i].giaoVien?.hoTen,
+                monHoc: all[i].monHoc?.tenMH,
                 lopHoc: all[i].lopHoc ? all[i].lopHoc.maLH : null,
                 buoiHoc: all[i].buoiHoc
                     ? {
@@ -141,14 +141,18 @@ export class TietHocService {
             _id: tiet,
             thuTiet: cl.thuTiet,
             thoiGian: cl.thoiGian_batDau,
-            giaoVien: {
-                _id: cl.populated('giaoVien'),
-                hoTen: cl.giaoVien.hoTen,
-            },
-            monHoc: {
-                _id: cl.populated('monHoc'),
-                tenMH: cl.monHoc.tenMH,
-            },
+            giaoVien: cl.giaoVien
+                ? {
+                      _id: cl.populated('giaoVien'),
+                      hoTen: cl.giaoVien.hoTen,
+                  }
+                : null,
+            monHoc: cl.monHoc
+                ? {
+                      _id: cl.populated('monHoc'),
+                      tenMH: cl.monHoc.tenMH,
+                  }
+                : null,
             lopHoc: cl.lopHoc
                 ? {
                       _id: cl.populated('lopHoc'),
