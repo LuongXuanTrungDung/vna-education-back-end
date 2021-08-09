@@ -122,26 +122,32 @@ export class DanhGiaService {
             result.push({
                 _id: all[i]._id,
                 tenDG: all[i].tenDG,
-                tieuChi: all[i].mauDG.tieuChi,
+                tieuChi: all[i].mauDG?.tieuChi,
                 monHoc: all[i].monHoc
                     ? {
                           _id: all[i].populated('monHoc'),
                           tenMH: all[i].monHoc.tenMH,
                       }
                     : null,
-                giaoVien: {
-                    _id: all[i].populated('giaoVien'),
-                    hoTen: all[i].giaoVien.hoTen,
-                },
+                giaoVien: all[i].giaoVien
+                    ? {
+                          _id: all[i].populated('giaoVien'),
+                          hoTen: all[i].giaoVien.hoTen,
+                      }
+                    : null,
                 choGVCN: all[i].choGVCN,
-                mauDG: {
-                    _id: all[i].populated('mauDG'),
-                    tenMau: all[i].mauDG.tenMau,
-                },
-                tuanDG: {
-                    _id: all[i].populated('tuanDG'),
-                    soTuan: all[i].tuanDG.soTuan,
-                },
+                mauDG: all[i].mauDG
+                    ? {
+                          _id: all[i].populated('mauDG'),
+                          tenMau: all[i].mauDG.tenMau,
+                      }
+                    : null,
+                tuanDG: all[i].tuanDG
+                    ? {
+                          _id: all[i].populated('tuanDG'),
+                          soTuan: all[i].tuanDG.soTuan,
+                      }
+                    : null,
                 lopHoc: all[i].lopHoc
                     ? {
                           _id: all[i].populated('lopHoc'),
@@ -180,26 +186,32 @@ export class DanhGiaService {
         return {
             _id: id,
             tenDG: one.tenDG,
-            tieuChi: one.mauDG.tieuChi,
+            tieuChi: one.mauDG?.tieuChi,
             monHoc: one.monHoc
                 ? {
                       _id: one.populated('monHoc'),
                       tenMH: one.monHoc.tenMH,
                   }
                 : null,
-            giaoVien: {
-                _id: one.populated('giaoVien'),
-                hoTen: one.giaoVien.hoTen,
-            },
+            giaoVien: one.giaoVien
+                ? {
+                      _id: one.populated('giaoVien'),
+                      hoTen: one.giaoVien.hoTen,
+                  }
+                : null,
             choGVCN: one.choGVCN,
-            mauDG: {
-                _id: one.populated('mauDG'),
-                tenMau: one.mauDG.tenMau,
-            },
-            tuanDG: {
-                _id: one.populated('tuanDG'),
-                soTuan: one.tuanDG.soTuan,
-            },
+            mauDG: one.mauDG
+                ? {
+                      _id: one.populated('mauDG'),
+                      tenMau: one.mauDG.tenMau,
+                  }
+                : null,
+            tuanDG: one.tuanDG
+                ? {
+                      _id: one.populated('tuanDG'),
+                      soTuan: one.tuanDG.soTuan,
+                  }
+                : null,
             lopHoc: one.lopHoc
                 ? {
                       _id: one.populated('lopHoc'),
