@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { BangDiemTongService } from '../../models/bang-diem-tong/bang-diem-tong.service';
-import { DanhGiaService } from '../../models/danh-gia/danh-gia.service';
 import { HSDGDto } from '../../models/danh-gia/dto/HSDG.dto';
+import { ChoHocSinhService } from '../../models/danh-gia/roles/choHS.service';
 import { DiemDanhService } from '../../models/diem-danh/diem-danh.service';
 import { LopHocService } from '../../models/lop-hoc/lop-hoc.service';
 
 @Injectable()
 export class HocSinhService {
     constructor(
-        private readonly dgSer: DanhGiaService,
+        private readonly dgSer: ChoHocSinhService,
         private readonly lhSer: LopHocService,
         private readonly bdtSer: BangDiemTongService,
         private readonly ddSer: DiemDanhService,

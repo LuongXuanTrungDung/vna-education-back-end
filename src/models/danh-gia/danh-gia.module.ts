@@ -8,6 +8,8 @@ import { LopHocModule } from '../lop-hoc/lop-hoc.module';
 import { MonHocModule } from '../mon-hoc/mon-hoc.module';
 import { MauDanhGiaModule } from '../mau-danh-gia/mau-danh-gia.module';
 import { TuanHocModule } from '../tuan-hoc/tuan-hoc.module';
+import { ChoHocSinhService } from './roles/choHS.service';
+import { ChoGiaoViehService } from './roles/choGV.service';
 
 @Module({
     imports: [
@@ -21,7 +23,7 @@ import { TuanHocModule } from '../tuan-hoc/tuan-hoc.module';
         forwardRef(() => MauDanhGiaModule),
     ],
     controllers: [DanhGiaController],
-    providers: [DanhGiaService],
-    exports: [DanhGiaService],
+    providers: [DanhGiaService, ChoHocSinhService, ChoGiaoViehService],
+    exports: [DanhGiaService, ChoHocSinhService, ChoGiaoViehService],
 })
 export class DanhGiaModule {}
