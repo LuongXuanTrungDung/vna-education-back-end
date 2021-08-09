@@ -195,3 +195,7 @@
 	- Model danh_gia ko ràng buộc đối với tham chiếu sang lop_hoc và mon_hoc
 	- Sửa lỗi API mau_danh_gia và nam_hoc
 	- Thêm API đổi mật khẩu
+- 2.11.0
+	- Tách file ở model danh_gia
+	- Thêm API trả đánh giá cho giáo viên
+	- Thêm API trả lịch dạy cho giáo viên
