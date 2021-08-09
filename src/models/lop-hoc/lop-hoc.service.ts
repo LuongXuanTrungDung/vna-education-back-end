@@ -38,7 +38,7 @@ export class LopHocService {
                 maLH: all[i].maLH,
                 GVCN: all[i].GVCN
                     ? {
-                          _id: classe.populated('GVCN'),
+                          _id: all[i].populated('GVCN'),
                           hoTen: all[i].GVCN.hoTen,
                       }
                     : null,
