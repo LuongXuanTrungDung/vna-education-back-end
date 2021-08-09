@@ -135,6 +135,7 @@ export class DanhGiaService {
 
     async getAll_byGV(gv: string, tuan: string) {
         const result = [];
+        const now = new Date().getTime();
         const all = await this.model
             .find({ giaoVien: Object(gv), tuanDG: Object(tuan) })
             .populate([
@@ -145,24 +146,36 @@ export class DanhGiaService {
                 },
                 {
                     path: 'tuanDG',
-                    select: 'soTuan',
+                    select: ['soTuan', 'ngayKetThuc'],
                 },
             ])
             .exec();
 
         for (let i = 0; i < all.length; i++) {
-            result.push({
-                _id: all[i]._id,
-                tenDG: all[i].tenDG,
-                monHoc: all[i].monHoc.tenMH,
-                choGVCN: all[i].choGVCN,
-                lopHoc: {
-                    maLH: all[i].lopHoc.maLH,
-                    siSo: all[i].lopHoc.hocSinh.length,
-                },
-                tuanDG: all[i].tuanDG.soTuan,
-                chiTiet: all[i].chiTiet,
-            });
+            if (arrange(all[i].tuanDG.ngayKetThuc).getTime() > now) {
+                let temp = 0,
+                    diem = 0;
+                for (let j = 0; j < all[i].chiTiet.length; j++) {
+                    temp += all[i].chiTiet[j].diemDG;
+                }
+                diem = temp / all[i].chiTiet.length;
+
+                result.push({
+                    _id: all[i]._id,
+                    tenDG: all[i].tenDG,
+                    monHoc: all[i].monHoc?.tenMH,
+                    choGVCN: all[i].choGVCN,
+                    lopHoc: all[i].lopHoc
+                        ? {
+                              maLH: all[i].lopHoc.maLH,
+                              siSo: all[i].lopHoc.hocSinh.length,
+                          }
+                        : null,
+                    tuanDG: all[i].tuanDG.soTuan,
+                    chiTiet: all[i].chiTiet,
+                    diemTB: all[i].chiTiet.length > 0 ? diem : 0,
+                });
+            }
         }
         return result;
     }
@@ -397,17 +410,27 @@ export class DanhGiaService {
             ])
             .exec();
 
+        let temp = 0,
+            diem = 0;
+        for (let i = 0; i < one.chiTiet.length; j++) {
+            temp += one.chiTiet[i].diemDG;
+        }
+        diem = temp / one.chiTiet.length;
+
         return {
             _id: id,
             tenDG: one.tenDG,
-            monHoc: one.monHoc.tenMH,
+            monHoc: one.monHoc?.tenMH,
             choGVCN: one.choGVCN,
-            lopHoc: {
-                maLH: one.lopHoc.maLH,
-                siSo: one.lopHoc.hocSinh.length,
-            },
+            lopHoc: one.lopHoc
+                ? {
+                      maLH: one.lopHoc.maLH,
+                      siSo: one.lopHoc.hocSinh.length,
+                  }
+                : null,
             tuanDG: one.tuanDG.soTuan,
             chiTiet: one.chiTiet,
+            diemDG: one.chiTiet.length > 0 ? diem : 0,
         };
     }
 
