@@ -47,7 +47,7 @@ export class ChoGiaoViehService {
                           siSo: all[i].lopHoc.hocSinh.length,
                       }
                     : null,
-                tuanDG: all[i].tuanDG.soTuan,
+                tuanDG: all[i].tuanDG?.soTuan,
                 chiTiet: all[i].chiTiet,
                 diemTB: all[i].chiTiet.length > 0 ? diem : 0,
                 hetHan:
@@ -64,6 +64,7 @@ export class ChoGiaoViehService {
             .findById(id)
             .populate([
                 { path: 'monHoc', select: 'tenMH' },
+				{path: 'mauDG', select: 'tieuChi'},
                 {
                     path: 'lopHoc',
                     select: ['maLH', 'hocSinh'],
@@ -86,6 +87,7 @@ export class ChoGiaoViehService {
             _id: id,
             tenDG: one.tenDG,
             monHoc: one.monHoc?.tenMH,
+			tieuChi: one.mauDG?.tieuChi,
             choGVCN: one.choGVCN,
             lopHoc: one.lopHoc
                 ? {
@@ -93,7 +95,7 @@ export class ChoGiaoViehService {
                       siSo: one.lopHoc.hocSinh.length,
                   }
                 : null,
-            tuanDG: one.tuanDG.soTuan,
+            tuanDG: one.tuanDG?.soTuan,
             chiTiet: one.chiTiet,
             diemDG: one.chiTiet.length > 0 ? diem : 0,
         };
