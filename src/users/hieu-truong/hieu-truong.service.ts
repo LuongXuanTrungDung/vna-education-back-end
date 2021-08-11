@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DanhGiaService } from '../../models/danh-gia/danh-gia.service';
+import { ChoHieuTruongService } from '../../models/danh-gia/roles/choHT.service';
 import { NguoiDungService } from '../../models/nguoi-dung/nguoi-dung.service';
 
 @Injectable()
@@ -7,11 +8,20 @@ export class HieuTruongService {
     constructor(
         private dgSer: DanhGiaService,
         private ndSer: NguoiDungService,
+        private ht: ChoHieuTruongService,
     ) {}
 
-    async tatCa_DanhGia() {
-        return await this.dgSer.findAll();
+    // async tatCa_DanhGia() {
+    //     return await this.dgSer.findAll();
+    // }
+
+    async danhGiaGVBM(gv: string, lop: string) {
+        return await this.ht.findAll_choGVBM(gv, lop);
     }
+
+    // async danhGiaGVCN(gv: string, nam: string) {
+    //     return await this.ht.findAll_byYear(nam, gv);
+    // }
 
     async tatCa_HocSinh() {
         const result = [];
@@ -19,9 +29,9 @@ export class HieuTruongService {
 
         for (let i = 0; i < hs.length; i++) {
             const temp = {
-                id: hs[i]._id,
-                ma: hs[i].maND,
-                lop: hs[i].lopHoc,
+                _id: hs[i]._id,
+                maND: hs[i].maND,
+                lopHoc: hs[i].lopHoc,
                 hoTen: hs[i].hoTen,
             };
             result.push(temp);
@@ -35,8 +45,8 @@ export class HieuTruongService {
 
         for (let i = 0; i < gv.length; i++) {
             const temp = {
-                id: gv[i]._id,
-                ma: gv[i].maND,
+                _id: gv[i]._id,
+                maND: gv[i].maND,
                 chuNhiem: gv[i].chuNhiem,
                 hoTen: gv[i].hoTen,
             };

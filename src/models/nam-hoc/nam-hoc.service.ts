@@ -99,6 +99,10 @@ export class NamHocService {
         });
     }
 
+    async objectify(nam: string) {
+        return (await this.model.findById(nam))._id;
+    }
+
     async remove(id: string) {
         return this.model.findByIdAndDelete(id);
     }

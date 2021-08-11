@@ -20,7 +20,7 @@ export class TuanHocService {
         const result = [];
         for (let i = 0; i < all.length; i++) {
             result.push({
-                id: all[i]._id,
+                _id: all[i]._id,
                 soTuan: all[i].soTuan,
                 tenTuan: all[i].tenTuan,
                 ngayBatDau: all[i].ngayBatDau,
@@ -34,7 +34,7 @@ export class TuanHocService {
     async findOne(id: string) {
         const tuan = await this.model.findById(id);
         return {
-            id: tuan._id,
+            _id: tuan._id,
             soTuan: tuan.soTuan,
             tenTuan: tuan.tenTuan,
             ngayBatDau: tuan.ngayBatDau,

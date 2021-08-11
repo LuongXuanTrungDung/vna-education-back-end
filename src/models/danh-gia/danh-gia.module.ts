@@ -10,6 +10,8 @@ import { MauDanhGiaModule } from '../mau-danh-gia/mau-danh-gia.module';
 import { TuanHocModule } from '../tuan-hoc/tuan-hoc.module';
 import { ChoHocSinhService } from './roles/choHS.service';
 import { ChoGiaoViehService } from './roles/choGV.service';
+import { ChoHieuTruongService } from './roles/choHT.service';
+import { NamHocModule } from '../nam-hoc/nam-hoc.module';
 
 @Module({
     imports: [
@@ -20,10 +22,21 @@ import { ChoGiaoViehService } from './roles/choGV.service';
         LopHocModule,
         MonHocModule,
         TuanHocModule,
+        NamHocModule,
         forwardRef(() => MauDanhGiaModule),
     ],
     controllers: [DanhGiaController],
-    providers: [DanhGiaService, ChoHocSinhService, ChoGiaoViehService],
-    exports: [DanhGiaService, ChoHocSinhService, ChoGiaoViehService],
+    providers: [
+        DanhGiaService,
+        ChoHocSinhService,
+        ChoGiaoViehService,
+        ChoHieuTruongService,
+    ],
+    exports: [
+        DanhGiaService,
+        ChoHocSinhService,
+        ChoGiaoViehService,
+        ChoHieuTruongService,
+    ],
 })
 export class DanhGiaModule {}
