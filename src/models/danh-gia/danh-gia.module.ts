@@ -11,7 +11,6 @@ import { TuanHocModule } from '../tuan-hoc/tuan-hoc.module';
 import { ChoHocSinhService } from './roles/choHS.service';
 import { ChoGiaoViehService } from './roles/choGV.service';
 import { ChoHieuTruongService } from './roles/choHT.service';
-import { NamHocModule } from '../nam-hoc/nam-hoc.module';
 
 @Module({
     imports: [
@@ -22,7 +21,6 @@ import { NamHocModule } from '../nam-hoc/nam-hoc.module';
         LopHocModule,
         MonHocModule,
         TuanHocModule,
-        NamHocModule,
         forwardRef(() => MauDanhGiaModule),
     ],
     controllers: [DanhGiaController],

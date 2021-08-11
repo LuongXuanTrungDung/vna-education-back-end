@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { NamHocService } from '../../nam-hoc/nam-hoc.service';
 import { DanhGiaDocument } from '../danh-gia.entity';
 import { DanhGiaService } from '../danh-gia.service';
 
@@ -10,7 +9,6 @@ export class ChoHieuTruongService {
     constructor(
         @InjectModel('danh_gia') private model: Model<DanhGiaDocument>,
         private readonly dgSer: DanhGiaService,
-        private readonly namSer: NamHocService,
     ) {}
 
     async findAll_choGVBM(gv: string, lop: string) {
@@ -42,7 +40,7 @@ export class ChoHieuTruongService {
     }
 
     // async findAll_byYear(year: string, gv: string) {
-    //     const oneYear = await this.namSer.getOne(year);
+    //     const oneYear = await this.namSer.getOne(year)[0];
     //     const allDG = await this.model
     //         .find({ giaoVien: Object(gv) })
     //         .populate([
@@ -56,18 +54,15 @@ export class ChoHieuTruongService {
     //                 select: ['maLH', 'hocSinh'],
     //             },
     //             {
-    //                 path: 'tuanDG',
-    //                 select: ['soTuan', 'namHoc'],
+    //                 path: 'namDG',
+    //                 select: 'tenNam',
     //             },
     //         ])
     //         .exec();
     //     const result = [];
 
     //     for (let i = 0; i < allDG.length; i++) {
-    //         if (
-    //             allDG[i].choGVCN &&
-    //             allDG[i].tuanDG.namHoc.toString() == oneYear._id.toString()
-    //         ) {
+    //         if (allDG[i].choGVCN && allDG[i].namDG && allDG[i].namDG.tenNam === oneYear.tenNam) {
     //             let temp = 0,
     //                 diem = 0;
 
@@ -91,10 +86,10 @@ export class ChoHieuTruongService {
     //                           hoTen: allDG[i].giaoVien.hoTen,
     //                       }
     //                     : null,
-    //                 tuanDG: allDG[i].tuanDG
+    //                 namDG: allDG[i].namDG
     //                     ? {
-    //                           _id: allDG[i].populated('tuanDG'),
-    //                           soTuan: allDG[i].tuanDG.soTuan,
+    //                           _id: allDG[i].populated('namDG'),
+    //                           tenNam: allDG[i].namDG.tenNam,
     //                       }
     //                     : null,
     //                 lopHoc: allDG[i].lopHoc
@@ -109,7 +104,8 @@ export class ChoHieuTruongService {
     //             });
     //         }
     //     }
-    //     return result;
+
+    //     return result
     // }
 
     async findOne_forHT(id: string) {
@@ -127,10 +123,18 @@ export class ChoHieuTruongService {
                 },
                 {
                     path: 'tuanDG',
-                    select: 'soTuan',
+                    select: ['soTuan', 'hocKy'],
                 },
             ])
             .exec();
+
+        let temp = 0,
+            diem = 0;
+
+        for (let j = 0; j < one.chiTiet.length; j++) {
+            temp += one.chiTiet[j].diemDG;
+        }
+        diem = temp / one.chiTiet.length;
 
         return {
             _id: id,
@@ -152,6 +156,7 @@ export class ChoHieuTruongService {
                 ? {
                       _id: one.populated('tuanDG'),
                       soTuan: one.tuanDG.soTuan,
+                      hocKy: one.tuanDG.hocKy,
                   }
                 : null,
             lopHoc: one.lopHoc
@@ -161,6 +166,8 @@ export class ChoHieuTruongService {
                   }
                 : null,
             chiTiet: one.chiTiet,
+            luotDG: one.chiTiet.length,
+            diemTong: one.chiTiet.length > 0 ? diem : 0,
         };
     }
 }

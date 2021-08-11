@@ -23,6 +23,10 @@ export class HieuTruongService {
     //     return await this.ht.findAll_byYear(nam, gv);
     // }
 
+    async danhGia_chiTiet(id: string) {
+        return await this.ht.findOne_forHT(id);
+    }
+
     async tatCa_HocSinh() {
         const result = [];
         const hs = await this.ndSer.findAll_byRole('HS');

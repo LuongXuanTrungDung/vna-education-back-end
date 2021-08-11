@@ -226,12 +226,14 @@ export class DanhGiaService {
         const { monHoc, mauDG, lopHoc, giaoVien, tuanDG, ...rest } = dto;
         return await this.model.findById(id, null, null, async (err, doc) => {
             if (err) throw err;
+
             assign(rest, doc);
             if (monHoc) doc.monHoc = await this.mhSer.objectify(monHoc);
             if (mauDG) doc.mauDG = await this.mdgSer.objectify(mauDG);
             if (lopHoc) doc.lopHoc = await this.lhSer.objectify_fromID(lopHoc);
             if (giaoVien) doc.giaoVien = await this.ndSer.objectify(giaoVien);
             if (tuanDG) doc.tuanDG = await this.tuanSer.objectify(tuanDG);
+
             await doc.save();
         });
     }
