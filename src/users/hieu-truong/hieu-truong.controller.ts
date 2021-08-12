@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Query, UseGuards } from '@nestjs/common';
+import { Controller, Get, Query, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '../../auth.guard';
 import { HieuTruongService } from './hieu-truong.service';
@@ -24,11 +24,6 @@ export class HieuTruongController {
     // async xemDanhGiaGVCN(@Query('gv') gv: string, @Query('nam') nam: string) {
     //     return await this.service.danhGiaGVCN(gv, nam);
     // }
-
-    @Get('danh-gia/:id')
-    async xemMotDG(@Param('id') id: string) {
-        return await this.service.danhGia_chiTiet(id);
-    }
 
     @Get('danh-sach/hoc-sinh')
     async xemDS_hocSinh() {

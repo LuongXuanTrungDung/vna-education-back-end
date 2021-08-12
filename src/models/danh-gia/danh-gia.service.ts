@@ -109,7 +109,7 @@ export class DanhGiaService {
                 },
                 {
                     path: 'lopHoc',
-                    select: ['maLH', 'hocSinh'],
+                    select: 'maLH',
                 },
                 {
                     path: 'tuanDG',

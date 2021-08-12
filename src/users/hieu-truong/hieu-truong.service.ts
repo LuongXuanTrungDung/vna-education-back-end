@@ -16,16 +16,12 @@ export class HieuTruongService {
     // }
 
     async danhGiaGVBM(gv: string, lop: string) {
-        return await this.ht.findAll_choGVBM(gv, lop);
+        return await this.ht.findAll_ofGVBM(gv, lop);
     }
 
     // async danhGiaGVCN(gv: string, nam: string) {
     //     return await this.ht.findAll_byYear(nam, gv);
     // }
-
-    async danhGia_chiTiet(id: string) {
-        return await this.ht.findOne_forHT(id);
-    }
 
     async tatCa_HocSinh() {
         const result = [];
