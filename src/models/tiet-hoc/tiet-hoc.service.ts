@@ -173,6 +173,38 @@ export class TietHocService {
         return await this.findAll({ buoiHoc: Object(buoi) });
     }
 
+    async findAll_byGVbySub(gv: string, mon: string) {
+        const all = await this.model
+            .find({ giaoVien: Object(gv), monHoc: Object(mon) })
+            .populate([
+                { path: 'lopHoc', select: 'maLH' },
+                {
+                    path: 'buoiHoc',
+                    select: 'tuanHoc',
+                    populate: {
+                        path: 'tuanHoc',
+                        select: 'soTuan',
+                    },
+                },
+            ])
+            .exec();
+        const result = [];
+
+        for (let i = 0; i < all.length; i++) {
+            result.push({
+                lopHoc: all[i].lopHoc
+                    ? {
+                          _id: all[i].populated('lopHoc'),
+                          maLH: all[i].lopHoc.maLH,
+                      }
+                    : null,
+                tuanHoc: all[i].buoiHoc ? all[i].buoiHoc.tuanHoc : null,
+            });
+            console.log(all[i].buoiHoc.tuanHoc.soTuan);
+        }
+        return result;
+    }
+
     async update(id: string, dto: UpdateTietHocDto) {
         const { lopHoc, giaoVien, monHoc, diemDanh, buoiHoc, ...rest } = dto;
         return await this.model.findById(id, null, null, async (err, doc) => {
