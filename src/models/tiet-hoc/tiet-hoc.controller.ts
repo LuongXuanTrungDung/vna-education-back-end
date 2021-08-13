@@ -34,14 +34,8 @@ export class TietHocController {
     }
 
     @Get('theo')
-    async findBY(
-        @Query('buoi') buoi: string,
-        @Query('gv') gv: string,
-        @Query('mon') mon: string,
-    ) {
+    async findBY(@Query('buoi') buoi: string) {
         if (buoi && buoi != '') return await this.service.findAll_byDate(buoi);
-        if (gv && gv != '' && mon && mon != '')
-            return await this.service.findAll_byGVbySub(gv, mon);
         return await this.service.findAll();
     }
 

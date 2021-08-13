@@ -1,7 +1,7 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
-import { arrange, assign } from '../../helpers/utilities';
+import { arrange, assign, removeDuplicates } from '../../helpers/utilities';
 import { LopHocService } from '../lop-hoc/lop-hoc.service';
 import { MauDanhGiaService } from '../mau-danh-gia/mau-danh-gia.service';
 import { MonHocService } from '../mon-hoc/mon-hoc.service';
@@ -91,6 +91,25 @@ export class DanhGiaService {
 
     async findAll_bySubject(mon: string) {
         return await this.findAll({ monHoc: Object(mon) });
+    }
+
+    async findAll_byGVbySub(gv: string, mon: string) {
+        const all = await this.model
+            .find({ giaoVien: Object(gv), monHoc: Object(mon) })
+            .populate([
+                { path: 'lopHoc', select: 'maLH' },
+                { path: 'tuanDG', select: 'soTuan' },
+            ])
+            .exec();
+        const result = [];
+
+        for (let i = 0; i < all.length; i++) {
+            result.push({
+                lopHoc: all[i].lopHoc ? all[i].lopHoc : null,
+                tuanHoc: all[i].tuanDG ? all[i].tuanDG : null,
+            });
+        }
+        return removeDuplicates(result, 'lopHoc');
     }
 
     async findAll(condition: any = {}) {
