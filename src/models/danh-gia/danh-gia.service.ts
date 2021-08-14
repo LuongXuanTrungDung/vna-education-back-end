@@ -56,7 +56,7 @@ export class DanhGiaService {
             .exec();
         const result = [];
 
-        console.log(all);
+        //  console.log(all);
 
         for (let i = 0; i < all.length; i++) {
             // còn hạn
@@ -104,11 +104,46 @@ export class DanhGiaService {
         const result = [];
 
         for (let i = 0; i < all.length; i++) {
+            let temp = 0,
+                diem = 0;
+            for (let j = 0; j < all[i].chiTiet.length; j++) {
+                temp += all[i].chiTiet[j].diemDG;
+            }
+            diem = temp / all[i].chiTiet.length;
+
             result.push({
+                idDG: all[i]._id,
                 lopHoc: all[i].lopHoc ? all[i].lopHoc : null,
-                tuanHoc: all[i].tuanDG ? all[i].tuanDG : null,
+                tuanDG: all[i].tuanDG ? all[i].tuanDG : null,
+                diemTong: all[i].chiTiet.length > 0 ? diem : 0,
             });
         }
+
+        return removeDuplicates(result, 'lopHoc');
+    }
+
+    async finAll_byGVCN(gv: string) {
+        const all = await this.model
+            .find({ giaoVien: Object(gv), choGVCN: true })
+            .populate({ path: 'tuanDG', select: ['soTuan', 'tenTuan'] })
+            .exec();
+        const result = [];
+
+        for (let i = 0; i < all.length; i++) {
+            let temp = 0,
+                diem = 0;
+            for (let j = 0; j < all[i].chiTiet.length; j++) {
+                temp += all[i].chiTiet[j].diemDG;
+            }
+            diem = temp / all[i].chiTiet.length;
+
+            result.push({
+                idDG: all[i]._id,
+                tuanDG: all[i].tuanDG ? all[i].tuanDG : null,
+                diemTong: all[i].chiTiet.length > 0 ? diem : 0,
+            });
+        }
+
         return removeDuplicates(result, 'lopHoc');
     }
 

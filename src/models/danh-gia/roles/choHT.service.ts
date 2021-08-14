@@ -61,4 +61,50 @@ export class ChoHieuTruongService {
         }
         return result;
     }
+
+    async findOne_ofGVCN(id: string) {
+        const one = await this.model
+            .findById(id)
+            .populate([
+                { path: 'monHoc', select: 'tenMH' },
+                {
+                    path: 'giaoVien',
+                    select: 'hoTen',
+                },
+                {
+                    path: 'lopHoc',
+                    select: ['maLH', 'hocSinh'],
+                },
+                {
+                    path: 'tuanDG',
+                    select: 'soTuan',
+                },
+            ])
+            .exec();
+
+        let temp = 0,
+            diem = 0;
+        for (let i = 0; i < one.chiTiet.length; i++) {
+            temp += one.chiTiet[i].diemDG;
+        }
+        diem = temp / one.chiTiet.length;
+
+        return {
+            _id: id,
+            tenDG: one.tenDG,
+            monHoc: one.monHoc ? one.monHoc : null,
+            giaoVien: one.giaoVien ? one.giaoVien : null,
+            lopHoc: one.lopHoc
+                ? {
+                      _id: one.populated('lopHoc'),
+                      maLH: one.lopHoc.maLH,
+                      siSo: one.lopHoc.hocSinh.length,
+                  }
+                : null,
+            tuanDG: one.tuanDG ? one.tuanDG : null,
+            chiTiet: one.chiTiet,
+            luotDG: one.chiTiet.length,
+            diemTB: one.chiTiet.length > 0 ? diem : 0,
+        };
+    }
 }

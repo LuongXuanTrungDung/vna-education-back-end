@@ -64,7 +64,13 @@ export class DanhGiaController {
     }
 
     @Get('theo')
-    async findAllBy(@Query('mon') mon: string, @Query('gv') gv: string) {
+    async findAllBy(
+        @Query('mon') mon: string,
+        @Query('gv') gv: string,
+        @Query('chuNhiem') cn: boolean,
+    ) {
+        if (gv && gv != '' && cn)
+            return await this.service.finAll_byGVCN(gv);
         if (mon && mon != '' && gv && gv != '')
             return await this.service.findAll_byGVbySub(gv, mon);
         if (mon && mon != '') return await this.service.findAll_bySubject(mon);

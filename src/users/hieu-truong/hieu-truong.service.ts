@@ -19,9 +19,9 @@ export class HieuTruongService {
         return await this.ht.findAll_ofGVBM(gv, lop);
     }
 
-    // async danhGiaGVCN(gv: string, nam: string) {
-    //     return await this.ht.findAll_byYear(nam, gv);
-    // }
+    async danhGiaGVCN(dg: string) {
+        return await this.ht.findOne_ofGVCN(dg);
+    }
 
     async tatCa_HocSinh() {
         const result = [];
