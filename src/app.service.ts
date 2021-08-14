@@ -1,3 +1,4 @@
+import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
 import { compare } from 'bcrypt';
 import { ChangePassDTO } from './helpers/changePass.dto';
@@ -16,6 +17,7 @@ export class AppService {
         private readonly tuanSer: TuanHocService,
         private readonly bhSer: BuoiHocService,
         private readonly thSer: TietHocService,
+        private readonly mailSer: MailerService,
     ) {}
 
     async kiemTra_dangNhap(username: string, password: string) {
@@ -111,5 +113,14 @@ export class AppService {
 
     async doiMatKhau(dto: ChangePassDTO) {
         return await this.ndSer.changePass(dto);
+    }
+
+    guiMail_quenMatKhau(email: string, token: string) {
+        this.mailSer.sendMail({
+            to: email, // Email người nhận
+            from: '"VNA Education" - vna-568a20@inbox.mailtrap.io', //Email người gửi
+            subject: 'Xác nhận đổi mật khẩu - VNA Education', // Tiêu đề mail
+            html: `<b>${token}</b>`, // Nội dung mail
+        });
     }
 }

@@ -199,3 +199,6 @@
 	- Tách file ở model danh_gia
 	- Thêm API trả đánh giá cho giáo viên
 	- Thêm API trả lịch dạy cho giáo viên
+- 2.11.1
+	- Thêm API trả đánh giá GVBM và GVCN cho hiệu trưởng
+	- Thêm API gửi mail

@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { AuthGuard } from './auth.guard';
 import { ChangePassDTO } from './helpers/changePass.dto';
 import { DangNhapDTO } from './helpers/dangNhap.dto';
+import { sendMailDTO } from './helpers/sendMail.dto';
 
 @Controller()
 @ApiTags('chung')
@@ -36,5 +37,10 @@ export class AppController {
     @Post('doi-mat-khau')
     async doiMatKhau(@Body() dto: ChangePassDTO) {
         return await this.service.doiMatKhau(dto);
+    }
+
+    @Post('gui-mail')
+    guiEmail(@Body() toSend: sendMailDTO) {
+        return this.service.guiMail_quenMatKhau(toSend.receiver, toSend.token);
     }
 }
