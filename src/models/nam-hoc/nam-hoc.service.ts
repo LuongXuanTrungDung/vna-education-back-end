@@ -3,8 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { assign, bulkObjectID } from '../../helpers/utilities';
 import { TuanHocService } from '../tuan-hoc/tuan-hoc.service';
-import { CreateNamHocDto } from './dto/create-nam-hoc.dto';
-import { UpdateNamHocDTO } from './dto/update-nam-hoc.dto';
+import { NamHocDto } from './nam-hoc.dto';
 import { NamHocDocument } from './nam-hoc.entity';
 
 @Injectable()
@@ -14,11 +13,16 @@ export class NamHocService {
         private readonly tuanSer: TuanHocService,
     ) {}
 
-    async create(dto: CreateNamHocDto) {
-        return await this.model.create({
-            ...dto,
-            tuanHoc: [],
-        });
+    async create(dto: NamHocDto) {
+        const { tuanHoc, ...rest } = dto;
+        const toCreate =
+            tuanHoc.length > 0
+                ? {
+                      ...rest,
+                      tuanHoc: bulkObjectID(tuanHoc),
+                  }
+                : { ...rest };
+        return await this.model.create(toCreate);
     }
 
     async getOne(nam: string) {
@@ -82,12 +86,12 @@ export class NamHocService {
         return latest.tuanHoc[0];
     }
 
-    async update(id: string, dto: UpdateNamHocDTO) {
+    async update(id: string, dto: NamHocDto) {
         const { tuanHoc, ...rest } = dto;
         return await this.model.findById(id, null, null, async (err, doc) => {
             if (err) throw err;
             assign(rest, doc);
-            if (tuanHoc)
+            if (tuanHoc && tuanHoc.length > 0)
                 doc.tuanHoc = await this.tuanSer.bulkObjectify(tuanHoc);
             await doc.save();
         });
