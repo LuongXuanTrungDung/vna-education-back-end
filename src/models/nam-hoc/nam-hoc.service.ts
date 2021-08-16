@@ -26,7 +26,7 @@ export class NamHocService {
     }
 
     async getOne(nam: string) {
-        return await this.model.aggregate([
+        const agg = await this.model.aggregate([
             { $match: { _id: Types.ObjectId(nam) } },
             {
                 $lookup: {
@@ -45,6 +45,7 @@ export class NamHocService {
                 },
             },
         ]);
+        return agg[0];
     }
 
     async getAll() {
