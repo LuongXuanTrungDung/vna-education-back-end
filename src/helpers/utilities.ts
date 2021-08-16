@@ -56,3 +56,14 @@ export function weekdaySort(a: string, b: string) {
     }
     return aVal - bVal;
 }
+
+export function average(arr: number[]) {
+    let temp = 0;
+    if (arr.length === 0) return 0;
+    else {
+        for (let i = 0; i < arr.length; i++) {
+            temp += arr[i];
+        }
+        return temp / arr.length;
+    }
+}

@@ -43,4 +43,9 @@ export class AppController {
     guiEmail(@Body() toSend: sendMailDTO) {
         return this.service.guiMail_quenMatKhau(toSend.receiver, toSend.token);
     }
+
+    @Get('thong-ke/diem-thap-nhat')
+    async thongKeGV_diemDGThap(@Query('tuan') tuan: string) {
+        return await this.service.diemDGThap_theoTuan(tuan);
+    }
 }

@@ -4,6 +4,7 @@ import { compare } from 'bcrypt';
 import { ChangePassDTO } from './helpers/changePass.dto';
 import { weekdaySort } from './helpers/utilities';
 import { BuoiHocService } from './models/buoi-hoc/buoi-hoc.service';
+import { ThongKeService } from './models/danh-gia/roles/thongKe.service';
 import { LopHocService } from './models/lop-hoc/lop-hoc.service';
 import { NguoiDungService } from './models/nguoi-dung/nguoi-dung.service';
 import { TietHocService } from './models/tiet-hoc/tiet-hoc.service';
@@ -17,7 +18,9 @@ export class AppService {
         private readonly tuanSer: TuanHocService,
         private readonly bhSer: BuoiHocService,
         private readonly thSer: TietHocService,
+
         private readonly mailSer: MailerService,
+        private readonly thongKe: ThongKeService,
     ) {}
 
     async kiemTra_dangNhap(username: string, password: string) {
@@ -108,6 +111,7 @@ export class AppService {
         result.buoiHoc.sort((a, b) => {
             return weekdaySort(a.thu, b.thu);
         });
+
         return result;
     }
 
@@ -122,5 +126,9 @@ export class AppService {
             subject: 'Xác nhận đổi mật khẩu - VNA Education', // Tiêu đề mail
             html: `<b>${token}</b>`, // Nội dung mail
         });
+    }
+
+    async diemDGThap_theoTuan(tuan: string) {
+        return await this.thongKe.lowestScore_perWeek(tuan);
     }
 }

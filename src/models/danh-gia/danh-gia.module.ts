@@ -11,6 +11,7 @@ import { TuanHocModule } from '../tuan-hoc/tuan-hoc.module';
 import { ChoHocSinhService } from './roles/choHS.service';
 import { ChoGiaoViehService } from './roles/choGV.service';
 import { ChoHieuTruongService } from './roles/choHT.service';
+import { ThongKeService } from './roles/thongKe.service';
 
 @Module({
     imports: [
@@ -29,12 +30,14 @@ import { ChoHieuTruongService } from './roles/choHT.service';
         ChoHocSinhService,
         ChoGiaoViehService,
         ChoHieuTruongService,
+        ThongKeService,
     ],
     exports: [
         DanhGiaService,
         ChoHocSinhService,
         ChoGiaoViehService,
         ChoHieuTruongService,
+        ThongKeService,
     ],
 })
 export class DanhGiaModule {}
