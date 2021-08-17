@@ -17,7 +17,7 @@ export class ThongKeService {
             .exec();
         const toSort = removeDuplicates(all, 'giaoVien').map((val) => {
             return {
-                giaoVien: val.giaoVien,
+                giaoVien: val.giaoVien.hoTen,
                 diemTong: 0,
             };
         });
