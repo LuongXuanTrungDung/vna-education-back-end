@@ -75,6 +75,10 @@ export class AppService {
             }
         }
 
+        for (let l = temp.length - 1; l >= 0; l--) {
+            if (temp[l].tietHoc.length === 0) temp.splice(l, 1);
+        }
+
         result.buoiHoc = temp;
         result.buoiHoc.sort((a, b) => {
             return weekdaySort(a.thu, b.thu);
@@ -105,6 +109,10 @@ export class AppService {
                     temp[j].tietHoc.push(t);
                 }
             }
+        }
+
+        for (let l = temp.length - 1; l >= 0; l--) {
+            if (temp[l].tietHoc.length === 0) temp.splice(l, 1);
         }
 
         result.buoiHoc = temp;
