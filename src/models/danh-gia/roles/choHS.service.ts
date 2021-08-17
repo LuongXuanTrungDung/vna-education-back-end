@@ -50,6 +50,7 @@ export class ChoHocSinhService {
                 monHoc: revs[i].monHoc?.tenMH,
                 giaoVien: revs[i].giaoVien?.hoTen,
                 choGVCN: revs[i].choGVCN,
+                daDuyet: revs[i].daDuyet,
                 tuanDG: revs[i].tuanDG?.soTuan,
                 hetHan: false,
             };
@@ -143,6 +144,7 @@ export class ChoHocSinhService {
             tuanDG: one.tuanDG?.soTuan,
             giaoVien: one.giaoVien?.hoTen,
             choGVCN: one.choGVCN,
+            daDuyet: one.daDuyet,
             monHoc: one.monHoc?.tenMH,
             ...n,
             chiTiet: one.lopHoc

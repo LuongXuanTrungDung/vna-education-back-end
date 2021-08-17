@@ -41,6 +41,7 @@ export class ChoGiaoViehService {
                 tenDG: all[i].tenDG,
                 monHoc: all[i].monHoc?.tenMH,
                 choGVCN: all[i].choGVCN,
+                daDuyet: all[i].daDuyet,
                 lopHoc: all[i].lopHoc
                     ? {
                           maLH: all[i].lopHoc.maLH,
@@ -48,7 +49,6 @@ export class ChoGiaoViehService {
                       }
                     : null,
                 tuanDG: all[i].tuanDG?.soTuan,
-                chiTiet: all[i].chiTiet,
                 diemTB: all[i].chiTiet.length > 0 ? diem : 0,
                 hetHan:
                     arrange(all[i].tuanDG.ngayKetThuc).getTime() < now
@@ -89,6 +89,7 @@ export class ChoGiaoViehService {
             monHoc: one.monHoc?.tenMH,
             tieuChi: one.mauDG?.tieuChi,
             choGVCN: one.choGVCN,
+            daDuyet: one.daDuyet,
             lopHoc: one.lopHoc
                 ? {
                       maLH: one.lopHoc.maLH,

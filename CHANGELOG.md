@@ -202,3 +202,8 @@
 - 2.11.1
 	- Thêm API trả đánh giá GVBM và GVCN cho hiệu trưởng
 	- Thêm API gửi mail
+	- Thêm API thống kê giáo viên và điểm trung bình đánh giá trong 1 tuần
+- 2.11.2
+	- Sửa model danh_gia, thêm daDuyet. Sửa các API trả danh_gia
+	- Thêm API trả đánh giá theo tuần hay lớp cho hiệu trưởng
+	- Thêm API duyệt đánh giá cho hiệu trưởng

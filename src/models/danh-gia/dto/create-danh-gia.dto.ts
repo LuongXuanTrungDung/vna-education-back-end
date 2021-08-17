@@ -4,6 +4,7 @@ export class CreateDanhGiaDto {
     monHoc: string = null;
     giaoVien: string;
     tuanDG: string;
-    choGVCN: boolean;
+    choGVCN = false;
     mauDG: string;
+    daDuyet = false;
 }

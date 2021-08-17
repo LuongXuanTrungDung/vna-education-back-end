@@ -58,6 +58,9 @@ export class DanhGia {
 
     @Prop({ default: false })
     choGVCN: boolean;
+
+    @Prop({ default: false })
+    daDuyet: boolean;
 }
 
 export const DanhGiaSchema = SchemaFactory.createForClass(DanhGia);

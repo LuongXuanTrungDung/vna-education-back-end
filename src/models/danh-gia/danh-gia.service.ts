@@ -27,6 +27,7 @@ export class DanhGiaService {
         let toCreate = {
             tenDG: dto.tenDG,
             choGVCN: dto.choGVCN,
+            daDuyet: dto.daDuyet,
             tuanDG: Types.ObjectId(dto.tuanDG),
             mauDG: Types.ObjectId(dto.mauDG),
             giaoVien: Types.ObjectId(dto.giaoVien),
@@ -190,6 +191,7 @@ export class DanhGiaService {
                       }
                     : null,
                 choGVCN: all[i].choGVCN,
+                daDuyet: all[i].daDuyet,
                 mauDG: all[i].mauDG
                     ? {
                           _id: all[i].populated('mauDG'),
@@ -254,6 +256,7 @@ export class DanhGiaService {
                   }
                 : null,
             choGVCN: one.choGVCN,
+            daDuyet: one.daDuyet,
             mauDG: one.mauDG
                 ? {
                       _id: one.populated('mauDG'),

@@ -11,9 +11,17 @@ export class HieuTruongService {
         private ht: ChoHieuTruongService,
     ) {}
 
-    // async tatCa_DanhGia() {
-    //     return await this.dgSer.findAll();
-    // }
+    async tatCa_DanhGia(tuan: string, lop?: string) {
+        return await this.ht.getAll_forHT(tuan, lop);
+    }
+
+    async motDanhGia(dg: string) {
+        return await this.ht.getOne_forHT(dg);
+    }
+
+    async duyetDG(idDG: string, tinhTrang = true) {
+        return await this.ht.approve(idDG, tinhTrang);
+    }
 
     async danhGiaGVBM(gv: string, lop: string) {
         return await this.ht.findAll_ofGVBM(gv, lop);
