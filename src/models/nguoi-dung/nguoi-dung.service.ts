@@ -251,6 +251,21 @@ export class NguoiDungService {
         ]);
     }
 
+    async classCount(classe: string) {
+        const all = await this.model.aggregate([
+            {
+                $match: { lopHoc: Types.ObjectId(classe) },
+            },
+            {
+                $project: {
+                    maND: 1,
+                    hoTen: 1,
+                },
+            },
+        ]);
+        return all.length;
+    }
+
     async findAll_byClass(lop: string) {
         return await this.getAll({ lopHoc: Types.ObjectId(lop) });
     }

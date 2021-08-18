@@ -2,12 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { arrange } from '../../../helpers/utilities';
+import { NguoiDungService } from '../../nguoi-dung/nguoi-dung.service';
 import { DanhGiaDocument } from '../danh-gia.entity';
 
 @Injectable()
 export class ChoGiaoViehService {
     constructor(
         @InjectModel('danh_gia') private model: Model<DanhGiaDocument>,
+        private readonly ndSer: NguoiDungService,
     ) {}
 
     async getAll_byGV(gv: string, tuan: string) {
@@ -45,7 +47,8 @@ export class ChoGiaoViehService {
                 lopHoc: all[i].lopHoc
                     ? {
                           maLH: all[i].lopHoc.maLH,
-                          siSo: all[i].lopHoc.hocSinh.length,
+                          siSo: await this.ndSer.classCount(all[i].populated('lopHoc')),
+						  luotDG: all[i].chiTiet.length
                       }
                     : null,
                 tuanDG: all[i].tuanDG?.soTuan,
@@ -93,7 +96,8 @@ export class ChoGiaoViehService {
             lopHoc: one.lopHoc
                 ? {
                       maLH: one.lopHoc.maLH,
-                      siSo: one.lopHoc.hocSinh.length,
+                      siSo: await this.ndSer.classCount(one.populated('lopHoc')),
+					  luotDG: one.chiTiet.length
                   }
                 : null,
             tuanDG: one.tuanDG?.soTuan,
