@@ -10,7 +10,7 @@ export class ThongKeService {
         @InjectModel('danh_gia') private model: Model<DanhGiaDocument>,
     ) {}
 
-    async lowestScore_perWeek(week: string) {
+    async giaoVien_andScore_perWeek(week: string) {
         const all = await this.model
             .find({ tuanDG: Object(week) })
             .populate({ path: 'giaoVien', select: 'hoTen' })

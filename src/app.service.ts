@@ -136,7 +136,7 @@ export class AppService {
         });
     }
 
-    async diemDGThap_theoTuan(tuan: string) {
-        return await this.thongKe.lowestScore_perWeek(tuan);
+    async diemDG_cacGV_theoTuan(tuan: string) {
+        return await this.thongKe.giaoVien_andScore_perWeek(tuan)
     }
 }
