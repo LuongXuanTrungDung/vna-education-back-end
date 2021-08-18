@@ -209,16 +209,20 @@ export class ChoHieuTruongService {
         return {
             _id: dg,
             tenDG: one.tenDG,
-            monHoc: one.monHoc?.tenMH,
+            monHoc: one.monHoc ? one.monHoc.tenMH : null,
             giaoVien: one.giaoVien?.hoTen,
             tieuChi: one.mauDG?.tieuChi,
             choGVCN: one.choGVCN,
             daDuyet: one.daDuyet,
-            lopHoc: {
-                maLH: one.lopHoc?.maLH,
-                siSo: await this.ndSer.classCount(one.populated('lopHoc')),
-                luotDG: one.chiTiet.length,
-            },
+            lopHoc: one.lopHoc
+                ? {
+                      maLH: one.lopHoc.maLH,
+                      siSo: await this.ndSer.classCount(
+                          one.populated('lopHoc'),
+                      ),
+                      luotDG: one.chiTiet.length,
+                  }
+                : null,
             tuanDG: one.tuanDG?.soTuan,
             chiTiet: one.chiTiet,
             diemDG: one.chiTiet.length > 0 ? diem : 0,

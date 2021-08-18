@@ -41,7 +41,7 @@ export class ChoGiaoViehService {
             result.push({
                 _id: all[i]._id,
                 tenDG: all[i].tenDG,
-                monHoc: all[i].monHoc?.tenMH,
+                monHoc: all[i].monHoc ? all[i].monHoc.tenMH : null,
                 choGVCN: all[i].choGVCN,
                 daDuyet: all[i].daDuyet,
                 lopHoc: all[i].lopHoc
@@ -91,7 +91,7 @@ export class ChoGiaoViehService {
         return {
             _id: id,
             tenDG: one.tenDG,
-            monHoc: one.monHoc?.tenMH,
+            monHoc: one.monHoc ? one.monHoc.tenMH : null,
             tieuChi: one.mauDG?.tieuChi,
             choGVCN: one.choGVCN,
             daDuyet: one.daDuyet,

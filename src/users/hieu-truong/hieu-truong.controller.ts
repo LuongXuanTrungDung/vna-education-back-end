@@ -1,6 +1,5 @@
 import {
     Body,
-    Controller,
     Get,
     Param,
     Patch,
@@ -48,7 +47,10 @@ export class HieuTruongController {
     }
 
     @Patch('duyet-danh-gia/:dg')
-    async duyetDG(@Param('dg') dg: string, @Query('trangThai') trangThai: boolean) {
+    async duyetDG(
+        @Param('dg') dg: string,
+        @Query('trangThai') trangThai: boolean,
+    ) {
         return await this.service.duyetDG(dg, trangThai);
     }
 }

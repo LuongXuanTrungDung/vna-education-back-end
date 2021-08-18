@@ -47,7 +47,7 @@ export class ChoHocSinhService {
             const m = {
                 _id: revs[i]._id,
                 tenDG: revs[i].tenDG,
-                monHoc: revs[i].monHoc?.tenMH,
+                monHoc: revs[i].monHoc ? revs[i].monHoc.tenMH : null,
                 giaoVien: revs[i].giaoVien?.hoTen,
                 choGVCN: revs[i].choGVCN,
                 daDuyet: revs[i].daDuyet,
@@ -145,7 +145,7 @@ export class ChoHocSinhService {
             giaoVien: one.giaoVien?.hoTen,
             choGVCN: one.choGVCN,
             daDuyet: one.daDuyet,
-            monHoc: one.monHoc?.tenMH,
+            monHoc: one.monHoc ? one.monHoc.tenMH : null,
             ...n,
             chiTiet: one.lopHoc
                 ? {
