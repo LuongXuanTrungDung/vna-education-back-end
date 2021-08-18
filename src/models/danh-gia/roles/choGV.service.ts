@@ -47,8 +47,10 @@ export class ChoGiaoViehService {
                 lopHoc: all[i].lopHoc
                     ? {
                           maLH: all[i].lopHoc.maLH,
-                          siSo: await this.ndSer.classCount(all[i].populated('lopHoc')),
-						  luotDG: all[i].chiTiet.length
+                          siSo: await this.ndSer.classCount(
+                              all[i].populated('lopHoc'),
+                          ),
+                          luotDG: all[i].chiTiet.length,
                       }
                     : null,
                 tuanDG: all[i].tuanDG?.soTuan,
@@ -96,8 +98,10 @@ export class ChoGiaoViehService {
             lopHoc: one.lopHoc
                 ? {
                       maLH: one.lopHoc.maLH,
-                      siSo: await this.ndSer.classCount(one.populated('lopHoc')),
-					  luotDG: one.chiTiet.length
+                      siSo: await this.ndSer.classCount(
+                          one.populated('lopHoc'),
+                      ),
+                      luotDG: one.chiTiet.length,
                   }
                 : null,
             tuanDG: one.tuanDG?.soTuan,

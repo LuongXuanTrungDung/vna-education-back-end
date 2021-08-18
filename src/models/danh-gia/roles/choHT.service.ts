@@ -9,7 +9,7 @@ import { DanhGiaDocument } from '../danh-gia.entity';
 export class ChoHieuTruongService {
     constructor(
         @InjectModel('danh_gia') private model: Model<DanhGiaDocument>,
-		private readonly ndSer: NguoiDungService
+        private readonly ndSer: NguoiDungService,
     ) {}
 
     async findAll_ofGVBM(gv: string, lop: string) {
@@ -53,8 +53,10 @@ export class ChoHieuTruongService {
                     ? {
                           _id: all[i].populated('lopHoc'),
                           maLH: all[i].lopHoc.maLH,
-                          siSo: await this.ndSer.classCount(String(all[i].populated('lopHoc'))),
-						  luotDG: all[i].chiTiet.length,
+                          siSo: await this.ndSer.classCount(
+                              String(all[i].populated('lopHoc')),
+                          ),
+                          luotDG: all[i].chiTiet.length,
                       }
                     : null,
                 tuanDG: all[i].tuanDG ? all[i].tuanDG : null,
@@ -100,8 +102,10 @@ export class ChoHieuTruongService {
                 ? {
                       _id: one.populated('lopHoc'),
                       maLH: one.lopHoc.maLH,
-                      siSo: await this.ndSer.classCount(one.populated('lopHoc')),
-					  luotDG: one.chiTiet.length,
+                      siSo: await this.ndSer.classCount(
+                          one.populated('lopHoc'),
+                      ),
+                      luotDG: one.chiTiet.length,
                   }
                 : null,
             tuanDG: one.tuanDG ? one.tuanDG : null,
@@ -157,8 +161,10 @@ export class ChoHieuTruongService {
                     ? {
                           _id: all[i].populated('lopHoc'),
                           maLH: all[i].lopHoc?.maLH,
-                          siSo: await this.ndSer.classCount(String(all[i].populated('lopHoc'))),
-						  luotDG: all[i].chiTiet.length,
+                          siSo: await this.ndSer.classCount(
+                              String(all[i].populated('lopHoc')),
+                          ),
+                          luotDG: all[i].chiTiet.length,
                       }
                     : null,
                 giaoVien: all[i].giaoVien?.hoTen,
@@ -211,7 +217,7 @@ export class ChoHieuTruongService {
             lopHoc: {
                 maLH: one.lopHoc?.maLH,
                 siSo: await this.ndSer.classCount(one.populated('lopHoc')),
-				luotDG: one.chiTiet.length,
+                luotDG: one.chiTiet.length,
             },
             tuanDG: one.tuanDG?.soTuan,
             chiTiet: one.chiTiet,

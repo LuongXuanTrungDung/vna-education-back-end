@@ -46,6 +46,6 @@ export class AppController {
 
     @Get('thong-ke/giao-vien/diem-danh-gia')
     async thongKeGV_diemDGThap(@Query('tuan') tuan: string) {
-        return await this.service.diemDG_cacGV_theoTuan(tuan)
+        return await this.service.diemDG_cacGV_theoTuan(tuan);
     }
 }

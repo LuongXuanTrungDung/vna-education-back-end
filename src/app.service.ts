@@ -137,6 +137,6 @@ export class AppService {
     }
 
     async diemDG_cacGV_theoTuan(tuan: string) {
-        return await this.thongKe.giaoVien_andScore_perWeek(tuan)
+        return await this.thongKe.giaoVien_andScore_perWeek(tuan);
     }
 }
