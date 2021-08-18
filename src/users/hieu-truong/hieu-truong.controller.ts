@@ -48,7 +48,7 @@ export class HieuTruongController {
     }
 
     @Patch('duyet-danh-gia/:dg')
-    async duyetDG(@Param('dg') dg: string, @Body() daDuyet?: boolean) {
-        return await this.service.duyetDG(dg, daDuyet);
+    async duyetDG(@Param('dg') dg: string, @Query('trangThai') trangThai: boolean) {
+        return await this.service.duyetDG(dg, trangThai);
     }
 }
