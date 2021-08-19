@@ -16,7 +16,7 @@ export class NamHocService {
     async create(dto: NamHocDto) {
         const { tuanHoc, ...rest } = dto;
         const toCreate =
-            tuanHoc.length > 0
+            tuanHoc && tuanHoc.length > 0
                 ? {
                       ...rest,
                       tuanHoc: bulkObjectID(tuanHoc),
