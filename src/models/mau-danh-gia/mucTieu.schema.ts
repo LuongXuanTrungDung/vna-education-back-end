@@ -11,7 +11,7 @@ export class MucTieu {
     @Prop({ required: true })
     noiDung: string;
 
-    @Prop({ required: true }) id: number;
+    @Prop() id: number;
 }
 
 export const MucTieuSchema = SchemaFactory.createForClass(MucTieu);

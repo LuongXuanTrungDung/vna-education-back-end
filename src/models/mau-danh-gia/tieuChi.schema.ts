@@ -12,7 +12,7 @@ export class TieuChi {
     @Prop({ required: true })
     tenTC: string;
 
-    @Prop({ required: true }) id: number;
+    @Prop() id: number;
 
     @Prop() noiDung: string;
 
