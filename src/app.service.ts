@@ -2,10 +2,11 @@ import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
 import { compare } from 'bcrypt';
 import { ChangePassDTO } from './helpers/changePass.dto';
-import { weekdaySort } from './helpers/utilities';
+import { sessionSort, weekdaySort } from './helpers/utilities';
 import { BuoiHocService } from './models/buoi-hoc/buoi-hoc.service';
 import { ThongKeService } from './models/danh-gia/roles/thongKe.service';
 import { LopHocService } from './models/lop-hoc/lop-hoc.service';
+import { AccountService } from './models/nguoi-dung/actions/account.service';
 import { NguoiDungService } from './models/nguoi-dung/nguoi-dung.service';
 import { TietHocService } from './models/tiet-hoc/tiet-hoc.service';
 import { TuanHocService } from './models/tuan-hoc/tuan-hoc.service';
@@ -21,25 +22,29 @@ export class AppService {
 
         private readonly mailSer: MailerService,
         private readonly thongKe: ThongKeService,
+        private readonly accSer: AccountService,
     ) {}
 
     async kiemTra_dangNhap(username: string, password: string) {
-        const user = await this.ndSer.findOne_byMaND(username);
-        const pass = await this.ndSer.onlyPassword(username);
+        const user = await this.accSer.getOne_bymaND(username);
+        const pass = await this.accSer.onlyPassword(username);
         if (user && pass) {
-            if (await compare(password, pass))
+            if ((await compare(password, pass)) && user.dangHoatDong)
                 return {
-                    id: user.id,
+                    id: user._id,
+                    dangHD: user.dangHoatDong,
                     resOK: true,
                 };
             else
                 return {
                     id: null,
+                    dangHD: user.dangHoatDong,
                     resOK: false,
                 };
         } else {
             return {
                 id: null,
+                dangHD: user.dangHoatDong,
                 resOK: false,
             };
         }
@@ -77,6 +82,9 @@ export class AppService {
 
         for (let l = temp.length - 1; l >= 0; l--) {
             if (temp[l].tietHoc.length === 0) temp.splice(l, 1);
+            temp[l].tietHoc = temp[l].tietHoc.sort((a, b) => {
+                return sessionSort(a.thuTiet, b.thuTiet);
+            });
         }
 
         result.buoiHoc = temp;
@@ -113,6 +121,9 @@ export class AppService {
 
         for (let l = temp.length - 1; l >= 0; l--) {
             if (temp[l].tietHoc.length === 0) temp.splice(l, 1);
+            temp[l].tietHoc = temp[l].tietHoc.sort((a, b) => {
+                return sessionSort(a.thuTiet, b.thuTiet);
+            });
         }
 
         result.buoiHoc = temp;
@@ -124,7 +135,7 @@ export class AppService {
     }
 
     async doiMatKhau(dto: ChangePassDTO) {
-        return await this.ndSer.changePass(dto);
+        return await this.accSer.changePass(dto);
     }
 
     guiMail_quenMatKhau(email: string, token: string) {

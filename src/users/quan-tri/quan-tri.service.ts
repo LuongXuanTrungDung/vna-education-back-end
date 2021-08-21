@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { sessionSort } from '../../helpers/utilities';
 import { DanhGiaService } from '../../models/danh-gia/danh-gia.service';
 import { LopHocService } from '../../models/lop-hoc/lop-hoc.service';
 import { TietHocService } from '../../models/tiet-hoc/tiet-hoc.service';
@@ -28,10 +29,13 @@ export class QuanTriService {
 
         for (let i = 0; i < tiet.length; i++) {
             if (tiet[i].buoiHoc.tuanHoc === week.soTuan) {
-                const { lopHoc, buoiHoc, thuTiet, thoiGian, ...t } = tiet[i];
+                const { lopHoc, buoiHoc, thoiGian, ...t } = tiet[i];
                 result.push(t);
             }
         }
-        return result;
+
+        return result.sort((a, b) => {
+            return sessionSort(a.thuTiet, b.thuTiet);
+        });
     }
 }

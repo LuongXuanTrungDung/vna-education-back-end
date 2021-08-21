@@ -57,6 +57,27 @@ export function weekdaySort(a: string, b: string) {
     return aVal - bVal;
 }
 
+export function sessionSort(a: string, b: string) {
+    const sessions = [
+        'Tiết 1',
+        'Tiết 2',
+        'Tiết 3',
+        'Tiết 4',
+        'Tiết 5',
+        'Tiết 6',
+        'Tiết 7',
+        'Tiết 8',
+    ];
+    let aVal = 0,
+        bVal = 0;
+
+    for (let i = 0; i < sessions.length; i++) {
+        if (a === sessions[i]) aVal = i;
+        if (b === sessions[i]) bVal = i;
+    }
+    return aVal - bVal;
+}
+
 export function average(arr: number[]) {
     let temp = 0;
     if (arr.length === 0) return 0;

@@ -43,7 +43,11 @@ export class TietHocService {
                 { path: 'lopHoc', select: 'maLH' },
                 {
                     path: 'buoiHoc',
-                    select: ['thu', 'ngayHoc'],
+                    select: ['thu', 'ngayHoc', 'tuanHoc'],
+                    populate: {
+                        path: 'tuanHoc',
+                        select: 'soTuan',
+                    },
                 },
             ])
             .exec();
@@ -77,6 +81,7 @@ export class TietHocService {
                           _id: all[i].populated('buoiHoc'),
                           thu: all[i].buoiHoc.thu,
                           ngayHoc: all[i].buoiHoc.ngayHoc,
+                          tuanHoc: all[i].buoiHoc.tuanHoc.soTuan,
                       }
                     : null,
             });
@@ -133,7 +138,11 @@ export class TietHocService {
                 { path: 'lopHoc', select: 'maLH' },
                 {
                     path: 'buoiHoc',
-                    select: ['thu', 'ngayHoc'],
+                    select: ['thu', 'ngayHoc', 'tuanHoc'],
+                    populate: {
+                        path: 'tuanHoc',
+                        select: 'soTuan',
+                    },
                 },
             ])
             .execPopulate();
@@ -164,6 +173,7 @@ export class TietHocService {
                       _id: cl.populated('buoiHoc'),
                       thu: cl.buoiHoc.thu,
                       ngayHoc: cl.buoiHoc.ngayHoc,
+                      tuanHoc: cl.buoiHoc.tuanHoc.soTuan,
                   }
                 : null,
         };
