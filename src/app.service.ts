@@ -85,7 +85,7 @@ export class AppService {
         }
 
         for (let m = 0; m < temp.length; m++) {
-            temp[m].tietHoc = temp[l].tietHoc.sort((a, b) => {
+            temp[m].tietHoc = temp[m].tietHoc.sort((a, b) => {
                 return sessionSort(a.thuTiet, b.thuTiet);
             });
         }
