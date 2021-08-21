@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { NamHocService } from './nam-hoc.service';
 import { NamHocController } from './nam-hoc.controller';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -15,7 +15,7 @@ import { TuanHocModule } from '../tuan-hoc/tuan-hoc.module';
                 schema: NamHocSchema,
             },
         ]),
-        NguoiDungModule,
+        forwardRef(() => NguoiDungModule),
         TuanHocModule,
     ],
     controllers: [NamHocController],

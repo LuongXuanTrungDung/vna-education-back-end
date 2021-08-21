@@ -2,6 +2,7 @@ import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { bulkObjectID } from '../../helpers/utilities';
+import { NamHocService } from '../nam-hoc/nam-hoc.service';
 import { NguoiDungService } from '../nguoi-dung/nguoi-dung.service';
 import { LopHocDto } from './lop-hoc.dto';
 import { LopHocDocument } from './lop-hoc.entity';
@@ -12,11 +13,13 @@ export class LopHocService {
         @InjectModel('lop_hoc') private model: Model<LopHocDocument>,
         @Inject(forwardRef(() => NguoiDungService))
         private readonly ndSer: NguoiDungService,
+        private readonly namSer: NamHocService,
     ) {}
 
     async create(dto: LopHocDto) {
         return await this.model.create({
             maLH: dto.maLH,
+            namHoc: Types.ObjectId(dto.namHoc),
             GVCN: Types.ObjectId(dto.GVCN),
             hocSinh: bulkObjectID(dto.hocSinh),
         });
@@ -27,6 +30,7 @@ export class LopHocService {
             .find(condition)
             .populate([
                 { path: 'GVCN', select: 'hoTen' },
+                { path: 'namHoc', select: 'tenNam' },
                 { path: 'hocSinh', select: 'hoTen' },
             ])
             .exec();
@@ -36,6 +40,12 @@ export class LopHocService {
             result.push({
                 _id: all[i]._id,
                 maLH: all[i].maLH,
+                namHoc: all[i].namHoc
+                    ? {
+                          _id: all[i].populated('namHoc'),
+                          tenNam: all[i].namHoc.tenNam,
+                      }
+                    : null,
                 GVCN: all[i].GVCN
                     ? {
                           _id: all[i].populated('GVCN'),
@@ -59,6 +69,7 @@ export class LopHocService {
         )
             .populate([
                 { path: 'GVCN', select: 'hoTen' },
+                { path: 'namHoc', select: 'tenNam' },
                 { path: 'hocSinh', select: 'hoTen' },
             ])
             .execPopulate();
@@ -66,6 +77,12 @@ export class LopHocService {
         return {
             _id: lop,
             maLH: classe.maLH,
+            namHoc: classe.namHoc
+                ? {
+                      _id: classe.populated('namHoc'),
+                      tenNam: classe.namHoc.tenNam,
+                  }
+                : null,
             GVCN: classe.GVCN
                 ? {
                       _id: classe.populated('GVCN'),
@@ -172,6 +189,8 @@ export class LopHocService {
         return await this.model.findById(id, null, null, async (err, doc) => {
             if (err) throw err;
             if (dto.maLH) doc.maLH = dto.maLH;
+            if (dto.namHoc)
+                doc.namHoc = await this.namSer.objectify(dto.namHoc);
             if (dto.GVCN) doc.GVCN = await this.ndSer.objectify(dto.GVCN);
             if (dto.hocSinh)
                 doc.hocSinh = await this.ndSer.bulkObjectify(dto.hocSinh);

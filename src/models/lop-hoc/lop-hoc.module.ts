@@ -4,6 +4,7 @@ import { LopHocController } from './lop-hoc.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { LopHocSchema } from './lop-hoc.entity';
 import { NguoiDungModule } from '../nguoi-dung/nguoi-dung.module';
+import { NamHocModule } from '../nam-hoc/nam-hoc.module';
 
 @Module({
     imports: [
@@ -15,6 +16,7 @@ import { NguoiDungModule } from '../nguoi-dung/nguoi-dung.module';
             },
         ]),
         forwardRef(() => NguoiDungModule),
+        NamHocModule,
     ],
     controllers: [LopHocController],
     providers: [LopHocService],

@@ -13,6 +13,10 @@ export class LopHocDto {
     @IsString()
     maLH: string;
 
+    @IsNotEmpty()
+    @IsString()
+    namHoc: string;
+
     @ApiProperty({
         name: 'GVCN',
         type: String,
