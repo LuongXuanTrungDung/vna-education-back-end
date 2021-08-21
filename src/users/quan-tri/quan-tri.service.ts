@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { sessionSort } from '../../helpers/utilities';
 import { DanhGiaService } from '../../models/danh-gia/danh-gia.service';
 import { LopHocService } from '../../models/lop-hoc/lop-hoc.service';
+import { AccountService } from '../../models/nguoi-dung/actions/account.service';
 import { TietHocService } from '../../models/tiet-hoc/tiet-hoc.service';
 import { TuanHocService } from '../../models/tuan-hoc/tuan-hoc.service';
 
@@ -12,6 +13,8 @@ export class QuanTriService {
         private readonly thSer: TietHocService,
         private readonly lhSer: LopHocService,
         private readonly tuanSer: TuanHocService,
+
+        private readonly accSer: AccountService,
     ) {}
 
     async tatCa_danhGia() {
@@ -19,7 +22,7 @@ export class QuanTriService {
     }
 
     async layDG_chuaXong(hs: string, tuan: string) {
-        return this.dgSer.getUnfinished(hs, tuan);
+        return await this.dgSer.getUnfinished(hs, tuan);
     }
 
     async traLichHoc(tuan: string, lop: string) {
@@ -37,5 +40,9 @@ export class QuanTriService {
         return result.sort((a, b) => {
             return sessionSort(a.thuTiet, b.thuTiet);
         });
+    }
+
+    async dongMo_taiKhoan(tk: string, trangThai: boolean) {
+        return await this.accSer.toggleActivation(tk, trangThai);
     }
 }

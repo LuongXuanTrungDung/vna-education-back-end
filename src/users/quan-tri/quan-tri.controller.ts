@@ -1,4 +1,11 @@
-import { Controller, Get, Query, UseGuards } from '@nestjs/common';
+import {
+    Controller,
+    Get,
+    Param,
+    Patch,
+    Query,
+    UseGuards,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '../../auth.guard';
 import { QuanTriService } from './quan-tri.service';
@@ -22,5 +29,13 @@ export class QuanTriController {
     @Get('lich-hoc')
     async layLichHoc(@Query('lop') lop: string, @Query('tuan') tuan: string) {
         return await this.service.traLichHoc(tuan, lop);
+    }
+
+    @Patch('tai-khoan/:tk')
+    async dongMo_taiKhoan(
+        @Param('tk') tk: string,
+        @Query('trangThai') tt: boolean,
+    ) {
+        return await this.service.dongMo_taiKhoan(tk, tt);
     }
 }

@@ -207,3 +207,11 @@
 	- Sửa model danh_gia, thêm daDuyet. Sửa các API trả danh_gia
 	- Thêm API trả đánh giá theo tuần hay lớp cho hiệu trưởng
 	- Thêm API duyệt đánh giá cho hiệu trưởng
+- 2.11.3
+	- Các điều chỉnh nhỏ ở các API
+	- Các điều chỉnh nhỏ ở các model
+- 2.11.4
+	- Thêm namHoc vào model lop_hoc và sửa API cho tương thích
+	- Sửa API trả tiết học có sắp xếp theo thứ tiết
+	- Trả tình trạng dangHoatDong của người dùng
+	- Thêm API thay đổi dangHoatDong của 1 người dùng (cho quản trị)
