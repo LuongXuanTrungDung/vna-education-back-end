@@ -82,7 +82,10 @@ export class AppService {
 
         for (let l = temp.length - 1; l >= 0; l--) {
             if (temp[l].tietHoc.length === 0) temp.splice(l, 1);
-            temp[l].tietHoc = temp[l].tietHoc.sort((a, b) => {
+        }
+
+        for (let m = 0; m < temp.length; m++) {
+            temp[m].tietHoc = temp[l].tietHoc.sort((a, b) => {
                 return sessionSort(a.thuTiet, b.thuTiet);
             });
         }
@@ -121,7 +124,10 @@ export class AppService {
 
         for (let l = temp.length - 1; l >= 0; l--) {
             if (temp[l].tietHoc.length === 0) temp.splice(l, 1);
-            temp[l].tietHoc = temp[l].tietHoc.sort((a, b) => {
+        }
+
+        for (let m = 0; m < temp.length; m++) {
+            temp[m].tietHoc = temp[l].tietHoc.sort((a, b) => {
                 return sessionSort(a.thuTiet, b.thuTiet);
             });
         }
