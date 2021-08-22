@@ -19,11 +19,11 @@ import { sendMailDTO } from './helpers/sendMail.dto';
 export class AppController {
     constructor(private service: AppService) {}
 
-    @Get()
-    @Render('index')
-    index() {
-        return null;
-    }
+    // @Get()
+    // @Render('index')
+    // index() {
+    //     return null;
+    // }
 
     @Post('dang-nhap')
     async dangNhap(@Body() dto: DangNhapDTO) {

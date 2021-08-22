@@ -4,6 +4,7 @@ import * as helmet from 'helmet';
 import * as compression from 'compression';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { join } from 'path';
 
 (async () => {
     const app = await NestFactory.create<NestExpressApplication>(AppModule, {
