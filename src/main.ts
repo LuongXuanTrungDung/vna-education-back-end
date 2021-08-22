@@ -14,8 +14,8 @@ import { join } from 'path';
     app.use(compression());
     app.use(helmet());
 
-    app.useStaticAssets(join(__dirname, '..', 'public'));
-    app.setBaseViewsDir(join(__dirname, '..', 'views'));
+    app.useStaticAssets(join(__dirname, '..','..', 'public'));
+    app.setBaseViewsDir(join(__dirname, '..','..', 'views'));
     app.setViewEngine('pug');
 
     const config = new DocumentBuilder()
@@ -48,5 +48,5 @@ import { join } from 'path';
     const document = SwaggerModule.createDocument(app, config);
     SwaggerModule.setup('docs', app, document);
 
-    await app.listen(process.env.PORT);
+    await app.listen(process.env.PORT || 8000);
 })();

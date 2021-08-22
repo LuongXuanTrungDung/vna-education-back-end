@@ -3,8 +3,8 @@
 	"version": "2.11.4",
 	"description": "Ứng dụng quản lý chất lượng giáo dục",
 	"engines": {
-		"node": "16.6.2",
-		"yarn": "1.22.1"
+		"node": "16.6.x",
+		"yarn": "1.22.x"
 	},
 	"license": "MIT",
 	"scripts": {
