@@ -13,6 +13,10 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
     app.use(compression());
     app.use(helmet());
 
+    app.useStaticAssets(join(__dirname, '..', 'public'));
+    app.setBaseViewsDir(join(__dirname, '..', 'views'));
+    app.setViewEngine('pug');
+
     const config = new DocumentBuilder()
         .setTitle('VNA Education- Quản lý giáo dục')
         .setDescription('Ứng dụng đánh giá chất lượng giáo dục')

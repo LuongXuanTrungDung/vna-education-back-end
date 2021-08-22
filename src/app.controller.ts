@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Get,
+    Post,
+    Query,
+    Render,
+    UseGuards,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AppService } from './app.service';
 import { AuthGuard } from './auth.guard';
@@ -10,6 +18,12 @@ import { sendMailDTO } from './helpers/sendMail.dto';
 @ApiTags('chung')
 export class AppController {
     constructor(private service: AppService) {}
+
+    @Get()
+    @Render('index')
+    index() {
+        return null;
+    }
 
     @Post('dang-nhap')
     async dangNhap(@Body() dto: DangNhapDTO) {
