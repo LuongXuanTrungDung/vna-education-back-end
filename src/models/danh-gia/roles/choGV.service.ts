@@ -6,7 +6,7 @@ import { NguoiDungService } from '../../nguoi-dung/nguoi-dung.service';
 import { DanhGiaDocument } from '../danh-gia.entity';
 
 @Injectable()
-export class ChoGiaoViehService {
+export class ChoGiaoVienService {
     constructor(
         @InjectModel('danh_gia') private model: Model<DanhGiaDocument>,
         private readonly ndSer: NguoiDungService,

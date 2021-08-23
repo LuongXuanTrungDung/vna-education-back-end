@@ -148,6 +148,10 @@ export class DanhGiaService {
         return removeDuplicates(result, 'lopHoc');
     }
 
+    async findAll_byWeek(tuan: string) {
+        return await this.findAll({ tuanHoc: Object(tuan) });
+    }
+
     async findAll(condition: any = {}) {
         const result = [];
         const all = await this.model

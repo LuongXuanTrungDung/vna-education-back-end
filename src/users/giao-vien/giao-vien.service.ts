@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { ChoGiaoViehService } from '../../models/danh-gia/roles/choGV.service';
+import { ChoGiaoVienService } from '../../models/danh-gia/roles/choGV.service';
 import { LopHocService } from '../../models/lop-hoc/lop-hoc.service';
 import { MonHocService } from '../../models/mon-hoc/mon-hoc.service';
 
@@ -8,7 +8,7 @@ export class GiaoVienService {
     constructor(
         private readonly mhSer: MonHocService,
         private readonly lhSer: LopHocService,
-        private readonly dgSer: ChoGiaoViehService,
+        private readonly dgSer: ChoGiaoVienService,
     ) {}
 
     async xemHet_danhGia(gv: string, tuan: string) {

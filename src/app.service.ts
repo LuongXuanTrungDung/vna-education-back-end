@@ -4,8 +4,10 @@ import { compare } from 'bcrypt';
 import { ChangePassDTO } from './helpers/changePass.dto';
 import { sessionSort, weekdaySort } from './helpers/utilities';
 import { BuoiHocService } from './models/buoi-hoc/buoi-hoc.service';
+import { DanhGiaService } from './models/danh-gia/danh-gia.service';
 import { ThongKeService } from './models/danh-gia/roles/thongKe.service';
 import { LopHocService } from './models/lop-hoc/lop-hoc.service';
+import { NamHocService } from './models/nam-hoc/nam-hoc.service';
 import { AccountService } from './models/nguoi-dung/actions/account.service';
 import { NguoiDungService } from './models/nguoi-dung/nguoi-dung.service';
 import { TietHocService } from './models/tiet-hoc/tiet-hoc.service';
@@ -19,9 +21,11 @@ export class AppService {
         private readonly tuanSer: TuanHocService,
         private readonly bhSer: BuoiHocService,
         private readonly thSer: TietHocService,
+        private readonly namSer: NamHocService,
+        private readonly dgSer: DanhGiaService,
 
         private readonly mailSer: MailerService,
-        private readonly thongKe: ThongKeService,
+        private readonly tkSer: ThongKeService,
         private readonly accSer: AccountService,
     ) {}
 
@@ -153,7 +157,29 @@ export class AppService {
         });
     }
 
-    async diemDG_cacGV_theoTuan(tuan: string) {
-        return await this.thongKe.giaoVien_andScore_perWeek(tuan);
+    async thongKe() {
+        const { tuanHoc, ...recentYear } = await this.namSer.getLatest();
+        const result = { ...recentYear, tuanHoc: [] };
+
+        for (let i = 0; i < tuanHoc.length; i++) {
+            result.tuanHoc.push({
+                _id: tuanHoc[i]._id,
+                tenTuan: tuanHoc[i].tenTuan,
+                soTuan: tuanHoc[i].soTuan,
+                thongKe: {
+                    tongSo_hocSinh: (await this.ndSer.findAll_byRole('HS'))
+                        .length,
+                    tongSo_giaoVien: (await this.ndSer.findAll_byRole('GV'))
+                        .length,
+                    tongSo_danhGia: (
+                        await this.dgSer.findAll_byWeek(tuanHoc[i]._id)
+                    ).length,
+                    giaoVien_diemDG: await this.tkSer.getAll_byWeek(
+                        tuanHoc[i]._id,
+                    ),
+                },
+            });
+        }
+        return result;
     }
 }

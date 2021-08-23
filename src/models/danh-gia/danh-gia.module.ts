@@ -9,7 +9,7 @@ import { MonHocModule } from '../mon-hoc/mon-hoc.module';
 import { MauDanhGiaModule } from '../mau-danh-gia/mau-danh-gia.module';
 import { TuanHocModule } from '../tuan-hoc/tuan-hoc.module';
 import { ChoHocSinhService } from './roles/choHS.service';
-import { ChoGiaoViehService } from './roles/choGV.service';
+import { ChoGiaoVienService } from './roles/choGV.service';
 import { ChoHieuTruongService } from './roles/choHT.service';
 import { ThongKeService } from './roles/thongKe.service';
 
@@ -28,14 +28,14 @@ import { ThongKeService } from './roles/thongKe.service';
     providers: [
         DanhGiaService,
         ChoHocSinhService,
-        ChoGiaoViehService,
+        ChoGiaoVienService,
         ChoHieuTruongService,
         ThongKeService,
     ],
     exports: [
         DanhGiaService,
         ChoHocSinhService,
-        ChoGiaoViehService,
+        ChoGiaoVienService,
         ChoHieuTruongService,
         ThongKeService,
     ],

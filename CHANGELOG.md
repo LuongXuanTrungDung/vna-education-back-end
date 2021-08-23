@@ -215,3 +215,7 @@
 	- Sửa API trả tiết học có sắp xếp theo thứ tiết
 	- Trả tình trạng dangHoatDong của người dùng
 	- Thêm API thay đổi dangHoatDong của 1 người dùng (cho quản trị)
+- 2.11.5
+	- Thêm maMH (index) vào model mon_hoc, bỏ moTa và soTiet, sửa API cho tương thích
+	- Các thay đổi phi-CSDL để triển khai dự án lên Heroku
+	- Thống nhất 1 API trả tất cả dữ liệu thống kê theo năm mới nhất (giáo viên - điểm đánh giá theo tuần, số học sinh, số giáo viên, số đánh giá trong tuần)
