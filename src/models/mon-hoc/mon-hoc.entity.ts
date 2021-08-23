@@ -12,12 +12,10 @@ export type MonHocDocument = MonHoc & Document;
     versionKey: false,
 })
 export class MonHoc {
+    @Prop({ required: true, index: true, unique: true })
+    maMH: string;
+
     @Prop({ required: true }) tenMH: string;
-
-    @Prop({ default: 0, min: 0 })
-    soTiet: number;
-
-    @Prop() moTa: string;
 
     @Prop({
         required: true,

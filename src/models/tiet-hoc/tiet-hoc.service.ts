@@ -39,7 +39,7 @@ export class TietHocService {
             .find(condition)
             .populate([
                 { path: 'giaoVien', select: 'hoTen' },
-                { path: 'monHoc', select: 'tenMH' },
+                { path: 'monHoc', select: ['tenMH', 'maMH'] },
                 { path: 'lopHoc', select: 'maLH' },
                 {
                     path: 'buoiHoc',
@@ -68,6 +68,7 @@ export class TietHocService {
                     ? {
                           _id: all[i].populated('monHoc'),
                           tenMH: all[i].monHoc.tenMH,
+                          maMH: all[i].monHoc.maMH,
                       }
                     : null,
                 lopHoc: all[i].lopHoc
@@ -113,8 +114,8 @@ export class TietHocService {
                 _id: all[i]._id,
                 thuTiet: all[i].thuTiet,
                 thoiGian: all[i].thoiGian_batDau,
-                giaoVien: all[i].giaoVien?.hoTen,
-                monHoc: all[i].monHoc?.tenMH,
+                giaoVien: all[i].giaoVien ? all[i].giaoVien.hoTen : null,
+                monHoc: all[i].monHoc ? all[i].monHoc.tenMH : null,
                 lopHoc: all[i].lopHoc ? all[i].lopHoc.maLH : null,
                 buoiHoc: all[i].buoiHoc
                     ? {
@@ -134,7 +135,7 @@ export class TietHocService {
         )
             .populate([
                 { path: 'giaoVien', select: 'hoTen' },
-                { path: 'monHoc', select: 'tenMH' },
+                { path: 'monHoc', select: ['tenMH', 'maMH'] },
                 { path: 'lopHoc', select: 'maLH' },
                 {
                     path: 'buoiHoc',
@@ -160,6 +161,7 @@ export class TietHocService {
                 ? {
                       _id: cl.populated('monHoc'),
                       tenMH: cl.monHoc.tenMH,
+                      maMH: cl.monHoc.maMH,
                   }
                 : null,
             lopHoc: cl.lopHoc

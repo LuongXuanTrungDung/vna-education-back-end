@@ -32,8 +32,7 @@ export class MonHocService {
             result.push({
                 _id: all[i]._id,
                 tenMH: all[i].tenMH,
-                soTiet: all[i].soTiet,
-                moTa: all[i].moTa,
+                maMH: all[i].maMH,
                 giaoVien: all[i].giaoVien?.map((val, ind) => {
                     return {
                         _id: all[i].populated('giaoVien')[ind],
@@ -53,8 +52,7 @@ export class MonHocService {
         return {
             _id: mon,
             tenMH: one.tenMH,
-            soTiet: one.soTiet,
-            moTa: one.moTa,
+            maMH: one.maMH,
             giaoVien: one.giaoVien?.map((val, ind) => {
                 return {
                     _id: one.populated('giaoVien')[ind],

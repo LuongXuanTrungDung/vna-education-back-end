@@ -1,6 +1,5 @@
 export class MonHocDto {
     tenMH: string;
-    soTiet: number;
-    moTa: string;
+    maMH: string;
     giaoVien: string[];
 }

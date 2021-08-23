@@ -14,8 +14,8 @@ import { join } from 'path';
     app.use(compression());
     app.use(helmet());
 
-    app.useStaticAssets(join(__dirname, '..','..', 'public'));
-    app.setBaseViewsDir(join(__dirname, '..','..', 'views'));
+    app.useStaticAssets(join(__dirname, '..', '..', 'public'));
+    app.setBaseViewsDir(join(__dirname, '..', '..', 'views'));
     app.setViewEngine('pug');
 
     const config = new DocumentBuilder()
