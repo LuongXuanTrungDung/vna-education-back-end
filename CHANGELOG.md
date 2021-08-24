@@ -219,3 +219,4 @@
 	- Thêm maMH (index) vào model mon_hoc, bỏ moTa và soTiet, sửa API cho tương thích
 	- Các thay đổi phi-CSDL để triển khai dự án lên Heroku
 	- Thống nhất 1 API trả tất cả dữ liệu thống kê theo năm mới nhất (giáo viên - điểm đánh giá theo tuần, số học sinh, số giáo viên, số đánh giá trong tuần)
+	- Viết ràng buộc để tránh thêm trùng dữ liệu cho model danh_gia, mau_danh_gia, tiet_hoc và nam_hoc
