@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Types } from 'mongoose';
+import { isValidObjectId, Model } from 'mongoose';
 import { arrange } from '../../../helpers/utilities';
 import { NguoiDungService } from '../../nguoi-dung/nguoi-dung.service';
 import { DanhGiaDocument } from '../danh-gia.entity';
@@ -116,8 +116,7 @@ export class ChoHieuTruongService {
 
     async getAll_forHT(tuan: string, lop = 'all') {
         const query = { tuanDG: Object(tuan) };
-        if (Types.ObjectId.isValid(lop))
-            Object.assign(query, { lopHoc: Object(lop) });
+        if (isValidObjectId(lop)) Object.assign(query, { lopHoc: Object(lop) });
 
         const result = [];
         const now = new Date().getTime();

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Types } from 'mongoose';
+import { Model } from 'mongoose';
 import { average, removeDuplicates } from '../../../helpers/utilities';
 import { DanhGiaDocument } from '../danh-gia.entity';
 import { ChoGiaoVienService } from './choGV.service';
