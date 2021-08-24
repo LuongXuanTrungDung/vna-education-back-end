@@ -1,6 +1,6 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Types } from 'mongoose';
+import { isValidObjectId, Model, Types } from 'mongoose';
 import { bulkObjectID } from '../../helpers/utilities';
 import { NamHocService } from '../nam-hoc/nam-hoc.service';
 import { NguoiDungService } from '../nguoi-dung/nguoi-dung.service';
@@ -150,7 +150,7 @@ export class LopHocService {
 
         for (let i = 0; i < p.hocSinh.length; i++) {
             const id = p.populated('hocSinh')[i];
-            if (p.hocSinh[i] && Types.ObjectId.isValid(id))
+            if (p.hocSinh[i] && isValidObjectId(id))
                 result.push({
                     _id: id,
                     maND: p.hocSinh[i].maND,
