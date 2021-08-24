@@ -15,7 +15,11 @@ export class MauDanhGiaService {
     ) {}
 
     async create(dto: MauDanhGiaDto) {
-        return await this.model.create(dto);
+        const to404 = await this.model.find({
+            tenMau: dto.tenMau,
+        });
+        if (to404) return null;
+        else return await this.model.create(dto);
     }
 
     async findAll() {

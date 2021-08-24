@@ -24,25 +24,35 @@ export class DanhGiaService {
     ) {}
 
     async create(dto: CreateDanhGiaDto) {
-        let toCreate = {
+        const to404 = await this.model.find({
             tenDG: dto.tenDG,
-            choGVCN: dto.choGVCN,
-            daDuyet: dto.daDuyet,
-            tuanDG: Types.ObjectId(dto.tuanDG),
-            mauDG: Types.ObjectId(dto.mauDG),
-            giaoVien: Types.ObjectId(dto.giaoVien),
-        };
+            tuanDG: Object(dto.tuanDG),
+            mauDG: Object(dto.mauDG),
+            giaoVien: Object(dto.giaoVien),
+        });
 
-        if (dto.monHoc)
-            toCreate = Object.assign(toCreate, {
-                monHoc: Types.ObjectId(dto.monHoc),
-            });
-        if (dto.lopHoc)
-            toCreate = Object.assign(toCreate, {
-                lopHoc: Types.ObjectId(dto.lopHoc),
-            });
+        if (to404) return null;
+        else {
+            let toCreate = {
+                tenDG: dto.tenDG,
+                choGVCN: dto.choGVCN,
+                daDuyet: dto.daDuyet,
+                tuanDG: Types.ObjectId(dto.tuanDG),
+                mauDG: Types.ObjectId(dto.mauDG),
+                giaoVien: Types.ObjectId(dto.giaoVien),
+            };
 
-        return await this.model.create(toCreate);
+            if (dto.monHoc)
+                toCreate = Object.assign(toCreate, {
+                    monHoc: Types.ObjectId(dto.monHoc),
+                });
+            if (dto.lopHoc)
+                toCreate = Object.assign(toCreate, {
+                    lopHoc: Types.ObjectId(dto.lopHoc),
+                });
+
+            return await this.model.create(toCreate);
+        }
     }
 
     async getUnfinished(hs: string, tuan: string) {

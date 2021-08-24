@@ -15,10 +15,19 @@ export class NamHocService {
 
     async create(dto: NamHocDto) {
         const { tuanHoc, ...rest } = dto;
-        return await this.model.create({
-            ...rest,
-            tuanHoc: bulkObjectID(tuanHoc),
+        const to404 = await this.model.find({
+            tenNam: dto.tenNam,
+            namBatDau: dto.namBatDau,
+            namKetThuc: dto.namKetThuc,
         });
+
+        if (to404) return null;
+        else {
+            return await this.model.create({
+                ...rest,
+                tuanHoc: bulkObjectID(tuanHoc),
+            });
+        }
     }
 
     async getOne(nam: string) {

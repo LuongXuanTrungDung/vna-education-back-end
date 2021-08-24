@@ -23,15 +23,27 @@ export class TietHocService {
     ) {}
 
     async create(dto: CreateTietHocDto) {
-        return await this.model.create({
-            giaoVien: Types.ObjectId(dto.giaoVien),
-            monHoc: Types.ObjectId(dto.monHoc),
-            lopHoc: Types.ObjectId(dto.lopHoc),
+        const to404 = await this.model.find({
+            giaoVien: Object(dto.giaoVien),
+            monHoc: Object(dto.monHoc),
+            lopHoc: Object(dto.lopHoc),
             thuTiet: dto.thuTiet,
             thoiGian_batDau: dto.thoiGian_batDau,
-            buoiHoc: Types.ObjectId(dto.buoiHoc),
-            diemDanh: [],
+            buoiHoc: Object(dto.buoiHoc),
         });
+
+        if (to404) return null;
+        else {
+            return await this.model.create({
+                giaoVien: Types.ObjectId(dto.giaoVien),
+                monHoc: Types.ObjectId(dto.monHoc),
+                lopHoc: Types.ObjectId(dto.lopHoc),
+                thuTiet: dto.thuTiet,
+                thoiGian_batDau: dto.thoiGian_batDau,
+                buoiHoc: Types.ObjectId(dto.buoiHoc),
+                diemDanh: [],
+            });
+        }
     }
 
     async findAll(condition: any = {}) {
