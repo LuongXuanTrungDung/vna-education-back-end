@@ -9,10 +9,10 @@
 	"license": "MIT",
 	"scripts": {
 		"build": "rimraf dist && nest build",
-		"start": "rimraf diste && nest start",
+		"start": "rimraf dist && nest start",
 		"start:dev": "rimraf dist && nest start --watch",
 		"start:debug": "rimraf dist && nest start --debug --watch",
-		"start:prod": "node dist/src/main",
+		"start:prod": "rimraf dist && nest build && node dist/src/main",
 		"lint": "prettier --write \"src/**/*.ts\" && eslint \"src/**/*.ts\" --fix"
 	},
 	"dependencies": {
