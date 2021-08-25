@@ -20,8 +20,7 @@ export class NamHocService {
             namBatDau: dto.namBatDau,
             namKetThuc: dto.namKetThuc,
         });
-
-        if (to404) return null;
+        if (to404.length > 0) return null;
         else {
             return await this.model.create({
                 ...rest,

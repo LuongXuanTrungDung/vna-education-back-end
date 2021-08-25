@@ -31,7 +31,7 @@ export class DanhGiaService {
             giaoVien: Object(dto.giaoVien),
         });
 
-        if (to404) return null;
+        if (to404.length > 0) return null;
         else {
             let toCreate = {
                 tenDG: dto.tenDG,

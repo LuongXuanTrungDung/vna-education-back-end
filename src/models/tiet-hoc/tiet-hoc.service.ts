@@ -32,7 +32,7 @@ export class TietHocService {
             buoiHoc: Object(dto.buoiHoc),
         });
 
-        if (to404) return null;
+        if (to404.length > 0) return null;
         else {
             return await this.model.create({
                 giaoVien: Types.ObjectId(dto.giaoVien),
