@@ -35,10 +35,10 @@
 		"reflect-metadata": "^0.1.13",
 		"rimraf": "^3.0.2",
 		"rxjs": "^6",
-		"swagger-ui-express": "^4.1.6"
+		"swagger-ui-express": "^4.1.6",
+		"@nestjs/cli": "^7.6.0"
 	},
 	"devDependencies": {
-		"@nestjs/cli": "^7.6.0",
 		"@nestjs/schematics": "^7.3.1",
 		"@types/bcrypt": "^5.0.0",
 		"@types/express": "^4.17.12",
