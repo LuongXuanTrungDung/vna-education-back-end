@@ -12,11 +12,13 @@
 		"start": "rimraf dist && nest start",
 		"start:dev": "rimraf dist && nest start --watch",
 		"start:debug": "rimraf dist && nest start --debug --watch",
-		"start:prod": "rimraf dist && nest build && node dist/src/main",
-		"lint": "prettier --write \"src/**/*.ts\" && eslint \"src/**/*.ts\" --fix"
+		"start:prod": "server -s build && node dist/src/main",
+		"lint": "prettier --write \"src/**/*.ts\" && eslint \"src/**/*.ts\" --fix",
+		"heroku-postbuild": "yarn build"
 	},
 	"dependencies": {
 		"@nestjs-modules/mailer": "^1.6.0",
+		"@nestjs/cli": "^7.6.0",
 		"@nestjs/common": "^7.6.17",
 		"@nestjs/config": "^0.6.3",
 		"@nestjs/core": "^7.6.17",
@@ -35,8 +37,8 @@
 		"reflect-metadata": "^0.1.13",
 		"rimraf": "^3.0.2",
 		"rxjs": "^6",
-		"swagger-ui-express": "^4.1.6",
-		"@nestjs/cli": "^7.6.0"
+		"serve": "^12.0.0",
+		"swagger-ui-express": "^4.1.6"
 	},
 	"devDependencies": {
 		"@nestjs/schematics": "^7.3.1",
