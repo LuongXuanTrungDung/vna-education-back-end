@@ -172,7 +172,7 @@ export class AppService {
                     tongSo_giaoVien: (await this.ndSer.findAll_byRole('GV'))
                         .length,
                     tongSo_danhGia: (
-                        await this.dgSer.findAll_byWeek(tuanHoc[i]._id)
+                        await this.dgSer.findAll({tuanDG: Object(tuanHoc[i]._id)})
                     ).length,
                     giaoVien_diemDG: await this.tkSer.getAll_byWeek(
                         tuanHoc[i]._id,
