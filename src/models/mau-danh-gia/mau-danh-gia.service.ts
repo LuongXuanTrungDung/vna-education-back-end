@@ -18,7 +18,8 @@ export class MauDanhGiaService {
         const to404 = await this.model.find({
             tenMau: dto.tenMau,
         });
-        if (to404) return null;
+        
+        if (to404.length > 0) return null;
         else return await this.model.create(dto);
     }
 
