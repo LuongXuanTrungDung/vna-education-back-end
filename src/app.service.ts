@@ -10,6 +10,7 @@ import { LopHocService } from './models/lop-hoc/lop-hoc.service';
 import { NamHocService } from './models/nam-hoc/nam-hoc.service';
 import { AccountService } from './models/nguoi-dung/actions/account.service';
 import { NguoiDungService } from './models/nguoi-dung/nguoi-dung.service';
+import { QuenMatKhauService } from './models/quen-mat-khau/quen-mat-khau.service';
 import { TietHocService } from './models/tiet-hoc/tiet-hoc.service';
 import { TuanHocService } from './models/tuan-hoc/tuan-hoc.service';
 
@@ -23,6 +24,7 @@ export class AppService {
         private readonly thSer: TietHocService,
         private readonly namSer: NamHocService,
         private readonly dgSer: DanhGiaService,
+        private readonly qmkSer: QuenMatKhauService,
 
         private readonly mailSer: MailerService,
         private readonly tkSer: ThongKeService,
@@ -148,12 +150,17 @@ export class AppService {
         return await this.accSer.changePass(dto);
     }
 
-    guiMail_quenMatKhau(email: string, token: string) {
+    async guiMail_quenMatKhau(email: string) {
+        const toCreate = await this.qmkSer.create({
+            emailND: email,
+            conHan: true,
+        });
+
         this.mailSer.sendMail({
             to: email, // Email người nhận
             from: '"VNA Education" - vna-568a20@inbox.mailtrap.io', //Email người gửi
             subject: 'Xác nhận đổi mật khẩu - VNA Education', // Tiêu đề mail
-            html: `<b>${token}</b>`, // Nội dung mail
+            html: `<a href="/dmk?user=${toCreate._id}">Link vào trang đổi mật khẩu</a>`, // Nội dung mail
         });
     }
 

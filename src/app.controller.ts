@@ -54,8 +54,8 @@ export class AppController {
     }
 
     @Post('gui-mail')
-    guiEmail(@Body() toSend: sendMailDTO) {
-        return this.service.guiMail_quenMatKhau(toSend.receiver, toSend.token);
+    async guiEmail(@Body() toSend: sendMailDTO) {
+        return await this.service.guiMail_quenMatKhau(toSend.receiver);
     }
 
     @Get('thong-ke')

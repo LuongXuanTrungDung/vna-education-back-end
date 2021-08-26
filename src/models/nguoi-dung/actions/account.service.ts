@@ -86,4 +86,15 @@ export class AccountService {
             { new: true },
         );
     }
+
+    async findOne_byEmail(email: string) {
+        const user = await this.model.findOne({ emailND: email });
+        return {
+            _id: user._id,
+            maND: user.maND,
+            hoTen: user.hoTen,
+            soDienThoai: user.soDienThoai ? user.soDienThoai : null,
+            dangHoatDong: user.dangHoatDong,
+        };
+    }
 }
