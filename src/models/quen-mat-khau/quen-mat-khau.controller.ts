@@ -1,11 +1,11 @@
 import {
-    Controller,
-    Get,
-    Post,
     Body,
-    Patch,
-    Param,
+    Controller,
     Delete,
+    Get,
+    Param,
+    Patch,
+    Post,
     UseGuards,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
@@ -27,6 +27,11 @@ export class QuenMatKhauController {
     @Get()
     async findAll() {
         return await this.service.findAll();
+    }
+
+    @Get('con-han/:id')
+    async kiemTra_conHan(@Param('id') id: string) {
+        return await this.service.check_conHan(id);
     }
 
     @Get(':id')

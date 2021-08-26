@@ -12,7 +12,11 @@ export type QuenMatKhauDocument = QuenMatKhau & Document;
     versionKey: false,
 })
 export class QuenMatKhau {
-    @Prop({ type: MongooseSchema.Types.ObjectId, required: true , ref: 'nguoi_dung'})
+    @Prop({
+        type: MongooseSchema.Types.ObjectId,
+        required: true,
+        ref: 'nguoi_dung',
+    })
     nguoiDung: NguoiDung;
     @Prop({ required: true }) emailND: string;
     @Prop({ default: true }) conHan: boolean;

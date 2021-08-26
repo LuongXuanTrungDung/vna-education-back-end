@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
-import { AccountService } from '../nguoi-dung/actions/account.service';
 import { QuenMatKhauDto } from './quen-mat-khau.dto';
 import { QuenMatKhauDocument } from './quen-mat-khau.entity';
 
@@ -9,14 +8,12 @@ import { QuenMatKhauDocument } from './quen-mat-khau.entity';
 export class QuenMatKhauService {
     constructor(
         @InjectModel('quen_matKhau') private model: Model<QuenMatKhauDocument>,
-        private readonly accSer: AccountService
     ) {}
 
     async create(dto: QuenMatKhauDto) {
-        const user = await this.accSer.findOne_byEmail(dto.emailND);
         return await this.model.create({
             emailND: dto.emailND,
-            nguoiDung: user._id,
+            nguoiDung: Types.ObjectId(dto.nguoiDung),
             conHan: true,
         });
     }
@@ -60,6 +57,11 @@ export class QuenMatKhauService {
                 : null,
             conHan: one.conHan,
         };
+    }
+
+    async check_conHan(id: string) {
+        const one = await this.model.findById(id);
+        return one.conHan;
     }
 
     async update(id: string, dto: QuenMatKhauDto) {
