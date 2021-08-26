@@ -26,6 +26,7 @@ import { QuanTriModule } from './users/quan-tri/quan-tri.module';
 import { GiaoVienModule } from './users/giao-vien/giao-vien.module';
 import { PhuHuynhModule } from './users/phu-huynh/phu-huynh.module';
 import { HieuTruongModule } from './users/hieu-truong/hieu-truong.module';
+import { QuenMatKhauModule } from './models/quen-mat-khau/quen-mat-khau.module';
 
 @Module({
     imports: [
@@ -42,6 +43,12 @@ import { HieuTruongModule } from './users/hieu-truong/hieu-truong.module';
 
         MailerModule.forRoot({
             transport: {
+                // 	service: 'gmail',
+                // 	auth: {
+                // 		user: `${process.env.MAIL_USERNAME}`,
+                // 		pass: `${process.env.MAIL_PASSWORD}`,
+                // 	},
+
                 host: 'smtp.mailtrap.io',
                 port: 2525,
                 auth: {
@@ -49,7 +56,6 @@ import { HieuTruongModule } from './users/hieu-truong/hieu-truong.module';
                     pass: '80a62a0bdec129',
                 },
             },
-            preview: true,
             template: {
                 dir: __dirname + '/helpers/mails/',
                 adapter: new PugAdapter(),
@@ -79,6 +85,7 @@ import { HieuTruongModule } from './users/hieu-truong/hieu-truong.module';
         GiaoVienModule,
         PhuHuynhModule,
         HieuTruongModule,
+        QuenMatKhauModule,
     ],
     controllers: [AppController],
     providers: [AppService],
