@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { compare, hashSync } from 'bcrypt';
 import { isValidObjectId, Model, Types } from 'mongoose';
-import { ChangePassDTO } from '../../../helpers/changePass.dto';
+import { ChangePassDTO, SetPassDTO } from '../../../helpers/changePass.dto';
 import { NguoiDungDocument } from '../nguoi-dung.entity';
 
 @Injectable()
@@ -70,6 +70,32 @@ export class AccountService {
                     msg: 'Mật khẩu cũ không đúng!',
                     checkOK: false,
                 };
+        } else
+            return {
+                msg: 'Người dùng không tồn tại!',
+                checkOK: false,
+            };
+    }
+
+    async setPass(dto: SetPassDTO) {
+        if (!isValidObjectId(dto.idUser))
+            return {
+                msg: '_id người dùng không hợp lệ',
+                checkOK: false,
+            };
+
+        const user = await this.model.findById(dto.idUser);
+        if (user) {
+            await this.model.findByIdAndUpdate(
+                dto.idUser,
+                { $set: { matKhau: hashSync(dto.newPass, 10) } },
+                { new: true },
+            );
+
+            return {
+                msg: 'Đặt mật khẩu mới thành công!',
+                checkOK: true,
+            };
         } else
             return {
                 msg: 'Người dùng không tồn tại!',

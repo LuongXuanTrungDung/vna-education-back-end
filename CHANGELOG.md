@@ -220,3 +220,8 @@
 	- Các thay đổi phi-CSDL để triển khai dự án lên Heroku
 	- Thống nhất 1 API trả tất cả dữ liệu thống kê theo năm mới nhất (giáo viên - điểm đánh giá theo tuần, số học sinh, số giáo viên, số đánh giá trong tuần)
 	- Viết ràng buộc để tránh thêm trùng dữ liệu cho model danh_gia, mau_danh_gia, tiet_hoc và nam_hoc
+- 2.12.0
+	- Thêm model quen_matKhau phục vụ việc đổi mật khẩu khi người dùng quên mật khẩu, do không sử dụng JWT, session, state hay cookie.
+	- Điều chỉnh API gửi email xác nhận đổi mật khẩu và giao thức gửi mail sang Gmail.
+	- Viết API đặt mật khẩu mới nếu vẫn còn hạn đổi mật khẩu.
+	- Viết API kiểm tra còn/hết hạn ở 1 đối tượng quen_matKhau.

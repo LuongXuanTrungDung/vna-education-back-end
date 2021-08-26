@@ -10,7 +10,7 @@ import {
 import { ApiTags } from '@nestjs/swagger';
 import { AppService } from './app.service';
 import { AuthGuard } from './auth.guard';
-import { ChangePassDTO } from './helpers/changePass.dto';
+import { ChangePassDTO, SetPassDTO } from './helpers/changePass.dto';
 import { DangNhapDTO } from './helpers/dangNhap.dto';
 import { sendMailDTO } from './helpers/sendMail.dto';
 
@@ -51,6 +51,11 @@ export class AppController {
     @Post('doi-mat-khau')
     async doiMatKhau(@Body() dto: ChangePassDTO) {
         return await this.service.doiMatKhau(dto);
+    }
+
+    @Post('dat-mat-khau')
+    async datMatKhau(@Body() dto: SetPassDTO) {
+        return await this.service.datMoi_matKhau(dto);
     }
 
     @Post('gui-mail')

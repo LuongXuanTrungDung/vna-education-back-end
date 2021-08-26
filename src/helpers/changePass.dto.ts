@@ -3,3 +3,8 @@ export class ChangePassDTO {
     oldPass: string;
     newPass: string;
 }
+
+export class SetPassDTO {
+    idUser: string;
+    newPass: string;
+}

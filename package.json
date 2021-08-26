@@ -1,6 +1,6 @@
 {
 	"name": "nest-typescript-starter",
-	"version": "2.11.5",
+	"version": "2.12.0",
 	"description": "Ứng dụng quản lý chất lượng giáo dục",
 	"license": "MIT",
 	"scripts": {
