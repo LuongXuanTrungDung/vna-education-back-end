@@ -1,9 +1,9 @@
-import { Module } from '@nestjs/common';
-import { QuenMatKhauService } from './quen-mat-khau.service';
-import { QuenMatKhauController } from './quen-mat-khau.controller';
-import { NguoiDungModule } from '../nguoi-dung/nguoi-dung.module';
+import { forwardRef, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { NguoiDungModule } from '../nguoi-dung/nguoi-dung.module';
+import { QuenMatKhauController } from './quen-mat-khau.controller';
 import { QuenMatKhauSchema } from './quen-mat-khau.entity';
+import { QuenMatKhauService } from './quen-mat-khau.service';
 
 @Module({
     imports: [
@@ -14,7 +14,7 @@ import { QuenMatKhauSchema } from './quen-mat-khau.entity';
                 schema: QuenMatKhauSchema,
             },
         ]),
-        NguoiDungModule,
+        forwardRef(() => NguoiDungModule),
     ],
     controllers: [QuenMatKhauController],
     providers: [QuenMatKhauService],

@@ -43,12 +43,14 @@ export class AppController {
     }
 
     @Get('thong-tin')
+    @UseGuards(AuthGuard)
     async thongTin(@Query('user') user: string) {
         if (user && user != '')
             return await this.service.thongTin_nguoiDung(user);
     }
 
     @Post('doi-mat-khau')
+    @UseGuards(AuthGuard)
     async doiMatKhau(@Body() dto: ChangePassDTO) {
         return await this.service.doiMatKhau(dto);
     }
@@ -64,6 +66,7 @@ export class AppController {
     }
 
     @Get('thong-ke')
+    @UseGuards(AuthGuard)
     async thongKe() {
         return await this.service.thongKe();
     }

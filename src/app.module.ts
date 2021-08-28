@@ -1,32 +1,29 @@
+import { MailerModule } from '@nestjs-modules/mailer';
+import { PugAdapter } from '@nestjs-modules/mailer/dist/adapters/pug.adapter';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { MailerModule } from '@nestjs-modules/mailer';
-import { PugAdapter } from '@nestjs-modules/mailer/dist/adapters/pug.adapter';
-
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-
-import { NguoiDungModule } from './models/nguoi-dung/nguoi-dung.module';
-import { DanhGiaModule } from './models/danh-gia/danh-gia.module';
-import { ThongBaoModule } from './models/thong-bao/thong-bao.module';
-import { DiemDanhModule } from './models/diem-danh/diem-danh.module';
-import { TuanHocModule } from './models/tuan-hoc/tuan-hoc.module';
-import { TietHocModule } from './models/tiet-hoc/tiet-hoc.module';
-import { LopHocModule } from './models/lop-hoc/lop-hoc.module';
-import { MonHocModule } from './models/mon-hoc/mon-hoc.module';
-import { MauDanhGiaModule } from './models/mau-danh-gia/mau-danh-gia.module';
-import { BangDiemTongModule } from './models/bang-diem-tong/bang-diem-tong.module';
 import { BangDiemMonModule } from './models/bang-diem-mon/bang-diem-mon.module';
-import { NamHocModule } from './models/nam-hoc/nam-hoc.module';
+import { BangDiemTongModule } from './models/bang-diem-tong/bang-diem-tong.module';
 import { BuoiHocModule } from './models/buoi-hoc/buoi-hoc.module';
-
-import { HocSinhModule } from './users/hoc-sinh/hoc-sinh.module';
-import { QuanTriModule } from './users/quan-tri/quan-tri.module';
-import { GiaoVienModule } from './users/giao-vien/giao-vien.module';
-import { PhuHuynhModule } from './users/phu-huynh/phu-huynh.module';
-import { HieuTruongModule } from './users/hieu-truong/hieu-truong.module';
+import { DanhGiaModule } from './models/danh-gia/danh-gia.module';
+import { DiemDanhModule } from './models/diem-danh/diem-danh.module';
+import { LopHocModule } from './models/lop-hoc/lop-hoc.module';
+import { MauDanhGiaModule } from './models/mau-danh-gia/mau-danh-gia.module';
+import { MonHocModule } from './models/mon-hoc/mon-hoc.module';
+import { NamHocModule } from './models/nam-hoc/nam-hoc.module';
+import { NguoiDungModule } from './models/nguoi-dung/nguoi-dung.module';
 import { QuenMatKhauModule } from './models/quen-mat-khau/quen-mat-khau.module';
+import { ThongBaoModule } from './models/thong-bao/thong-bao.module';
+import { TietHocModule } from './models/tiet-hoc/tiet-hoc.module';
+import { TuanHocModule } from './models/tuan-hoc/tuan-hoc.module';
+import { GiaoVienModule } from './users/giao-vien/giao-vien.module';
+import { HieuTruongModule } from './users/hieu-truong/hieu-truong.module';
+import { HocSinhModule } from './users/hoc-sinh/hoc-sinh.module';
+import { PhuHuynhModule } from './users/phu-huynh/phu-huynh.module';
+import { QuanTriModule } from './users/quan-tri/quan-tri.module';
 
 @Module({
     imports: [
@@ -43,17 +40,10 @@ import { QuenMatKhauModule } from './models/quen-mat-khau/quen-mat-khau.module';
 
         MailerModule.forRoot({
             transport: {
-                // 	service: 'gmail',
-                // 	auth: {
-                // 		user: `${process.env.MAIL_USERNAME}`,
-                // 		pass: `${process.env.MAIL_PASSWORD}`,
-                // 	},
-
-                host: 'smtp.mailtrap.io',
-                port: 2525,
+                service: 'gmail',
                 auth: {
-                    user: 'd6b759ebf83e35',
-                    pass: '80a62a0bdec129',
+                    user: `${process.env.MAIL_USERNAME}`,
+                    pass: `${process.env.MAIL_PASSWORD}`,
                 },
             },
             template: {

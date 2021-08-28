@@ -3,12 +3,14 @@ import { InjectModel } from '@nestjs/mongoose';
 import { compare, hashSync } from 'bcrypt';
 import { isValidObjectId, Model, Types } from 'mongoose';
 import { ChangePassDTO, SetPassDTO } from '../../../helpers/changePass.dto';
+import { QuenMatKhauService } from '../../quen-mat-khau/quen-mat-khau.service';
 import { NguoiDungDocument } from '../nguoi-dung.entity';
 
 @Injectable()
 export class AccountService {
     constructor(
         @InjectModel('nguoi_dung') private model: Model<NguoiDungDocument>,
+        private readonly qmkSer: QuenMatKhauService,
     ) {}
 
     async getOne_bymaND(ma: string) {
@@ -91,6 +93,12 @@ export class AccountService {
                 { $set: { matKhau: hashSync(dto.newPass, 10) } },
                 { new: true },
             );
+
+            await this.qmkSer.update(dto.qmkID, {
+                nguoiDung: null,
+                emailND: null,
+                conHan: false,
+            });
 
             return {
                 msg: 'Đặt mật khẩu mới thành công!',

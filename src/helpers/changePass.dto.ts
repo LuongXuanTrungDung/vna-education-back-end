@@ -7,4 +7,5 @@ export class ChangePassDTO {
 export class SetPassDTO {
     idUser: string;
     newPass: string;
+    qmkID: string;
 }
