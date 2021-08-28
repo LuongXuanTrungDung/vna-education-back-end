@@ -15,14 +15,8 @@ export class AccountService {
 
     async getOne_bymaND(ma: string) {
         const user = await this.model.findOne({ maND: ma });
-        return {
-            _id: user._id,
-            maND: user.maND,
-            hoTen: user.hoTen,
-            emailND: user.emailND,
-            soDienThoai: user.soDienThoai ? user.soDienThoai : null,
-            dangHoatDong: user.dangHoatDong,
-        };
+        if (user) return user;
+        else return null;
     }
 
     async onlyPassword(ma: string) {

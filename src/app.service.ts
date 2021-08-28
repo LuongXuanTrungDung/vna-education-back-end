@@ -50,7 +50,7 @@ export class AppService {
         } else {
             return {
                 id: null,
-                dangHD: user.dangHoatDong,
+                dangHD: null,
                 resOK: false,
             };
         }
