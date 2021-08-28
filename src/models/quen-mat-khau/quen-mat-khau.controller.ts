@@ -6,16 +6,13 @@ import {
     Param,
     Patch,
     Post,
-    UseGuards,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { AuthGuard } from '../../auth.guard';
 import { QuenMatKhauDto } from './quen-mat-khau.dto';
 import { QuenMatKhauService } from './quen-mat-khau.service';
 
 @Controller('quen-mat-khau')
 @ApiTags('quen-mat-khau')
-@UseGuards(AuthGuard)
 export class QuenMatKhauController {
     constructor(private readonly service: QuenMatKhauService) {}
 
