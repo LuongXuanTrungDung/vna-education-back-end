@@ -167,7 +167,7 @@ export class AppService {
                 to: email, // Email người nhận
                 from: '"VNA Education" - vna-568a20@inbox.mailtrap.io', //Email người gửi
                 subject: 'Xác nhận đổi mật khẩu - VNA Education', // Tiêu đề mail
-                html: `<a href="http://localhost:3000/doi-mat-khau/${toCreate._id}.${user._id}">Link vào trang đổi mật khẩu</a>`, // Nội dung mail
+                html: `<a href="${process.env.CLIENT_HOST}/doi-mat-khau/${toCreate._id}.${user._id}">Link vào trang đổi mật khẩu</a>`, // Nội dung mail
             })
             .then(() => {
                 return 'Gửi mail thành công';
