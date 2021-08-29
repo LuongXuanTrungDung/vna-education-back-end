@@ -12,7 +12,7 @@ import { AppService } from './app.service';
 import { AuthGuard } from './auth.guard';
 import { ChangePassDTO, SetPassDTO } from './helpers/changePass.dto';
 import { DangNhapDTO } from './helpers/dangNhap.dto';
-import { sendMailDTO } from './helpers/sendMail.dto';
+import { contactMailDTO, sendMailDTO } from './helpers/sendMail.dto';
 
 @Controller()
 @ApiTags('chung')
@@ -63,6 +63,11 @@ export class AppController {
     @Post('gui-mail')
     async guiEmail(@Body() toSend: sendMailDTO) {
         return await this.service.guiMail_quenMatKhau(toSend.receiver);
+    }
+
+    @Post('lien-he')
+    async lienHe(@Body() toSend: contactMailDTO) {
+        return await this.service.guiMail_lienHe(toSend);
     }
 
     @Get('thong-ke')

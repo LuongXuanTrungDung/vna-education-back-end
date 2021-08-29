@@ -225,3 +225,6 @@
 	- Điều chỉnh API gửi email xác nhận đổi mật khẩu và giao thức gửi mail sang Gmail.
 	- Viết API đặt mật khẩu mới nếu vẫn còn hạn đổi mật khẩu.
 	- Viết API kiểm tra còn/hết hạn ở 1 đối tượng quen_matKhau.
+- 2.12.1
+	- Thêm model lien_he và các API CRUD.
+	- Viết API gửi mail liên hệ

@@ -2,10 +2,12 @@ import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
 import { compare } from 'bcrypt';
 import { ChangePassDTO, SetPassDTO } from './helpers/changePass.dto';
+import { contactMailDTO } from './helpers/sendMail.dto';
 import { sessionSort, weekdaySort } from './helpers/utilities';
 import { BuoiHocService } from './models/buoi-hoc/buoi-hoc.service';
 import { DanhGiaService } from './models/danh-gia/danh-gia.service';
 import { ThongKeService } from './models/danh-gia/roles/thongKe.service';
+import { LienHeService } from './models/lien-he/lien-he.service';
 import { LopHocService } from './models/lop-hoc/lop-hoc.service';
 import { NamHocService } from './models/nam-hoc/nam-hoc.service';
 import { AccountService } from './models/nguoi-dung/actions/account.service';
@@ -24,7 +26,9 @@ export class AppService {
         private readonly thSer: TietHocService,
         private readonly namSer: NamHocService,
         private readonly dgSer: DanhGiaService,
+
         private readonly qmkSer: QuenMatKhauService,
+        private readonly conSer: LienHeService,
 
         private readonly mailSer: MailerService,
         private readonly tkSer: ThongKeService,
@@ -165,9 +169,27 @@ export class AppService {
         return this.mailSer
             .sendMail({
                 to: email, // Email người nhận
-                from: '"VNA Education" - vna-568a20@inbox.mailtrap.io', //Email người gửi
+                from: `"VNA Education" - ${process.env.MAIL_USERNAME}`, //Email người gửi
                 subject: 'Xác nhận đổi mật khẩu - VNA Education', // Tiêu đề mail
                 html: `<a href="${process.env.CLIENT_HOST}/doi-mat-khau/${toCreate._id}.${user._id}">Link vào trang đổi mật khẩu</a>`, // Nội dung mail
+            })
+            .then(() => {
+                return 'Gửi mail thành công';
+            })
+            .catch((err) => {
+                return 'Lỗi ' + err;
+            });
+    }
+
+    async guiMail_lienHe(dto: contactMailDTO) {
+        await this.conSer.create(dto);
+
+        return this.mailSer
+            .sendMail({
+                from: `"${dto.hoTen}" - ${dto.emailLH}`,
+                to: `"VNA Education" - ${process.env.MAIL_USERNAME}`,
+                subject: 'Liên hệ - VNA Education',
+                html: `${dto.loiNhan} <br/> ${dto.soDienThoai}`,
             })
             .then(() => {
                 return 'Gửi mail thành công';
