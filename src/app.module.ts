@@ -10,6 +10,7 @@ import { BangDiemTongModule } from './models/bang-diem-tong/bang-diem-tong.modul
 import { BuoiHocModule } from './models/buoi-hoc/buoi-hoc.module';
 import { DanhGiaModule } from './models/danh-gia/danh-gia.module';
 import { DiemDanhModule } from './models/diem-danh/diem-danh.module';
+import { LienHeModule } from './models/lien-he/lien-he.module';
 import { LopHocModule } from './models/lop-hoc/lop-hoc.module';
 import { MauDanhGiaModule } from './models/mau-danh-gia/mau-danh-gia.module';
 import { MonHocModule } from './models/mon-hoc/mon-hoc.module';
@@ -75,7 +76,9 @@ import { QuanTriModule } from './users/quan-tri/quan-tri.module';
         GiaoVienModule,
         PhuHuynhModule,
         HieuTruongModule,
+
         QuenMatKhauModule,
+        LienHeModule,
     ],
     controllers: [AppController],
     providers: [AppService],
